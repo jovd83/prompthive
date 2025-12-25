@@ -22,7 +22,7 @@ export default function CollectionsList({ collections }: { collections: Collecti
                 </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6">
                 {collections.map((collection) => (
                     <Link
                         key={collection.id}

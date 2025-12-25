@@ -438,7 +438,7 @@ export default function CollectionSplitView({ collection, selectedPrompt, prompt
                                 <h2 className="text-2xl font-bold">{collection.title}</h2>
                                 {collection.description && <p className="text-muted-foreground">{collection.description}</p>}
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-4">
                                 {collection.prompts.map((prompt: any) => (
                                     <PromptCard key={prompt.id} prompt={prompt} isFavorited={false} />
                                 ))}
