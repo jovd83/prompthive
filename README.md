@@ -6,7 +6,7 @@ version: 2.2.0
 last_updated: 2025-12-25
 ---
 
-![Prompthive](public/prompthive-header.png)
+![Prompthive](public/prompthive_header.png)
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
