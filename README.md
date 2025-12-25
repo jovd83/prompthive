@@ -6,16 +6,10 @@ version: 2.2.0
 last_updated: 2025-12-25
 ---
 
-<table align="center" style="border: none; border-collapse: collapse;">
-  <tr>
-    <td style="border: none; vertical-align: middle; padding-right: 20px;">
-      <img src="public/logo-light.png" alt="PromptHive Logo" width="180">
-    </td>
-    <td style="border: none; vertical-align: middle;">
-      <h1 style="font-size: 50px; margin: 0;">Prompthive</h1>
-    </td>
-  </tr>
-</table>
+<div align="center">
+  <img src="public/logo-light.png" alt="PromptHive Logo" width="180" style="vertical-align: middle; margin-right: 20px;">
+  <span style="font-size: 80px; font-weight: bold; vertical-align: middle;">Prompthive</span>
+</div>
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
