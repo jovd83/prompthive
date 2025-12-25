@@ -1,0 +1,39 @@
+mockup ("Workflow Runner")
+    element Runner {
+        type: "Box"
+        orientation: "Vertical"
+        
+        element Header {
+            content: "Workflow: Code Refactor (Step 2 of 3)"
+            font: "Bold, Large"
+        }
+        
+        element Progress {
+            content: "[====--------]" 
+        }
+        
+        element SplitView {
+            type: "Box"
+            orientation: "Horizontal"
+            
+            element LeftPane {
+                type: "Box"
+                element Title { content: "Generated Prompt" font: "Bold" }
+                element PromptBox { 
+                    content: "Please refactor the following code...\n[Code from Step 1]"
+                    style: "Code Block"
+                }
+                element CopyBtn { content: "[Copy to Clipboard]" }
+            }
+            
+            element RightPane {
+                type: "Box"
+                element Title { content: "Step Result" font: "Bold" }
+                element PasteBox { 
+                    content: "[Paste AI Response here...]"
+                    style: "Textarea"
+                }
+                element NextBtn { content: "[Next Step >]" style: "Primary" }
+            }
+        }
+    }

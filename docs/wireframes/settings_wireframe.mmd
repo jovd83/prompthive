@@ -1,0 +1,41 @@
+graph TD
+    A[Sidebar] --> B(Settings Page)
+    
+    subgraph Settings [Settings Content]
+    S1[Header: Settings]
+    
+    S2[Auto-Backup Configuration Card]
+    S2 --> S2a[Enable Checkbox]
+    S2 --> S2b[Path Input]
+    S2 --> S2c[Frequency Dropdown]
+    S2 --> S2d[Backup Now Button]
+
+    S_GEN[General Settings Card]
+    S_GEN --> S_GEN_a[Show Prompting Tips]
+    S_GEN --> S_GEN_s[Save General Settings Btn]
+
+    S_LANG[Language Settings Card]
+    S_LANG --> S_LANG_a[Language Selector Dropdown]
+    
+    S3[Data Maintenance Card]
+    S3 --> S3a[Delete Unused Tags Button]
+    
+    S4[Danger Zone Card]
+    S4 --> S4a[Restore Backup Button]
+    S4 --> S4b[Drop All Content Button]
+    
+    S5[Save Button]
+    end
+
+    %% Premium Styling
+    classDef container fill:#f9fafb,stroke:#e5e7eb,color:#1f2937,rx:8,ry:8,stroke-width:1px;
+    classDef card fill:#ffffff,stroke:#e5e7eb,color:#374151,rx:6,ry:6,stroke-width:1px;
+    classDef button fill:#3b82f6,stroke:#2563eb,color:#ffffff,rx:4,ry:4,stroke-width:0px;
+    classDef danger fill:#fee2e2,stroke:#ef4444,color:#b91c1c,rx:4,ry:4;
+    classDef input fill:#ffffff,stroke:#d1d5db,color:#374151,rx:4,ry:4,stroke-dasharray: 2 2;
+
+    class Settings container;
+    class S2,S3,S4,S_GEN,S_LANG card;
+    class S2d,S5 button;
+    class S3a,S4a,S4b danger;
+    class S2b,S2c input;

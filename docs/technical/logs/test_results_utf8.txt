@@ -1,0 +1,40 @@
+﻿
+> prompt-hive@0.1.0 test
+> vitest run --coverage
+
+
+[1m[46m RUN [49m[22m [36mv4.0.15 [39m[90mD:/cursor_projects/prompt library[39m
+      [2mCoverage enabled with [22m[33mv8[39m
+
+ [32mÔ£ô[39m services/utils.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32mÔ£ô[39m services/files.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32mÔ£ô[39m services/collections.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32mÔ£ô[39m services/workflows.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32mÔ£ô[39m services/prompts.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+ [32mÔ£ô[39m components/SortControls.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[32m 190[2mms[22m[39m
+ [32mÔ£ô[39m lib/collection-utils.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mÔ£ô[39m components/PromptCard.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[32m 273[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m8 passed[39m[22m[90m (8)[39m
+[2m      Tests [22m [1m[32m40 passed[39m[22m[90m (40)[39m
+[2m   Start at [22m 16:41:19
+[2m   Duration [22m 14.18s[2m (transform 3.79s, setup 7.98s, import 12.50s, tests 667ms, environment 33.51s)[22m
+
+[34m % [39m[2mCoverage report from [22m[33mv8[39m
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   73.75 |    57.59 |   86.04 |   76.69 |                   
+ components        |     100 |       60 |     100 |     100 |                   
+  PromptCard.tsx   |     100 |       75 |     100 |     100 | 38                
+  SortControls.tsx |     100 |    57.69 |     100 |     100 | 14-40             
+ lib               |     100 |       75 |     100 |     100 |                   
+  ...tion-utils.ts |     100 |       75 |     100 |     100 | 31-32             
+  constants.ts     |     100 |      100 |     100 |     100 |                   
+ services          |   67.59 |    55.83 |   78.57 |   71.08 |                   
+  collections.ts   |   86.27 |    71.79 |     100 |   85.71 | 26,56-64,77,129   
+  files.ts         |     100 |      100 |     100 |     100 |                   
+  prompts.ts       |   47.87 |    39.39 |      50 |   52.32 | ...84-289,311-327 
+  utils.ts         |     100 |      100 |     100 |     100 |                   
+  workflows.ts     |      90 |    83.33 |     100 |     100 | 56-79             
+-------------------|---------|----------|---------|---------|-------------------

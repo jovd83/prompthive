@@ -1,13 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>README Preview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+            background-color: #0d1117;
+        }
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <article class="markdown-body" id="content"></article>
 
-
+    <!-- Hidden readme content -->
+    <pre id="raw-markdown" style="display: none;">
 ---
 title: PromptHive - Project README
 version: 2.2.0
-last_updated: 2025-12-24
+last_updated: 2025-12-23
+author: AI Agent
 ---
 
 <p align="center">
-  <img src="public/logo-light.png" alt="PromptHive Logo" width="600">
+  <img src="logo-light.png" alt="PromptHive Logo" width="600">
 </p>
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
@@ -33,11 +67,11 @@ last_updated: 2025-12-24
 *   **Nested Collections**: Organize prompts into infinite folders and sub-folders. Supports **Drag & Drop** for easy reorganization.
 *   **Advanced Search**: Filter by tags, content, or creator.
 *   **Command Palette**: Navigate the entire app without leaving the keyboard (`Cmd+K`).
-*   **Workflows (BETA)**: Chain multiple prompts together to create complex automation sequences. *(Note: This feature is currently in BETA and untested)*
+*   **Workflows**: Chain multiple prompts together to create complex automation sequences.
 *   **Favorites & History**: Quickly access your most used or recently viewed prompts.
 
 ### 🔄 Data & Integration
-*   **Unified Import**: Seamlessly import data from backups or exports.
+*   **Unified Import**: Seamlessly import data from **PromptHive** backups or **PromptCat** exports.
 *   **AI Web Scraper**: Built-in guide and prompt to let AI agents scrape prompts from any website for you.
 *   **Export Options**: Download your entire library as JSON or individual prompts as Markdown.
 *   **Automated Backups**: Configure daily, weekly, or monthly automatic backups to a local path.
@@ -55,6 +89,8 @@ last_updated: 2025-12-24
 |:---:|:---:|
 | **Log In**<br>![Log In](demo/login.gif) | **Navigation**<br>![Navigation](demo/navigation.gif) |
 | **Collection Management**<br>![Collection Management](demo/collection.gif) | **Prompt Management**<br>![Prompt Management](demo/prompt.gif) |
+
+> 🚀 **And much more!** This is just a glimpse. PromptHive also features detailed version histor and a fully keyboard-accessible UI.
 
 ## 🛠️ Technology Stack
 *   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
@@ -204,3 +240,13 @@ For deep dives, check the `docs/` folder:
 ## Why did I make it?
 
 I built Promthive because I needed a better way to manage my growing collection of prompts. I wanted something that could store prompts efficiently on my own infrastructure, without being locked into any particular AI model or provider. Most existing solutions either lived in the cloud (where I had less control), were tightly coupled to specific APIs, or lacked essential features like proper version history, a flexible folder structure for organization, variable substitution, and attachment support. But equally important was security: I needed a system that could completely decouple prompt management from API credentials. With kids in the house who are naturally curious about AI, I wanted to prevent scenarios where they could accidentally rack up tens of euros in token costs by having access to my API keys. Promthive is that solution: a self-hosted, model-agnostic prompt library that puts organization, security, and cost control first.
+    </pre>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+             const rawMarkdown = document.getElementById('raw-markdown').textContent;
+             document.getElementById('content').innerHTML = marked.parse(rawMarkdown);
+        });
+    </script>
+</body>
+</html>

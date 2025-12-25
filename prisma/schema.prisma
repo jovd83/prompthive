@@ -1,0 +1,148 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  username      String    @unique
+  passwordHash  String
+  role          String    @default("USER") // ADMIN, USER
+  language      String    @default("en") // en, nl, fr
+  avatarUrl     String?
+  resetToken    String?   @unique
+  resetTokenExpires DateTime?
+  createdAt     DateTime  @default(now())
+  prompts       Prompt[]
+  versions      PromptVersion[]
+  collections   Collection[]
+  workflows     Workflow[]
+  favorites     Favorite[]
+  settings      Settings?
+  hiddenInSettings Settings[] @relation("UserVisibility")
+}
+
+model Settings {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  autoBackupEnabled Boolean   @default(false)
+  backupPath      String?
+  backupFrequency String    @default("DAILY") // DAILY, WEEKLY, MONTHLY
+  lastBackupAt    DateTime?
+  showPrompterTips Boolean   @default(true)
+  hiddenUsers     User[]    @relation("UserVisibility")
+}
+
+model GlobalConfiguration {
+  id                 String  @id @default("GLOBAL")
+  registrationEnabled Boolean @default(true)
+}
+
+model Prompt {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?
+  resource        String?   // External URL or reference
+  // tags field replaced by relation
+  currentVersionId String?
+  createdById     String
+  createdBy       User      @relation(fields: [createdById], references: [id])
+  viewCount       Int       @default(0)
+  copyCount       Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  versions        PromptVersion[]
+  collections     Collection[]
+  tags            Tag[]
+  workflowSteps   WorkflowStep[]
+  favoritedBy     Favorite[]
+}
+
+model Tag {
+  id      String   @id @default(cuid())
+  name    String   @unique
+  prompts Prompt[]
+  createdAt DateTime @default(now())
+}
+
+model PromptVersion {
+  id                  String    @id @default(cuid())
+  promptId            String
+  prompt              Prompt    @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  content             String
+  shortContent        String?
+  usageExample        String?
+  variableDefinitions String?   // JSON string
+  model               String?
+  resultImage         String?   // Path to uploaded image result
+  resultText          String?   // Textual result of the prompt
+  versionNumber       Int
+  changelog           String?
+  createdById         String
+  createdBy           User      @relation(fields: [createdById], references: [id])
+  createdAt           DateTime  @default(now())
+  attachments         Attachment[]
+}
+
+model Attachment {
+  id          String        @id @default(cuid())
+  versionId   String
+  version     PromptVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  filePath    String
+  fileType    String
+  originalName String?
+  role        String        @default("ATTACHMENT") // ATTACHMENT, RESULT
+  createdAt   DateTime      @default(now())
+}
+
+model Collection {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  ownerId     String
+  owner       User         @relation(fields: [ownerId], references: [id])
+  prompts     Prompt[]
+  parentId    String?
+  parent      Collection?  @relation("CollectionHierarchy", fields: [parentId], references: [id])
+  children    Collection[] @relation("CollectionHierarchy")
+  createdAt   DateTime     @default(now())
+}
+
+model Workflow {
+  id          String         @id @default(cuid())
+  title       String
+  description String?
+  ownerId     String
+  owner       User           @relation(fields: [ownerId], references: [id])
+  steps       WorkflowStep[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model WorkflowStep {
+  id            String   @id @default(cuid())
+  workflowId    String
+  workflow      Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  promptId      String
+  prompt        Prompt   @relation(fields: [promptId], references: [id])
+  order         Int
+  // JSON string: { "variableName": "USER_INPUT" | "stepId" }
+  inputMappings String?
+}
+
+model Favorite {
+  userId    String
+  promptId  String
+  user      User     @relation(fields: [userId], references: [id])
+  prompt    Prompt   @relation(fields: [promptId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([userId, promptId])
+}

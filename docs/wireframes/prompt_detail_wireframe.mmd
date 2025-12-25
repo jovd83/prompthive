@@ -1,0 +1,44 @@
+graph TD
+    A[Sidebar] --> B(Prompt Detail View)
+    
+    subgraph Detail [Prompt Detail View]
+    H[Header Area]
+    H --> H1[Breadcrumbs]
+    H --> H2[Title]
+    H --> H3[Collection Badge]
+    H --> H4[Tags List]
+    H --> H5[Action Buttons]
+    H5 --> H5a[Edit Version]
+    H5 --> H5b[Delete Prompt]
+    H5 --> H5c[Copy to Clipboard]
+    H5 --> H5d[Download Markdown]
+    
+    M[Main Content Grid]
+    M --> M1[Left Column: Prompt Content]
+    M1 --> M1a[Variable Inputs Form]
+    M1a --> M1a1[Topic Input]
+    M1a --> M1a2[...Other Vars]
+    M1 --> M1b[Prompt Preview Area]
+    M1b --> M1b1[Copy Button]
+    
+    M --> M2[Right Column: Metadata & History]
+    M2 --> M2a[Version Selector v1, v2...]
+    M2 --> M2b[Changelog Text]
+    M2 --> M2c[Description]
+    M2 --> M2d[Usage Example]
+    M2 --> M2e[Attachments List]
+    M2 --> M2f[Result Images Gallery]
+    end
+
+    %% Premium Styling
+    classDef container fill:#f9fafb,stroke:#e5e7eb,color:#1f2937,rx:8,ry:8,stroke-width:1px;
+    classDef panel fill:#ffffff,stroke:#e5e7eb,color:#374151,rx:6,ry:6,stroke-width:1px;
+    classDef button fill:#3b82f6,stroke:#2563eb,color:#ffffff,rx:4,ry:4,stroke-width:0px;
+    classDef danger fill:#fee2e2,stroke:#ef4444,color:#b91c1c,rx:4,ry:4;
+    classDef input fill:#ffffff,stroke:#d1d5db,color:#374151,rx:4,ry:4,stroke-dasharray: 2 2;
+
+    class Detail container;
+    class M1,M2 panel;
+    class H5a,H5c,M1b1,H5d button;
+    class H5b danger;
+    class M1a1,M1a2 input;

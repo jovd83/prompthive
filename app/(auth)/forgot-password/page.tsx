@@ -1,0 +1,64 @@
+"use client";
+
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
+import { requestPasswordReset } from "@/actions/user";
+import Link from "next/link";
+import { ArrowLeft, Mail } from "lucide-react";
+
+function SubmitButton() {
+    const { pending } = useFormStatus();
+    return (
+        <button type="submit" disabled={pending} className="btn btn-primary w-full flex items-center justify-center gap-2">
+            {pending ? "Sending..." : "Send Reset Link"}
+        </button>
+    );
+}
+
+const initialState: { success?: string; error?: string } = {};
+
+export default function ForgotPasswordPage() {
+    const [state, formAction] = useActionState(requestPasswordReset, initialState);
+
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-background p-4">
+            <div className="card w-full max-w-md space-y-6 animate-in slide-in-from-bottom-4 duration-500 fade-in flex flex-col items-center border border-border/50 shadow-2xl bg-surface/50 backdrop-blur-sm">
+                <div className="flex justify-center mb-2">
+                    <img src="/logo-light.png" alt="PromptHive Logo" className="w-12 h-12 object-contain dark:hidden" />
+                    <img src="/logo-dark.png" alt="PromptHive Logo" className="w-12 h-12 object-contain hidden dark:block" />
+                </div>
+                <div className="text-center space-y-2">
+                    <h1 className="text-2xl font-bold">Reset Password</h1>
+                    <p className="text-muted-foreground text-sm">Enter your email to receive a password reset link.</p>
+                </div>
+
+                <form action={formAction} className="space-y-4 w-full">
+                    <div>
+                        <label className="block text-sm font-medium mb-1">Email Address</label>
+                        <div className="relative">
+                            <Mail size={16} className="absolute left-3 top-3 text-muted-foreground" />
+                            <input
+                                type="email"
+                                name="email"
+                                className="input pl-10 w-full"
+                                placeholder="name@example.com"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {state?.error && <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 text-sm rounded-md text-center">{state.error}</div>}
+                    {state?.success && <div className="p-3 bg-green-500/10 border border-green-500/20 text-green-500 text-sm rounded-md text-center">{state.success}</div>}
+
+                    <SubmitButton />
+
+                    <div className="text-center pt-2">
+                        <Link href="/login" className="text-sm text-muted-foreground hover:text-foreground flex items-center justify-center gap-1 transition-colors">
+                            <ArrowLeft size={14} /> Back to Login
+                        </Link>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+}

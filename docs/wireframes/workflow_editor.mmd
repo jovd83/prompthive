@@ -1,0 +1,27 @@
+graph LR
+    subgraph Builder [Workflow Builder]
+    direction TB
+    
+    Header[Header: Title, Save Btn]
+    
+    Step1[Step 1: System Prompt]
+    Step1 --> Var1[Input: USER_INPUT]
+    
+    Step2[Step 2: Generate Code]
+    Step2 --> Var2[Input: Step 1 Output]
+    
+    Step3[Step 3: Refine Code]
+    Step3 --> Var3[Input: Step 2 Output]
+    
+    AddBtn((+ Add Step))
+    end
+    
+    subgraph Info [Logic Panel]
+    InfoText[
+        Logic Info:
+        - Steps run sequentially
+        - Map var inputs to previous steps
+    ]
+    end
+    
+    Builder --> Info

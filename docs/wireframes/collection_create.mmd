@@ -1,0 +1,23 @@
+graph TD
+    subgraph Modal [New Collection Modal]
+        direction TB
+        Title[New Collection]
+        
+        subgraph Fields [Form Fields]
+            direction TB
+            Parent[Parent Collection <br/> Dropdown: Root]
+            Name[Title <br/> Input: e.g. Social Media]
+            Desc[Description <br/> Textarea: Optional]
+        end
+        
+        subgraph Actions [Actions]
+            direction LR
+            Cancel[Cancel]
+            Create[Create Collection]
+        end
+        
+        Title --- Fields --- Actions
+    end
+    
+    style Modal fill:#fff,stroke:#333,stroke-width:1px
+    style Create fill:#3b82f6,color:#fff

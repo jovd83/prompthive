@@ -1,0 +1,529 @@
+{
+    "common": {
+        "dashboard": "Dashboard",
+        "favorites": "Favoriter",
+        "newPrompt": "Ny Prompt",
+        "workflows": "Arbetsflöden",
+        "collections": "Samlingar",
+        "tags": "Taggar",
+        "settings": "Inställningar",
+        "help": "Hjälp & Manual",
+        "importExport": "Importera / Exportera",
+        "search": "Kommandopalett",
+        "noCollections": "Inga samlingar",
+        "noTags": "Inga taggar än",
+        "userProfile": "Användarprofil",
+        "avatar": "Avatar",
+        "currentPassword": "Nuvarande lösenord",
+        "newPassword": "Nytt lösenord",
+        "adminAccess": "Admin-åtkomst",
+        "adminActive": "Aktiv",
+        "adminDesc": "Aktivera admin-funktioner.",
+        "adminUser": "Du är administratör.",
+        "clickToUpload": "Klicka för att ladda upp ny avatar",
+        "enterAdminCode": "Ange administratörskod",
+        "verify": "Verifiera",
+        "security": "Säkerhet",
+        "preferences": "Preferenser",
+        "signOut": "Logga ut",
+        "language": "Språk",
+        "save": "Spara",
+        "cancel": "Avbryt"
+    },
+    "languages": {
+        "en": "English",
+        "nl": "Nederlands",
+        "fr": "Français",
+        "es": "Español",
+        "it": "Italiano",
+        "de": "Deutsch",
+        "sv": "Svenska"
+    },
+    "favorites": {
+        "title": "Mina Favoriter",
+        "searchPlaceholder": "Sök favoriter...",
+        "sort": {
+            "newest": "Nyaste först",
+            "oldest": "Äldste först",
+            "az": "A-Ö",
+            "za": "Ö-A",
+            "button": "Sortera",
+            "clear": "Rensa"
+        },
+        "empty": {
+            "title": "Inga favoriter än",
+            "search": "Inga favoriter matchar.",
+            "desc": "Du har inte lagt till några favoriter än.",
+            "action": "Klicka på hjärtikonen på en prompt för att spara den här."
+        }
+    },
+    "admin": {
+        "title": "Admin-konfiguration",
+        "registration": {
+            "title": "Aktivera användarregistrering",
+            "desc": "Om inaktiverat kan nya användare inte registrera sig. Befintliga användare kan fortfarande logga in."
+        },
+        "users": {
+            "title": "Användarhantering",
+            "desc": "Hantera befintliga användare och deras roller.",
+            "addUser": "Add User",
+            "searchPlaceholder": "Search users...",
+            "table": {
+                "user": "User",
+                "role": "Role",
+                "actions": "Actions",
+                "noUsers": "No users found."
+            },
+            "add": {
+                "title": "Add New User",
+                "username": "Username",
+                "email": "Email",
+                "password": "Password",
+                "role": "Role",
+                "cancel": "Cancel",
+                "create": "Create User",
+                "error": "Failed to create user"
+            },
+            "roleToggleTitle": "Click to toggle role"
+        },
+        "save": "Spara Admin-inställningar",
+        "saving": "Sparar...",
+        "success": "Admin-inställningar uppdaterades",
+        "error": "Misslyckades att uppdatera Admin-inställningar"
+    },
+    "commandPalette": {
+        "placeholder": "Skriv ett kommando eller sök...",
+        "actions": {
+            "home": "Hem",
+            "settings": "Inställningar",
+            "help": "Hjälpcenter",
+            "createPrompt": "Skapa ny prompt",
+            "createCollection": "Skapa samling",
+            "toggleTheme": "Växla tema"
+        },
+        "sections": {
+            "navigation": "Navigering",
+            "actions": "Åtgärder",
+            "preferences": "Preferenser"
+        }
+    },
+    "collections": {
+        "title": "Samlingar",
+        "newCollection": "Ny Samling",
+        "createTitle": "Skapa Ny Samling",
+        "noCollections": "Du har inte skapat några samlingar än.",
+        "createFirst": "Skapa din första samling",
+        "promptsCount": "{{count}} prompts",
+        "parent": "Föräldrasamling",
+        "root": "Rot (Ingen förälder)",
+        "labelTitle": "Titel",
+        "placeholderTitle": "Mina Favoriter",
+        "description": "Beskrivning (Valfritt)",
+        "placeholderDesc": "Vad finns i denna samling?",
+        "createButton": "Skapa Samling",
+        "creating": "Skapar..."
+    },
+    "workflows": {
+        "title": "Arbetsflöden",
+        "subtitle": "Kedja samman prompts för att skapa kraftfulla automationer.",
+        "new": "Nytt arbetsflöde",
+        "create": "Skapa arbetsflöde",
+        "empty": {
+            "title": "Inga arbetsflöden än",
+            "desc": "Skapa din första prompt-kedja för att automatisera komplexa uppgifter."
+        },
+        "beta": "(BETA - Otestad)"
+    },
+    "prompts": {
+        "dashboard": "Dashboard",
+        "createTitle": "Skapa Ny Prompt",
+        "editTitle": "Redigera Prompt: {{title}}",
+        "newPrompt": "Ny Prompt",
+        "searchResults": "Sökresultat",
+        "searchTitle": "Sök: \"{{query}}\"",
+        "noResults": "Inga prompts hittades som matchar dina kriterier.",
+        "createFirst": "Skapa din första prompt",
+        "favorites": "Favoriter",
+        "recentlyUsed": "Nyligen använda av mig",
+        "newlyCreated": "Nyligen Skapade",
+        "mostViewed": "Mest Visade",
+        "viewAll": "Visa alla",
+        "deletedCollection": "Samlingen \"{{name}}\" har tagits bort.",
+        "importedCount": "Lyckades importera {{count}} prompts.",
+        "deletedPrompt": "Prompten \"{{name}}\" har tagits bort.",
+        "noContent": "Inget innehåll tillgängligt",
+        "removeFromFavorites": "Ta bort från favoriter",
+        "addToFavorites": "Lägg till i favoriter",
+        "copyContent": "Kopiera promptinnehåll",
+        "resultImage": "Resultat"
+    },
+    "list": {
+        "copy": "Kopiera",
+        "copied": "Kopierad",
+        "views": "Visningar",
+        "copies": "Kopior",
+        "updatedAgo": "Uppdaterad för {{time}} sedan",
+        "by": "Av",
+        "noTags": "Inga taggar",
+        "promptPreview": "Prompt Förhandsvisning",
+        "sort": {
+            "az": "A - Ö",
+            "za": "Ö - A",
+            "newest": "Nyast Först",
+            "oldest": "Äldst Först",
+            "mostItems": "Flest Objekt"
+        }
+    },
+    "advancedSearch": {
+        "placeholder": "Sök prompts...",
+        "tags": "Taggar (komma-separerade)",
+        "creator": "Skaparens E-post",
+        "clear": "Rensa",
+        "apply": "Tillämpa Filter"
+    },
+    "sortControls": {
+        "date": "Datum",
+        "name": "Namn",
+        "usage": "Användning"
+    },
+    "form": {
+        "sections": {
+            "basicInfo": "Grundinfo",
+            "metadata": "Metadata & Organisation",
+            "versionInfo": "Versionsinfo (v{{v}})",
+            "promptContent": "Promptinnehåll",
+            "shortPrompt": "Kort Prompt (Valfritt)",
+            "usageExample": "Användningsexempel (Valfritt)",
+            "variables": "Variabeldefinitioner (Valfritt)",
+            "results": "Resultat (Valfritt)",
+            "attachments": "Bilagor (Valfritt)",
+            "source": "Källa (Valfritt)"
+        },
+        "labels": {
+            "title": "Titel",
+            "collection": "Samling",
+            "none": "Ingen",
+            "changelog": "Ändringslogg",
+            "noChange": "Ingen Ändring / Nuvarande: {{current}}",
+            "noCollection": "Ingen Samling",
+            "keep": "BEHÅLL",
+            "legacy": "(GAMMAL)",
+            "new": "NY",
+            "manageFiles": "Hantera Filer",
+            "tags": "Taggar",
+            "description": "Beskrivning",
+            "variableName": "Variabelnamn",
+            "variableDesc": "Beskrivning",
+            "textualResult": "Textresultat",
+            "resultFiles": "Resultatfiler / Bilder (Obegränsat)",
+            "uploadFiles": "Ladda Upp Filer (Obegränsat)",
+            "resource": "Resurs-URL eller Citat"
+        },
+        "buttons": {
+            "codeView": "Kodvy",
+            "addVariable": "Lägg Till Variabeldefinition",
+            "autoAddVariables": "Auto-lägg Till Variabler",
+            "addResultFile": "Lägg Till Resultatfil",
+            "addAttachment": "Lägg Till Bilaga",
+            "createPrompt": "Skapa Prompt",
+            "saveNewVersion": "Spara Ny Version",
+            "creating": "Skapar...",
+            "saveChanges": "Spara Ändringar",
+            "saving": "Sparar..."
+        },
+        "placeholders": {
+            "title": "t.ex. SEO Bloggpost-generator",
+            "description": "Kort beskrivning av vad denna prompt gör...",
+            "changelog": "Vad ändrades i denna version?",
+            "content": "Du är en expert-copywriter...",
+            "shortContent": "Kort version av prompten...",
+            "usage": "Exempel på input/output...",
+            "variableDesc": "Beskrivning",
+            "resultText": "Klistra in output från prompten här...",
+            "resource": "https://exempel.se/käll-artikel"
+        },
+        "hints": {
+            "variables": "Definiera variablerna som används i din prompt (t.ex. <code>{{topic}}</code>)."
+        },
+        "errors": {
+            "createFailed": "Misslyckades att skapa prompt. Försök igen.",
+            "createVersionFailed": "Misslyckades att skapa version. Försök igen.",
+            "invalidExtension": "Ogiltig filtillägg: {{ext}}. Tillåtet: {{allowed}}"
+        }
+    },
+    "tags": {
+        "placeholder": "Välj eller skapa taggar...",
+        "create": "Skapa tagg \"{{tag}}\"",
+        "noMatch": "Inga matchande taggar hittades."
+    },
+    "diff": {
+        "title": "Jämför Versioner",
+        "added": "Tillagd",
+        "removed": "Borttagen",
+        "close": "Stäng Jämförelse"
+    },
+    "detail": {
+        "breadcrumbs": {
+            "collections": "Samlingar"
+        },
+        "actions": {
+            "edit": "Redigera",
+            "delete": "Ta bort",
+            "copy": "Kopiera Prompt",
+            "copied": "Kopierad!",
+            "codeView": "Kodvy",
+            "addToFavorites": "Lägg till i favoriter",
+            "removeFromFavorites": "Ta bort från favoriter",
+            "confirmDelete": "Ta bort?",
+            "yes": "Ja",
+            "no": "Nej",
+            "compare": "Jämför v{{v1}} med v{{v2}}",
+            "download": "Resultatfil",
+            "maximize": "Maximera",
+            "done": "Klar",
+            "confirmRestore": "Är du säker på att du vill återställa denna version? Detta skapar en ny version med samma innehåll.",
+            "restoreSuccess": "Version återställd."
+        },
+        "labels": {
+            "description": "Beskrivning",
+            "promptContent": "Promptinnehåll",
+            "collections": "Samlingar",
+            "changelog": "Ändringslogg",
+            "variables": "Variabeldefinitioner",
+            "fillVariables": "Fyll i Variabler",
+            "history": "Versionshistorik",
+            "results": "Resultat",
+            "textResult": "Textresultat",
+            "imageResult": "Bild- / Filresultat",
+            "attachments": "Bilagor",
+            "source": "Källa",
+            "shortPrompt": "Kort Prompt",
+            "usageExample": "Användningsexempel",
+            "editingVariable": "Redigerar Variabel"
+        },
+        "meta": {
+            "by": "Av",
+            "ago": "{{time}} sedan",
+            "version": "Version",
+            "unknown": "Okänd"
+        },
+        "placeholders": {
+            "noDescription": "Ingen beskrivning angiven.",
+            "noVersions": "Inga versioner hittades.",
+            "valueFor": "Värde för {{name}}",
+            "enterLargeText": "Ange vanlig eller lång text här..."
+        },
+        "errors": {
+            "deleteFailed": "Misslyckades att ta bort prompt.",
+            "restoreFailed": "Misslyckades att återställa version."
+        }
+    },
+    "settings": {
+        "title": "Inställningar",
+        "autoBackupConfig": "Auto-Backup Konfiguration",
+        "enableAutoBackup": "Aktivera Auto-Backup",
+        "backupPath": "Backup-katalogens sökväg",
+        "backupPathDesc": "Absolut sökväg till mappen där säkerhetskopior sparas.",
+        "backupFrequency": "Backup-frekvens",
+        "daily": "Dagligen",
+        "weekly": "Veckovis",
+        "monthly": "Månadsvis",
+        "backupNow": "Säkerhetskopiera Nu (Ladda ner JSON)",
+        "backupNowDesc": "Ladda omedelbart ner en fullständig backup av ditt nuvarande bibliotek.",
+        "saveSettings": "Spara Inställningar",
+        "saving": "Sparar...",
+        "dataMaintenance": "Dataunderhåll",
+        "cleanupTags": "Rensa Taggar",
+        "cleanupTagsDesc": "Ta bort alla taggar som inte används av någon prompt för tillfället.",
+        "deleteUnusedTags": "Ta Bort Oanvända Taggar",
+        "dangerZone": "Farozon",
+        "restoreData": "Återställ Data",
+        "restoreDataDesc": "Återställ din databas från den senaste auto-backupen som hittades i din konfigurerade backup-mapp.",
+        "warningOverwrite": "Varning: Detta kommer att skriva över nuvarande data.",
+        "restoreButton": "Återställ från Senaste Backup",
+        "resetDatabase": "Återställ Databas",
+        "resetDatabaseDesc": "Ta permanent bort alla prompts, samlingar och taggar. Denna åtgärd kan inte ångras.",
+        "dropAllContent": "Ta Bort Allt Innehåll",
+        "confirmDelete": "Bekräfta: TA BORT ALLT",
+        "cancel": "Avbryt",
+        "userVisibility": "Användarsynlighet",
+        "userVisibilityDesc": "Markera de användare vars prompts du vill se i din dashboard.",
+        "checkAll": "Markera Alla",
+        "uncheckAll": "Avmarkera Alla",
+        "you": "(Du)",
+        "general": "Allmänna Inställningar",
+        "settingsSaved": "Inställningar sparades framgångsrikt.",
+        "settingsFailed": "Misslyckades att spara inställningar.",
+        "cleanupComplete": "Rensning klar. Tog bort {{count}} oanvända taggar.",
+        "cleanupFailed": "Rensning misslyckades: {{error}}",
+        "restoreFailed": "Återställning misslyckades: {{error}}",
+        "dbCleared": "Databas rensad."
+    },
+    "importExport": {
+        "title": "Importera / Exportera",
+        "aiScraperGuide": "AI Web Scraper Guide",
+        "aiScraperDesc": "Lär dig hur du använder AI (ChatGPT, Claude, Gemini) för att skrapa prompts från vilken webbplats som helst och importera dem här.",
+        "viewGuide": "Visa Skrapningsguide",
+        "exportPrompts": "Exportera Prompts",
+        "exportDesc": "Ladda ner alla dina prompts som en JSON-fil. Detta inkluderar all metadata och den senaste versionen av varje prompt.",
+        "downloadJson": "Ladda ner JSON",
+        "importStandard": "Importera Prompts (Standard)",
+        "importUnifiedDesc": "Ladda upp en JSON-fil.",
+        "importStandardDesc": "Ladda upp en JSON-fil exporterad från denna applikation.",
+        "selectJson": "Välj JSON-fil",
+        "importButton": "Importera Prompts",
+        "importPromptCat": "Importera från PromptCat",
+        "importPromptCatDesc": "Importera prompts från en PromptCat-exportfil.",
+        "howToExportPromptCat": "Hur man exporterar från PromptCat:",
+        "promptCatStep1": "Öppna din PromptCat-instans.",
+        "promptCatStep2": "Klicka på Inställningar (kugghjulsikonen).",
+        "promptCatStep3": "Klicka på Exportera Data för att ladda ner JSON-filen.",
+        "importPromptCatButton": "Importera från PromptCat",
+        "importLocal": "Importera Lokal Mapp",
+        "importLocalDesc": "Importera prompts rekursivt från en mapp på din hårddisk. Undermappar blir Samlingar. Text-/Markdown-filer blir Prompts.",
+        "absFolderPath": "Absolut Mappsökväg",
+        "absFolderDesc": "Applikationen måste ha läsbehörighet för denna mapp.",
+        "targetCollection": "Målsamling (Valfritt)",
+        "rootCollection": "Rot (Skapa ny Rotsamling)",
+        "targetCollectionDesc": "Välj en samling att importera till. Om \"Rot\", skapas en ny rotsamling med mappnamnet.",
+        "startLocalImport": "Starta Lokal Import",
+        "importing": "Importerar... detta kan ta en stund",
+        "successImport": "Lyckades importera {{count}} prompts!"
+    },
+    "help": {
+        "title": "Hjälpcenter",
+        "subtitle": "Dokumentation v1.0",
+        "externalLinks": "Externa Länkar",
+        "stillQuestions": "Har du fortfarande frågor?",
+        "checkRepo": "Kolla GitHub-repot för problem eller funktionsförfrågningar.",
+        "visitRepo": "Besök Repository",
+        "sections": {
+            "introduction": "Introduktion",
+            "gettingStarted": "Kom igång",
+            "variables": "Variabler & Syntax",
+            "collections": "Samlingar & struktur",
+            "aiScraping": "AI Web Scraping Guide",
+            "commandPalette": "Kommandopalett",
+            "visualDiff": "Visuell Versionsjämförelse",
+            "versionHistory": "Versionshistorik & Jämförelse",
+            "language": "Språkinställningar",
+            "userProfile": "Användarprofil & Säkerhet",
+            "faq": "FAQ & Felsökning"
+        },
+        "content": {
+            "intro": {
+                "welcome": "Välkommen till <strong>PromptHive</strong>, din local-first fristad för att hantera, testa och organisera LLM-prompts.",
+                "desc": "Prompt engineering är en iterativ process. Att spara prompts i textfiler eller chatthistorik leder till versionskaos. PromptHive löser detta genom att behandla prompts som kod—med <strong>versionskontroll</strong>, <strong>variabler</strong> och <strong>strukturera organisation</strong>.",
+                "organizeTitle": "Organisera",
+                "organizeDesc": "Oändligt nästlade samlingar och taggar håller ditt bibliotek rent.",
+                "versionTitle": "Versionera",
+                "versionDesc": "Förlora aldrig en bra prompt. Varje sparning skapar en ny historikpost.",
+                "templatizeTitle": "Mallar",
+                "templatizeDesc": "Använd variabler som <code>{{topic}}</code> för att skapa återanvändbara mallar."
+            },
+            "gettingStarted": {
+                "tip": "Du behöver ingen internetanslutning. PromptHive körs helt lokalt på din maskin.",
+                "step1Title": "1. Skapa din första Prompt",
+                "step1Li1": "Klicka på <strong>Ny Prompt</strong> i sidofältet.",
+                "step1Li2": "Ge den en tydlig titel (t.ex., <em>\"SEO Bloggpost-generator\"</em>).",
+                "step1Li3": "(Valfritt) Tilldela den till en Samling eller lägg till Taggar.",
+                "step1Li4": "Skriv din prompt i redigeraren.",
+                "step1Li5": "Klicka på <strong>Skapa Prompt</strong>.",
+                "step2Title": "2. Köra ett Test",
+                "step2Desc": "När den är skapad kan du \"Köra\" en prompt manuellt för att dokumentera dess output.",
+                "step2Li1": "Öppna en prompt.",
+                "step2Li2": "Fyll i eventuella Variabler (om definierade).",
+                "step2Li3": "Klistra in output från ChatGPT/Claude i fältet <strong>\"Resultattext\"</strong>.",
+                "step2Li4": "Bifoga skärmbilder om det behövs.",
+                "step2Li5": "Klicka på <strong>Spara Ny Version</strong>."
+            },
+            "variables": {
+                "desc": "Variabler gör dina prompts dynamiska. Istället för att skriva om \"Skriv en blogg om Hundar\", kan du skriva \"Skriv en blogg om <code>{{topic}}</code>\".",
+                "syntaxTitle": "Syntax",
+                "good": "// Bra",
+                "goodEx1": "Agera som en <span class=\"text-blue-600 font-bold\">{{role}}</span> expert.",
+                "goodEx2": "Skriv en <span class=\"text-blue-600 font-bold\">{{content_type}}</span> om...",
+                "bad": "// Dåligt (Mellanslag inuti klamrar är okej, men håll det enkelt)",
+                "badEx": "Agera som { role } expert.",
+                "autoDetectTitle": "Automatisk Detektering",
+                "autoDetectDesc": "När du skriver <code>{{variable}}</code> i redigeraren, klicka på knappen <strong>\"Auto-lägg Till Variabler\"</strong>. Appen skannar automatiskt din text och skapar fält för dem!"
+            },
+            "collections": {
+                "desc": "PromptHive använder en <strong>rekursiv mappstruktur</strong>. Detta innebär:",
+                "li1": "En Samling kan innehålla <strong>Prompts</strong>.",
+                "li2": "En Samling kan innehålla <strong>andra Samlingar</strong> (Undermappar).",
+                "li3": "Det finns ingen gräns för djupet av nästling.",
+                "dragDropTitle": "Drag & Drop",
+                "dragDropDesc": "Du kan dra samlingar i sidofältet för att reorganisera dem. Släpp en samling på en annan för att göra den till ett barn. Släpp den på rubriken \"Samlingar\" för att göra den till en rotmapp."
+            },
+            "aiScraping": {
+                "desc1": "Du kan enkelt importera prompts från vilken webbplats som helst (bloggar, artiklar, etc.) genom att använda en LLM som ChatGPT, Claude eller Gemini som en \"mellanhand\"-skrapare.",
+                "desc2": "Kopiera helt enkelt URL:en till sidan du vill skrapa, ge den till AI:t tillsammans med <strong>Systeminstruktionen</strong> nedan, och importera sedan den genererade JSON-filen här.",
+                "systemPromptTitle": "System-prompt för Skrapning"
+            },
+            "commandPalette": {
+                "desc": "Navigera PromptHive effektivt utan att ta händerna från tangentbordet med den globala <strong>Kommandopaletten</strong>.",
+                "shortcut": "Genväg",
+                "whatCanDo": "Vad kan du göra?",
+                "li1": "<strong>Navigera</strong> direkt till Hem, Inställningar eller Hjälp.",
+                "li2": "<strong>Skapa</strong> en ny Prompt eller Samling.",
+                "li3": "<strong>Växla</strong> Ljust/Mörkt läge.",
+                "li4": "<strong>Sök</strong> efter åtgärder (t.ex., skriv \"Tema\")."
+            },
+            "visualDiff": {
+                "desc": "Prompt engineering innebär många små justeringar. PromptHive låter dig <strong>Visuellt Jämföra</strong> vilka två versioner som helst av en prompt för att se exakt vad som ändrades.",
+                "howToTitle": "Hur man Jämför",
+                "li1": "Gå till en Prompts detaljsida.",
+                "li2": "Titta på listan <strong>Versionshistorik</strong> på höger sida.",
+                "li3": "Klicka på ikonen <span class=\"inline-flex items-center justify-center p-1 bg-muted rounded border border-border\">Jämför</span> på vilken versionsrad som helst (utom den valda).",
+                "li4": "En modal visas som visar <strong>diffen</strong> mellan den valda versionen och den klickade versionen.",
+                "greenTitle": "Grön Bakgrund",
+                "greenDesc": "Indikerar text som har <strong>Lagts till</strong> i den nyare versionen.",
+                "redTitle": "Röd Bakgrund",
+                "redDesc": "Indikerar text som har <strong>Tagits bort</strong> från den äldre versionen.",
+                "tipTitle": "Tips",
+                "tipDesc": "Använd detta för att verifiera om din senaste \"justering\" faktiskt förbättrade prompten eller bara flyttade ord!"
+            },
+            "language": {
+                "desc": "PromptHive stöder flera språk. Du kan ändra ditt föredragna språk när som helst.",
+                "li1": "Klicka på din <strong>Användaravatar</strong> i nedre vänstra hörnet.",
+                "li2": "Välj fliken <strong>Preferenser</strong>.",
+                "li3": "Välj ditt språk från rullgardinsmenyn (t.ex., English, Nederlands, Français).",
+                "tip": "Dina språkpreferenser sparas på ditt konto och kvarstår mellan sessioner."
+            },
+            "userProfile": {
+                "desc": "Hantera din identitet och säkerhetsinställningar direkt från applikationen.",
+                "accessTitle": "Komma åt din Profil",
+                "accessDesc": "Klicka på din <strong>Avatar</strong> eller <strong>Användarnamn</strong> längst ner i sidofältet. Detta öppnar din Profildialog där du kan:",
+                "li1": "<strong>Uppdatera Avatar</strong>: Ladda upp en anpassad profilbild (JPG/PNG).",
+                "li2": "<strong>Byta Lösenord</strong>: Uppdatera dina inloggningsuppgifter säkert.",
+                "forgotTitle": "Glömt Lösenord?",
+                "forgotDesc": "Om du är utlåst, använd länken <strong>Glömt lösenord</strong> på inloggningsskärmen. Du kan begära en återställningslänk till din registrerade e-postadress."
+            },
+            "admin": {
+                "desc": "If you are an administrator, you have access to additional settings in the 'Admin Configuration' section of the Settings page.",
+                "usersTitle": "User Management",
+                "usersDesc": "View all registered users and manage their admin status. <strong>Admins</strong> can see all prompts from all users if they choose to, and can manage system-wide settings.",
+                "registrationTitle": "Registration Control",
+                "registrationDesc": "You can <strong>disable new user registration</strong> to private-lock your instance. Existing users will still be able to log in.",
+                "visibilityTitle": "User Visibility",
+                "visibilityDesc": "Control whose prompts appear in your dashboard. You can choose to see only your own work, or see work from other users on this instance."
+            },
+            "exporting": {
+                "desc": "You can export your data in various formats for backup or sharing.",
+                "markdownTitle": "Markdown Export",
+                "markdownDesc": "Export individual prompts as Markdown files. Useful for sharing.",
+                "jsonTitle": "JSON Export",
+                "jsonDesc": "Export your entire library as a JSON file. Use this for backups."
+            },
+            "faq": {
+                "q1": "F: Var sparas mina data?",
+                "a1": "Allt sparas i en lokal SQLite-databas (`dev.db`) i din projektmapp. Bilder sparas i `public/uploads`.",
+                "q2": "F: Vad händer om jag tar bort en föräldrasamling?",
+                "a2": "Du har två val: <strong>Ta bort Allt</strong> (vilket raderar alla barn och prompts inuti) eller <strong>Ta bort Endast Samling</strong> (vilket flyttar alla barn/prompts upp en nivå eller till Roten).",
+                "q3": "F: Kan jag dela mina prompts?",
+                "a3": "För närvarande är PromptHive ett lokalt enanvändarverktyg. Du kan dock använda funktionen <strong>Importera/Exportera</strong> i sidofältet för att dela JSON-filer med kollegor."
+            }
+        }
+    }
+}

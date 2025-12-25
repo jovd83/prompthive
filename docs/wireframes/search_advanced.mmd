@@ -1,0 +1,28 @@
+graph TD
+    subgraph SearchUI [Advanced Search]
+        direction TB
+        
+        subgraph SearchBar [Search Bar]
+            direction LR
+            Icon[🔍]
+            Input[Search prompts...]
+            Toggle[Filter Icon]
+        end
+        
+        subgraph FilterPanel [Filter Panel]
+            direction TB
+            FTags[Tags <br/> Input: coding, writing...]
+            FCreator[Creator <br/> Input: email]
+            
+            subgraph FActions [Actions]
+                Clear[Clear]
+                Apply[Apply Filters]
+            end
+            
+            FTags --- FCreator --- FActions
+        end
+        
+        SearchBar --- FilterPanel
+    end
+    
+    style FilterPanel fill:#f0f9ff,stroke:#bae6fd

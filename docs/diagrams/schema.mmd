@@ -1,0 +1,109 @@
+erDiagram
+    User ||--o{ Prompt : has
+    User ||--o{ Collection : owns
+    User ||--o| Settings : has
+    User ||--o{ Workflow : owns
+    User ||--o{ Favorite : "favorites"
+    
+    User {
+        string id PK
+        string username
+        string email
+        string passwordHash
+        string role "USER | ADMIN"
+        string language "en | nl | fr | es | etc"
+        string avatarUrl
+        string resetToken
+        datetime resetTokenExpires
+        datetime createdAt
+    }
+
+    Settings {
+        string id PK
+        boolean autoBackupEnabled
+        string backupFrequency
+        boolean showPrompterTips
+        string backupPath
+    }
+    
+    GlobalConfiguration {
+        string id PK "GLOBAL"
+        boolean registrationEnabled
+    }
+
+    Prompt ||--|{ PromptVersion : contains
+    Prompt }|--|{ Collection : "belongs to"
+    Prompt }|--|{ Tag : "tagged with"
+    Prompt ||--o{ WorkflowStep : "used in"
+    Prompt ||--o{ Favorite : "favorited by"
+
+    Prompt {
+        string id PK
+        string title
+        string description
+        string resource "External URL"
+        string currentVersionId FK
+        string createdById FK
+        int viewCount
+        int copyCount
+        datetime createdAt
+    }
+
+    PromptVersion ||--o{ Attachment : "has files"
+    PromptVersion {
+        string id PK
+        string content
+        string shortContent
+        string usageExample
+        string variableDefinitions "JSON"
+        string model
+        string resultImage "Path"
+        string resultText
+        int versionNumber
+        string changelog
+        string createdById FK
+        datetime createdAt
+    }
+
+    Attachment {
+        string id PK
+        string filePath
+        string fileType
+        string role "ATTACHMENT | RESULT"
+    }
+
+    Collection ||--o{ Collection : "parent of"
+    Collection {
+        string id PK
+        string title
+        string description
+        string parentId FK
+        string ownerId FK
+    }
+
+    Tag {
+        string id PK
+        string name
+    }
+
+    Workflow ||--o{ WorkflowStep : contains
+    Workflow {
+        string id PK
+        string title
+        string description
+        string ownerId FK
+        datetime createdAt
+    }
+
+    WorkflowStep {
+        string id PK
+        string promptId FK
+        int order
+        string inputMappings "JSON"
+    }
+
+    Favorite {
+        string userId FK
+        string promptId FK
+        datetime createdAt
+    }

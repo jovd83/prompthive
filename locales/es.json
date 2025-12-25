@@ -1,0 +1,531 @@
+{
+    "common": {
+        "dashboard": "Panel de Control",
+        "favorites": "Favoritos",
+        "newPrompt": "Nuevo Prompt",
+        "workflows": "Flujos de Trabajo",
+        "collections": "Colecciones",
+        "tags": "Etiquetas",
+        "settings": "Configuración",
+        "help": "Ayuda y Manual",
+        "importExport": "Importar / Exportar",
+        "search": "Cmd Palette",
+        "noCollections": "Sin colecciones",
+        "noTags": "Sin etiquetas",
+        "userProfile": "Perfil de Usuario",
+        "avatar": "Avatar",
+        "currentPassword": "Contraseña Actual",
+        "newPassword": "Nueva Contraseña",
+        "adminAccess": "Acceso Admin",
+        "adminActive": "Activo",
+        "adminDesc": "Habilitar funciones de administrador.",
+        "adminUser": "Eres un Administrador.",
+        "clickToUpload": "Clic para subir nuevo avatar",
+        "enterAdminCode": "Ingresar Código de Admin",
+        "verify": "Verificar",
+        "security": "Seguridad",
+        "preferences": "Preferencias",
+        "signOut": "Cerrar Sesión",
+        "language": "Idioma",
+        "save": "Guardar",
+        "cancel": "Cancelar"
+    },
+    "languages": {
+        "en": "English",
+        "nl": "Nederlands",
+        "fr": "Français",
+        "es": "Español",
+        "it": "Italiano",
+        "de": "Deutsch",
+        "sv": "Svenska"
+    },
+    "favorites": {
+        "title": "Mis Favoritos",
+        "searchPlaceholder": "Buscar favoritos...",
+        "sort": {
+            "newest": "Más recientes",
+            "oldest": "Más antiguos",
+            "az": "A-Z",
+            "za": "Z-A",
+            "button": "Ordenar",
+            "clear": "Borrar"
+        },
+        "empty": {
+            "title": "Aún no hay favoritos",
+            "search": "No hay favoritos que coincidan.",
+            "desc": "Aún no has añadido favoritos.",
+            "action": "Haz clic en el icono del corazón en cualquier prompt para guardarlo aquí."
+        }
+    },
+    "admin": {
+        "title": "Configuración de Admin",
+        "registration": {
+            "title": "Habilitar registro de usuarios",
+            "desc": "Si está desactivado, los nuevos usuarios no pueden registrarse. Los usuarios existentes aún pueden iniciar sesión."
+        },
+        "users": {
+            "title": "Gestión de Usuarios",
+            "desc": "Gestionar usuarios existentes y sus roles.",
+            "addUser": "Add User",
+            "searchPlaceholder": "Search users...",
+            "table": {
+                "user": "User",
+                "role": "Role",
+                "actions": "Actions",
+                "noUsers": "No users found."
+            },
+            "add": {
+                "title": "Add New User",
+                "username": "Username",
+                "email": "Email",
+                "password": "Password",
+                "role": "Role",
+                "cancel": "Cancel",
+                "create": "Create User",
+                "error": "Failed to create user"
+            },
+            "roleToggleTitle": "Click to toggle role"
+        },
+        "save": "Guardar configuración de Admin",
+        "saving": "Guardando...",
+        "success": "Configuración de Admin actualizada con éxito",
+        "error": "Error al actualizar la configuración de Admin"
+    },
+    "commandPalette": {
+        "placeholder": "Escribe un comando o busca...",
+        "actions": {
+            "home": "Inicio",
+            "settings": "Configuración",
+            "help": "Centro de ayuda",
+            "createPrompt": "Crear nuevo prompt",
+            "createCollection": "Crear colección",
+            "toggleTheme": "Cambiar tema"
+        },
+        "sections": {
+            "navigation": "Navegación",
+            "actions": "Acciones",
+            "preferences": "Preferencias"
+        }
+    },
+    "collections": {
+        "title": "Colecciones",
+        "newCollection": "Nueva Colección",
+        "createTitle": "Crear Nueva Colección",
+        "noCollections": "Aún no has creado ninguna colección.",
+        "createFirst": "Crea tu primera colección",
+        "promptsCount": "{{count}} prompts",
+        "parent": "Colección Padre",
+        "root": "Raíz (Sin Padre)",
+        "labelTitle": "Título",
+        "placeholderTitle": "Mis Favoritos",
+        "description": "Descripción (Opcional)",
+        "placeholderDesc": "¿Qué hay en esta colección?",
+        "createButton": "Crear Colección",
+        "creating": "Creando..."
+    },
+    "workflows": {
+        "title": "Flujos de trabajo",
+        "subtitle": "Encadena prompts para crear automatizaciones poderosas.",
+        "new": "Nuevo flujo",
+        "create": "Crear flujo",
+        "empty": {
+            "title": "No hay flujos de trabajo",
+            "desc": "Crea tu primera cadena de prompts para automatizar tareas complejas."
+        },
+        "beta": "(BETA - No probado)"
+    },
+    "prompts": {
+        "dashboard": "Panel",
+        "createTitle": "Crear Nuevo Prompt",
+        "editTitle": "Editar Prompt: {{title}}",
+        "newPrompt": "Nuevo Prompt",
+        "searchResults": "Resultados de Búsqueda",
+        "searchTitle": "Buscar: \"{{query}}\"",
+        "noResults": "No se encontraron prompts que coincidan con tus criterios.",
+        "createFirst": "Crea tu primer prompt",
+        "favorites": "Favoritos",
+        "recentlyUsed": "Recientemente usados por mí",
+        "newlyCreated": "Recientemente Creados",
+        "mostViewed": "Más Vistos",
+        "viewAll": "Ver todos",
+        "deletedCollection": "La colección \"{{name}}\" ha sido eliminada.",
+        "importedCount": "Se importaron exitosamente {{count}} prompts.",
+        "deletedPrompt": "El prompt \"{{name}}\" ha sido eliminado.",
+        "noContent": "Sin contenido disponible",
+        "removeFromFavorites": "Quitar de favoritos",
+        "addToFavorites": "Añadir a favoritos",
+        "copyContent": "Copiar contenido del prompt",
+        "resultImage": "Resultado"
+    },
+    "list": {
+        "copy": "Copiar",
+        "copied": "Copiado",
+        "views": "Vistas",
+        "copies": "Copias",
+        "updatedAgo": "Actualizado hace {{time}}",
+        "by": "Por",
+        "noTags": "Sin etiquetas",
+        "promptPreview": "Vista Previa del Prompt",
+        "sort": {
+            "az": "A - Z",
+            "za": "Z - A",
+            "newest": "Más Nuevos Primero",
+            "oldest": "Más Antiguos Primero",
+            "mostItems": "Más Elementos"
+        }
+    },
+    "advancedSearch": {
+        "placeholder": "Buscar prompts...",
+        "tags": "Etiquetas (separadas por coma)",
+        "creator": "Email del Creador",
+        "clear": "Limpiar",
+        "apply": "Aplicar Filtros"
+    },
+    "sortControls": {
+        "date": "Fecha",
+        "name": "Nombre",
+        "usage": "Uso"
+    },
+    "form": {
+        "sections": {
+            "basicInfo": "Información Básica",
+            "metadata": "Metadatos y Organización",
+            "versionInfo": "Info de Versión (v{{v}})",
+            "promptContent": "Contenido del Prompt",
+            "shortPrompt": "Prompt Corto (Opcional)",
+            "usageExample": "Ejemplo de Uso (Opcional)",
+            "variables": "Definiciones de Variables (Opcional)",
+            "results": "Resultados (Opcional)",
+            "attachments": "Adjuntos (Opcional)",
+            "source": "Fuente (Opcional)"
+        },
+        "labels": {
+            "title": "Título",
+            "collection": "Colección",
+            "none": "Ninguno",
+            "changelog": "Registro de Cambios",
+            "noChange": "Sin Cambio / Actual: {{current}}",
+            "noCollection": "Sin Colección",
+            "keep": "MANTENER",
+            "legacy": "(LEGADO)",
+            "new": "NUEVO",
+            "manageFiles": "Gestionar Archivos",
+            "tags": "Etiquetas",
+            "description": "Descripción",
+            "variableName": "Nombre de Variable",
+            "variableDesc": "Descripción",
+            "textualResult": "Resultado Textual",
+            "resultFiles": "Archivos/Imágenes de Resultado (Ilimitado)",
+            "uploadFiles": "Subir Archivos (Ilimitado)",
+            "resource": "URL de Recurso o Cita"
+        },
+        "buttons": {
+            "codeView": "Vista de Código",
+            "addVariable": "Añadir Definición de Variable",
+            "autoAddVariables": "Auto Añadir Variables",
+            "addResultFile": "Añadir Archivo de Resultado",
+            "addAttachment": "Añadir Adjunto",
+            "createPrompt": "Crear Prompt",
+            "saveNewVersion": "Guardar Nueva Versión",
+            "creating": "Creando...",
+            "saveChanges": "Guardar Cambios",
+            "saving": "Guardando..."
+        },
+        "placeholders": {
+            "title": "ej. Generador de Blog SEO",
+            "description": "Breve descripción de lo que hace este prompt...",
+            "changelog": "¿Qué cambió en esta versión?",
+            "content": "Eres un redactor experto...",
+            "shortContent": "Versión corta del prompt...",
+            "usage": "Ejemplo de entrada/salida...",
+            "variableDesc": "Descripción",
+            "resultText": "Pega la salida del prompt aquí...",
+            "resource": "https://ejemplo.com/articulo-fuente"
+        },
+        "hints": {
+            "variables": "Define las variables usadas en tu prompt (ej. <code>{{topic}}</code>)."
+        },
+        "errors": {
+            "createFailed": "Error al crear prompt. Por favor intenta de nuevo.",
+            "createVersionFailed": "Error al crear versión. Por favor intenta de nuevo.",
+            "invalidExtension": "Extensión de archivo inválida: {{ext}}. Permitido: {{allowed}}"
+        }
+    },
+    "tags": {
+        "placeholder": "Seleccionar o crear etiquetas...",
+        "create": "Crear etiqueta \"{{tag}}\"",
+        "noMatch": "No se encontraron etiquetas coincidentes."
+    },
+    "diff": {
+        "title": "Comparar Versiones",
+        "added": "Añadido",
+        "removed": "Eliminado",
+        "close": "Cerrar Comparación"
+    },
+    "detail": {
+        "breadcrumbs": {
+            "collections": "Colecciones"
+        },
+        "actions": {
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "copy": "Copiar Prompt",
+            "copied": "¡Copiado!",
+            "codeView": "Vista de Código",
+            "addToFavorites": "Añadir a favoritos",
+            "removeFromFavorites": "Quitar de favoritos",
+            "confirmDelete": "¿Eliminar?",
+            "yes": "Sí",
+            "no": "No",
+            "compare": "Comparar v{{v1}} con v{{v2}}",
+            "download": "Archivo Resultado",
+            "maximize": "Maximizar",
+            "done": "Listo",
+            "confirmRestore": "¿Estás seguro de que deseas restaurar esta versión? Esto creará una nueva versión con el mismo contenido.",
+            "restoreSuccess": "Versión restaurada con éxito."
+        },
+        "labels": {
+            "description": "Descripción",
+            "promptContent": "Contenido del Prompt",
+            "collections": "Colecciones",
+            "changelog": "Registro de Cambios",
+            "variables": "Definiciones de Variable",
+            "fillVariables": "Llenar Variables",
+            "history": "Historial de Versiones",
+            "results": "Resultados",
+            "textResult": "Resultado de Texto",
+            "imageResult": "Resultados de Imagen/Archivo",
+            "attachments": "Adjuntos",
+            "source": "Fuente",
+            "shortPrompt": "Prompt Corto",
+            "usageExample": "Ejemplo de Uso",
+            "editingVariable": "Editando Variable"
+        },
+        "meta": {
+            "by": "Por",
+            "ago": "hace {{time}}",
+            "version": "Versión",
+            "unknown": "Desconocido"
+        },
+        "placeholders": {
+            "noDescription": "Sin descripción proporcionada.",
+            "noVersions": "No se encontraron versiones.",
+            "valueFor": "Valor para {{name}}",
+            "enterLargeText": "Ingrese texto regular o largo aquí..."
+        },
+        "errors": {
+            "deleteFailed": "Error al eliminar prompt.",
+            "restoreFailed": "Error al restaurar versión."
+        }
+    },
+    "settings": {
+        "title": "Configuración",
+        "autoBackupConfig": "Configuración de Auto-Respaldo",
+        "enableAutoBackup": "Habilitar Auto-Respaldo",
+        "backupPath": "Ruta del Directorio de Respaldo",
+        "backupPathDesc": "Ruta absoluta a la carpeta donde se guardarán los respaldos.",
+        "backupFrequency": "Frecuencia de Respaldo",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual",
+        "backupNow": "Respaldar Ahora (Descargar JSON)",
+        "backupNowDesc": "Descargar inmediatamente un respaldo completo de tu biblioteca actual.",
+        "saveSettings": "Guardar Configuración",
+        "saving": "Guardando...",
+        "dataMaintenance": "Mantenimiento de Datos",
+        "cleanupTags": "Limpiar Etiquetas",
+        "cleanupTagsDesc": "Eliminar todas las etiquetas que no se usan actualmente en ningún prompt.",
+        "deleteUnusedTags": "Eliminar Etiquetas Sin Uso",
+        "dangerZone": "Zona de Peligro",
+        "restoreData": "Restaurar Datos",
+        "restoreDataDesc": "Restaurar tu base de datos desde el último auto-respaldo encontrado en tu carpeta de respaldos.",
+        "warningOverwrite": "Advertencia: Esto sobrescribirá los datos actuales.",
+        "restoreButton": "Restaurar desde Último Respaldo",
+        "resetDatabase": "Reiniciar Base de Datos",
+        "resetDatabaseDesc": "Eliminar permanentemente todos los prompts, colecciones y etiquetas. Esta acción no se puede deshacer.",
+        "dropAllContent": "Borrar Todo el Contenido",
+        "confirmDelete": "Confirmar: ELIMINAR TODO",
+        "cancel": "Cancelar",
+        "userVisibility": "Visibilidad de Usuario",
+        "userVisibilityDesc": "Marca los usuarios cuyos prompts quieres ver en tu panel.",
+        "checkAll": "Marcar Todos",
+        "uncheckAll": "Desmarcar Todos",
+        "you": "(Tú)",
+        "general": "Configuración General",
+        "settingsSaved": "Configuración guardada exitosamente.",
+        "settingsFailed": "Error al guardar configuración.",
+        "cleanupComplete": "Limpieza completa. Se eliminaron {{count}} etiquetas sin uso.",
+        "cleanupFailed": "Limpieza fallida: {{error}}",
+        "restoreFailed": "Restauración fallida: {{error}}",
+        "dbCleared": "Base de datos limpiada exitosamente."
+    },
+    "importExport": {
+        "title": "Importar / Exportar",
+        "aiScraperGuide": "Guía de Web Scraper IA",
+        "aiScraperDesc": "Aprende cómo usar IA (ChatGPT, Claude, Gemini) para extraer prompts de cualquier sitio web e importarlos aquí.",
+        "viewGuide": "Ver Guía de Scraping",
+        "exportPrompts": "Exportar Prompts",
+        "exportDesc": "Descarga todos tus prompts como un archivo JSON. Esto incluye todos los metadatos y la última versión de cada prompt.",
+        "downloadJson": "Descargar JSON",
+        "importStandard": "Importar Prompts (Estándar)",
+        "importUnifiedDesc": "Sube un archivo JSON.",
+        "importStandardDesc": "Sube un archivo JSON exportado desde esta aplicación.",
+        "selectJson": "Seleccionar Archivo JSON",
+        "importButton": "Importar Prompts",
+        "importPromptCat": "Importar desde PromptCat",
+        "importPromptCatDesc": "Importar prompts desde un archivo de exportación de PromptCat.",
+        "howToExportPromptCat": "Cómo exportar desde PromptCat:",
+        "promptCatStep1": "Abre tu instancia de PromptCat.",
+        "promptCatStep2": "Haz clic en Configuración (icono de engranaje).",
+        "promptCatStep3": "Haz clic en Export Data para descargar el archivo JSON.",
+        "importPromptCatButton": "Importar desde PromptCat",
+        "importLocal": "Importar Carpeta Local",
+        "importLocalDesc": "Importar recursivamente prompts desde una carpeta en tu disco duro. Las subcarpetas se convertirán en Colecciones. Los archivos de texto/Markdown se convertirán en Prompts.",
+        "absFolderPath": "Ruta Absoluta de Carpeta",
+        "absFolderDesc": "La aplicación debe tener permisos de lectura para esta carpeta.",
+        "targetCollection": "Colección Destino (Opcional)",
+        "rootCollection": "Raíz (Crear nueva Colección Raíz)",
+        "targetCollectionDesc": "Selecciona una colección para importar dentro. Si es \"Raíz\", se creará una nueva colección raíz con el nombre de la carpeta.",
+        "startLocalImport": "Iniciar Importación Local",
+        "importing": "Importando... esto puede tardar un momento",
+        "successImport": "¡Se importaron exitosamente {{count}} prompts!"
+    },
+    "help": {
+        "title": "Centro de Ayuda",
+        "subtitle": "Documentación v1.0",
+        "externalLinks": "Enlaces Externos",
+        "stillQuestions": "¿Aún tienes preguntas?",
+        "checkRepo": "Revisa el repositorio de GitHub para problemas o solicitudes de funciones.",
+        "visitRepo": "Visitar Repositorio",
+        "sections": {
+            "introduction": "Introducción",
+            "gettingStarted": "Comenzando",
+            "variables": "Variables y Sintaxis",
+            "collections": "Colecciones y estructura",
+            "aiScraping": "Guía de Web Scraping con IA",
+            "commandPalette": "Paleta de Comandos",
+            "visualDiff": "Comparación Visual de Versiones",
+            "versionHistory": "Historial de Versiones y Comparación",
+            "language": "Configuración de Idioma",
+            "userProfile": "Perfil de Usuario y Seguridad",
+            "faq": "Preguntas Frecuentes y Solución de Problemas"
+        },
+        "content": {
+            "intro": {
+                "welcome": "Bienvenido a <strong>PromptHive</strong>, tu santuario local-first para gestionar, probar y organizar prompts de LLM.",
+                "desc": "La ingeniería de prompts es un proceso iterativo. Almacenar prompts en archivos de texto o historiales de chat lleva al caos de versiones. PromptHive resuelve esto tratando los prompts como código—con <strong>control de versiones</strong>, <strong>variables</strong> y <strong>organización estructurada</strong>.",
+                "organizeTitle": "Organizar",
+                "organizeDesc": "Colecciones anidadas infinitas y etiquetas mantienen tu biblioteca limpia.",
+                "versionTitle": "Versión",
+                "versionDesc": "Nunca pierdas un buen prompt. Cada guardado crea una nueva entrada en el historial.",
+                "templatizeTitle": "Templatizar",
+                "templatizeDesc": "Usa variables como <code>{{topic}}</code> para crear plantillas reutilizables."
+            },
+            "gettingStarted": {
+                "tip": "No necesitas conexión a internet. PromptHive se ejecuta completamente local en tu máquina.",
+                "step1Title": "1. Creando tu primer Prompt",
+                "step1Li1": "Haz clic en <strong>Nuevo Prompt</strong> en la barra lateral.",
+                "step1Li2": "Dale un título claro (ej., <em>\"Generador de Blog SEO\"</em>).",
+                "step1Li3": "(Opcional) Asígnalo a una Colección o añade Etiquetas.",
+                "step1Li4": "Escribe tu prompt en el editor.",
+                "step1Li5": "Haz clic en <strong>Crear Prompt</strong>.",
+                "step2Title": "2. Ejecutando una Prueba",
+                "step2Desc": "Una vez creado, puedes \"Ejecutar\" un prompt manualmente para documentar su salida.",
+                "step2Li1": "Abre un prompt.",
+                "step2Li2": "Llena cualquier Variable (si está definida).",
+                "step2Li3": "Pega la salida de ChatGPT/Claude en el campo <strong>\"Texto Resultado\"</strong>.",
+                "step2Li4": "Adjunta capturas de pantalla si es necesario.",
+                "step2Li5": "Haz clic en <strong>Guardar Nueva Versión</strong>."
+            },
+            "variables": {
+                "desc": "Las variables hacen tus prompts dinámicos. En lugar de reescribir \"Escribe un blog sobre Perros\", puedes escribir \"Escribe un blog sobre <code>{{topic}}</code>\".",
+                "syntaxTitle": "Sintaxis",
+                "good": "// Bien",
+                "goodEx1": "Actúa como un experto <span class=\"text-blue-600 font-bold\">{{role}}</span>.",
+                "goodEx2": "Escribe un <span class=\"text-blue-600 font-bold\">{{content_type}}</span> sobre...",
+                "bad": "// Mal (Espacios dentro de las llaves están bien, pero mantenlo simple)",
+                "badEx": "Actúa como experto { role }.",
+                "autoDetectTitle": "Detección Automática",
+                "autoDetectDesc": "Cuando escribes <code>{{variable}}</code> en el editor, haz clic en el botón <strong>\"Auto Añadir Variables\"</strong>. ¡La app escaneará automáticamente tu texto y creará campos para ellas!"
+            },
+            "collections": {
+                "desc": "PromptHive usa una <strong>estructura de carpetas recursiva</strong>. Esto significa:",
+                "li1": "Una Colección puede contener <strong>Prompts</strong>.",
+                "li2": "Una Colección puede contener <strong>otras Colecciones</strong> (Sub-carpetas).",
+                "li3": "No hay límite para la profundidad de anidamiento.",
+                "dragDropTitle": "Arrastrar y Soltar",
+                "dragDropDesc": "Puedes arrastrar colecciones en la barra lateral para reorganizarlas. Suelta una colección sobre otra para hacerla hija. Suéltala sobre el encabezado \"Colecciones\" para hacerla carpeta raíz."
+            },
+            "aiScraping": {
+                "desc1": "Puedes importar fácilmente prompts de cualquier sitio web (blogs, artículos, etc.) usando un LLM como ChatGPT, Claude o Gemini como un scraper \"intermediario\".",
+                "desc2": "Simplemente copia la URL de la página que quieres extraer, dásela a la IA junto con la <strong>Instrucción del Sistema</strong> abajo, y luego importa el archivo JSON generado aquí.",
+                "systemPromptTitle": "Prompt del Sistema para Scraping"
+            },
+            "commandPalette": {
+                "desc": "Navega por PromptHive eficientemente sin quitar las manos del teclado usando la <strong>Paleta de Comandos</strong> global.",
+                "shortcut": "Atajo",
+                "whatCanDo": "¿Qué puedes hacer?",
+                "li1": "<strong>Navegar</strong> instantáneamente a Inicio, Configuración o Ayuda.",
+                "li2": "<strong>Crear</strong> un nuevo Prompt o Colección.",
+                "li3": "<strong>Alternar</strong> modo Claro/Oscuro.",
+                "li4": "<strong>Buscar</strong> acciones (ej., escribe \"Tema\")."
+            },
+            "visualDiff": {
+                "desc": "La ingeniería de prompts involucra muchos pequeños ajustes. PromptHive te permite <strong>Comparar Visualmente</strong> dos versiones cualesquiera de un prompt para ver exactamente qué cambió.",
+                "howToTitle": "Cómo Comparar",
+                "li1": "Ve a la página de detalle de un Prompt.",
+                "li2": "Mira la lista de <strong>Historial de Versiones</strong> en el lado derecho.",
+                "li3": "Haz clic en el icono <span class=\"inline-flex items-center justify-center p-1 bg-muted rounded border border-border\">Comparar</span> en cualquier fila de versión (excepto la seleccionada actualmente).",
+                "li4": "Aparecerá un modal mostrando el <strong>diff</strong> entre la versión seleccionada y la versión clicada.",
+                "greenTitle": "Fondo Verde",
+                "greenDesc": "Indica texto que fue <strong>Añadido</strong> en la versión más nueva.",
+                "redTitle": "Fondo Rojo",
+                "redDesc": "Indica texto que fue <strong>Eliminado</strong> de la versión más antigua.",
+                "restoreTitle": "Restaurar Versiones Antiguas",
+                "restoreDesc": "Puedes restaurar cualquier versión anterior para que se convierta en la nueva versión actual. Haz clic en el icono 'Restaurar' (flecha circular) junto a una versión en la lista del historial. Esto crea una nueva copia de versión, preservando tu historial lineal.",
+                "tipTitle": "Consejo",
+                "tipDesc": "¡Usa esto para verificar si tu último \"ajuste\" realmente mejoró el prompt o solo movió palabras!"
+            },
+            "language": {
+                "desc": "PromptHive soporta múltiples idiomas. Puedes cambiar tu idioma preferido en cualquier momento.",
+                "li1": "Haz clic en tu <strong>Avatar de Usuario</strong> en la esquina inferior izquierda.",
+                "li2": "Selecciona la pestaña <strong>Preferencias</strong>.",
+                "li3": "Elige tu idioma del menú desplegable (ej., English, Nederlands, Français).",
+                "tip": "Tu preferencia de idioma se guarda en tu cuenta y persistirá entre sesiones."
+            },
+            "userProfile": {
+                "desc": "Gestiona tu identidad y configuración de seguridad directamente desde la aplicación.",
+                "accessTitle": "Accediendo a tu Perfil",
+                "accessDesc": "Haz clic en tu <strong>Avatar</strong> o <strong>Nombre de Usuario</strong> al fondo de la barra lateral. Esto abre tu diálogo de Perfil donde puedes:",
+                "li1": "<strong>Actualizar Avatar</strong>: Sube una foto de perfil personalizada (JPG/PNG).",
+                "li2": "<strong>Cambiar Contraseña</strong>: Actualiza tus credenciales de inicio de sesión de forma segura.",
+                "forgotTitle": "¿Olvidaste tu Contraseña?",
+                "forgotDesc": "Si estás bloqueado fuera, usa el enlace <strong>¿Olvidaste tu contraseña?</strong> en la pantalla de inicio de sesión. Puedes solicitar un enlace de restablecimiento a tu correo registrado."
+            },
+            "admin": {
+                "desc": "Si eres un administrador, tienes acceso a configuraciones adicionales en la sección 'Configuración de Admin' de la página de Configuración.",
+                "usersTitle": "Gestión de Usuarios",
+                "usersDesc": "Ver todos los usuarios registrados y gestionar su estado de administrador. Los <strong>Administradores</strong> pueden ver todos los prompts de todos los usuarios si así lo eligen, y pueden gestionar configuraciones de todo el sistema.",
+                "registrationTitle": "Control de Registro",
+                "registrationDesc": "Puedes <strong>desactivar el registro de nuevos usuarios</strong> para bloquear tu instancia de forma privada. Los usuarios existentes aún podrán iniciar sesión.",
+                "visibilityTitle": "Visibilidad de Usuario",
+                "visibilityDesc": "Controla qué prompts aparecen en tu panel. Puedes elegir ver solo tu propio trabajo, o ver el trabajo de otros usuarios en esta instancia."
+            },
+            "exporting": {
+                "desc": "Puedes exportar tus datos en varios formatos para respaldo o compartir.",
+                "markdownTitle": "Exportación Markdown",
+                "markdownDesc": "Exporta prompts individuales como archivos Markdown. Útil para compartir.",
+                "jsonTitle": "Exportación JSON",
+                "jsonDesc": "Exporta toda tu biblioteca como un archivo JSON. Úsalo para respaldos."
+            },
+            "faq": {
+                "q1": "P: ¿Dónde se guardan mis datos?",
+                "a1": "Todo se guarda en una base de datos SQLite local (`dev.db`) en tu carpeta de proyecto. Las imágenes se guardan en `public/uploads`.",
+                "q2": "P: ¿Qué pasa si elimino una colección padre?",
+                "a2": "Tienes dos opciones: <strong>Eliminar Todo</strong> (que borra todos los hijos y prompts dentro) o <strong>Eliminar Solo Colección</strong> (que mueve todos los hijos/prompts un nivel arriba o a la Raíz).",
+                "q3": "P: ¿Puedo compartir mis prompts?",
+                "a3": "Actualmente, PromptHive es una herramienta local de un solo usuario. Sin embargo, puedes usar la función <strong>Importar/Exportar</strong> en la barra lateral para compartir archivos JSON con colegas."
+            }
+        }
+    }
+}

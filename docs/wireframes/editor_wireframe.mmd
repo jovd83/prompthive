@@ -1,0 +1,44 @@
+graph TD
+    A[Sidebar] --> B(Create/Edit Form)
+    
+    subgraph Form [Create/Edit Prompt Form]
+    direction TB
+    
+    F1[Basic Info]
+    F1 --> F1a[Title *]
+    F1 --> F1b[Collection Dropdown]
+    F1 --> F1c[Tags Multi-Select]
+    F1 --> F1d[Description]
+    
+    F2[Main Content]
+    F2 --> F2a[Type: Content Editor]
+    F2 --> F2b[Toggle: Code View]
+    
+    F3[Details]
+    F3 --> F3a[Short Prompt]
+    F3 --> F3b[Usage Example]
+    F3 --> F3c[Resource URL]
+    
+    F4[Variables]
+    F4 --> F4a[Auto-Detect Button]
+    F4 --> F4b["Variable List: {{var}} or [[var]]"]
+    
+    F5[Outputs]
+    F5 --> F5a[Text Result]
+    F5 --> F5b[Result Files Upload]
+    
+    F6[Attachments]
+    F6 --> F6a[File Upload]
+    
+    F7[Actions]
+    F7 --> F7a[Cancel]
+    F7 --> F7b[Create/Save]
+    end
+
+    classDef container fill:#f9fafb,stroke:#e5e7eb,color:#1f2937,rx:8,ry:8;
+    classDef output fill:#eff6ff,stroke:#3b82f6,color:#1e40af;
+    classDef action fill:#10b981,stroke:#059669,color:#ffffff,rx:4,ry:4;
+
+    class Form container;
+    class F5a,F5b output;
+    class F7b action;

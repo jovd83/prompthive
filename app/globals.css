@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Actually, we are NOT using Tailwind, but create-next-app might have left these if I didn't remove them. 
+   I will overwrite with Vanilla CSS variables. */
+
+:root {
+  /* HSL Color Palette - Premium Feel */
+  --primary-hue: 250;
+  /* Deep Purple/Blue */
+  --primary-sat: 80%;
+  --primary-light: 60%;
+
+  --bg-light: 0 0% 98%;
+  --bg-dark: 240 10% 10%;
+
+  --surface-light: 0 0% 100%;
+  --surface-dark: 240 10% 14%;
+
+  --text-light: 240 10% 10%;
+  --text-dark: 0 0% 95%;
+
+  --border-light: 240 5% 90%;
+  --border-dark: 240 5% 20%;
+
+  --muted-light: 240 5% 45%;
+  --muted-dark: 240 5% 65%;
+
+  /* Light Mode Defaults */
+  --background: hsl(var(--bg-light));
+  --surface: hsl(var(--surface-light));
+  --foreground: hsl(var(--text-light));
+  --muted-foreground: hsl(var(--muted-light));
+  --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
+  --primary-foreground: hsl(0, 0%, 100%);
+  --border: hsl(var(--border-light));
+
+  --radius: 0.75rem;
+  --transition: 0.2s ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: hsl(var(--bg-dark));
+    --surface: hsl(var(--surface-dark));
+    --foreground: hsl(var(--text-dark));
+    --muted-foreground: hsl(var(--muted-dark));
+    --border: hsl(var(--border-dark));
+  }
+}
+
+.dark {
+  --background: hsl(var(--bg-dark));
+  --surface: hsl(var(--surface-dark));
+  --foreground: hsl(var(--text-dark));
+  --muted-foreground: hsl(var(--muted-dark));
+  --border: hsl(var(--border-dark));
+}
+
+.light {
+  --background: hsl(var(--bg-light));
+  --surface: hsl(var(--surface-light));
+  --foreground: hsl(var(--text-light));
+  --muted-foreground: hsl(var(--muted-light));
+  --border: hsl(var(--border-light));
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+  transition: background-color var(--transition), color var(--transition);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Custom Component Classes */
+@layer components {
+  .card {
+    @apply bg-surface border border-border rounded-lg p-6 shadow-sm transition-all duration-200;
+  }
+
+  .card:hover {
+    @apply -translate-y-0.5 shadow-md;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold cursor-pointer transition-all duration-200 gap-2 border-none;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:brightness-110;
+  }
+
+  .input {
+    @apply w-full p-3 rounded-lg border border-border bg-surface text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
+  }
+}

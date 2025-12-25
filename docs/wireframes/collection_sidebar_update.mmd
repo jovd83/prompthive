@@ -1,0 +1,36 @@
+graph TD
+    subgraph Sidebar [Sidebar]
+        direction TB
+        
+        subgraph Header
+            Logo[PromptHive]
+            Collapse[<]
+        end
+        
+        subgraph Collections
+            CTitle[COLLECTIONS]
+            CSort[...]
+            CAdd[+]
+            CTree[> Marketing 5 <br/> v Social Media <br/> - Instagram <br/> - LinkedIn <br/> > Coding 12]
+            CUnassigned[Unassigned Prompts 3]
+        end
+        
+        subgraph Tags
+            TTitle[TAGS]
+            TSort[...]
+            TCloud[#seo #writing #code <br/> #email #blog]
+        end
+        
+        subgraph Footer
+            subgraph System [ > SYSTEM ]
+                Settings[Settings]
+                Help[Help]
+                Import[Import/Export]
+            end
+            Profile[User Profile]
+        end
+        
+        Header --- Collections --- Tags --- Footer
+    end
+    
+    style Sidebar fill:#f9fafb,stroke:#e5e7eb

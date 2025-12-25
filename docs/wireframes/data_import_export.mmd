@@ -1,0 +1,44 @@
+mockup ("Data Management")
+    element Grid {
+        type: "Grid"
+        columns: 2
+
+        element ScraperCard {
+            type: "Box"
+            element Title { content: "AI Scraper" icon: "Globe" }
+            element UrlInput { content: "[Input: URL to scrape...]" }
+            element ScrapeBtn { content: "[Scrape]" }
+            element ResultList { content: "[x] Prompt 1\n[ ] Prompt 2" }
+            element ImportBtn { content: "[Import Selected]" }
+        }
+
+        element ExportCard {
+            type: "Box"
+            element Title { content: "Export Data" icon: "Download" }
+            element Desc { content: "Download your entire library as JSON." }
+            element DownloadBtn { content: "[Download JSON]" }
+        }
+
+        element StandardImport {
+            type: "Box"
+            element Title { content: "Standard Import" icon: "Upload" }
+            element FileInput { content: "[Choose File .json]" }
+            element ImportBtn { content: "[Import]" }
+        }
+
+        element PromptCatImport {
+            type: "Box"
+            element Title { content: "PromptCat Import" icon: "Cat" }
+            element Alert { content: "Requires specific format." style: "Warning" }
+            element FileInput { content: "[Choose File .json]" }
+            element ImportBtn { content: "[Import]" }
+        }
+
+        element LocalImport {
+            type: "Box"
+            element Title { content: "Local Folder Import" icon: "Folder" }
+            element PathInput { content: "[Input: Absolute Path]" }
+            element CollectionSelect { content: "[Dropdown: Target Collection]" }
+            element ImportBtn { content: "[Start Import]" }
+        }
+    }

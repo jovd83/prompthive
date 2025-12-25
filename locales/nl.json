@@ -1,0 +1,531 @@
+{
+    "common": {
+        "dashboard": "Dashboard",
+        "favorites": "Favorieten",
+        "newPrompt": "Nieuwe Prompt",
+        "workflows": "Workflows",
+        "collections": "Collecties",
+        "tags": "Tags",
+        "settings": "Instellingen",
+        "help": "Hulp & Handleiding",
+        "importExport": "Import / Export",
+        "search": "Cmd Palet",
+        "noCollections": "Geen collecties",
+        "noTags": "Nog geen tags",
+        "userProfile": "Gebruikersprofiel",
+        "avatar": "Avatar",
+        "currentPassword": "Huidig Wachtwoord",
+        "newPassword": "Nieuw Wachtwoord",
+        "adminAccess": "Admin Toegang",
+        "adminActive": "Actief",
+        "adminDesc": "Schakel admin functies in.",
+        "adminUser": "Je bent een Beheerder.",
+        "clickToUpload": "Klik om nieuwe avatar te uploaden",
+        "enterAdminCode": "Voer Beheerderscode In",
+        "verify": "Verifiëren",
+        "security": "Beveiliging",
+        "preferences": "Voorkeuren",
+        "signOut": "Uitloggen",
+        "language": "Taal",
+        "save": "Opslaan",
+        "cancel": "Annuleren"
+    },
+    "languages": {
+        "en": "English",
+        "nl": "Nederlands",
+        "fr": "Français",
+        "es": "Español",
+        "it": "Italiano",
+        "de": "Deutsch",
+        "sv": "Svenska"
+    },
+    "favorites": {
+        "title": "Mijn Favorieten",
+        "searchPlaceholder": "Zoek favorieten...",
+        "sort": {
+            "newest": "Nieuwste eerst",
+            "oldest": "Oudste eerst",
+            "az": "A-Z",
+            "za": "Z-A",
+            "button": "Sorteer",
+            "clear": "Wis"
+        },
+        "empty": {
+            "title": "Nog geen favorieten",
+            "search": "Geen favorieten gevonden.",
+            "desc": "Je hebt nog geen favorieten toegevoegd.",
+            "action": "Klik op het hart-icoon op een prompt om deze hier op te slaan."
+        }
+    },
+    "admin": {
+        "title": "Admin Configuratie",
+        "registration": {
+            "title": "Schakel gebruikersregistratie in",
+            "desc": "Indien uitgeschakeld, kunnen nieuwe gebruikers zich niet aanmelden. Bestaande gebruikers kunnen nog steeds inloggen."
+        },
+        "users": {
+            "title": "Gebruikersbeheer",
+            "desc": "Beheer bestaande gebruikers en hun rollen.",
+            "addUser": "Add User",
+            "searchPlaceholder": "Search users...",
+            "table": {
+                "user": "User",
+                "role": "Role",
+                "actions": "Actions",
+                "noUsers": "No users found."
+            },
+            "add": {
+                "title": "Add New User",
+                "username": "Username",
+                "email": "Email",
+                "password": "Password",
+                "role": "Role",
+                "cancel": "Cancel",
+                "create": "Create User",
+                "error": "Failed to create user"
+            },
+            "roleToggleTitle": "Click to toggle role"
+        },
+        "save": "Admin instellingen opslaan",
+        "saving": "Opslaan...",
+        "success": "Admin instellingen succesvol bijgewerkt",
+        "error": "Kon admin instellingen niet bijwerken"
+    },
+    "commandPalette": {
+        "placeholder": "Typ een commando of zoek...",
+        "actions": {
+            "home": "Home",
+            "settings": "Instellingen",
+            "help": "Helpcentrum",
+            "createPrompt": "Nieuwe Prompt Maken",
+            "createCollection": "Collectie Maken",
+            "toggleTheme": "Thema Wisselen"
+        },
+        "sections": {
+            "navigation": "Navigatie",
+            "actions": "Acties",
+            "preferences": "Voorkeuren"
+        }
+    },
+    "collections": {
+        "title": "Collecties",
+        "newCollection": "Nieuwe Collectie",
+        "createTitle": "Nieuwe Collectie Maken",
+        "noCollections": "Je hebt nog geen collecties aangemaakt.",
+        "createFirst": "Maak je eerste collectie",
+        "promptsCount": "{{count}} prompts",
+        "parent": "Bovenliggende Collectie",
+        "root": "Root (Geen Bovenliggende)",
+        "labelTitle": "Titel",
+        "placeholderTitle": "Mijn Favorieten",
+        "description": "Beschrijving (Optioneel)",
+        "placeholderDesc": "Wat zit er in deze collectie?",
+        "createButton": "Collectie Maken",
+        "creating": "Aanmaken..."
+    },
+    "workflows": {
+        "title": "Workflows",
+        "subtitle": "Koppel prompts aan elkaar voor krachtige automatiseringen.",
+        "new": "Nieuwe Workflow",
+        "create": "Maak Workflow",
+        "empty": {
+            "title": "Nog geen workflows",
+            "desc": "Maak je eerste prompt-keten om complexe taken te automatiseren."
+        },
+        "beta": "(BETA - Niet getest)"
+    },
+    "prompts": {
+        "dashboard": "Dashboard",
+        "createTitle": "Nieuwe Prompt Maken",
+        "editTitle": "Prompt Bewerken: {{title}}",
+        "newPrompt": "Nieuwe Prompt",
+        "searchResults": "Zoekresultaten",
+        "searchTitle": "Zoeken: \"{{query}}\"",
+        "noResults": "Geen prompts gevonden die aan je criteria voldoen.",
+        "createFirst": "Maak je eerste prompt",
+        "favorites": "Favorieten",
+        "recentlyUsed": "Recent door mij gebruikt",
+        "newlyCreated": "Nieuw Aangemaakt",
+        "mostViewed": "Meest Bekeken",
+        "viewAll": "Bekijk alles",
+        "deletedCollection": "Collectie \"{{name}}\" is verwijderd.",
+        "importedCount": "Succesvol {{count}} prompts geïmporteerd.",
+        "deletedPrompt": "Prompt \"{{name}}\" is verwijderd.",
+        "noContent": "Geen inhoud beschikbaar",
+        "removeFromFavorites": "Verwijder uit favorieten",
+        "addToFavorites": "Toevoegen aan favorieten",
+        "copyContent": "Kopieer prompt inhoud",
+        "resultImage": "Resultaat"
+    },
+    "advancedSearch": {
+        "placeholder": "Zoek prompts...",
+        "tags": "Tags (gescheiden door komma)",
+        "creator": "E-mail van maker",
+        "clear": "Wissen",
+        "apply": "Filters Toepassen"
+    },
+    "sortControls": {
+        "date": "Datum",
+        "name": "Naam",
+        "usage": "Gebruik"
+    },
+    "form": {
+        "sections": {
+            "basicInfo": "Basisinformatie",
+            "metadata": "Metadata & Organisatie",
+            "versionInfo": "Versie Info (v{{v}})",
+            "promptContent": "Prompt Inhoud",
+            "shortPrompt": "Korte Prompt (Optioneel)",
+            "usageExample": "Gebruiksvoorbeeld (Optioneel)",
+            "variables": "Variabele Definities (Optioneel)",
+            "results": "Resultaten (Optioneel)",
+            "attachments": "Bijlagen (Optioneel)",
+            "source": "Bron (Optioneel)"
+        },
+        "labels": {
+            "title": "Titel",
+            "collection": "Collectie",
+            "none": "Geen",
+            "changelog": "Changelog",
+            "noChange": "Geen Wijziging / Huidig: {{current}}",
+            "noCollection": "Geen Collectie",
+            "keep": "BEHOUD",
+            "legacy": "(OUDERWETS)",
+            "new": "NIEUW",
+            "manageFiles": "Beheer Bestanden",
+            "tags": "Tags",
+            "description": "Beschrijving",
+            "variableName": "Variabele Naam",
+            "variableDesc": "Beschrijving",
+            "textualResult": "Tekstueel Resultaat",
+            "resultFiles": "Resultaat Bestanden / Afbeeldingen (Onbeperkt)",
+            "uploadFiles": "Bestanden Uploaden (Onbeperkt)",
+            "resource": "Bron URL of Citaat"
+        },
+        "buttons": {
+            "codeView": "Code Weergave",
+            "addVariable": "Variabele Definitie Toevoegen",
+            "autoAddVariables": "Auto Variabelen Toevoegen",
+            "addResultFile": "Resultaat Bestand Toevoegen",
+            "addAttachment": "Bijlage Toevoegen",
+            "createPrompt": "Prompt Maken",
+            "saveNewVersion": "Nieuwe Versie Opslaan",
+            "creating": "Aanmaken...",
+            "saveChanges": "Wijzigingen Opslaan",
+            "saving": "Opslaan..."
+        },
+        "placeholders": {
+            "title": "bijv. SEO Blog Post Generator",
+            "description": "Korte beschrijving van wat deze prompt doet...",
+            "changelog": "Wat is er veranderd in deze versie?",
+            "content": "Je bent een expert copywriter...",
+            "shortContent": "Korte versie van de prompt...",
+            "usage": "Voorbeeld input/output...",
+            "variableDesc": "Beschrijving",
+            "resultText": "Plak de output van de prompt hier...",
+            "resource": "https://example.com/bron-artikel"
+        },
+        "hints": {
+            "variables": "Definieer de variabelen die in je prompt worden gebruikt (bijv. <code>{{topic}}</code>)."
+        },
+        "errors": {
+            "createFailed": "Kon prompt niet maken. Probeer het opnieuw.",
+            "createVersionFailed": "Kon versie niet maken. Probeer het opnieuw.",
+            "invalidExtension": "Ongeldige bestandsextensie: {{ext}}. Toegestaan: {{allowed}}"
+        }
+    },
+    "tags": {
+        "placeholder": "Selecteer of maak tags...",
+        "create": "Maak tag \"{{tag}}\"",
+        "noMatch": "Geen overeenkomende tags gevonden."
+    },
+    "diff": {
+        "title": "Versies Vergelijken",
+        "added": "Toegevoegd",
+        "removed": "Verwijderd",
+        "close": "Sluit Vergelijking"
+    },
+    "detail": {
+        "breadcrumbs": {
+            "collections": "Collecties"
+        },
+        "actions": {
+            "edit": "Bewerken",
+            "delete": "Verwijderen",
+            "copy": "Kopieer Prompt",
+            "copied": "Gekopieerd!",
+            "codeView": "Code Weergave",
+            "addToFavorites": "Toevoegen aan favorieten",
+            "removeFromFavorites": "Verwijder uit favorieten",
+            "confirmDelete": "Verwijderen?",
+            "yes": "Ja",
+            "no": "Nee",
+            "compare": "Vergelijk v{{v1}} met v{{v2}}",
+            "download": "Resultaat Bestand",
+            "maximize": "Maximaliseren",
+            "done": "Klaar",
+            "confirmRestore": "Weet je zeker dat je deze versie wilt herstellen? Dit maakt een nieuwe versie aan met dezelfde inhoud.",
+            "restoreSuccess": "Versie succesvol hersteld."
+        },
+        "labels": {
+            "description": "Beschrijving",
+            "promptContent": "Prompt Inhoud",
+            "collections": "Collecties",
+            "changelog": "Wijzigingslog",
+            "variables": "Variabele Definities",
+            "fillVariables": "Vul Variabelen",
+            "history": "Versiegeschiedenis",
+            "results": "Resultaten",
+            "textResult": "Tekst Resultaat",
+            "imageResult": "Afbeelding / Bestand Resultaten",
+            "attachments": "Bijlagen",
+            "source": "Bron",
+            "shortPrompt": "Korte Prompt",
+            "usageExample": "Gebruiksvoorbeeld",
+            "editingVariable": "Variabele bewerken"
+        },
+        "meta": {
+            "by": "Door",
+            "ago": "{{time}} geleden",
+            "version": "Versie",
+            "unknown": "Onbekend"
+        },
+        "placeholders": {
+            "noDescription": "Geen beschrijving gegeven.",
+            "noVersions": "Geen versies gevonden.",
+            "valueFor": "Waarde voor {{name}}",
+            "enterLargeText": "Voer hier korte of lange tekst in..."
+        },
+        "errors": {
+            "deleteFailed": "Kon prompt niet verwijderen.",
+            "restoreFailed": "Kon versie niet herstellen."
+        }
+    },
+    "list": {
+        "copy": "Kopiëren",
+        "copied": "Gekopieerd",
+        "views": "Weergaven",
+        "copies": "Kopieën",
+        "updatedAgo": "Bijgewerkt {{time}} geleden",
+        "by": "Door",
+        "noTags": "Geen tags",
+        "promptPreview": "Prompt Voorbeeld",
+        "sort": {
+            "az": "A - Z",
+            "za": "Z - A",
+            "newest": "Nieuwste Eerst",
+            "oldest": "Oudste Eerst",
+            "mostItems": "Meeste Items"
+        }
+    },
+    "settings": {
+        "title": "Instellingen",
+        "autoBackupConfig": "Auto-Backup Configuratie",
+        "enableAutoBackup": "Schakel Auto-Backup in",
+        "backupPath": "Backup Map Pad",
+        "backupPathDesc": "Absoluut pad naar de map waar backups worden opgeslagen.",
+        "backupFrequency": "Backup Frequentie",
+        "daily": "Dagelijks",
+        "weekly": "Wekelijks",
+        "monthly": "Maandelijks",
+        "backupNow": "Nu Backuppen (Download JSON)",
+        "backupNowDesc": "Download direct een volledige backup van je huidige bibliotheek.",
+        "saveSettings": "Instellingen Opslaan",
+        "saving": "Opslaan...",
+        "dataMaintenance": "Gegevensonderhoud",
+        "cleanupTags": "Tags Opschonen",
+        "cleanupTagsDesc": "Verwijder alle tags die momenteel door geen enkele prompt worden gebruikt.",
+        "deleteUnusedTags": "Verwijder Ongebruikte Tags",
+        "dangerZone": "Gevarenzone",
+        "restoreData": "Gegevens Herstellen",
+        "restoreDataDesc": "Herstel je database vanuit de laatste auto-backup in je geconfigureerde backup map.",
+        "warningOverwrite": "Waarschuwing: Dit overschrijft de huidige gegevens.",
+        "restoreButton": "Herstel van Laatste Backup",
+        "resetDatabase": "Database Resetten",
+        "resetDatabaseDesc": "Verwijder permanent alle prompts, collecties en tags. Deze actie kan niet ongedaan worden gemaakt.",
+        "dropAllContent": "Verwijder Alle Inhoud",
+        "confirmDelete": "Bevestig: VERWIJDER ALLES",
+        "cancel": "Annuleren",
+        "userVisibility": "Gebruikerszichtbaarheid",
+        "userVisibilityDesc": "Vink de gebruikers aan van wie je prompts wilt zien in je dashboard.",
+        "checkAll": "Alles Aanvinken",
+        "uncheckAll": "Alles Uitvinken",
+        "you": "(Jij)",
+        "general": "Algemene Instellingen",
+        "settingsSaved": "Instellingen succesvol opgeslagen.",
+        "settingsFailed": "Opslaan van instellingen mislukt.",
+        "cleanupComplete": "Opschonen voltooid. {{count}} ongebruikte tags verwijderd.",
+        "cleanupFailed": "Opschonen mislukt: {{error}}",
+        "restoreFailed": "Herstel mislukt: {{error}}",
+        "dbCleared": "Database succesvol gewist."
+    },
+    "importExport": {
+        "title": "Import / Export",
+        "aiScraperGuide": "AI Web Scraper Gids",
+        "aiScraperDesc": "Leer hoe je AI (ChatGPT, Claude, Gemini) gebruikt om prompts van elke website te scrapen en hier te importeren.",
+        "viewGuide": "Bekijk Scraping Gids",
+        "exportPrompts": "Exporteer Prompts",
+        "exportDesc": "Download al je prompts als een JSON-bestand. Dit bevat alle metadata en de laatste versie van elke prompt.",
+        "downloadJson": "Download JSON",
+        "importStandard": "Importeer Prompts (Standaard)",
+        "importUnifiedDesc": "Upload een JSON-bestand.",
+        "importStandardDesc": "Upload een JSON-bestand geëxporteerd vanuit deze applicatie.",
+        "selectJson": "Selecteer JSON Bestand",
+        "importButton": "Importeer Prompts",
+        "importPromptCat": "Importeer van PromptCat",
+        "importPromptCatDesc": "Importeer prompts vanuit een PromptCat export bestand.",
+        "howToExportPromptCat": "Hoe te exporteren van PromptCat:",
+        "promptCatStep1": "Open je PromptCat instantie.",
+        "promptCatStep2": "Klik op de Instellingen (tandwiel icoon).",
+        "promptCatStep3": "Klik op Export Data om het JSON-bestand te downloaden.",
+        "importPromptCatButton": "Importeer van PromptCat",
+        "importLocal": "Importeer Lokale Map",
+        "importLocalDesc": "Importeer recursief prompts uit een map op je server/computer harde schijf. Submappen worden Collecties. Tekst/Markdown bestanden worden Prompts.",
+        "absFolderPath": "Absoluut Map Pad",
+        "absFolderDesc": "De applicatie moet leesrechten hebben voor deze map.",
+        "targetCollection": "Doel Collectie (Optioneel)",
+        "rootCollection": "Root (Maak nieuwe Root Collectie)",
+        "targetCollectionDesc": "Selecteer een collectie om in te importeren. Indien \"Root\", wordt een nieuwe root collectie gemaakt met de mapnaam.",
+        "startLocalImport": "Start Lokale Import",
+        "importing": "Importeren... dit kan even duren",
+        "successImport": "{{count}} prompts succesvol geïmporteerd!"
+    },
+    "help": {
+        "title": "Helpcentrum",
+        "subtitle": "Documentatie v1.0",
+        "externalLinks": "Externe Links",
+        "stillQuestions": "Nog vragen?",
+        "checkRepo": "Bekijk de GitHub repository voor problemen of functieverzoeken.",
+        "visitRepo": "Bezoek Repository",
+        "sections": {
+            "introduction": "Introductie",
+            "gettingStarted": "Aan de slag",
+            "variables": "Variabelen & Syntaxis",
+            "collections": "Collecties & structuur",
+            "aiScraping": "AI Web Scraping Gids",
+            "commandPalette": "Commando Palet",
+            "visualDiff": "Visuele Versie Vergelijking",
+            "versionHistory": "Versiegeschiedenis & Vergelijking",
+            "language": "Taalinstellingen",
+            "userProfile": "Gebruikersprofiel & Beveiliging",
+            "faq": "Veelgestelde Vragen & Probleemoplossing"
+        },
+        "content": {
+            "intro": {
+                "welcome": "Welkom bij <strong>PromptHive</strong>, je lokale toevluchtsoord voor het beheren, testen en organiseren van LLM-prompts.",
+                "desc": "Prompt engineering is een iteratief proces. Prompts opslaan in tekstbestanden of chatgeschiedenis leidt tot versie-chaos. PromptHive lost dit op door prompts als code te behandelen—met <strong>versiebeheer</strong>, <strong>variabelen</strong> en <strong>gestructureerde organisatie</strong>.",
+                "organizeTitle": "Organiseren",
+                "organizeDesc": "Oneindig geneste collecties en tags houden je bibliotheek schoon.",
+                "versionTitle": "Versie",
+                "versionDesc": "Verlies nooit een goede prompt. Elke opslag creëert een nieuw geschiedenisitem.",
+                "templatizeTitle": "Sjablonen",
+                "templatizeDesc": "Gebruik variabelen zoals <code>{{topic}}</code> om herbruikbare sjablonen te maken."
+            },
+            "gettingStarted": {
+                "tip": "Je hebt geen internetverbinding nodig. PromptHive draait volledig lokaal op je machine.",
+                "step1Title": "1. Je eerste Prompt maken",
+                "step1Li1": "Klik op <strong>Nieuwe Prompt</strong> in de zijbalk.",
+                "step1Li2": "Geef het een duidelijke titel (bijv. <em>\"SEO Blog Post Generator\"</em>).",
+                "step1Li3": "(Optioneel) Wijs het toe aan een Collectie of voeg Tags toe.",
+                "step1Li4": "Schrijf je prompt in de editor.",
+                "step1Li5": "Klik op <strong>Maak Prompt</strong>.",
+                "step2Title": "2. Een test uitvoeren",
+                "step2Desc": "Eenmaal gemaakt, kun je een prompt handmatig \"Uitvoeren\" om de output te documenteren.",
+                "step2Li1": "Open een prompt.",
+                "step2Li2": "Vul eventuele Variabelen in (indien gedefinieerd).",
+                "step2Li3": "Plak de output van ChatGPT/Claude in het veld <strong>\"Resultaat Tekst\"</strong>.",
+                "step2Li4": "Voeg screenshots toe indien nodig.",
+                "step2Li5": "Klik op <strong>Nieuwe Versie Opslaan</strong>."
+            },
+            "variables": {
+                "desc": "Variabelen maken je prompts dynamisch. In plaats van \"Schrijf een blog over Honden\" te herschrijven, kun je schrijven \"Schrijf een blog over <code>{{topic}}</code>\".",
+                "syntaxTitle": "Syntaxis",
+                "good": "// Goed",
+                "goodEx1": "Ageer als een <span class=\"text-blue-600 font-bold\">{{role}}</span> expert.",
+                "goodEx2": "Schrijf een <span class=\"text-blue-600 font-bold\">{{content_type}}</span> over...",
+                "bad": "// Slecht (Spaties binnen haakjes zijn oké, maar houd het simpel)",
+                "badEx": "Ageer als een { role } expert.",
+                "autoDetectTitle": "Automatische Detectie",
+                "autoDetectDesc": "Wanneer je <code>{{variable}}</code> typt in de editor, klik op de knop <strong>\"Auto Variabelen Toevoegen\"</strong>. De app zal je tekst automatisch scannen en formuliervelden voor ze aanmaken!"
+            },
+            "collections": {
+                "desc": "PromptHive gebruikt een <strong>recursieve mappenstructuur</strong>. Dit betekent:",
+                "li1": "Een Collectie kan <strong>Prompts</strong> bevatten.",
+                "li2": "Een Collectie kan <strong>andere Collecties</strong> bevatten (Submappen).",
+                "li3": "Er is geen limiet aan de diepte van nesting.",
+                "dragDropTitle": "Slepen & Neerzetten",
+                "dragDropDesc": "Je kunt collecties in de zijbalk slepen om ze te reorganiseren. Laat een collectie vallen op een andere om het een kind te maken. Laat het vallen op de \"Collecties\" kop om het een root map te maken."
+            },
+            "aiScraping": {
+                "desc1": "Je kunt eenvoudig prompts importeren van elke website (blogs, artikelen, enz.) door een LLM zoals ChatGPT, Claude of Gemini als \"tussenpersoon\" scraper te gebruiken.",
+                "desc2": "Kopieer simpelweg de URL van de pagina die je wilt scrapen, geef deze aan de AI samen met de <strong>Systeem Instructie</strong> hieronder, en importeer vervolgens het gegenereerde JSON-bestand hier.",
+                "systemPromptTitle": "Systeem Prompt voor Scraping"
+            },
+            "commandPalette": {
+                "desc": "Navigeer efficiënt door PromptHive zonder je handen van het toetsenbord te halen met het globale <strong>Commando Palet</strong>.",
+                "shortcut": "Sneltoets",
+                "whatCanDo": "Wat kun je doen?",
+                "li1": "<strong>Navigeer</strong> direct naar Home, Instellingen of Help.",
+                "li2": "<strong>Maak</strong> een nieuwe Prompt of Collectie.",
+                "li3": "<strong>Wissel</strong> Licht/Donker modus.",
+                "li4": "<strong>Zoek</strong> naar acties (bijv. typ \"Thema\")."
+            },
+            "visualDiff": {
+                "desc": "Prompt engineering omvat veel kleine aanpassingen. PromptHive stelt je in staat om <strong>Visueel te Vergelijken</strong> tussen twee versies van een prompt om precies te zien wat er is veranderd.",
+                "howToTitle": "Hoe te Vergelijken",
+                "li1": "Navigeer naar de detailpagina van een Prompt.",
+                "li2": "Kijk naar de <strong>Versiegeschiedenis</strong> lijst aan de rechterkant.",
+                "li3": "Klik op het <span class=\"inline-flex items-center justify-center p-1 bg-muted rounded border border-border\">Vergelijk</span> icoon op een versierij (behalve de geselecteerde).",
+                "li4": "Een modaal venster verschijnt met het <strong>verschil</strong> tussen de geselecteerde versie en de aangeklikte versie.",
+                "greenTitle": "Groene Achtergrond",
+                "greenDesc": "Geeft tekst aan die is <strong>Toegevoegd</strong> in de nieuwere versie.",
+                "redTitle": "Rode Achtergrond",
+                "redDesc": "Geeft tekst aan die is <strong>Verwijderd</strong> uit de oudere versie.",
+                "restoreTitle": "Oude Versies Herstellen",
+                "restoreDesc": "Je kunt elke vorige versie herstellen om de nieuwe huidige versie te worden. Klik op het 'Herstel' icoon (cirkelpijl) naast een versie in de geschiedenislijst. Dit maakt een nieuwe versiekopie aan, waardoor je lineaire geschiedenis behouden blijft.",
+                "tipTitle": "Tip",
+                "tipDesc": "Gebruik dit om te verifiëren of je laatste \"aanpassing\" de prompt daadwerkelijk verbeterde of alleen woorden verplaatste!"
+            },
+            "language": {
+                "desc": "PromptHive ondersteunt meerdere talen. Je kunt je voorkeurstaal op elk moment wijzigen.",
+                "li1": "Klik op je <strong>Gebruikersavatar</strong> in de linkerbenedenhoek.",
+                "li2": "Selecteer het tabblad <strong>Voorkeuren</strong>.",
+                "li3": "Kies je taal uit het dropdownmenu (bijv. English, Nederlands, Français).",
+                "tip": "Je taalvoorkeur wordt opgeslagen in je account en blijft bewaard over sessies heen."
+            },
+            "userProfile": {
+                "desc": "Beheer je identiteit en beveiligingsinstellingen direct vanuit de applicatie.",
+                "accessTitle": "Toegang tot je Profiel",
+                "accessDesc": "Klik op je <strong>Avatar</strong> of <strong>Gebruikersnaam</strong> onderaan de zijbalk. Dit opent je Profiel dialoog waar je kunt:",
+                "li1": "<strong>Avatar Bijwerken</strong>: Upload een aangepaste profielfoto (JPG/PNG).",
+                "li2": "<strong>Wachtwoord Wijzigen</strong>: Werk je inloggegevens veilig bij.",
+                "forgotTitle": "Wachtwoord Vergeten?",
+                "forgotDesc": "Als je buitengesloten bent, gebruik de <strong>Wachtwoord Vergeten</strong> link op het inlogscherm. Je kunt een reset-link aanvragen op je geregistreerde e-mailadres."
+            },
+            "admin": {
+                "desc": "Als je een beheerder bent, heb je toegang tot extra instellingen in de sectie 'Admin Configuratie' van de Instellingen pagina.",
+                "usersTitle": "Gebruikersbeheer",
+                "usersDesc": "Bekijk alle geregistreerde gebruikers en beheer hun admin status. <strong>Beheerders</strong> kunnen alle prompts van alle gebruikers zien als ze dat kiezen, en kunnen systeem-brede instellingen beheren.",
+                "registrationTitle": "Registratie Controle",
+                "registrationDesc": "Je kunt <strong>nieuwe gebruikersregistratie uitschakelen</strong> om je instantie privé te houden. Bestaande gebruikers kunnen nog steeds inloggen.",
+                "visibilityTitle": "Gebruikerszichtbaarheid",
+                "visibilityDesc": "Beheer wiens prompts in je dashboard verschijnen. Je kunt ervoor kiezen om alleen je eigen werk te zien, of werk van andere gebruikers op deze instantie."
+            },
+            "exporting": {
+                "desc": "Je kunt je data in verschillende formaten exporteren voor backup of delen.",
+                "markdownTitle": "Markdown Export",
+                "markdownDesc": "Exporteer individuele prompts als Markdown bestanden. Handig om te delen.",
+                "jsonTitle": "JSON Export",
+                "jsonDesc": "Exporteer je hele bibliotheek als een JSON bestand. Gebruik dit voor backups."
+            },
+            "faq": {
+                "q1": "V: Waar wordt mijn data opgeslagen?",
+                "a1": "Alles wordt opgeslagen in een lokale SQLite database (`dev.db`) in je projectmap. Afbeeldingen worden opgeslagen in `public/uploads`.",
+                "q2": "V: Wat gebeurt er als ik een bovenliggende collectie verwijder?",
+                "a2": "Je hebt twee keuzes: <strong>Alles Verwijderen</strong> (wist alle kinderen en prompts daarbinnen) of <strong>Alleen Collectie Verwijderen</strong> (verplaatst alle kinderen/prompts naar het bovenliggende niveau of Root).",
+                "q3": "V: Kan ik mijn prompts delen?",
+                "a3": "Momenteel is PromptHive een lokale tool voor één gebruiker. Je kunt echter de <strong>Import/Export</strong> functie in de zijbalk gebruiken om JSON-bestanden met collega's te delen."
+            }
+        }
+    }
+}

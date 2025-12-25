@@ -1,0 +1,18 @@
+graph TD
+    User[User Browser] <-->|HTTP/HTTPS| Next[Next.js App Server];
+    
+    subgraph "Server Side (RSC)"
+        Next -->|Auth| NextAuth[NextAuth.js];
+        Next -->|Data Access| Prisma[Prisma ORM];
+        Prisma <-->|SQL| DB[(SQLite Database)];
+        Next -->|File Ops| FS[Local File Storage];
+    end
+    
+    subgraph "Client Side"
+        User -->|Interactions| Components[Client Components];
+        Components -->|Server Actions| Next;
+        Components -->|API/Hooks| Next;
+    end
+    
+    FS -.- NoteFS[Stores:<br/>- Uploaded Images<br/>- Attachments<br/>- Backups]
+    style NoteFS fill:#fff,stroke:#333,stroke-dasharray: 5 5

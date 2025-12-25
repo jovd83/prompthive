@@ -1,0 +1,55 @@
+{
+  "timestamp": "2025-12-08T09:23:03.338Z",
+  "userId": "cmiwxgfe20000r2dibchap159",
+  "collections": [],
+  "prompts": [
+    {
+      "id": "cmiwxxto00005o1wlu22hdfds",
+      "title": "test prompt",
+      "description": "",
+      "currentVersionId": "cmiwxxto10007o1wl6nd03sd0",
+      "createdById": "cmiwxgfe20000r2dibchap159",
+      "viewCount": 2,
+      "copyCount": 0,
+      "createdAt": "2025-12-08T09:20:15.217Z",
+      "updatedAt": "2025-12-08T09:20:18.467Z",
+      "versions": [
+        {
+          "id": "cmiwxxto10007o1wl6nd03sd0",
+          "promptId": "cmiwxxto00005o1wlu22hdfds",
+          "content": "efeefef",
+          "longContent": null,
+          "usageExample": null,
+          "variableDefinitions": "[]",
+          "model": null,
+          "resultImage": null,
+          "resultText": null,
+          "versionNumber": 1,
+          "changelog": null,
+          "createdById": "cmiwxgfe20000r2dibchap159",
+          "createdAt": "2025-12-08T09:20:15.217Z"
+        }
+      ],
+      "tags": [
+        {
+          "id": "cmiwwraje00004vgj5yg2w0it",
+          "name": "test"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "id": "cmiwwraje00004vgj5yg2w0it",
+      "name": "test"
+    }
+  ],
+  "settings": {
+    "id": "cmiwxzwf00001htns4o8l4byl",
+    "userId": "cmiwxgfe20000r2dibchap159",
+    "autoBackupEnabled": true,
+    "backupPath": "ggg",
+    "backupFrequency": "DAILY",
+    "lastBackupAt": null
+  }
+}
