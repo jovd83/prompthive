@@ -6,10 +6,7 @@ version: 2.2.0
 last_updated: 2025-12-25
 ---
 
-<div align="center">
-  <img src="public/logo-light.png" alt="PromptHive Logo" width="180" style="vertical-align: middle; margin-right: 20px;">
-  <span style="font-size: 80px; font-weight: bold; vertical-align: middle;">Prompthive</span>
-</div>
+![Prompthive](public/prompthive-header.png)
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
