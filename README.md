@@ -3,13 +3,19 @@
 ---
 title: PromptHive - Project README
 version: 2.2.0
-last_updated: 2025-12-24
+last_updated: 2025-12-25
 ---
 
-<h1 align="center">
-  <img src="public/logo-light.png" alt="PromptHive Logo" width="180" style="vertical-align: middle; margin-right: 20px;">
-  Prompthive
-</h1>
+<table align="center" style="border: none; border-collapse: collapse;">
+  <tr>
+    <td style="border: none; vertical-align: middle; padding-right: 20px;">
+      <img src="public/logo-light.png" alt="PromptHive Logo" width="180">
+    </td>
+    <td style="border: none; vertical-align: middle;">
+      <h1 style="font-size: 50px; margin: 0;">Prompthive</h1>
+    </td>
+  </tr>
+</table>
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
@@ -54,8 +60,8 @@ last_updated: 2025-12-24
 
 | | |
 |:---:|:---:|
-| **Log In**<br>![Log In](demo/login.gif) | **Navigation**<br>![Navigation](demo/navigation.gif) |
-| **Collection Management**<br>![Collection Management](demo/collection.gif) | **Prompt Management**<br>![Prompt Management](demo/prompt.gif) |
+| **[Watch Log In Demo](demo/login.gif)** | **[Watch Navigation Demo](demo/navigation.gif)** |
+| **[Watch Collection Management Demo](demo/collection.gif)** | **[Watch Prompt Management Demo](demo/prompt.gif)** |
 
 ## 🛠️ Technology Stack
 *   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
@@ -191,13 +197,13 @@ The project uses environment variables for configuration.
 
 | | | |
 |:---:|:---:|:---:|
-| ![Bulk Edit](screenshots/ph_bulkedit.png)<br>**Bulk Edit**<br>Batch operations on multiple items. | ![Collection View](screenshots/ph_collection_view.png)<br>**Collection View**<br>Browsing a prompt collection. | ![Collections](screenshots/ph_collections.png)<br>**Collections**<br>Overview of all collections. |
-| ![Command Palette](screenshots/ph_commandPalette.png)<br>**Command Palette**<br>Quick navigation and actions. | ![Compare Versions](screenshots/ph_compareversions.png)<br>**Compare Versions**<br>Side-by-side version diffing. | ![Create User](screenshots/ph_createUser.png)<br>**Create User**<br>Admin interface for adding users. |
-| ![Dashboard](screenshots/ph_dashboard.png)<br>**Dashboard**<br>Main user dashboard overview. | ![Dashboard Dark Mode](screenshots/ph_dashboardDarkmode.png)<br>**Dashboard (Dark)**<br>Dashboard in dark mode. | ![Dashboard Scrolled](screenshots/ph_dashbord_scrolleddown.png)<br>**Dashboard Scrolled**<br>Extended view of the dashboard. |
-| ![Drag and Drop](screenshots/ph_dragAndDrop.png)<br>**Drag & Drop**<br>Organizing items via drag and drop. | ![Favorites](screenshots/ph_favorites.png)<br>**Favorites**<br>Quick access to favorite prompts. | ![Import/Export](screenshots/ph_importexport.png)<br>**Import/Export**<br>Data migration tools. |
-| ![Login](screenshots/ph_login.png)<br>**Login**<br>Authentication screen. | ![Manual](screenshots/ph_manual.png)<br>**Manual**<br>Help and documentation view. | ![New Prompt](screenshots/ph_newprompt.png)<br>**New Prompt**<br>Creating a fresh prompt. |
-| ![Prompt Details](screenshots/ph_promptDetails.png)<br>**Prompt Details**<br>Viewing prompt specifics. | ![Scraping Prompt](screenshots/ph_scrapingprompt.png)<br>**Scraping Prompt**<br>AI web scraper interface. | ![Settings](screenshots/ph_settings.png)<br>**Settings**<br>Application configuration. |
-| ![User Management](screenshots/ph_settings_user_management.png)<br>**User Management**<br>Administering user accounts. | ![User Config](screenshots/ph_userconfig.png)<br>**User Config**<br>Personal user preferences. | ![Workflows](screenshots/ph_workflows.png)<br>**Workflows**<br>Automation workflows. |
+| ![Login](screenshots/ph_login.png)<br>**Login**<br>Authentication screen. | ![Dashboard](screenshots/ph_dashboard.png)<br>**Dashboard**<br>Main user dashboard overview. | ![Dashboard Dark Mode](screenshots/ph_dashboardDarkmode.png)<br>**Dashboard (Dark)**<br>Dashboard in dark mode. |
+| ![Dashboard Scrolled](screenshots/ph_dashbord_scrolleddown.png)<br>**Dashboard Scrolled**<br>Extended view of the dashboard. | ![Collections](screenshots/ph_collections.png)<br>**Collections**<br>Overview of all collections. | ![Collection View](screenshots/ph_collection_view.png)<br>**Collection View**<br>Browsing a prompt collection. |
+| ![Drag and Drop](screenshots/ph_dragAndDrop.png)<br>**Drag & Drop**<br>Organizing items via drag and drop. | ![New Prompt](screenshots/ph_newprompt.png)<br>**New Prompt**<br>Creating a fresh prompt. | ![Prompt Details](screenshots/ph_promptDetails.png)<br>**Prompt Details**<br>Viewing prompt specifics. |
+| ![Compare Versions](screenshots/ph_compareversions.png)<br>**Compare Versions**<br>Side-by-side version diffing. | ![Bulk Edit](screenshots/ph_bulkedit.png)<br>**Bulk Edit**<br>Batch operations on multiple items. | ![Command Palette](screenshots/ph_commandPalette.png)<br>**Command Palette**<br>Quick navigation and actions. |
+| ![Favorites](screenshots/ph_favorites.png)<br>**Favorites**<br>Quick access to favorite prompts. | ![Workflows](screenshots/ph_workflows.png)<br>**Workflows**<br>Automation workflows. | ![Scraping Prompt](screenshots/ph_scrapingprompt.png)<br>**Scraping Prompt**<br>AI web scraper interface. |
+| ![Settings](screenshots/ph_settings.png)<br>**Settings**<br>Application configuration. | ![User Config](screenshots/ph_userconfig.png)<br>**User Config**<br>Personal user preferences. | ![User Management](screenshots/ph_settings_user_management.png)<br>**User Management**<br>Administering user accounts. |
+| ![Create User](screenshots/ph_createUser.png)<br>**Create User**<br>Admin interface for adding users. | ![Import/Export](screenshots/ph_importexport.png)<br>**Import/Export**<br>Data migration tools. | ![Manual](screenshots/ph_manual.png)<br>**Manual**<br>Help and documentation view. |
 
 ## 🧪 Testing
 
