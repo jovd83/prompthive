@@ -7,7 +7,7 @@ last_updated: 2025-12-24
 ---
 
 <h1 align="center">
-  <img src="public/logo-light.png" alt="PromptHive Logo" width="60" style="vertical-align: middle; margin-right: 10px;">
+  <img src="public/logo-light.png" alt="PromptHive Logo" width="180" style="vertical-align: middle; margin-right: 20px;">
   Prompthive
 </h1>
 
@@ -189,29 +189,15 @@ The project uses environment variables for configuration.
 
 ### 📸 Application Screenshots
 
-| Screenshot | Description |
-|:---:|:---|
-| ![Bulk Edit](screenshots/ph_bulkedit.png) | **Bulk Edit**<br>Batch operations on multiple items. |
-| ![Collection View](screenshots/ph_collection_view.png) | **Collection View**<br>Browsing a prompt collection. |
-| ![Collections](screenshots/ph_collections.png) | **Collections**<br>Overview of all collections. |
-| ![Command Palette](screenshots/ph_commandPalette.png) | **Command Palette**<br>Quick navigation and actions. |
-| ![Compare Versions](screenshots/ph_compareversions.png) | **Compare Versions**<br>Side-by-side version diffing. |
-| ![Create User](screenshots/ph_createUser.png) | **Create User**<br>Admin interface for adding users. |
-| ![Dashboard](screenshots/ph_dashboard.png) | **Dashboard**<br>Main user dashboard overview. |
-| ![Dashboard Dark Mode](screenshots/ph_dashboardDarkmode.png) | **Dashboard (Dark)**<br>Dashboard in dark mode. |
-| ![Dashboard Scrolled](screenshots/ph_dashbord_scrolleddown.png) | **Dashboard Scrolled**<br>Extended view of the dashboard. |
-| ![Drag and Drop](screenshots/ph_dragAndDrop.png) | **Drag & Drop**<br>Organizing items via drag and drop. |
-| ![Favorites](screenshots/ph_favorites.png) | **Favorites**<br>Quick access to favorite prompts. |
-| ![Import/Export](screenshots/ph_importexport.png) | **Import/Export**<br>Data migration tools. |
-| ![Login](screenshots/ph_login.png) | **Login**<br>Authentication screen. |
-| ![Manual](screenshots/ph_manual.png) | **Manual**<br>Help and documentation view. |
-| ![New Prompt](screenshots/ph_newprompt.png) | **New Prompt**<br>Creating a fresh prompt. |
-| ![Prompt Details](screenshots/ph_promptDetails.png) | **Prompt Details**<br>Viewing prompt specifics. |
-| ![Scraping Prompt](screenshots/ph_scrapingprompt.png) | **Scraping Prompt**<br>AI web scraper interface. |
-| ![Settings](screenshots/ph_settings.png) | **Settings**<br>Application configuration. |
-| ![User Management](screenshots/ph_settings_user_management.png) | **User Management**<br>Administering user accounts. |
-| ![User Config](screenshots/ph_userconfig.png) | **User Config**<br>Personal user preferences. |
-| ![Workflows](screenshots/ph_workflows.png) | **Workflows**<br>Automation workflows. |
+| | | |
+|:---:|:---:|:---:|
+| ![Bulk Edit](screenshots/ph_bulkedit.png)<br>**Bulk Edit**<br>Batch operations on multiple items. | ![Collection View](screenshots/ph_collection_view.png)<br>**Collection View**<br>Browsing a prompt collection. | ![Collections](screenshots/ph_collections.png)<br>**Collections**<br>Overview of all collections. |
+| ![Command Palette](screenshots/ph_commandPalette.png)<br>**Command Palette**<br>Quick navigation and actions. | ![Compare Versions](screenshots/ph_compareversions.png)<br>**Compare Versions**<br>Side-by-side version diffing. | ![Create User](screenshots/ph_createUser.png)<br>**Create User**<br>Admin interface for adding users. |
+| ![Dashboard](screenshots/ph_dashboard.png)<br>**Dashboard**<br>Main user dashboard overview. | ![Dashboard Dark Mode](screenshots/ph_dashboardDarkmode.png)<br>**Dashboard (Dark)**<br>Dashboard in dark mode. | ![Dashboard Scrolled](screenshots/ph_dashbord_scrolleddown.png)<br>**Dashboard Scrolled**<br>Extended view of the dashboard. |
+| ![Drag and Drop](screenshots/ph_dragAndDrop.png)<br>**Drag & Drop**<br>Organizing items via drag and drop. | ![Favorites](screenshots/ph_favorites.png)<br>**Favorites**<br>Quick access to favorite prompts. | ![Import/Export](screenshots/ph_importexport.png)<br>**Import/Export**<br>Data migration tools. |
+| ![Login](screenshots/ph_login.png)<br>**Login**<br>Authentication screen. | ![Manual](screenshots/ph_manual.png)<br>**Manual**<br>Help and documentation view. | ![New Prompt](screenshots/ph_newprompt.png)<br>**New Prompt**<br>Creating a fresh prompt. |
+| ![Prompt Details](screenshots/ph_promptDetails.png)<br>**Prompt Details**<br>Viewing prompt specifics. | ![Scraping Prompt](screenshots/ph_scrapingprompt.png)<br>**Scraping Prompt**<br>AI web scraper interface. | ![Settings](screenshots/ph_settings.png)<br>**Settings**<br>Application configuration. |
+| ![User Management](screenshots/ph_settings_user_management.png)<br>**User Management**<br>Administering user accounts. | ![User Config](screenshots/ph_userconfig.png)<br>**User Config**<br>Personal user preferences. | ![Workflows](screenshots/ph_workflows.png)<br>**Workflows**<br>Automation workflows. |
 
 ## 🧪 Testing
 
