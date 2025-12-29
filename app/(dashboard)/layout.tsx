@@ -5,24 +5,23 @@ import Sidebar from "@/components/Sidebar";
 import { prisma } from "@/lib/prisma";
 import { checkAndRunAutoBackup } from "@/actions/backup";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { getHiddenCollectionIdsService } from "@/services/settings";
+import { filterHiddenCollections } from "@/lib/collection-utils";
 
 export default async function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    // ... code ...
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user || !session.user.id) {
         redirect("/login");
     }
 
-    // Trigger lazy auto-backup check
-    // We don't await this to avoid blocking the UI
     checkAndRunAutoBackup(session.user.id).catch(console.error);
 
-
-    // Fetch all tags
     const uniqueTags = await prisma.tag.findMany({
         orderBy: { name: "asc" },
         include: {
@@ -32,9 +31,12 @@ export default async function DashboardLayout({
         }
     });
 
-    // Fetch collections
-    // Fetch all collections (globally viewable)
-    const collections = await prisma.collection.findMany({
+    const hiddenCollectionIds = await getHiddenCollectionIdsService(session.user.id);
+
+    const rawCollections = await prisma.collection.findMany({
+        where: {
+            id: { notIn: hiddenCollectionIds }
+        },
         orderBy: { title: "asc" },
         include: {
             _count: {
@@ -43,7 +45,8 @@ export default async function DashboardLayout({
         }
     });
 
-    // Fetch global unassigned prompts count
+    const collections = filterHiddenCollections(rawCollections as any[], hiddenCollectionIds);
+
     const unassignedCount = await prisma.prompt.count({
         where: {
             collections: {
@@ -52,7 +55,6 @@ export default async function DashboardLayout({
         }
     });
 
-    // Fetch current user for sidebar profile
     const currentUser = await prisma.user.findUnique({
         where: { id: session.user.id },
         select: { id: true, username: true, email: true, avatarUrl: true, language: true, role: true }

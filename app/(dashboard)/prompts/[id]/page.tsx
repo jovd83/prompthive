@@ -67,7 +67,7 @@ export default async function PromptDetailPage({ params }: { params: Promise<{ i
 
     const allCollections = await prisma.collection.findMany({
         where: { ownerId: prompt.createdById },
-        select: { id: true, parentId: true, title: true, _count: { select: { prompts: true } } }
+        select: { id: true, parentId: true, title: true, createdAt: true, _count: { select: { prompts: true } } }
     });
 
     const countMap = computeRecursiveCounts(allCollections);

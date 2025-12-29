@@ -184,4 +184,46 @@ Each collection in the sidebar should have a context menu (accessible via '...' 
 *   [ ] Verify context menu appears for collections.
 *   [ ] Verify "New Prompt" redirects correctly.
 *   [ ] Verify "Add Sub-collection" redirects correctly.
-*   [ ] Verify "Edit" and "Delete" are visible/functional for authorized users.
+
+---
+
+## User Story: Collection Tree Visibility
+**As a** User
+**I want to** view my collections as a hierarchical tree
+**So that** I can easily navigate deeply nested structures.
+
+### 1. Description
+The main collections page should display collections in a collapsible tree structure instead of (or in addition to) the grid view. This allows users to see the hierarchy at a glance.
+
+### 2. Technical Scope & Fields
+*   **Component**: `CollectionTree`
+*   **Behavior**:
+    *   Expand/Collapse nodes.
+    *   Show collection name and prompt count.
+    *   Indicate hidden status (if owner).
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify collections are displayed in a tree.
+*   [ ] Verify clicking expanding arrow shows children.
+*   [ ] Verify indentation represents depth.
+
+---
+
+## User Story: Settings - Hide Collections
+**As a** User
+**I want to** hide specific collections from my main view
+**So that** I can focus on what is relevant and hide archival/unused structures.
+
+### 1. Description
+In the Settings area, users can see a tree of all collections and toggle their visibility. Hiding a parent collection should optionally hide or collapse its children in the main view.
+
+### 2. Technical Scope & Fields
+*   **Settings Section**: "Collection Visibility".
+*   **Data**: Stored in `Settings` -> `hiddenCollections` relation.
+*   **UI**: Checkbox tree. Unchecked = Visible, Checked = Hidden (or vice versa, typically "Select to Hide" or "Select to Show").
+    *   *Decision*: "Select to Hide" matches "Hidden Users" pattern.
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify "Collection Visibility" section exists in Settings.
+*   [ ] Verify checking a collection adds it to the hidden list.
+*   [ ] Verify hidden collections do not appear in the main sidebar or collection list (unless a "Show Hidden" toggle is active, if applicable).

@@ -164,6 +164,8 @@ export default function HelpPage() {
                     <h3 className="text-lg font-bold mt-4">{t('help.content.collections.sortingTitle')}</h3>
                     <p dangerouslySetInnerHTML={{ __html: t('help.content.collections.sortingDesc') }} />
                     <p className="mt-2" dangerouslySetInnerHTML={{ __html: t('help.content.collections.collapseDesc') }} />
+                    <h3 className="text-lg font-bold mt-4">{t('help.content.collections.visibilityTitle')}</h3>
+                    <p dangerouslySetInnerHTML={{ __html: t('help.content.collections.visibilityDesc') }} />
                 </div>
             )
         },

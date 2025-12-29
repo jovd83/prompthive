@@ -5,6 +5,8 @@ import { Settings as SettingsIcon } from "lucide-react";
 import { useLanguage } from "./LanguageProvider";
 import { UserBasic, Settings } from "@/types/settings";
 
+import CollectionVisibilitySettings from "./settings/CollectionVisibilitySettings";
+import { CollectionWithCount } from "@/lib/collection-utils";
 import UserVisibilitySettings from "./settings/UserVisibilitySettings";
 import BackupSettings from "./settings/BackupSettings";
 import DangerZoneSettings from "./settings/DangerZoneSettings";
@@ -21,7 +23,9 @@ interface SettingsFormProps {
     initialGlobalSettings?: {
         registrationEnabled: boolean;
     };
-    initialUsers?: any[]; // Using any[] temporarily to avoid deep imports, or Pick<User...>
+    initialUsers?: any[];
+    initialHiddenCollectionIds?: string[];
+    allCollections?: any[]; // using any for now or CollectionWithCount
 }
 
 export default function SettingsForm({
@@ -31,7 +35,9 @@ export default function SettingsForm({
     currentUserId,
     isAdmin = false,
     initialGlobalSettings,
-    initialUsers = []
+    initialUsers = [],
+    initialHiddenCollectionIds = [],
+    allCollections = []
 }: SettingsFormProps) {
     const { t } = useLanguage();
 
@@ -53,6 +59,12 @@ export default function SettingsForm({
                 allUsers={allUsers}
                 initialHiddenIds={new Set(initialHiddenIds)}
                 currentUserId={currentUserId}
+            />
+
+            <CollectionVisibilitySettings
+                allCollections={allCollections}
+                initialHiddenIds={initialHiddenCollectionIds}
+                currentUserId={currentUserId || ''}
             />
 
             {isAdmin && (

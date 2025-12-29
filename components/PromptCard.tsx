@@ -174,19 +174,29 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
 
             {/* 3. Description (Abbreviated) */}
             {prompt.description && (
-                <p className="text-sm text-foreground/80 line-clamp-2 mb-3">
+                <p className="text-sm text-foreground/80 mb-3 line-clamp-2">
                     {prompt.description}
                 </p>
             )}
 
             {/* 4. Prompt Preview & Copy */}
-            <div className="bg-muted/50 rounded-md border border-border/50 p-2 mb-3 relative group/code">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1.5 select-none">
+            <div className={`bg-muted/50 rounded-md border border-border/50 p-2 mb-3 relative group/code flex flex-col ${!resultImage ? "flex-1" : ""}`}>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1.5 select-none shrink-0">
                     <Terminal size={12} /> {t('list.promptPreview')}
                 </div>
-                <pre className="font-mono text-xs text-muted-foreground line-clamp-3 whitespace-pre-wrap break-words min-h-[3rem]">
-                    {promptContent}
-                </pre>
+
+                <div className="relative flex-1 min-h-[3rem]">
+                    {/* Ghost/Sizer element: Defines the intrinsic height (matches original 3-line look) */}
+                    <pre className="font-mono text-xs invisible whitespace-pre-wrap break-words line-clamp-3" aria-hidden="true">
+                        {promptContent}
+                    </pre>
+
+                    {/* Visible content: Fills availability space */}
+                    <pre className="font-mono text-xs text-muted-foreground absolute inset-0 whitespace-pre-wrap break-words overflow-hidden">
+                        {promptContent}
+                    </pre>
+                </div>
+
                 {/* Copy Button Overlay */}
                 <div className="absolute top-2 right-2">
                     <button

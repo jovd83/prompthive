@@ -33,11 +33,27 @@ if [ -f "$DB_FILE" ]; then
     log "Attempting safe migration (migrate deploy)..."
     
     # Existing DB: Use migrate deploy to be safe
-    if $PRISMA migrate deploy 2>&1 | tee -a "$LOGFILE"; then
+    # We use a temp file to capture output while preserving exit code check
+    $PRISMA migrate deploy > /tmp/prisma_migrate.log 2>&1
+    MIGRATE_EXIT_CODE=$?
+    cat /tmp/prisma_migrate.log | tee -a "$LOGFILE"
+
+    if [ $MIGRATE_EXIT_CODE -eq 0 ]; then
         log "SUCCESS: Migrations applied to existing database."
     else
-        log "ERROR: migrate deploy failed. Check migration history."
-        # Optional: could attempt db push here if strictly necessary, but better to fail safe on existing data
+        log "ERROR: migrate deploy failed (Exit Code: $MIGRATE_EXIT_CODE). Check migration history."
+        log "Attempting fallback: db push --accept-data-loss to sync schema..."
+        
+        $PRISMA db push --accept-data-loss --skip-generate > /tmp/prisma_push.log 2>&1
+        PUSH_EXIT_CODE=$?
+        cat /tmp/prisma_push.log | tee -a "$LOGFILE"
+        
+        if [ $PUSH_EXIT_CODE -eq 0 ]; then
+            log "SUCCESS: Database structure synced via db push (fallback)."
+        else
+            log "CRITICAL ERROR: Fallback db push failed."
+            exit 1
+        fi
     fi
 else
     log "MISSING: No database found. Initializing new database..."

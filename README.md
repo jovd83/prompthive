@@ -2,8 +2,8 @@
 
 ---
 title: PromptHive - Project README
-version: 2.2.0
-last_updated: 2025-12-25
+version: 2.3.0
+last_updated: 2025-12-29
 ---
 
 ![Prompthive](public/prompthive_header.png)
@@ -11,6 +11,19 @@ last_updated: 2025-12-25
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Tech](https://img.shields.io/badge/Tech-Next.js%20%7C%20Prisma%20%7C%20SQLite-black)
+
+## 📜 Changelog (v2.3.0)
+
+**New Features:**
+*   **Collection Tree Visibility**: You can now hide specific collections (and their sub-collections) from the sidebar and main views via Settings, similar to User Visibility.
+*   **Hierarchical Collection View**: Replaced the flat grid view with a proper Tree View in the Collections page for better navigation of deep hierarchies.
+*   **Sorting Options**: Added ability to sort collections by Name (A-Z/Z-A), Date (Newest/Oldest), and Count (Most Items) in the main list.
+
+**Improvements & Fixes:**
+*   **Deployment**: Adjusted build process to use `npm install` for broader compatibility across platforms, preventing lockfile issues during Docker builds.
+*   **Performance**: Optimized `CollectionTree` component for rendering large hierarchies.
+*   **Localization**: Fully translated new settings and help documentation into Dutch, French, Spanish, Italian, German, and Swedish.
+*   **UI Polish**: Added icons to Save buttons and improved visual feedback processing states.
 
 **PromptHive** is a self-hosted, local-first Prompt Management System designed for prompt engineers and AI enthusiasts. It allows you to organize, version, and text your LLM prompts in a beautiful, structured interface.
 

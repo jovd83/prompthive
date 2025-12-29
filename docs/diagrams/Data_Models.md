@@ -104,5 +104,5 @@ Folders for organization.
 *   **Purpose**: Allows users to mark prompts for quick access.
 
 ### 6. Settings
-*   **Fields**: `id`, `userId`, `autoBackupEnabled`, `backupPath`, `backupFrequency`, `showPrompterTips`.
+*   **Fields**: `id`, `userId`, `autoBackupEnabled`, `backupPath`, `backupFrequency`, `showPrompterTips`, `hiddenUsers`, `hiddenCollections`.
 *   **Purpose**: Stores user-specific configuration and preferences.

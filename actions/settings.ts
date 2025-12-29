@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { updateVisibilitySettingsService, updateGeneralSettingsService } from "@/services/settings";
+import { updateVisibilitySettingsService, updateGeneralSettingsService, updateCollectionVisibilitySettingsService } from "@/services/settings";
 import { revalidatePath } from "next/cache";
 
 export type ActionState = {
@@ -47,5 +47,21 @@ export async function saveGeneralSettings(prevState: any, formData: FormData): P
     } catch (e: any) {
         console.error(e);
         return { error: "Failed to save settings." };
+    }
+}
+
+export async function saveCollectionVisibilityAction(hiddenIds: string[]) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
+    try {
+        await updateCollectionVisibilitySettingsService(session.user.id, hiddenIds);
+        revalidatePath("/"); // Revalidate sidebar
+        revalidatePath("/collections"); // Revalidate main page
+        revalidatePath("/settings");
+        return { success: true };
+    } catch (e: any) {
+        console.error(e);
+        throw new Error(e.message || "Failed to save");
     }
 }

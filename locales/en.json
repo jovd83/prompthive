@@ -376,7 +376,9 @@
         "languageSettings": "Language Settings",
         "saveGeneral": "Save General Settings",
         "saveBackup": "Save Backup Configuration",
-        "saveVisibility": "Save Visibility Settings"
+        "saveVisibility": "Save Visibility Settings",
+        "collectionVisibility": "Collection Visibility",
+        "collectionVisibilityDesc": "Uncheck collections you want to hide in your dashboard. Hidden collections (and their children) will not appear in the sidebar or main view."
     },
     "importExport": {
         "title": "Import / Export",
@@ -480,7 +482,9 @@
                 "dragDropDesc": "You can drag collections in the sidebar to reorganize them. Drop a collection onto another to make it a child. Drop it onto the \"Collections\" header to make it a root folder.",
                 "sortingTitle": "Sorting",
                 "sortingDesc": "You can sort prompts within a collection by <strong>Name</strong> or <strong>Date</strong> using the controls in the list header.",
-                "collapseDesc": "You can <strong>collapse</strong> the Collections and Tags sections in the sidebar to save vertical space."
+                "collapseDesc": "You can <strong>collapse</strong> the Collections and Tags sections in the sidebar to save vertical space.",
+                "visibilityTitle": "Hiding Collections",
+                "visibilityDesc": "If you have collections you rarely use, you can <strong>hide</strong> them from the dashboard. Go to <strong>Settings</strong> > <strong>Collection Visibility</strong> and uncheck the collections you want to hide. They will remain in the database but won't clutter your view."
             },
             "aiScraping": {
                 "desc1": "You can easily import prompts from any website (blogs, articles, etc.) by using an LLM like ChatGPT, Claude, or Gemini as a \"middleman\" scraper.",

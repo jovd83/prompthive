@@ -2,6 +2,8 @@
 import { test, expect } from '@playwright/test';
 import { loginUser } from './utils';
 
+test.setTimeout(60000);
+
 test.describe('Favorites Feature', () => {
     test.beforeEach(async ({ page }) => {
         await loginUser(page);

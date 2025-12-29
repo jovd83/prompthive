@@ -1,4 +1,7 @@
 import { test, expect } from '@playwright/test';
+import { loginUser } from './utils';
+
+test.setTimeout(60000);
 
 test.describe('Prompting Tip of the Day', () => {
     test.beforeEach(async ({ page }) => {

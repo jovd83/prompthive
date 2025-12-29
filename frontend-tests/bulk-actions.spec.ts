@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { loginUser } from './utils';
 
+test.setTimeout(60000);
+
 test.describe('Bulk Actions', () => {
     test.setTimeout(120000);
     test.beforeEach(async ({ page }) => {

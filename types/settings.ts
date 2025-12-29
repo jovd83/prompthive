@@ -7,8 +7,15 @@ export type UserBasic = {
 };
 
 export type Settings = {
+    id: string; // Added
+    userId: string; // Added
     autoBackupEnabled: boolean;
     backupPath: string | null;
     backupFrequency: string;
+    lastBackupAt: Date | null; // Added
     showPrompterTips: boolean;
+    // Relations are usually optional or loaded separately, 
+    // but if we use this for the object from findUnique with includes...
+    hiddenUsers?: any[];
+    hiddenCollections?: any[];
 };

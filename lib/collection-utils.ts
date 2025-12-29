@@ -5,6 +5,8 @@ export type CollectionWithCount = {
     _count?: { prompts: number };
     children?: CollectionWithCount[]; // For tree building
     totalPrompts?: number; // Computed recursive count
+    createdAt: Date | string;
+    ownerId?: string;
 };
 
 export function computeRecursiveCounts(collections: CollectionWithCount[]) {
@@ -42,4 +44,23 @@ export function computeRecursiveCounts(collections: CollectionWithCount[]) {
 
     // 4. Return the map for easy lookup of any collection's total
     return map;
+}
+
+export function filterHiddenCollections(collections: CollectionWithCount[], hiddenIds: string[]) {
+    if (!hiddenIds || hiddenIds.length === 0) return collections;
+
+    const hiddenSet = new Set(hiddenIds);
+    // We need to build the hierarchy to know if an ancestor is hidden
+    // Quick adjacency map
+    const parentMap = new Map<string, string | null>();
+    collections.forEach(c => parentMap.set(c.id, c.parentId));
+
+    const isVisible = (id: string): boolean => {
+        if (hiddenSet.has(id)) return false;
+        const parentId = parentMap.get(id);
+        if (parentId) return isVisible(parentId);
+        return true;
+    };
+
+    return collections.filter(c => isVisible(c.id));
 }

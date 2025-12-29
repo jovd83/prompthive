@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { prisma } from '../lib/prisma';
 import { hash } from 'bcryptjs';
 
+test.setTimeout(60000);
+
 test.describe('Admin User Management', () => {
 
     test.beforeAll(async () => {

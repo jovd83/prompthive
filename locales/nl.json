@@ -357,7 +357,10 @@
         "cleanupComplete": "Opschonen voltooid. {{count}} ongebruikte tags verwijderd.",
         "cleanupFailed": "Opschonen mislukt: {{error}}",
         "restoreFailed": "Herstel mislukt: {{error}}",
-        "dbCleared": "Database succesvol gewist."
+        "dbCleared": "Database succesvol gewist.",
+        "saveVisibility": "Zichtbaarheid Opslaan",
+        "collectionVisibility": "Collectie Zichtbaarheid",
+        "collectionVisibilityDesc": "Vink de collecties uit die je wilt verbergen. Verborgen collecties (en hun submappen) verschijnen niet in de zijbalk."
     },
     "importExport": {
         "title": "Import / Export",
@@ -454,7 +457,12 @@
                 "li2": "Een Collectie kan <strong>andere Collecties</strong> bevatten (Submappen).",
                 "li3": "Er is geen limiet aan de diepte van nesting.",
                 "dragDropTitle": "Slepen & Neerzetten",
-                "dragDropDesc": "Je kunt collecties in de zijbalk slepen om ze te reorganiseren. Laat een collectie vallen op een andere om het een kind te maken. Laat het vallen op de \"Collecties\" kop om het een root map te maken."
+                "dragDropDesc": "Je kunt collecties in de zijbalk slepen om ze te reorganiseren. Laat een collectie vallen op een andere om het een kind te maken. Laat het vallen op de \"Collecties\" kop om het een root map te maken.",
+                "sortingTitle": "Sorteren",
+                "sortingDesc": "Je kunt prompts binnen een collectie sorteren op <strong>Naam</strong> of <strong>Datum</strong> met de bedieningselementen in de koptekst van de lijst.",
+                "collapseDesc": "Je kunt de secties Collecties en Tags in de zijbalk <strong>inklappen</strong> om verticale ruimte te besparen.",
+                "visibilityTitle": "Collecties Verbergen",
+                "visibilityDesc": "Als je collecties hebt die je zelden gebruikt, kun je ze verbergen op het dashboard. Ga naar <strong>Instellingen</strong> > <strong>Collectie Zichtbaarheid</strong> en vink de collecties uit die je wilt verbergen. Ze blijven in de database maar vervuilen je overzicht niet."
             },
             "aiScraping": {
                 "desc1": "Je kunt eenvoudig prompts importeren van elke website (blogs, artikelen, enz.) door een LLM zoals ChatGPT, Claude of Gemini als \"tussenpersoon\" scraper te gebruiken.",

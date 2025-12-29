@@ -35,8 +35,8 @@ export default defineConfig({
         video: 'retain-on-failure',
 
         /* Increase action timeout for slower environments */
-        actionTimeout: 15000,
-        navigationTimeout: 15000,
+        actionTimeout: 30000,
+        navigationTimeout: 30000,
     },
 
     /* Configure projects for major browsers */

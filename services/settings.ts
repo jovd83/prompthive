@@ -71,3 +71,22 @@ export async function getHiddenUserIdsService(userId: string): Promise<string[]>
     });
     return settings?.hiddenUsers.map(u => u.id) || [];
 }
+
+export async function updateCollectionVisibilitySettingsService(userId: string, hiddenCollectionIds: string[]) {
+    return await prisma.settings.update({
+        where: { userId },
+        data: {
+            hiddenCollections: {
+                set: hiddenCollectionIds.map(id => ({ id }))
+            }
+        }
+    });
+}
+
+export async function getHiddenCollectionIdsService(userId: string): Promise<string[]> {
+    const settings = await prisma.settings.findUnique({
+        where: { userId },
+        select: { hiddenCollections: { select: { id: true } } }
+    });
+    return settings?.hiddenCollections.map(c => c.id) || [];
+}

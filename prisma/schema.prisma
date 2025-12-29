@@ -38,6 +38,7 @@ model Settings {
   lastBackupAt    DateTime?
   showPrompterTips Boolean   @default(true)
   hiddenUsers     User[]    @relation("UserVisibility")
+  hiddenCollections Collection[] @relation("CollectionVisibility")
 }
 
 model GlobalConfiguration {
@@ -113,8 +114,8 @@ model Collection {
   parent      Collection?  @relation("CollectionHierarchy", fields: [parentId], references: [id])
   children    Collection[] @relation("CollectionHierarchy")
   createdAt   DateTime     @default(now())
+  hiddenInSettings Settings[] @relation("CollectionVisibility")
 }
-
 model Workflow {
   id          String         @id @default(cuid())
   title       String

@@ -55,4 +55,13 @@ model User {
 
 ## 4. Security
 *   Visibility filtering is a user preference, not a strict security ACL, but it should be enforced consistently in the read paths.
-*   Admins generally see everything? The requirement doesn't specify. Usually "User Visibility" applies to the user's *feed*. If an Admin wants to hide someone from their feed, they should be able to. It's not about "Permission to view", it's "Preference to view". So logic applies to Admins too in their dashboard view.
+
+## 5. Collection Visibility
+
+### Data Model
+*   New relation: `Settings.hiddenCollections` <-> `Collection.hiddenInSettings`.
+*   Works similarly to `hiddenUsers`.
+
+### Service Logic
+*   `services/settings.ts` needs `updateCollectionVisibilitySettings`.
+*   Fetching collections (`services/collections.ts`) should check `Settings.hiddenCollections` for the current user and filter them out (unless specifically requested, e.g. in Settings page).

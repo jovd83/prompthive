@@ -12,17 +12,29 @@ export default async function SettingsPage() {
 
     let settings = await prisma.settings.findUnique({
         where: { userId: session.user.id },
-        include: { hiddenUsers: { select: { id: true } } }
+        include: {
+            hiddenUsers: { select: { id: true } },
+            hiddenCollections: { select: { id: true } }
+        }
     });
 
     if (!settings) {
+        // Handle stale session: if user doesn't exist, redirect to login
+        const userExists = await prisma.user.findUnique({ where: { id: session.user.id } });
+        if (!userExists) {
+            redirect("/login");
+        }
+
         settings = await prisma.settings.create({
             data: {
                 userId: session.user.id,
                 autoBackupEnabled: false,
                 backupFrequency: "DAILY",
             },
-            include: { hiddenUsers: { select: { id: true } } }
+            include: {
+                hiddenUsers: { select: { id: true } },
+                hiddenCollections: { select: { id: true } }
+            }
         });
     }
 
@@ -31,7 +43,16 @@ export default async function SettingsPage() {
         orderBy: { username: 'asc' }
     });
 
+    // Fetch all collections for visibility settings
+    const allCollections = await prisma.collection.findMany({
+        where: { ownerId: session.user.id },
+        orderBy: { title: 'asc' },
+        select: { id: true, title: true, parentId: true, _count: { select: { prompts: true } } }
+    });
+
     const hiddenUserIds = settings.hiddenUsers ? settings.hiddenUsers.map((u: any) => u.id) : [];
+    const hiddenCollectionIds = settings.hiddenCollections ? settings.hiddenCollections.map((c: any) => c.id) : [];
+
     const isAdmin = session.user.role === 'ADMIN';
 
     let globalSettings = null;
@@ -66,6 +87,8 @@ export default async function SettingsPage() {
                 initialSettings={settings}
                 allUsers={allUsers}
                 initialHiddenIds={hiddenUserIds}
+                initialHiddenCollectionIds={hiddenCollectionIds}
+                allCollections={allCollections}
                 currentUserId={session.user.id}
                 isAdmin={isAdmin}
                 initialGlobalSettings={globalSettings ? { registrationEnabled: globalSettings.registrationEnabled } : undefined}

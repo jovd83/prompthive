@@ -94,7 +94,7 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
         // Recursive counts usually only matter within the same tree. Distinct trees (users) don't intersect.
         const allCollections = await prisma.collection.findMany({
             where: { ownerId: collection.ownerId },
-            select: { id: true, parentId: true, title: true, _count: { select: { prompts: true } } }
+            select: { id: true, parentId: true, title: true, createdAt: true, _count: { select: { prompts: true } } }
         });
 
         const countMap = computeRecursiveCounts(allCollections);

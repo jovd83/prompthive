@@ -357,7 +357,13 @@
         "cleanupComplete": "Bereinigung abgeschlossen. {{count}} unbenutzte Tags entfernt.",
         "cleanupFailed": "Bereinigung fehlgeschlagen: {{error}}",
         "restoreFailed": "Wiederherstellung fehlgeschlagen: {{error}}",
-        "dbCleared": "Datenbank erfolgreich gelöscht."
+        "dbCleared": "Datenbank erfolgreich gelöscht.",
+        "languageSettings": "Spracheinstellungen",
+        "saveGeneral": "Allgemeine Einstellungen speichern",
+        "saveBackup": "Backup-Konfiguration speichern",
+        "saveVisibility": "Sichtbarkeitseinstellungen speichern",
+        "collectionVisibility": "Sammlungssichtbarkeit",
+        "collectionVisibilityDesc": "Deaktivieren Sie Sammlungen, die Sie ausblenden möchten. Verborgene Sammlungen erscheinen nicht in der Seitenleiste."
     },
     "importExport": {
         "title": "Import / Export",
@@ -454,7 +460,12 @@
                 "li2": "Eine Sammlung kann <strong>andere Sammlungen</strong> (Unterordner) enthalten.",
                 "li3": "Es gibt kein Limit für die Verschachtelungstiefe.",
                 "dragDropTitle": "Drag & Drop",
-                "dragDropDesc": "Du kannst Sammlungen in der Seitenleiste ziehen, um sie neu zu organisieren. Ziehe eine Sammlung auf eine andere, um sie zu einem Kind zu machen. Ziehe sie auf die Überschrift \"Sammlungen\", um sie zu einem Wurzelordner zu machen."
+                "dragDropDesc": "Du kannst Sammlungen in der Seitenleiste ziehen, um sie neu zu organisieren. Ziehe eine Sammlung auf eine andere, um sie zu einem Kind zu machen. Ziehe sie auf die Überschrift \"Sammlungen\", um sie zu einem Wurzelordner zu machen.",
+                "sortingTitle": "Sortieren",
+                "sortingDesc": "Sie können Prompts innerhalb einer Sammlung nach <strong>Name</strong> oder <strong>Datum</strong> sortieren, indem Sie die Steuerelemente in der Listenüberschrift verwenden.",
+                "collapseDesc": "Sie können die Abschnitte Sammlungen und Tags in der Seitenleiste <strong>einklappen</strong>, um vertikalen Platz zu sparen.",
+                "visibilityTitle": "Sammlungen Verbergen",
+                "visibilityDesc": "Wenn Sie Sammlungen haben, die Sie selten nutzen, können Sie diese im Dashboard <strong>ausblenden</strong>. Gehen Sie zu <strong>Einstellungen</strong> > <strong>Sammlungs-Sichtbarkeit</strong> und deaktivieren Sie die Sammlungen, die Sie verbergen möchten. Sie bleiben in der Datenbank, stören aber nicht Ihre Ansicht."
             },
             "aiScraping": {
                 "desc1": "Du kannst ganz einfach Prompts von jeder Website (Blogs, Artikel usw.) importieren, indem du eine LLM wie ChatGPT, Claude oder Gemini als \"Mittelsmann\"-Scraper verwendest.",

@@ -357,7 +357,13 @@
         "cleanupComplete": "Rensning klar. Tog bort {{count}} oanvända taggar.",
         "cleanupFailed": "Rensning misslyckades: {{error}}",
         "restoreFailed": "Återställning misslyckades: {{error}}",
-        "dbCleared": "Databas rensad."
+        "dbCleared": "Databas rensad.",
+        "languageSettings": "Språkinställningar",
+        "saveGeneral": "Spara Allmänna Inställningar",
+        "saveBackup": "Spara Backupkonfiguration",
+        "saveVisibility": "Spara Synlighetsinställningar",
+        "collectionVisibility": "Samlingens Synlighet",
+        "collectionVisibilityDesc": "Avmarkera samlingar du vill dölja. Dolda samlingar (och deras barn) kommer inte att synas i sidofältet."
     },
     "importExport": {
         "title": "Importera / Exportera",
@@ -454,7 +460,12 @@
                 "li2": "En Samling kan innehålla <strong>andra Samlingar</strong> (Undermappar).",
                 "li3": "Det finns ingen gräns för djupet av nästling.",
                 "dragDropTitle": "Drag & Drop",
-                "dragDropDesc": "Du kan dra samlingar i sidofältet för att reorganisera dem. Släpp en samling på en annan för att göra den till ett barn. Släpp den på rubriken \"Samlingar\" för att göra den till en rotmapp."
+                "dragDropDesc": "Du kan dra samlingar i sidofältet för att reorganisera dem. Släpp en samling på en annan för att göra den till ett barn. Släpp den på rubriken \"Samlingar\" för att göra den till en rotmapp.",
+                "sortingTitle": "Sortering",
+                "sortingDesc": "Du kan sortera prompter i en samling efter <strong>Namn</strong> eller <strong>Datum</strong> med kontrollerna i listrubriken.",
+                "collapseDesc": "Du kan <strong>komprimera</strong> sektionerna Samlingar och Taggar i sidofältet för att spara vertikalt utrymme.",
+                "visibilityTitle": "Dölja Samlingar",
+                "visibilityDesc": "Om du har samlingar du sällan använder kan du <strong>dölja</strong> dem från instrumentpanelen. Gå till <strong>Inställningar</strong> > <strong>Samlingssynlighet</strong> och avmarkera de samlingar du vill dölja. De finns kvar i databasen men stökar inte till din vy."
             },
             "aiScraping": {
                 "desc1": "Du kan enkelt importera prompts från vilken webbplats som helst (bloggar, artiklar, etc.) genom att använda en LLM som ChatGPT, Claude eller Gemini som en \"mellanhand\"-skrapare.",

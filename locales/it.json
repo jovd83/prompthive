@@ -357,7 +357,13 @@
         "cleanupComplete": "Pulizia completa. Rimossi {{count}} tag inutilizzati.",
         "cleanupFailed": "Pulizia fallita: {{error}}",
         "restoreFailed": "Ripristino fallito: {{error}}",
-        "dbCleared": "Database pulito con successo."
+        "dbCleared": "Database pulito con successo.",
+        "languageSettings": "Impostazioni Lingua",
+        "saveGeneral": "Salva Impostazioni Generali",
+        "saveBackup": "Salva Configurazione Backup",
+        "saveVisibility": "Salva Impostazioni Visibilità",
+        "collectionVisibility": "Visibilità Collezioni",
+        "collectionVisibilityDesc": "Deseleziona le collezioni che vuoi nascondere. Le collezioni nascoste (e i loro figli) non appariranno nella barra laterale."
     },
     "importExport": {
         "title": "Importa / Esporta",
@@ -454,7 +460,12 @@
                 "li2": "Una Collezione può contenere <strong>altre Collezioni</strong> (Sotto-cartelle).",
                 "li3": "Non c'è limite alla profondità di nidificazione.",
                 "dragDropTitle": "Drag & Drop",
-                "dragDropDesc": "Puoi trascinare collezioni nella barra laterale per riorganizzarle. Rilascia una collezione su un'altra per renderla figlia. Rilasciala sull'intestazione \"Collezioni\" per renderla una cartella radice."
+                "dragDropDesc": "Puoi trascinare collezioni nella barra laterale per riorganizzarle. Rilascia una collezione su un'altra per renderla figlia. Rilasciala sull'intestazione \"Collezioni\" per renderla una cartella radice.",
+                "sortingTitle": "Ordinamento",
+                "sortingDesc": "Puoi ordinare i prompt all'interno di una collezione per <strong>Nome</strong> o <strong>Data</strong> usando i controlli nell'intestazione della lista.",
+                "collapseDesc": "Puoi <strong>comprimere</strong> le sezioni Collezioni e Tag nella barra laterale per risparmiare spazio verticale.",
+                "visibilityTitle": "Nascondere Collezioni",
+                "visibilityDesc": "Se hai collezioni che usi raramente, puoi <strong>nasconderle</strong> dalla dashboard. Vai su <strong>Impostazioni</strong> > <strong>Visibilità Collezione</strong> e deseleziona le collezioni da nascondere. Rimarranno nel database ma non ingombreranno la vista."
             },
             "aiScraping": {
                 "desc1": "Puoi facilmente importare prompt da qualsiasi sito web (blog, articoli, ecc.) usando un LLM come ChatGPT, Claude o Gemini come un scraper \"intermediario\".",

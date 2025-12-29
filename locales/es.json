@@ -357,7 +357,10 @@
         "cleanupComplete": "Limpieza completa. Se eliminaron {{count}} etiquetas sin uso.",
         "cleanupFailed": "Limpieza fallida: {{error}}",
         "restoreFailed": "Restauración fallida: {{error}}",
-        "dbCleared": "Base de datos limpiada exitosamente."
+        "dbCleared": "Base de datos limpiada exitosamente.",
+        "saveVisibility": "Guardar Visibilidad",
+        "collectionVisibility": "Visibilidad de la Colección",
+        "collectionVisibilityDesc": "Desmarca las colecciones que quieras ocultar. Las colecciones ocultas (y sus hijos) no aparecerán en la barra lateral."
     },
     "importExport": {
         "title": "Importar / Exportar",
@@ -454,7 +457,12 @@
                 "li2": "Una Colección puede contener <strong>otras Colecciones</strong> (Sub-carpetas).",
                 "li3": "No hay límite para la profundidad de anidamiento.",
                 "dragDropTitle": "Arrastrar y Soltar",
-                "dragDropDesc": "Puedes arrastrar colecciones en la barra lateral para reorganizarlas. Suelta una colección sobre otra para hacerla hija. Suéltala sobre el encabezado \"Colecciones\" para hacerla carpeta raíz."
+                "dragDropDesc": "Puedes arrastrar colecciones en la barra lateral para reorganizarlas. Suelta una colección sobre otra para hacerla hija. Suéltala sobre el encabezado \"Colecciones\" para hacerla carpeta raíz.",
+                "sortingTitle": "Clasificación",
+                "sortingDesc": "Puedes ordenar los prompts dentro de una colección por <strong>Nombre</strong> o <strong>Fecha</strong> usando los controles en el encabezado de la lista.",
+                "collapseDesc": "Puedes <strong>contraer</strong> las secciones de Colecciones y Etiquetas en la barra lateral para ahorrar espacio vertical.",
+                "visibilityTitle": "Ocultar Colecciones",
+                "visibilityDesc": "Si tienes colecciones que usas raramente, puedes <strong>ocultarlas</strong> del panel. Ve a <strong>Configuración</strong> > <strong>Visibilidad de Colección</strong> y desmarca las colecciones que quieras ocultar. Permanecerán en la base de datos pero no saturarán tu vista."
             },
             "aiScraping": {
                 "desc1": "Puedes importar fácilmente prompts de cualquier sitio web (blogs, artículos, etc.) usando un LLM como ChatGPT, Claude o Gemini como un scraper \"intermediario\".",

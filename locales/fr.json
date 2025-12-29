@@ -357,7 +357,10 @@
         "cleanupComplete": "Nettoyage terminé. {{count}} tags inutilisés supprimés.",
         "cleanupFailed": "Échec du nettoyage : {{error}}",
         "restoreFailed": "Échec de la restauration : {{error}}",
-        "dbCleared": "Base de données effacée avec succès."
+        "dbCleared": "Base de données effacée avec succès.",
+        "saveVisibility": "Enregistrer la Visibilité",
+        "collectionVisibility": "Visibilité des Collections",
+        "collectionVisibilityDesc": "Décochez les collections que vous souhaitez masquer. Les collections masquées (et leurs enfants) n'apparaîtront pas dans la barre latérale."
     },
     "importExport": {
         "title": "Import / Export",
@@ -454,7 +457,12 @@
                 "li2": "Une Collection peut contenir <strong>d'autres Collections</strong> (Sous-dossiers).",
                 "li3": "Il n'y a pas de limite à la profondeur d'imbrication.",
                 "dragDropTitle": "Glisser & Déposer",
-                "dragDropDesc": "Vous pouvez glisser les collections dans la barre latérale pour les réorganiser. Déposez une collection sur une autre pour en faire un enfant. Déposez-la sur l'en-tête \"Collections\" pour en faire un dossier racine."
+                "dragDropDesc": "Vous pouvez glisser les collections dans la barre latérale pour les réorganiser. Déposez une collection sur une autre pour en faire un enfant. Déposez-la sur l'en-tête \"Collections\" pour en faire un dossier racine.",
+                "sortingTitle": "Tri",
+                "sortingDesc": "Vous pouvez trier les prompts au sein d'une collection par <strong>Nom</strong> ou <strong>Date</strong> en utilisant les commandes dans l'en-tête de la liste.",
+                "collapseDesc": "Vous pouvez <strong>réduire</strong> les sections Collections et Tags dans la barre latérale pour gagner de l'espace vertical.",
+                "visibilityTitle": "Masquer les Collections",
+                "visibilityDesc": "Si vous avez des collections que vous utilisez rarement, vous pouvez les <strong>masquer</strong> du tableau de bord. Allez dans <strong>Paramètres</strong> > <strong>Visibilité des Collections</strong> et décochez les collections à masquer. Elles resteront dans la base de données mais n'encombreront pas votre vue."
             },
             "aiScraping": {
                 "desc1": "Vous pouvez facilement importer des prompts de n'importe quel site web (blogs, articles, etc.) en utilisant un LLM comme ChatGPT, Claude ou Gemini comme scraper \"intermédiaire\".",

@@ -1,5 +1,7 @@
-
 import { test, expect } from '@playwright/test';
+import { loginUser } from './utils';
+
+test.setTimeout(60000);
 
 test.describe('Help Page Scraper Copy', () => {
     test('copy button exists and copies system prompt', async ({ page, context }) => {

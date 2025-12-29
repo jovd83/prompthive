@@ -23,14 +23,21 @@ test.describe('Enhanced Prompt Card', () => {
         // Go to dashboard
         await page.goto('/');
 
+        // Ensure dashboard is loaded
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+
+        // Attempt reload to clear potential cache or wait for propagation
+        await page.reload();
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+
         // Find the card by title
         // Find the card by title and wait for it
-        const card = page.locator('.card', { hasText: promptTitle }).first();
+        const card = page.locator('.card').filter({ has: page.getByRole('heading', { name: promptTitle }) }).first();
         await card.waitFor({ state: 'visible', timeout: 10000 });
         await expect(card).toBeVisible();
 
-        // Check for content preview
-        await expect(card.locator('pre')).toContainText(promptContent);
+        // Check for content preview - Target the visible pre tag (not the ghost one)
+        await expect(card.locator('pre:not(.invisible)')).toContainText(promptContent);
 
         // Check for Copy Button and functionality
         // Button should now be visible without hover

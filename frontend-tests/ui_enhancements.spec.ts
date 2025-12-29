@@ -8,22 +8,18 @@ test.describe('UI Enhancements', () => {
     });
 
     test('Prompt Detail: Description should appear before Content', async ({ page }) => {
-        // Navigate to a prompt page (assuming we have seeded data or create one)
-        // For now, we'll try to find a prompt card on dashboard and click it
-        await page.goto('/');
+        // Create a specific prompt with Description to ensure test validity
+        const timestamp = Date.now();
+        const promptTitle = `Layout Test ${timestamp}`;
+        const description = `Desc ${timestamp}`;
 
-        // Wait for prompt cards
-        // Find a card that has a title (h3) - usually inside 'Newly Created' or lists
-        const promptTitleH3 = page.locator('.card h3').first();
-        await promptTitleH3.waitFor({ state: 'visible', timeout: 10000 });
+        await page.goto('/prompts/new');
+        await page.fill('input[name="title"]', promptTitle);
+        await page.fill('textarea[name="content"]', 'Content');
+        await page.fill('textarea[name="description"]', description);
+        await page.click('button[type="submit"]');
 
-        const promptTitle = (await promptTitleH3.textContent())?.trim() || "";
-        console.log(`Navigating to prompt: ${promptTitle}`);
-
-        // Click the title to navigate
-        await promptTitleH3.click();
-
-        // Wait for detail page
+        // Wait for redirection to detail page (which happens after create)
         await expect(page).toHaveURL(/\/prompts\//);
         // Verify H1 matches
         await expect(page.locator('h1')).toHaveText(promptTitle, { timeout: 15000 });
