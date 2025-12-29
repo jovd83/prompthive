@@ -12,6 +12,12 @@ last_updated: 2025-12-29
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Tech](https://img.shields.io/badge/Tech-Next.js%20%7C%20Prisma%20%7C%20SQLite-black)
 
+**PromptHive** is a self-hosted, local-first Prompt Management System designed for prompt engineers and AI enthusiasts. It allows you to organize, version, and text your LLM prompts in a beautiful, structured interface.
+
+> 🧪 **Experiment Disclaimer**: This project is an experiment on the limits of "vibe coding". It was **completely vibe coded**, including all documentation, testing, and infrastructure configuration. No manual coding was performed.
+
+![PromptHive App Screenshot](demo/prompthive_Screenshot.png)
+
 ## 📜 Changelog (v2.3.0)
 
 **New Features:**
@@ -24,12 +30,6 @@ last_updated: 2025-12-29
 *   **Performance**: Optimized `CollectionTree` component for rendering large hierarchies.
 *   **Localization**: Fully translated new settings and help documentation into Dutch, French, Spanish, Italian, German, and Swedish.
 *   **UI Polish**: Added icons to Save buttons and improved visual feedback processing states.
-
-**PromptHive** is a self-hosted, local-first Prompt Management System designed for prompt engineers and AI enthusiasts. It allows you to organize, version, and text your LLM prompts in a beautiful, structured interface.
-
-> 🧪 **Experiment Disclaimer**: This project is an experiment on the limits of "vibe coding". It was **completely vibe coded**, including all documentation, testing, and infrastructure configuration. No manual coding was performed.
-
-![PromptHive App Screenshot](demo/prompthive_Screenshot.png)
 
 ## 🚀 Comprehensive Feature Overview
 
