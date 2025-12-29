@@ -7,7 +7,7 @@ import { useSession, signIn } from "next-auth/react";
 import { toggleFavorite } from "@/actions/favorites";
 import { deletePrompt } from "@/actions/prompts";
 import { useLanguage } from "@/components/LanguageProvider";
-import { VariableDef } from "@/lib/prompt-utils";
+import { VariableDef, extractUniqueVariables } from "@/lib/prompt-utils";
 
 // Define strict types for the hook
 export type PromptWithRelations = Prisma.PromptGetPayload<{
@@ -63,9 +63,22 @@ export function usePromptDetails({ prompt, initialIsFavorited = false, parsedVar
 
     const uniqueVars = useMemo(() => {
         if (!selectedVersion?.content) return [];
-        const detectedVars = Array.from(selectedVersion.content.matchAll(/\{\{([^}]+)\}\}/g)).map((m) => m[1]);
-        return Array.from(new Set([...detectedVars, ...variableDefs.map((v) => v.key)]));
-    }, [selectedVersion?.content, variableDefs]);
+
+        const detectedVars = extractUniqueVariables(selectedVersion.content);
+
+        // Get list of attachment filenames to exclude
+        const attachmentNames = new Set(
+            (selectedVersion.attachments || []).map(a => {
+                const parts = a.filePath.split('/');
+                return parts[parts.length - 1]; // Basename
+            })
+        );
+
+        // Filter out variables that match attachment names
+        const filteredVars = detectedVars.filter(v => !attachmentNames.has(v));
+
+        return Array.from(new Set([...filteredVars, ...variableDefs.map((v) => v.key)]));
+    }, [selectedVersion?.content, selectedVersion?.attachments, variableDefs]);
 
     // Side Effects
     // Update selected version if prompt changes externally (e.g. fresh data)
