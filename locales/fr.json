@@ -28,7 +28,9 @@
         "signOut": "Déconnexion",
         "language": "Langue",
         "save": "Enregistrer",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "selectAll": "Tout sélectionner",
+        "deselectAll": "Tout désélectionner"
     },
     "languages": {
         "en": "English",
@@ -282,7 +284,10 @@
             "maximize": "Maximiser",
             "done": "Terminé",
             "confirmRestore": "Êtes-vous sûr de vouloir restaurer cette version ? Cela créera une nouvelle version avec le même contenu.",
-            "restoreSuccess": "Version restaurée avec succès."
+            "restoreSuccess": "Version restaurée avec succès.",
+            "lockPrompt": "Verrouiller le prompt (créateur uniquement)",
+            "unlockPrompt": "Déverrouiller le prompt (créateur uniquement)",
+            "lockedByCreator": "Verrouillé par le créateur"
         },
         "labels": {
             "description": "Description",
@@ -391,7 +396,12 @@
         "targetCollectionDesc": "Sélectionnez une collection dans laquelle importer. Si \"Racine\", une nouvelle collection racine sera créée avec le nom du dossier.",
         "startLocalImport": "Démarrer l'Import Local",
         "importing": "Importation en cours... cela peut prendre un certain temps",
-        "successImport": "{{count}} prompts importés avec succès !"
+        "successImport": "{{count}} prompts importés avec succès !",
+        "importComplete": "Importation terminée : {{count}} importé(s), {{skipped}} ignoré(s).",
+        "exportComplete": "Exportation terminée : {{count}} prompts exportés.",
+        "exportZeroTitle": "Exporter pour PromptHive Zero",
+        "exportZeroDesc": "Sélectionnez les collections à exporter pour la version légère.",
+        "exportZeroButton": "Exporter pour PromptHive Zero"
     },
     "help": {
         "title": "Centre d'Aide",
@@ -411,9 +421,28 @@
             "versionHistory": "Historique des Versions et Comparaison",
             "language": "Paramètres de Langue",
             "userProfile": "Profil Utilisateur & Sécurité",
-            "faq": "FAQ & Dépannage"
+            "faq": "FAQ & Dépannage",
+            "changelog": "Journal des modifications"
         },
         "content": {
+            "changelog": {
+                "version": "v2.3.1 (Actuel)",
+                "improvements": "Améliorations",
+                "fixes": "Corrections",
+                "added": "Ajouté",
+                "desc": "Pour les versions plus anciennes, veuillez consulter le <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>journal complet sur GitHub</a>.",
+                "li1": "<strong>Barre de Progression d'Import</strong> : Ajout d'une barre de progression pour les imports JSON, traitant les fichiers par lots pour éviter que l'interface ne se fige pendant les gros téléchargements.",
+                "li2": "<strong>Actions Groupées Tout Sélectionner</strong> : Ajout des boutons 'Tout Sélectionner' et 'Tout Désélectionner' dans l'en-tête des actions groupées des Collections, pour une gestion rapide de nombreux prompts.",
+                "li3": "<strong>Interface Export</strong> : Renommé le bouton générique d'export JSON en 'Exporter pour PromptHive Zero' et assuré le support complet de l'internationalisation pour la section export.",
+                "li4": "<strong>Import JSON</strong> : Correction d'un crash lors de l'import de fichiers JSON avec des virgules manquantes. L'importateur tente maintenant de réparer le JSON automatiquement ou affiche un message d'erreur convivial.",
+                "li5": "<strong>Gestion BOM</strong> : Meilleure gestion des fichiers avec des caractères Byte Order Mark (BOM).",
+                "li6": "<strong>Erreur d'Hydratation</strong> : Correction d'une erreur React liée à l'affichage du temps relatif dans les cartes de prompt.",
+                "li7": "<strong>Bouton Copier</strong> : Correction d'un problème où le bouton 'Copier' pour le Prompt Système IA dans la section Aide ne fonctionnait pas dans les contextes non sécurisés (HTTP).",
+                "li8": "<strong>Lien d'Import</strong> : Correction d'un bug critique où les prompts importés n'étaient pas correctement liés à leurs collections imbriquées si le mapping d'ID nécessitait une recherche par nom.",
+                "li9": "<strong>Exporter Arborescence Collections</strong> : Remplacement de la sélection par liste plate par une Vue Arborescente hiérarchique pour les exports standard et Zero.",
+                "li10": "<strong>Exporter pour PromptHive Zero</strong> : Permet l'export de collections spécifiques dans un format JSON léger.",
+                "li11": "<strong>Verrouillage des Prompts</strong> : Les créateurs peuvent maintenant verrouiller leurs prompts pour éviter les modifications accidentelles."
+            },
             "intro": {
                 "welcome": "Bienvenue sur <strong>PromptHive</strong>, votre sanctuaire local pour gérer, tester et organiser vos prompts LLM.",
                 "desc": "Le prompt engineering est un processus itératif. Stocker les prompts dans des fichiers texte ou historiques de chat mène au chaos. PromptHive résout cela en traitant les prompts comme du code—avec <strong>contrôle de version</strong>, <strong>variables</strong> et <strong>organisation structurée</strong>.",

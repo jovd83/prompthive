@@ -20,6 +20,8 @@ vi.mock('lucide-react', () => ({
     Clock: () => <div data-testid="icon-clock" />,
     Sparkles: () => <div data-testid="icon-sparkles" />,
     Search: () => <div data-testid="icon-search" />,
+    CheckSquare: () => <div data-testid="icon-check-square" />,
+    Square: () => <div data-testid="icon-square" />,
 }));
 
 // Mock Next.js hooks
@@ -48,6 +50,11 @@ vi.mock('@/actions/collections', () => ({
     emptyCollection: vi.fn(),
 }));
 
+vi.mock('@/actions/prompts', () => ({
+    createTag: vi.fn(),
+    bulkAddTags: vi.fn(),
+}));
+
 vi.mock('./LanguageProvider', () => ({
     useLanguage: () => ({
         t: (key: string) => {
@@ -69,6 +76,14 @@ vi.mock('@/lib/clipboard', () => ({
 
 vi.mock('@/components/PromptCard', () => ({
     default: ({ prompt }: any) => <div data-testid="prompt-card">{prompt.title}</div>
+}));
+
+vi.mock('@/components/SortControls', () => ({
+    default: () => <div data-testid="sort-controls">Sort</div>
+}));
+
+vi.mock('@/components/TagSelector', () => ({
+    default: () => <div data-testid="tag-selector">TagSelector</div>
 }));
 
 describe('CollectionSplitView', () => {
@@ -198,5 +213,52 @@ describe('CollectionSplitView', () => {
 
         // Empty state should NOT be present
         expect(screen.queryByText('Select a prompt')).toBeNull();
+    });
+
+    it('toggles selection mode and supports select all/deselect all', () => {
+        const collectionWithPrompts = {
+            ...mockCollection,
+            prompts: [
+                { id: 'p1', title: 'Prompt 1', tags: [], versions: [] },
+                { id: 'p2', title: 'Prompt 2', tags: [], versions: [] }
+            ]
+        };
+
+        render(
+            <CollectionSplitView
+                collection={collectionWithPrompts}
+                selectedPrompt={null}
+                promptId={null}
+                currentUserId="user-1"
+                collectionPath={[]}
+                isFavorited={false}
+            />
+        );
+
+        // Open menu
+        const menuBtn = screen.getByLabelText('Collection actions');
+        menuBtn.click();
+
+        // Click "Change multiple..."
+        const changeMultipleBtn = screen.getByText('Change multiple...');
+        changeMultipleBtn.click();
+
+        // Check for Selection Mode Header
+        expect(screen.getByText('0')).toBeDefined(); // 0 selected
+        expect(screen.getByTestId('icon-check-square')).toBeDefined(); // Select All button
+
+        // Click Select All
+        const selectAllBtn = screen.getByTitle('Select All');
+        selectAllBtn.click();
+
+        // Should be 2 selected
+        expect(screen.getByText('2')).toBeDefined();
+
+        // Click Deselect All
+        const deselectAllBtn = screen.getByTitle('Deselect All');
+        deselectAllBtn.click();
+
+        // Should be 0 selected
+        expect(screen.getByText('0')).toBeDefined();
     });
 });

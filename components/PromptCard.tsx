@@ -236,7 +236,7 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
                     <span className="flex items-center gap-1">
                         {t('list.by')} <span className="font-medium text-foreground">{prompt.createdBy?.username || prompt.createdBy?.email?.split('@')[0]}</span>
                     </span>
-                    <span className="flex items-center gap-1" title={prompt.updatedAt.toString()}>
+                    <span className="flex items-center gap-1" title={prompt.updatedAt.toString()} suppressHydrationWarning>
                         <Clock size={10} /> {t('list.updatedAgo').replace('{{time}}', timeAgo)}
                     </span>
                 </div>

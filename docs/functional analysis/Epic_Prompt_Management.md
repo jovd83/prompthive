@@ -21,10 +21,10 @@ Users can create a prompt with extensive metadata including multiple versions, v
 *   **Title**: Text - Required.
 *   **Collection**: Dropdown - Selects parent collection.
 *   **Tags**: Multi-select (TagSelector).
-*   **Description**: Textarea.
-*   **Prompt Content**: CodeEditor/Textarea - Required. Main body.
-*   **Short Prompt**: CodeEditor/Textarea - Optional. (Formerly "Long Version").
-*   **Usage Example**: Textarea - Optional.
+*   **Description**: **Expandable** Textarea.
+*   **Prompt Content**: CodeEditor/Textarea - Required. Main body. **Expandable** in non-code view.
+*   **Short Prompt**: CodeEditor/Textarea - Optional. **Expandable** in non-code view.
+*   **Usage Example**: **Expandable** Textarea - Optional.
 *   **Variables**: List of Objects { Key: String, Description: String }.
     *   *Auto-Add Feature*: Scans content for `{{...}}` or `[[...]]` patterns.
 *   **Results**:
@@ -117,3 +117,31 @@ Users can select a previous version from the history list and compare it side-by
 *   **Layout:** Full-screen Modal.
 *   **Key Elements:** Split view (Old vs New), Close button.
 
+---
+
+## User Story: Lock Prompt
+**As a** Creator
+**I want to** lock my prompt for others
+**So that** nobody else can edit it by accident.
+
+### 1. Description
+The creator of a prompt can toggle a "Lock" status (padlock icon). When closed (locked), **NO ONE** can edit the prompt (including the creator). To edit, the creator must first Unlock it.
+
+### 2. Technical Scope & Fields
+*   **Prompt Model**: New boolean field `isLocked` (default false).
+*   **UI**:
+    *   Lock Icon Button in Prompt Detail header.
+    *   Visual state: Open Padlock (Unlocked) vs Closed Padlock (Locked).
+    *   Permission Logic:
+        *   If `isLocked` == true:
+            *   Disable Edit Button (For Everyone).
+            *   Disable "Save New Version" (Backend).
+            *   Disable updating Metadata (Backend).
+        *   Unlock: Only Creator can unlock.
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify Lock/Unlock toggles the `isLocked` state in DB.
+*   [ ] Verify Only Creator can Click the Lock icon.
+*   [ ] Verify **Creator** sees Edit/Save buttons disabled when Locked.
+*   [ ] Verify Non-Creator sees Edit/Save buttons disabled when Locked.
+*   [ ] Verify Creator must Unlock to edit.

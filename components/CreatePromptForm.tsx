@@ -6,6 +6,7 @@ import CollapsibleSection from "@/components/CollapsibleSection";
 import TagSelector from "@/components/TagSelector";
 import { Plus, Trash, Upload, Code2 } from "lucide-react";
 import CodeEditor from "./CodeEditor"; // Import the new CodeEditor component
+import ExpandableTextarea from "./ExpandableTextarea";
 import { Collection, Tag } from "@prisma/client";
 import { computeRecursiveCounts } from '@/lib/collection-utils';
 import { usePromptEditor } from "@/hooks/usePromptEditor";
@@ -150,7 +151,13 @@ export default function CreatePromptForm({
                     </div>
                     <div className="col-span-2">
                         <label className="block text-sm font-medium mb-1">{t('form.labels.description')}</label>
-                        <textarea name="description" className="input h-20 resize-y" placeholder={t('form.placeholders.description')} data-lpignore="true" />
+                        <ExpandableTextarea
+                            name="description"
+                            className="input h-20 resize-y"
+                            placeholder={t('form.placeholders.description')}
+                            data-lpignore="true"
+                            label={t('form.labels.description')}
+                        />
                     </div>
                 </div>
             </div>
@@ -177,13 +184,14 @@ export default function CreatePromptForm({
                             minHeight="160px"
                         />
                     ) : (
-                        <textarea
+                        <ExpandableTextarea
                             name="content"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             className="input h-40 font-mono text-sm resize-y"
                             required
                             placeholder={t('form.placeholders.content')}
+                            label={t('form.sections.promptContent')}
                         />
                     )}
                 </div>
@@ -211,19 +219,25 @@ export default function CreatePromptForm({
                             minHeight="160px"
                         />
                     ) : (
-                        <textarea
+                        <ExpandableTextarea
                             name="shortContent"
                             value={shortContent}
                             onChange={(e) => setShortContent(e.target.value)}
                             className="input h-40 font-mono text-sm resize-y"
                             placeholder={t('form.placeholders.shortContent')}
+                            label={t('form.sections.shortPrompt')}
                         />
                     )}
                 </div>
             </CollapsibleSection>
 
             <CollapsibleSection title={t('form.sections.usageExample')}>
-                <textarea name="usageExample" className="input h-32 font-mono text-sm resize-y" placeholder={t('form.placeholders.usage')} />
+                <ExpandableTextarea
+                    name="usageExample"
+                    className="input h-32 font-mono text-sm resize-y"
+                    placeholder={t('form.placeholders.usage')}
+                    label={t('form.sections.usageExample')}
+                />
             </CollapsibleSection>
 
             <CollapsibleSection title={t('form.sections.variables')} defaultOpen={true}>

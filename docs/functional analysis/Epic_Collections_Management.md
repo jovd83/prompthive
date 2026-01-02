@@ -144,6 +144,8 @@ Users can enter a "selection mode" within a collection to select multiple prompt
 *   **Trigger**: "Change multiple..." option in the Collection Menu (...).
 *   **UI State**: 'Selection Mode' - Displays checkboxes next to each prompt in the list.
 *   **Actions**:
+    *   **Select All**: Button to select all currently visible prompts.
+    *   **Deselect All**: Button to clear the current selection.
     *   **Move**: Drag and drop the selected group to a collection in the sidebar.
     *   **Add Tags**: Button to open a tag selector and apply chosen tags to all selected prompts.
     *   **Cancel**: Button to exit selection mode and clear selection.
@@ -154,6 +156,8 @@ Users can enter a "selection mode" within a collection to select multiple prompt
 *   [ ] Verify multi-selection works (checking/unchecking).
 *   [ ] Verify dragging a selection group to a sidebar collection updates the `collectionId` for all selected prompts.
 *   [ ] Verify "Add Tags" functionality applies selected tags to all checked prompts.
+*   [ ] Verify "Select All" selects all visible prompts.
+*   [ ] Verify "Deselect All" clears the selection.
 *   [ ] Verify "Cancel" exits the mode.
 
 ### 4. UI Wireframe Specification

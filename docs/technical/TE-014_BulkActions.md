@@ -54,7 +54,10 @@ Implement bulk actions (move and add tags) for prompts within the Collection vie
     *   Add "Change multiple..." button.
     *   Toggles `isSelectionMode`.
 *   **Selection Mode UI**:
-    *   **Header**: Replace standard header with Selection Header (Count, Add Tags Button, Cancel).
+    *   **Header**: Replace standard header with Selection Header (Count, Select All, Deselect All, Add Tags Button, Cancel).
+    *   **Logic**:
+        *   `handleSelectAll()`: Adds all visible `collection.prompts` IDs to `selectedPromptIds`.
+        *   `handleDeselectAll()`: Clears `selectedPromptIds`.
     *   **List Items**: Pass `isSelectionMode` and `isChecked` to `CollectionPromptListItem`. Render Checkbox.
 *   **Drag & Drop**:
     *   On `dragStart` of a selected item, set `e.dataTransfer` to carry a special `"bulk-move"` flag and the list of IDs (JSON string?).

@@ -202,3 +202,12 @@ export async function bulkAddTags(promptIds: string[], tagIds: string[]) {
     revalidatePath(Routes.HOME);
     revalidatePath(Routes.COLLECTIONS);
 }
+
+export async function toggleLock(promptId: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+
+    await PromptsService.toggleLockService(session.user.id, promptId);
+
+    revalidatePath(`${Routes.PROMPTS}/${promptId}`);
+}

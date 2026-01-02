@@ -9,28 +9,58 @@ import { ImportSchema } from "@/lib/validations";
 
 export async function importPrompts(formData: FormData) {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) throw new Error("Unauthorized");
+    if (!session?.user?.id) return { success: false, error: "Unauthorized" };
 
     const file = formData.get("file") as File;
-    if (!file) throw new Error("No file uploaded");
+    if (!file) return { success: false, error: "No file uploaded" };
 
-    const text = await file.text();
+    let text;
+    try {
+        text = await file.text();
+    } catch (e: any) {
+        return { success: false, error: `Failed to read file: ${e.message}` };
+    }
+
+    // Strip BOM and whitespace
+    text = text.trim();
+    if (text.charCodeAt(0) === 0xFEFF) {
+        text = text.slice(1);
+    }
 
     // Safer Parse
     let data;
     try {
         data = JSON.parse(text);
-    } catch {
-        throw new Error("Invalid format: Not a JSON file");
+    } catch (e: any) {
+        // Attempt to fix common formatting issues (like missing commas between objects)
+        try {
+            const fixedText = text.replace(/}(\s*){/g, "},$1{");
+            data = JSON.parse(fixedText);
+            console.warn("JSON Import: Successfully repaired malformed JSON (missing commas).");
+        } catch (repairError) {
+            console.error("JSON Parse Error. Snippet:", text.substring(0, 100));
+            // Return error instead of throwing
+            return {
+                success: false,
+                error: `Invalid format: Not a JSON file. Please check for syntax errors (e.g. missing commas). Error: ${e.message}`
+            };
+        }
     }
 
     const validation = ImportSchema.safeParse(data);
-    if (!validation.success) throw new Error("Invalid data format");
+    if (!validation.success) {
+        console.error("Validation Error:", validation.error);
+        return { success: false, error: "Invalid data format: The JSON does not match the expected schema." };
+    }
 
-    const result = await ImportService.importUnifiedService(session.user.id, validation.data);
-
-    revalidatePath("/");
-    redirect(`/?importedCount=${result.count}&skippedCount=${result.skipped}`);
+    try {
+        const result = await ImportService.importUnifiedService(session.user.id, validation.data);
+        revalidatePath("/");
+        return { success: true, count: result.count, skipped: result.skipped };
+    } catch (e: any) {
+        console.error("Import Service Error:", e);
+        return { success: false, error: `Import failed: ${e.message}` };
+    }
 }
 
 

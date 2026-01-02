@@ -262,5 +262,35 @@ test.describe('Prompt Management', () => {
         // Verify visual feedback
         await expect(page.getByText('Copied')).toBeVisible();
     });
+
+    // 9. Expandable Description in Create Prompt
+    test('should allow maximizing description in create form', async ({ page }) => {
+        await page.goto('/prompts/new');
+
+        const descriptionArea = page.locator('textarea[name="description"]');
+        await expect(descriptionArea).toBeVisible();
+
+        // Button should be visible
+        const maximizeBtn = descriptionArea.locator('xpath=following-sibling::button');
+        await expect(maximizeBtn).toBeVisible();
+
+        // Open Modal
+        await maximizeBtn.click();
+        const modal = page.locator('.fixed.z-50');
+        await expect(modal).toBeVisible();
+        await expect(modal).toContainText('Description'); // Label is passed as "Description"
+
+        // Type in modal
+        const modalTextarea = modal.locator('textarea');
+        const longText = 'This description was typed in the modal popup.';
+        await modalTextarea.fill(longText);
+
+        // Save
+        await page.click('button:has-text("Done")');
+        await expect(modal).not.toBeVisible();
+
+        // Verify in form
+        await expect(descriptionArea).toHaveValue(longText);
+    });
 });
 

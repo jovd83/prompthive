@@ -33,7 +33,9 @@
         "learnMore": "Learn more",
         "expandTip": "Expand tip",
         "collapseTip": "Collapse tip",
-        "system": "System"
+        "system": "System",
+        "selectAll": "Select All",
+        "deselectAll": "Deselect All"
     },
     "languages": {
         "en": "English",
@@ -295,7 +297,10 @@
             "maximize": "Maximize",
             "done": "Done",
             "confirmRestore": "Are you sure you want to restore this version? This will create a new version with the same content.",
-            "restoreSuccess": "Version restored successfully."
+            "restoreSuccess": "Version restored successfully.",
+            "lockPrompt": "Lock Prompt (Creator Only)",
+            "unlockPrompt": "Unlock Prompt (Creator Only)",
+            "lockedByCreator": "Locked by creator"
         },
         "labels": {
             "description": "Description",
@@ -409,7 +414,12 @@
         "targetCollectionDesc": "Select a collection to import into. If \"Root\", a new root collection will be created with the folder name.",
         "startLocalImport": "Start Local Import",
         "importing": "Importing... this may take a while",
-        "successImport": "Successfully imported {{count}} prompts!"
+        "successImport": "Successfully imported {{count}} prompts!",
+        "importComplete": "Import complete: {{count}} imported, {{skipped}} skipped.",
+        "exportComplete": "Export complete: {{count}} prompts exported.",
+        "exportZeroTitle": "Export for PromptHive Zero",
+        "exportZeroDesc": "Select collections to export for the lightweight version.",
+        "exportZeroButton": "Export for PromptHive Zero"
     },
     "help": {
         "title": "Help Center",
@@ -430,10 +440,30 @@
             "language": "Language Settings",
             "userProfile": "User Profile & Security",
             "exporting": "Exporting & Downloading",
+            "locking": "Locking Prompts (Protection)",
             "faq": "FAQ & Troubleshooting",
-            "admin": "Admin Features"
+            "admin": "Admin Features",
+            "changelog": "Changelog"
         },
         "content": {
+            "changelog": {
+                "version": "v2.3.1 (current)",
+                "improvements": "Improvements",
+                "fixes": "Fixes",
+                "added": "Added",
+                "desc": "For older versions, please see the <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>full changelog on GitHub</a>.",
+                "li1": "<strong>Import Progress Bar</strong>: Added a progress bar for JSON imports, processing files in batches to prevent the UI from freezing during large uploads.",
+                "li2": "<strong>Bulk Actions Select All</strong>: Added 'Select All' and 'Deselect All' buttons to the bulk action header in Collections, allowing users to quickly manage large numbers of prompts.",
+                "li3": "<strong>Export UI</strong>: Renamed generic JSON export button to 'Export for PromptHive Zero' and ensured full internationalization support for the export section across all languages.",
+                "li4": "<strong>JSON Import</strong>: Fixed a crash when importing JSON files with missing commas. The importer now attempts to automatically repair the JSON or displays a friendly error message.",
+                "li5": "<strong>BOM Handling</strong>: Improved handling of files with Byte Order Mark (BOM) characters.",
+                "li6": "<strong>Hydration Error</strong>: Fixed a React hydration mismatch error related to relative time display in prompt cards.",
+                "li7": "<strong>Copy Button</strong>: Fixed an issue where the 'Copy' button for the AI System Prompt in the Help section was non-functional in non-secure contexts (HTTP).",
+                "li8": "<strong>Import Linking</strong>: Fixed a critical bug where imported prompts were not correctly linked to their nested collections if the ID mapping required a fallback to name-based lookup.",
+                "li9": "<strong>Export Collections Tree</strong>: Replaced flat list selection with a hierarchical Tree View for both standard and Zero exports.",
+                "li10": "<strong>Export for PromptHive Zero</strong>: Allowing export of specific collections in a lightweight JSON format.",
+                "li11": "<strong>Locking Prompts</strong>: Creators can now lock their prompts to prevent accidental edits."
+            },
             "intro": {
                 "welcome": "Welcome to <strong>PromptHive</strong>, your local-first sanctuary for managing, testing, and organizing LLM prompts.",
                 "desc": "Prompt engineering is an iterative process. Storing prompts in text files or chat histories leads to version chaos. PromptHive solves this by treating prompts like code—with <strong>version control</strong>, <strong>variables</strong>, and <strong>structured organization</strong>.",
@@ -537,7 +567,16 @@
                 "markdownTitle": "Download as Markdown",
                 "markdownDesc": "On any prompt detail page, click the <span class=\"inline-flex items-center justify-center p-1 bg-surface rounded border border-border\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"/></svg></span> button to download a formatted <code>.md</code> file. This file includes the prompt version, variables, metadata, and references to attachments.",
                 "jsonTitle": "Full JSON Export",
-                "jsonDesc": "Navigate to <strong>Import / Export</strong> in the sidebar to download your entire library as a JSON file."
+                "jsonDesc": "Navigate to <strong>Import / Export</strong> in the sidebar to download your entire library as a JSON file. This export now preserves your complete <strong>Collection Hierarchy</strong> and structure."
+            },
+            "locking": {
+                "desc": "Protect your work from accidental edits by <strong>Locking</strong> your prompts.",
+                "howToTitle": "How to Lock",
+                "li1": "Open a prompt you created.",
+                "li2": "Click the <span class=\"text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span> <strong>Unlock</strong> icon in the header.",
+                "li3": "The icon will change to a <strong>Closed Padlock</strong>, indicating the prompt is locked.",
+                "effectTitle": "What happens?",
+                "effectDesc": "When locked, the <strong>Edit</strong>, <strong>Save New Version</strong>, and <strong>Add Variable</strong> buttons are disabled for everyone (except you). Use this to mark prompts as 'Final/Stable' or to prevent team members from modifying your templates."
             },
             "admin": {
                 "desc": "Administrators have access to special controls to manage the instance and its users.",

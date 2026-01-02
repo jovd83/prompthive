@@ -5,17 +5,19 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw } from "lucide-react";
+import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock } from "lucide-react";
 import CollapsibleSection from "./CollapsibleSection";
+import ExpandableTextarea from "./ExpandableTextarea";
 import Link from "next/link";
 import CodeEditor from "./CodeEditor";
 import VisualDiff from "./VisualDiff";
 import { useLanguage } from "./LanguageProvider";
+import { useSession } from "next-auth/react";
 import { usePromptDetails, PromptWithRelations } from "@/hooks/usePromptDetails";
 import { VariableDef, replaceVariables } from "@/lib/prompt-utils";
 import { copyToClipboard } from "@/lib/clipboard";
 import { generateMarkdown, downloadStringAsFile } from "@/lib/markdown";
-import { restorePromptVersion } from "@/actions/prompts";
+import { restorePromptVersion, toggleLock } from "@/actions/prompts";
 
 type PromptDetailProps = {
     prompt: PromptWithRelations;
@@ -28,6 +30,7 @@ const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
 
 export default function PromptDetail({ prompt, isFavorited: initialIsFavorited = false, serverParsedVariables, collectionPaths }: PromptDetailProps) {
     const { t, language } = useLanguage();
+    const { data: session } = useSession();
 
     // Use the Hook
     const {
@@ -42,6 +45,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
         setIsDeleting,
         confirmDelete,
         error,
+        setError,
         diffConfig,
         setDiffConfig,
         variableDefs,
@@ -52,10 +56,14 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
     const [copied, setCopied] = useState(false);
     const [isCodeView, setIsCodeView] = useState(false);
     const [isLongCodeView, setIsLongCodeView] = useState(false); // keeping var name internal for now or rename? logic is same. Let's keep internal vars stable to avoid excessive churn.
-    const [expandedVariable, setExpandedVariable] = useState<string | null>(null);
     const [versionToRestore, setVersionToRestore] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isLocking, setIsLocking] = useState(false);
+
+    const isCreator = session?.user?.id === prompt.createdById;
+    // Cast prompt to any to access isLocked if types are stale
+    const isLocked = (prompt as any).isLocked;
+    const canEdit = !isLocked;
 
     // Derived UI State
     if (!selectedVersion) return <div>{t('detail.placeholders.noVersions')}</div>;
@@ -108,14 +116,28 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                 throw err;
             }
             console.error("Failed to restore version:", err);
-            setErrorMessage(t('detail.errors.restoreFailed') || "Failed to restore version.");
-            setTimeout(() => setErrorMessage(null), 5000);
+            setError(t('detail.errors.restoreFailed') || "Failed to restore version.");
             // Alert backup as valid fallback if UI fails
             // alert(`Failed to restore version: ${err instanceof Error ? err.message : String(err)}`);
         } finally {
             setVersionToRestore(null);
         }
     };
+
+    const handleToggleLock = async () => {
+        if (!isCreator) return;
+        setIsLocking(true);
+        try {
+            await toggleLock(prompt.id);
+            // Optimistic update or refresh happens via server action revalidate
+        } catch (err) {
+            console.error("Failed to toggle lock:", err);
+            setError("Failed to toggle lock status.");
+        } finally {
+            setIsLocking(false);
+        }
+    };
+
 
     return (
         <div className="max-w-5xl mx-auto pb-12">
@@ -147,6 +169,22 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                     So the above logic handles it.
                 */}
             </div>
+
+            {/* Global Error Toast */}
+            {error && (
+                <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-5 w-full max-w-lg px-4">
+                    <div className="alert alert-error shadow-lg border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/90 text-red-900 dark:text-red-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div className="flex flex-col">
+                            <span className="font-bold">Error</span>
+                            <span className="text-sm">{error}</span>
+                        </div>
+                        <button onClick={() => setError("")} className="btn btn-sm btn-ghost btn-circle">
+                            <X size={18} />
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* Header */}
             <div className="flex justify-between items-start mb-6">
@@ -180,9 +218,28 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         <FileDown size={20} />
                     </button>
 
-                    {error && <span className="text-sm text-red-500 bg-red-50 px-2 py-1 rounded border border-red-100">{error}</span>}
-                    {errorMessage && <span className="text-sm text-red-500 bg-red-50 px-2 py-1 rounded border border-red-100">{errorMessage}</span>}
+
+
                     {successMessage && <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100 animate-in fade-in slide-in-from-top-1">{successMessage}</span>}
+
+
+                    {/* Lock Button (Creator Only) */}
+                    {isCreator && (
+                        <button
+                            onClick={handleToggleLock}
+                            disabled={isLocking}
+                            className={`btn border hover:bg-background ${isLocked ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/20 dark:text-amber-500" : "bg-surface border-border"}`}
+                            title={isLocked ? t('detail.actions.unlockPrompt') : t('detail.actions.lockPrompt')}
+                        >
+                            {isLocking ? (
+                                <span className="loading loading-spinner loading-xs"></span>
+                            ) : isLocked ? (
+                                <Lock size={20} />
+                            ) : (
+                                <Unlock size={20} />
+                            )}
+                        </button>
+                    )}
 
                     {isDeleting ? (
                         <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2">
@@ -192,7 +249,11 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         </div>
                     ) : (
                         <>
-                            <Link href={`/prompts/${prompt.id}/edit`} className="btn bg-surface border border-border hover:bg-background" title={t('detail.actions.edit')}>
+                            <Link
+                                href={canEdit ? `/prompts/${prompt.id}/edit` : "#"}
+                                className={`btn bg-surface border border-border hover:bg-background ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
+                            >
                                 <Edit size={16} />
                             </Link>
                             <button
@@ -422,22 +483,16 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                         <div key={v}>
                                             <label htmlFor={v} className="block text-sm font-medium mb-1">{v}</label>
                                             {def?.description && <p className="text-xs text-muted-foreground mb-1">{def.description}</p>}
-                                            <div className="relative">
-                                                <textarea
-                                                    id={v}
-                                                    value={variables[v] || ""}
-                                                    onChange={(e) => fillVariable(v, e.target.value)}
-                                                    className="input text-sm bg-background min-h-[80px] pr-8 resize-y"
-                                                    placeholder={t('detail.placeholders.valueFor').replace('{{name}}', v)}
-                                                />
-                                                <button
-                                                    onClick={() => setExpandedVariable(v)}
-                                                    className="absolute top-2 right-2 text-muted-foreground hover:text-primary transition-colors p-1 rounded hover:bg-muted"
-                                                    title={t('detail.actions.maximize') || "Maximize"}
-                                                >
-                                                    <Maximize2 size={14} />
-                                                </button>
-                                            </div>
+                                            {def?.description && <p className="text-xs text-muted-foreground mb-1">{def.description}</p>}
+                                            <ExpandableTextarea
+                                                id={v}
+                                                value={variables[v] || ""}
+                                                onChange={(e) => fillVariable(v, e.target.value)}
+                                                className="input text-sm bg-background min-h-[80px] pr-8 resize-y"
+                                                placeholder={t('detail.placeholders.valueFor').replace('{{name}}', v)}
+                                                label={`${t('detail.labels.editingVariable') || "Editing"}: ${v}`}
+                                                modalDescription={def?.description}
+                                            />
                                         </div>
                                     );
                                 })}
@@ -510,48 +565,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                 />
             )}
 
-            {/* Variable Expansion Modal */}
-            {expandedVariable && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="w-full max-w-4xl h-[80vh] bg-background border border-border shadow-2xl rounded-lg flex flex-col animate-in zoom-in-95 duration-200">
-                        <div className="flex justify-between items-center p-4 border-b border-border">
-                            <div>
-                                <h3 className="text-lg font-bold flex items-center gap-2">
-                                    <Edit size={18} /> {t('detail.labels.editingVariable') || "Editing"}: <span className="font-mono text-primary bg-primary/10 px-2 py-0.5 rounded">{expandedVariable}</span>
-                                </h3>
-                                {variableDefs.find(d => d.key === expandedVariable)?.description && (
-                                    <p className="text-sm text-muted-foreground mt-1">
-                                        {variableDefs.find(d => d.key === expandedVariable)?.description}
-                                    </p>
-                                )}
-                            </div>
-                            <button
-                                onClick={() => setExpandedVariable(null)}
-                                className="p-2 hover:bg-muted rounded-full transition-colors"
-                            >
-                                <X size={20} />
-                            </button>
-                        </div>
-                        <div className="flex-1 p-4 bg-muted/20">
-                            <textarea
-                                value={variables[expandedVariable] || ""}
-                                onChange={(e) => fillVariable(expandedVariable, e.target.value)}
-                                className="w-full h-full p-4 rounded-md border border-border bg-background shadow-sm focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none font-mono text-sm leading-relaxed"
-                                placeholder={t('detail.placeholders.enterLargeText') || "Enter regular or large text here..."}
-                                autoFocus
-                            />
-                        </div>
-                        <div className="p-4 border-t border-border flex justify-end gap-2 bg-background rounded-b-lg">
-                            <button
-                                onClick={() => setExpandedVariable(null)}
-                                className="btn btn-primary px-6"
-                            >
-                                {t('detail.actions.done') || "Done"}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+
             {/* Restore Confirmation Dialog */}
             <ConfirmationDialog
                 isOpen={!!versionToRestore}

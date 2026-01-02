@@ -2,8 +2,8 @@
 
 ---
 title: PromptHive - Project README
-version: 2.3.0
-last_updated: 2025-12-29
+version: 2.3.1
+last_updated: 2026-01-01
 ---
 
 ![Prompthive](public/prompthive_header.png)
@@ -18,18 +18,9 @@ last_updated: 2025-12-29
 
 ![PromptHive App Screenshot](demo/prompthive_Screenshot.png)
 
-## 📜 Changelog (v2.3.0)
+## 📜 Changelog
 
-**New Features:**
-*   **Collection Tree Visibility**: You can now hide specific collections (and their sub-collections) from the sidebar and main views via Settings, similar to User Visibility.
-*   **Hierarchical Collection View**: Replaced the flat grid view with a proper Tree View in the Collections page for better navigation of deep hierarchies.
-*   **Sorting Options**: Added ability to sort collections by Name (A-Z/Z-A), Date (Newest/Oldest), and Count (Most Items) in the main list.
-
-**Improvements & Fixes:**
-*   **Deployment**: Adjusted build process to use `npm install` for broader compatibility across platforms, preventing lockfile issues during Docker builds.
-*   **Performance**: Optimized `CollectionTree` component for rendering large hierarchies.
-*   **Localization**: Fully translated new settings and help documentation into Dutch, French, Spanish, Italian, German, and Swedish.
-*   **UI Polish**: Added icons to Save buttons and improved visual feedback processing states.
+See [CHANGELOG.md](CHANGELOG.md) for the full history of changes.
 
 ## 🚀 Comprehensive Feature Overview
 

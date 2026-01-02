@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Folder, Plus, ArrowLeft, ChevronRight, FileText, MoreVertical, Edit2, Trash2, Check, X, Copy, Tag as TagIcon, Layers, Move } from "lucide-react";
+import { Folder, Plus, ArrowLeft, ChevronRight, FileText, MoreVertical, Edit2, Trash2, Check, X, Copy, Tag as TagIcon, Layers, Move, CheckSquare, Square } from "lucide-react";
 import SortControls from "@/components/SortControls";
 import PromptDetail from "@/components/PromptDetail";
 import PromptCard from "@/components/PromptCard";
@@ -142,6 +142,15 @@ export default function CollectionSplitView({ collection, selectedPrompt, prompt
     const handleBulkAddTags = async () => {
         // Just used to trigger the modal logic
         // This is now handled by the TagSelector wrapper in the modal
+    };
+
+    const handleSelectAll = () => {
+        const allIds = collection.prompts.map((p: any) => p.id);
+        setSelectedPromptIds(new Set(allIds));
+    };
+
+    const handleDeselectAll = () => {
+        setSelectedPromptIds(new Set());
     };
 
     // ... Resizing logic ...
@@ -358,6 +367,22 @@ export default function CollectionSplitView({ collection, selectedPrompt, prompt
                                             <span>{selectedPromptIds.size}</span>
                                             <span className="text-[9px] font-normal uppercase opacity-70">Selected</span>
                                         </div>
+                                        <div className="h-6 w-px bg-primary/20 mx-1"></div>
+                                        <button
+                                            onClick={handleSelectAll}
+                                            className="p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary transition-colors"
+                                            title="Select All"
+                                        >
+                                            <CheckSquare size={14} />
+                                        </button>
+                                        <button
+                                            onClick={handleDeselectAll}
+                                            disabled={selectedPromptIds.size === 0}
+                                            className="p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary disabled:opacity-50 transition-colors"
+                                            title="Deselect All"
+                                        >
+                                            <Square size={14} />
+                                        </button>
                                         <div className="h-6 w-px bg-primary/20 mx-1"></div>
                                         <button
                                             onClick={() => setIsTagModalOpen(true)}

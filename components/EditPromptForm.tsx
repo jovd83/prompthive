@@ -11,6 +11,7 @@ import CodeEditor from "./CodeEditor";
 import { computeRecursiveCounts } from '@/lib/collection-utils';
 import { usePromptEditor } from "@/hooks/usePromptEditor";
 import { useLanguage } from "./LanguageProvider";
+import ExpandableTextarea from "./ExpandableTextarea";
 
 export default function EditPromptForm({ prompt, latestVersion, collections = [], tags = [] }: any) {
     const { t } = useLanguage();
@@ -151,7 +152,13 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
                     </div>
                     <div className="col-span-2">
                         <label className="block text-sm font-medium mb-1">{t('form.labels.description')}</label>
-                        <textarea name="description" className="input h-20 resize-y" defaultValue={prompt.description || ""} data-lpignore="true" />
+                        <ExpandableTextarea
+                            name="description"
+                            className="input h-20 resize-y"
+                            defaultValue={prompt.description || ""}
+                            data-lpignore="true"
+                            label={t('form.labels.description')}
+                        />
                     </div>
                 </div>
             </div>
@@ -185,12 +192,13 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
                             minHeight="160px"
                         />
                     ) : (
-                        <textarea
+                        <ExpandableTextarea
                             name="content"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                             className="input h-40 font-mono text-sm resize-y"
                             required
+                            label={t('form.sections.promptContent')}
                         />
                     )}
                 </div>
@@ -218,21 +226,23 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
                             minHeight="160px"
                         />
                     ) : (
-                        <textarea
+                        <ExpandableTextarea
                             name="shortContent"
                             value={shortContent}
                             onChange={(e) => setShortContent(e.target.value)}
                             className="input h-40 font-mono text-sm resize-y"
+                            label={t('form.sections.shortPrompt')}
                         />
                     )}
                 </div>
             </CollapsibleSection>
 
             <CollapsibleSection title={t('form.sections.usageExample')} defaultOpen={!!latestVersion.usageExample}>
-                <textarea
+                <ExpandableTextarea
                     name="usageExample"
                     className="input h-32 font-mono text-sm resize-y"
                     defaultValue={latestVersion.usageExample || ""}
+                    label={t('form.sections.usageExample')}
                 />
             </CollapsibleSection>
 

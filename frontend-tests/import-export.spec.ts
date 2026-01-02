@@ -16,12 +16,12 @@ test.describe('Import / Export', () => {
 
         await test.step('Check Export section', async () => {
             await expect(page.locator('h2:has-text("Export Prompts")')).toBeVisible();
-            await expect(page.locator('a[href="/api/export"]')).toBeVisible();
+            await expect(page.getByRole('button', { name: 'Download JSON' })).toBeVisible();
         });
 
         await test.step('Check Import section', async () => {
             await expect(page.locator('h2:has-text("Import Prompts")')).toBeVisible();
-            // Verify fil input is present
+            // Verify files input is present
             const count = await page.locator('input[name="file"]').count();
             expect(count).toBeGreaterThanOrEqual(1);
         });
@@ -29,10 +29,18 @@ test.describe('Import / Export', () => {
 
     test('should try export download', async ({ page }) => {
         await page.goto('/import-export');
-        // We can capture the download event
-        const downloadPromise = page.waitForEvent('download', { timeout: 15000 });
-        await page.click('a[href="/api/export"]');
+
+        // Setup download listener
+        const downloadPromise = page.waitForEvent('download', { timeout: 30000 });
+
+        // Click the export button
+        await page.getByRole('button', { name: 'Download JSON' }).click();
+
+        // Wait for download
         const download = await downloadPromise;
         expect(download.suggestedFilename()).toMatch(/prompthive-backup-.*\.json/);
+
+        // Verify success message appears (optional, depends on speed)
+        await expect(page.getByText('Export complete')).toBeVisible({ timeout: 10000 });
     });
 });

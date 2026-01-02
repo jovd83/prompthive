@@ -131,6 +131,12 @@ export async function createVersionService(
 
     if (!prompt) throw new Error("Prompt not found");
 
+    // Lock check
+    // Lock check
+    if (prompt.isLocked) {
+        throw new Error("Prompt is locked. Unlock it to make changes.");
+    }
+
     const nextVersionNumber = (prompt.versions[0]?.versionNumber || 0) + 1;
     const savedAttachments: { filePath: string; fileType: string; role?: string }[] = [];
 
@@ -431,7 +437,11 @@ export async function movePromptService(userId: string, promptId: string, collec
 
     if (!prompt) throw new Error("Prompt not found");
 
-    if (!prompt) throw new Error("Prompt not found");
+
+
+    if (prompt.isLocked && prompt.createdById !== userId) {
+        throw new Error("Prompt is locked by the creator.");
+    }
 
     // Permission check removed as per CR-006 (Relax Permissions)
 
@@ -463,8 +473,14 @@ export async function bulkMovePromptsService(userId: string, promptIds: string[]
     // Check ownership for all prompts (optional but good security)
     const prompts = await prisma.prompt.findMany({
         where: { id: { in: promptIds } },
-        select: { id: true, createdById: true }
+        select: { id: true, createdById: true, isLocked: true }
     });
+
+    // Check locks
+    const lockedInfo = prompts.find(p => p.isLocked && p.createdById !== userId);
+    if (lockedInfo) {
+        throw new Error(`Prompt ${lockedInfo.id} is locked by its creator.`);
+    }
 
     // Relaxed permissions: allow moving any prompt if authenticated
     // verify prompts exist
@@ -507,8 +523,14 @@ export async function bulkAddTagsService(userId: string, promptIds: string[], ta
     // Check ownership
     const prompts = await prisma.prompt.findMany({
         where: { id: { in: promptIds } },
-        select: { id: true, createdById: true }
+        select: { id: true, createdById: true, isLocked: true }
     });
+
+    // Check locks
+    const lockedInfo = prompts.find(p => p.isLocked && p.createdById !== userId);
+    if (lockedInfo) {
+        throw new Error(`Prompt ${lockedInfo.id} is locked by its creator.`);
+    }
 
     // Relaxed permissions: allow tagging any prompt if authenticated
     const validPromptIds = prompts.map(p => p.id);
@@ -526,4 +548,21 @@ export async function bulkAddTagsService(userId: string, promptIds: string[], ta
             }
         }))
     );
+}
+
+export async function toggleLockService(userId: string, promptId: string) {
+    const prompt = await prisma.prompt.findUnique({
+        where: { id: promptId },
+    });
+
+    if (!prompt) throw new Error("Prompt not found");
+
+    if (prompt.createdById !== userId) {
+        throw new Error("Only the creator can lock/unlock this prompt.");
+    }
+
+    return prisma.prompt.update({
+        where: { id: promptId },
+        data: { isLocked: !prompt.isLocked }
+    });
 }

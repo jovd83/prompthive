@@ -28,7 +28,9 @@
         "signOut": "Abmelden",
         "language": "Sprache",
         "save": "Speichern",
-        "cancel": "Abbrechen"
+        "cancel": "Abbrechen",
+        "selectAll": "Alles auswählen",
+        "deselectAll": "Alles abwählen"
     },
     "languages": {
         "en": "English",
@@ -282,7 +284,10 @@
             "maximize": "Maximieren",
             "done": "Fertig",
             "confirmRestore": "Möchten Sie diese Version wirklich wiederherstellen? Dies erstellt eine neue Version mit demselben Inhalt.",
-            "restoreSuccess": "Version erfolgreich wiederhergestellt."
+            "restoreSuccess": "Version erfolgreich wiederhergestellt.",
+            "lockPrompt": "Prompt sperren (nur Ersteller)",
+            "unlockPrompt": "Prompt entsperren (nur Ersteller)",
+            "lockedByCreator": "Vom Ersteller gesperrt"
         },
         "labels": {
             "description": "Beschreibung",
@@ -394,7 +399,12 @@
         "targetCollectionDesc": "Wähle eine Sammlung aus, in die importiert werden soll. Wenn \"Wurzel\", wird eine neue Wurzel-Sammlung mit dem Ordnernamen erstellt.",
         "startLocalImport": "Lokalen Import starten",
         "importing": "Importiere... dies kann einen Moment dauern",
-        "successImport": "{{count}} Prompts erfolgreich importiert!"
+        "successImport": "{{count}} Prompts erfolgreich importiert!",
+        "importComplete": "Import abgeschossen: {{count}} importiert, {{skipped}} übersprungen.",
+        "exportComplete": "Export vollständig: {{count}} Prompts exportiert.",
+        "exportZeroTitle": "Export für PromptHive Zero",
+        "exportZeroDesc": "Wählen Sie Sammlungen aus, um sie für die Lightweight-Version zu exportieren.",
+        "exportZeroButton": "Export für PromptHive Zero"
     },
     "help": {
         "title": "Hilfe-Center",
@@ -414,9 +424,28 @@
             "versionHistory": "Versionsverlauf & Vergleich",
             "language": "Spracheinstellungen",
             "userProfile": "Benutzerprofil & Sicherheit",
-            "faq": "FAQ & Fehlerbehebung"
+            "faq": "FAQ & Fehlerbehebung",
+            "changelog": "Änderungsprotokoll"
         },
         "content": {
+            "changelog": {
+                "version": "v2.3.1 (Aktuell)",
+                "improvements": "Verbesserungen",
+                "fixes": "Fehlerbehebungen",
+                "added": "Hinzugefügt",
+                "desc": "Für ältere Versionen, siehe das <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>vollständige Änderungsprotokoll auf GitHub</a>.",
+                "li1": "<strong>Import Fortschrittsbalken</strong>: Fortschrittsbalken für JSON-Importe hinzugefügt, verarbeitet Dateien in Stapeln, um zu verhindern, dass die UI bei großen Uploads einfriert.",
+                "li2": "<strong>Massenaktionen Alles auswählen</strong>: 'Alles auswählen' und 'Alles abwählen' Buttons zum Massenaktions-Header in Sammlungen hinzugefügt, um große Mengen an Prompts schnell zu verwalten.",
+                "li3": "<strong>Export UI</strong>: Generischer JSON-Export-Button umbenannt in 'Export für PromptHive Zero' und volle Internationalisierungsunterstützung für den Exportbereich hinzugefügt.",
+                "li4": "<strong>JSON Import</strong>: Absturz beim Importieren von JSON-Dateien mit fehlenden Kommas behoben. Der Importer versucht nun, das JSON automatisch zu reparieren oder zeigt eine freundliche Fehlermeldung an.",
+                "li5": "<strong>BOM Behandlung</strong>: Verbesserte Behandlung von Dateien mit Byte Order Mark (BOM) Zeichen.",
+                "li6": "<strong>Hydration Fehler</strong>: React Hydration Mismatch Fehler behoben, der mit der relativen Zeitanzeige in Prompt-Karten zusammenhing.",
+                "li7": "<strong>Kopieren Button</strong>: Problem behoben, bei dem der 'Kopieren' Button für den KI System Prompt im Hilfebereich in unsicheren Kontexten (HTTP) nicht funktionierte.",
+                "li8": "<strong>Import Verknüpfung</strong>: Kritischen Fehler behoben, bei dem importierte Prompts nicht korrekt mit ihren verschachtelten Sammlungen verknüpft wurden, wenn die ID-Zuordnung einen Fallback auf Namenssuche erforderte.",
+                "li9": "<strong>Export Sammlungsbaum</strong>: Flache Listenauswahl durch eine hierarchische Baumansicht für sowohl Standard- als auch Zero-Exporte ersetzt.",
+                "li10": "<strong>Export für PromptHive Zero</strong>: Ermöglicht den Export spezifischer Sammlungen in einem leichtgewichtigen JSON-Format.",
+                "li11": "<strong>Prompts Sperren</strong>: Ersteller können nun ihre Prompts sperren, um versehentliche Änderungen zu verhindern."
+            },
             "intro": {
                 "welcome": "Willkommen bei <strong>PromptHive</strong>, deinem lokalen Zufluchtsort zum Verwalten, Testen und Organisieren von LLM-Prompts.",
                 "desc": "Prompt-Engineering ist ein iterativer Prozess. Das Speichern von Prompts in Textdateien oder Chat-Verläufen führt zu Versions-Chaos. PromptHive löst dies, indem es Prompts wie Code behandelt – mit <strong>Versionskontrolle</strong>, <strong>Variablen</strong> und <strong>strukturierter Organisation</strong>.",

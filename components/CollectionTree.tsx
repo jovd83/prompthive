@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export type CollectionTreeProps = {
     collections: any[];
     mode?: "navigation" | "selection"; // 'navigation' for main page, 'selection' for settings
+    variant?: "default" | "visibility"; // 'visibility' shows EyeOff icons logic
     checkedIds?: Set<string>; // For selection mode (hidden IDs)
     onToggle?: (id: string, checked: boolean) => void;
     currentUserId?: string;
@@ -24,7 +25,7 @@ type TreeNode = {
     ownerId?: string;
 };
 
-export default function CollectionTree({ collections = [], mode = "navigation", checkedIds, onToggle, currentUserId }: CollectionTreeProps) {
+export default function CollectionTree({ collections = [], mode = "navigation", variant = "default", checkedIds, onToggle, currentUserId }: CollectionTreeProps) {
     const countMap = computeRecursiveCounts(collections);
 
     // Build Tree
@@ -69,6 +70,7 @@ export default function CollectionTree({ collections = [], mode = "navigation", 
                     node={node}
                     level={0}
                     mode={mode}
+                    variant={variant}
                     checkedIds={checkedIds}
                     onToggle={onToggle}
                     currentUserId={currentUserId}
@@ -82,6 +84,7 @@ function CollectionTreeNode({
     node,
     level,
     mode,
+    variant,
     checkedIds,
     onToggle,
     currentUserId
@@ -89,6 +92,7 @@ function CollectionTreeNode({
     node: TreeNode,
     level: number,
     mode: "navigation" | "selection",
+    variant?: "default" | "visibility",
     checkedIds?: Set<string>,
     onToggle?: (id: string, checked: boolean) => void,
     currentUserId?: string
@@ -130,7 +134,7 @@ function CollectionTreeNode({
                         <span className={`font-medium ${!isChecked ? 'text-muted-foreground/70' : ''}`}>
                             {node.title}
                         </span>
-                        {!isChecked && (
+                        {!isChecked && variant === "visibility" && (
                             <span className="text-xs text-muted-foreground border border-border px-1.5 py-0.5 rounded flex items-center gap-1">
                                 <EyeOff size={10} />
                             </span>
@@ -154,6 +158,7 @@ function CollectionTreeNode({
                             node={child}
                             level={level + 1}
                             mode={mode}
+                            variant={variant}
                             checkedIds={checkedIds}
                             onToggle={onToggle}
                             currentUserId={currentUserId}

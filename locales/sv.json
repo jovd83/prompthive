@@ -28,7 +28,9 @@
         "signOut": "Logga ut",
         "language": "Språk",
         "save": "Spara",
-        "cancel": "Avbryt"
+        "cancel": "Avbryt",
+        "selectAll": "Markera allt",
+        "deselectAll": "Avmarkera allt"
     },
     "languages": {
         "en": "English",
@@ -282,7 +284,10 @@
             "maximize": "Maximera",
             "done": "Klar",
             "confirmRestore": "Är du säker på att du vill återställa denna version? Detta skapar en ny version med samma innehåll.",
-            "restoreSuccess": "Version återställd."
+            "restoreSuccess": "Version återställd.",
+            "lockPrompt": "Lås prompt (endast skapare)",
+            "unlockPrompt": "Lås upp prompt (endast skapare)",
+            "lockedByCreator": "Låst av skapare"
         },
         "labels": {
             "description": "Beskrivning",
@@ -394,7 +399,12 @@
         "targetCollectionDesc": "Välj en samling att importera till. Om \"Rot\", skapas en ny rotsamling med mappnamnet.",
         "startLocalImport": "Starta Lokal Import",
         "importing": "Importerar... detta kan ta en stund",
-        "successImport": "Lyckades importera {{count}} prompts!"
+        "successImport": "Lyckades importera {{count}} prompts!",
+        "importComplete": "Import klar: {{count}} importerade, {{skipped}} hoppade över.",
+        "exportComplete": "Export klar: {{count}} prompts exporterade.",
+        "exportZeroTitle": "Exportera för PromptHive Zero",
+        "exportZeroDesc": "Välj samlingar att exportera för den lätta versionen.",
+        "exportZeroButton": "Exportera för PromptHive Zero"
     },
     "help": {
         "title": "Hjälpcenter",
@@ -414,9 +424,28 @@
             "versionHistory": "Versionshistorik & Jämförelse",
             "language": "Språkinställningar",
             "userProfile": "Användarprofil & Säkerhet",
-            "faq": "FAQ & Felsökning"
+            "faq": "FAQ & Felsökning",
+            "changelog": "Ändringslogg"
         },
         "content": {
+            "changelog": {
+                "version": "v2.3.1 (Nuvarande)",
+                "improvements": "Förbättringar",
+                "fixes": "Korrigeringar",
+                "added": "Tillagt",
+                "desc": "För äldre versioner, se <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>hela ändringsloggen på GitHub</a>.",
+                "li1": "<strong>Import Förloppsindikator</strong>: Lade till en förloppsindikator för JSON-importer, som bearbetar filer i omgångar för att förhindra att gränssnittet fryser under stora uppladdningar.",
+                "li2": "<strong>Markera Allt i Massåtgärder</strong>: Lade till knapparna 'Markera Allt' och 'Avmarkera Allt' i rubriken för massåtgärder i Samlingar, för snabb hantering av stora mängder prompts.",
+                "li3": "<strong>Hantering av export</strong>: Döp om den generiska JSON-exportknappen till 'Exportera för PromptHive Zero' och säkerställde fullt internationaliseringsstöd för exportsektionen.",
+                "li4": "<strong>JSON Import</strong>: Åtgärdade en krasch vid import av JSON-filer med saknade kommatecken. Importören försöker nu automatiskt reparera JSON eller visar ett vänligt felmeddelande.",
+                "li5": "<strong>BOM Hantering</strong>: Förbättrad hantering av filer med Byte Order Mark (BOM) tecken.",
+                "li6": "<strong>Hydreringsfel</strong>: Åtgärdade ett React-hydreringsmatchningsfel relaterat till relativ tidsvisning i promptkort.",
+                "li7": "<strong>Kopieringsknapp</strong>: Åtgärdade ett problem där 'Kopiera'-knappen för AI System Prompt i Hjälp-avsnittet inte fungerade i osäkra sammanhang (HTTP).",
+                "li8": "<strong>Importlänkning</strong>: Åtgärdade en kritisk bugg där importerade prompts inte länkades korrekt till sina kapslade samlingar om ID-mappningen krävde en namnbaserad sökning.",
+                "li9": "<strong>Exportera Samlingsträd</strong>: Ersatte platt listval med en hierarkisk trädvy för både standard och Zero-exporter.",
+                "li10": "<strong>Exportera för PromptHive Zero</strong>: Möjliggör export av specifika samlingar i ett lättviktigt JSON-format.",
+                "li11": "<strong>Låsa Prompts</strong>: Skapare kan nu låsa sina prompts för att förhindra oavsiktliga redigeringar."
+            },
             "intro": {
                 "welcome": "Välkommen till <strong>PromptHive</strong>, din local-first fristad för att hantera, testa och organisera LLM-prompts.",
                 "desc": "Prompt engineering är en iterativ process. Att spara prompts i textfiler eller chatthistorik leder till versionskaos. PromptHive löser detta genom att behandla prompts som kod—med <strong>versionskontroll</strong>, <strong>variabler</strong> och <strong>strukturera organisation</strong>.",

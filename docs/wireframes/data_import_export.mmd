@@ -15,8 +15,23 @@ mockup ("Data Management")
         element ExportCard {
             type: "Box"
             element Title { content: "Export Data" icon: "Download" }
-            element Desc { content: "Download your entire library as JSON." }
-            element DownloadBtn { content: "[Download JSON]" }
+            box "Full JSON Export" {
+                content: "[Tree View: Collections]"
+                element SelectAllBtn { content: "[Button: Select All]" }
+                element DeselectAllBtn { content: "[Button: Deselect All]" }
+                element DownloadBtn { content: "[Button: Download JSON]" }
+            }
+        }
+
+        element ExportZeroCard {
+            type: "Box"
+            element Title { content: "Export for PromptHive Zero" icon: "Share" }
+            box "Zero JSON Export" {
+                content: "[Tree View: Collections]"
+                element SelectAllBtn { content: "[Button: Select All]" }
+                element DeselectAllBtn { content: "[Button: Deselect All]" }
+                element ExportBtn { content: "[Button: Export for PromptHive JSON]" }
+            }
         }
 
         element StandardImport {

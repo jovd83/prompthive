@@ -16,6 +16,7 @@ Triggered by clicking "Change multiple..." in the collection menu.
 *   **Sort Control**: Hidden or Disabled.
 *   **Action Bar**: Replaces standard header or appears above text.
     *   **Text**: "X selected"
+    *   **Button**: "Select All" / "Deselect All" (Icon: CheckSquare / Square)
     *   **Button**: "Add Tags" (Icon: Tag)
     *   **Button**: "Done" / "Cancel" (Icon: X or Check)
 

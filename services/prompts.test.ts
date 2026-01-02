@@ -456,12 +456,15 @@ describe('movePromptService', () => {
         });
     });
 
-    it('should throw "Access denied" if user is not owner or admin', async () => {
+    it('should throw "Prompt is locked" if locked and not owner', async () => {
         const { movePromptService } = await import('./prompts');
-        (prisma.prompt.findUnique as any).mockResolvedValue({ id: promptId, createdById: 'other-user' });
-        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: promptId,
+            createdById: 'other-user',
+            isLocked: true
+        });
 
-        await expect(movePromptService(userId, promptId, 'col-2')).rejects.toThrow("Access denied");
+        await expect(movePromptService(userId, promptId, 'col-2')).rejects.toThrow("Prompt is locked by the creator.");
     });
 });
 

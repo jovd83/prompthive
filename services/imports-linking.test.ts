@@ -1,0 +1,108 @@
+
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { importPromptsService } from './imports';
+import { prisma } from '@/lib/prisma';
+
+// Mock Prisma
+vi.mock('@/lib/prisma', () => ({
+    prisma: {
+        tag: { findUnique: vi.fn(), create: vi.fn() },
+        collection: { findFirst: vi.fn(), create: vi.fn() },
+        prompt: { findFirst: vi.fn(), create: vi.fn(), update: vi.fn() }
+    }
+}));
+
+describe("Bug Repro: Hierarchical Import Linking", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it("should correctly link new prompt to restored collection using ID map", async () => {
+        const userId = "user1";
+        const collectionIdMap = { "old_col_1": "new_col_1" };
+        const promptData = [{
+            title: "Test Prompt",
+            content: "Content",
+            collectionIds: ["old_col_1"]
+        }];
+        (prisma.prompt.findFirst as any).mockResolvedValue(null);
+        (prisma.prompt.create as any).mockResolvedValue({ id: "p1", versions: [{ id: "v1", versionNumber: 1 }] });
+
+        await importPromptsService(userId, promptData, collectionIdMap);
+
+        expect(prisma.prompt.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                title: "Test Prompt",
+                collections: { connect: expect.arrayContaining([{ id: "new_col_1" }]) }
+            })
+        }));
+    });
+
+    it("should fallback to ALL names if ID map yields no matches", async () => {
+        const userId = "user1";
+        // Map provided but empty/no match for the prompt's ID
+        const collectionIdMap = { "other": "id" };
+
+        const promptData = [{
+            title: "Multi Col Prompt",
+            content: "Content",
+            collectionIds: ["missing_id"], // ID lookup fails
+            collections: ["Col A", "Col B"] // Should fallback to these
+        }];
+
+        (prisma.prompt.findFirst as any).mockResolvedValue(null);
+        (prisma.prompt.create as any).mockResolvedValue({ id: "p2", versions: [{ id: "v2", versionNumber: 1 }] });
+
+        // Mock findFirst for collections
+        // It will be called for Col A, then Col B
+        (prisma.collection.findFirst as any)
+            .mockResolvedValueOnce({ id: "id_A", title: "Col A" })
+            .mockResolvedValueOnce({ id: "id_B", title: "Col B" });
+
+        await importPromptsService(userId, promptData, collectionIdMap);
+
+        expect(prisma.prompt.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                title: "Multi Col Prompt",
+                collections: {
+                    connect: expect.arrayContaining([
+                        { id: "id_A" },
+                        { id: "id_B" }
+                    ])
+                }
+            })
+        }));
+    });
+
+    it("should correctly link prompt to deeply nested collection (Level 3)", async () => {
+        const userId = "user1";
+        // Map simulating: Root -> Child -> Grandchild
+        // Old: old_root -> old_child -> old_grand
+        // New: new_root -> new_child -> new_grand
+        const collectionIdMap = {
+            "old_root": "new_root",
+            "old_child": "new_child",
+            "old_grand": "new_grand"
+        };
+
+        const promptData = [{
+            title: "Deep Prompt",
+            content: "Content",
+            collectionIds: ["old_grand"]
+        }];
+
+        (prisma.prompt.findFirst as any).mockResolvedValue(null);
+        (prisma.prompt.create as any).mockResolvedValue({ id: "p3", versions: [{ id: "v3", versionNumber: 1 }] });
+
+        await importPromptsService(userId, promptData, collectionIdMap);
+
+        expect(prisma.prompt.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                title: "Deep Prompt",
+                collections: {
+                    connect: expect.arrayContaining([{ id: "new_grand" }])
+                }
+            })
+        }));
+    });
+});

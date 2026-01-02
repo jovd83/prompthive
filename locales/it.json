@@ -28,7 +28,9 @@
         "signOut": "Disconnetti",
         "language": "Lingua",
         "save": "Salva",
-        "cancel": "Annulla"
+        "cancel": "Annulla",
+        "selectAll": "Seleziona tutto",
+        "deselectAll": "Deseleziona tutto"
     },
     "languages": {
         "en": "English",
@@ -282,7 +284,10 @@
             "maximize": "Massimizza",
             "done": "Fatto",
             "confirmRestore": "Sei sicuro di voler ripristinare questa versione? Questo creerà una nuova versione con lo stesso contenuto.",
-            "restoreSuccess": "Versione ripristinata con successo."
+            "restoreSuccess": "Versione ripristinata con successo.",
+            "lockPrompt": "Blocca prompt (solo creatore)",
+            "unlockPrompt": "Sblocca prompt (solo creatore)",
+            "lockedByCreator": "Bloccato dal creatore"
         },
         "labels": {
             "description": "Descrizione",
@@ -394,7 +399,12 @@
         "targetCollectionDesc": "Seleziona una collezione in cui importare. Se \"Radice\", verrà creata una nuova collezione radice con il nome della cartella.",
         "startLocalImport": "Avvia Importazione Locale",
         "importing": "Importazione in corso... potrebbe richiedere un po'",
-        "successImport": "Importati con successo {{count}} prompt!"
+        "successImport": "{{count}} prompt importati con successo!",
+        "importComplete": "Importazione completata: {{count}} importati, {{skipped}} saltati.",
+        "exportComplete": "Esportazione completata: {{count}} prompt esportati.",
+        "exportZeroTitle": "Esporta per PromptHive Zero",
+        "exportZeroDesc": "Seleziona le collezioni da esportare per la versione leggera.",
+        "exportZeroButton": "Esporta per PromptHive Zero"
     },
     "help": {
         "title": "Centro Aiuto",
@@ -414,9 +424,28 @@
             "versionHistory": "Cronologia Versioni e Confronto",
             "language": "Impostazioni Lingua",
             "userProfile": "Profilo Utente & Sicurezza",
-            "faq": "FAQ & Risoluzione Problemi"
+            "faq": "FAQ & Risoluzione Problemi",
+            "changelog": "Registro delle modifiche"
         },
         "content": {
+            "changelog": {
+                "version": "v2.3.1 (Attuale)",
+                "improvements": "Miglioramenti",
+                "fixes": "Correzioni",
+                "added": "Aggiunto",
+                "desc": "Per le versioni precedenti, consultare il <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>registro completo su GitHub</a>.",
+                "li1": "<strong>Barra di Avanzamento Importazione</strong>: Aggiunta una barra di avanzamento per le importazioni JSON, elaborando i file in batch per evitare il blocco dell'interfaccia durante caricamenti di grandi dimensioni.",
+                "li2": "<strong>Seleziona Tutto in Azioni di Massa</strong>: Aggiunti pulsanti 'Seleziona Tutto' e 'Deseleziona Tutto' all'intestazione delle azioni di massa nelle Collezioni, per gestire rapidamente grandi quantità di prompt.",
+                "li3": "<strong>Interfaccia Esportazione</strong>: Rinominato il pulsante di esportazione JSON generico in 'Esporta per PromptHive Zero' e garantito il supporto completo all'internazionalizzazione per la sezione di esportazione.",
+                "li4": "<strong>Importazione JSON</strong>: Risolto un crash durante l'importazione di file JSON con virgole mancanti. L'importatore ora tenta di riparare automaticamente il JSON o mostra un messaggio di errore amichevole.",
+                "li5": "<strong>Gestione BOM</strong>: Migliorata la gestione dei file con caratteri Byte Order Mark (BOM).",
+                "li6": "<strong>Errore di Idratazione</strong>: Risolto un errore di mismatch di idratazione React relativo alla visualizzazione del tempo relativo nelle schede dei prompt.",
+                "li7": "<strong>Pulsante Copia</strong>: Risolto un problema per cui il pulsante 'Copia' per il Prompt di Sistema AI nella sezione Aiuto non funzionava in contesti non sicuri (HTTP).",
+                "li8": "<strong>Collegamento Importazione</strong>: Risolto un bug critico in cui i prompt importati non venivano collegati correttamente alle loro collezioni annidate se la mappatura ID richiedeva una ricerca basata sul nome.",
+                "li9": "<strong>Esporta Albero Collezioni</strong>: Sostituita la selezione elenco piatto con una Vista ad Albero gerarchica per esportazioni standard e Zero.",
+                "li10": "<strong>Esporta per PromptHive Zero</strong>: Consente l'esportazione di collezioni specifiche in un formato JSON leggero.",
+                "li11": "<strong>Blocco Prompt</strong>: I creatori possono ora bloccare i loro prompt per prevenire modifiche accidentali."
+            },
             "intro": {
                 "welcome": "Benvenuto in <strong>PromptHive</strong>, il tuo santuario locale per gestire, testare e organizzare prompt LLM.",
                 "desc": "L'ingegneria dei prompt è un processo iterativo. Salvare prompt in file di testo o cronologie chat porta al caos delle versioni. PromptHive risolve questo trattando i prompt come codice—con <strong>controllo versioni</strong>, <strong>variabili</strong> e <strong>organizzazione strutturata</strong>.",

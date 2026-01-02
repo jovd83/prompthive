@@ -115,6 +115,7 @@ export function usePromptDetails({ prompt, initialIsFavorited = false, parsedVar
         } catch (e) {
             console.error("Failed to toggle favorite:", e);
             setIsFavorited(!newState);
+            setError(t('detail.errors.favoriteFailed') || "Failed to toggle favorite");
         } finally {
             setIsFavLoading(false);
         }
@@ -154,6 +155,7 @@ export function usePromptDetails({ prompt, initialIsFavorited = false, parsedVar
         handleDelete,
         confirmDelete,
         error,
+        setError,
         diffConfig,
         setDiffConfig,
         variableDefs,

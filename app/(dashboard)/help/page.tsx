@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Book, Code, Folder, GitBranch, Terminal, Shield, Menu, MessageSquare, Anchor, Lightbulb, Search, Globe, User, Lock, FileDown, ShieldCheck, RotateCcw } from "lucide-react";
+import { Book, Code, Folder, GitBranch, Terminal, Shield, Menu, MessageSquare, Anchor, Lightbulb, Search, Globe, User, Lock, FileDown, ShieldCheck, RotateCcw, History, Github } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -82,6 +82,7 @@ export default function HelpPage() {
                 </div>
             )
         },
+
         {
             id: "getting-started",
             title: t('help.sections.gettingStarted'),
@@ -317,6 +318,36 @@ export default function HelpPage() {
             )
         },
         {
+            id: "locking",
+            title: t('help.sections.locking') || "Locking Prompts",
+            icon: Lock,
+            content: (
+                <div className="space-y-6">
+                    <p dangerouslySetInnerHTML={{ __html: t('help.content.locking.desc') }} />
+
+                    <div className="space-y-4">
+                        <h3 className="text-xl font-bold">{t('help.content.locking.howToTitle')}</h3>
+                        <ol className="list-decimal list-inside space-y-2 ml-2">
+                            <li>{t('help.content.locking.li1')}</li>
+                            <li dangerouslySetInnerHTML={{ __html: t('help.content.locking.li2') }} />
+                            <li dangerouslySetInnerHTML={{ __html: t('help.content.locking.li3') }} />
+                        </ol>
+                    </div>
+
+                    <div className="mt-4 border border-l-4 border-l-amber-500 bg-amber-50 dark:bg-amber-900/10 p-4 rounded-r shadow-sm">
+                        <div className="flex items-center gap-2 font-bold text-amber-700 dark:text-amber-400 mb-1">
+                            <Lock size={18} /> {t('help.content.locking.effectTitle')}
+                        </div>
+                        <p className="text-sm">
+                            {(t('help.content.locking.effectDesc') || "").replace("except you", "<strong>including you</strong>")}
+                            <br /><br />
+                            To make changes, you (= the Creator) must <strong>Unlock</strong> the prompt first.
+                        </p>
+                    </div>
+                </div>
+            )
+        },
+        {
             id: "admin",
             title: t('help.sections.admin'),
             icon: ShieldCheck,
@@ -378,6 +409,57 @@ export default function HelpPage() {
                         <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: t('help.content.faq.a2') }} />
                     </div>
 
+                </div>
+            )
+        },
+        {
+            id: "changelog",
+            icon: History,
+            title: t("help.sections.changelog"),
+            content: (
+                <div className="space-y-6">
+                    <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+                        <div className="flex items-center gap-2 mb-4">
+                            <History className="h-5 w-5 text-primary" />
+                            <h3 className="font-semibold text-lg">{t('help.content.changelog.version')}</h3>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li3') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li5') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li9') }} />
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li4') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li6') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li7') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li8') }} />
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li1') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li2') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li10') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li11') }} />
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-muted-foreground bg-muted/50 p-3 rounded-md">
+                        <Github className="h-4 w-4" />
+                        <p className="text-sm" dangerouslySetInnerHTML={{ __html: t('help.content.changelog.desc') }} />
+                    </div>
                 </div>
             )
         }
@@ -447,11 +529,23 @@ export default function HelpPage() {
                 <div className="mt-8 pt-8 border-t border-border">
                     <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">{t('help.externalLinks')}</h3>
                     <div className="space-y-2">
-                        <a href="https://nextjs.org" target="_blank" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
-                            Next.js Docs
+                        <a
+                            href="https://github.com/jovd83/prompthive/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex items-center gap-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors"
+                        >
+                            <Github size={16} />
+                            GitHub Repo
                         </a>
-                        <a href="https://prisma.io" target="_blank" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary">
-                            Prisma Docs
+                        <a
+                            href="https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full flex items-center gap-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors"
+                        >
+                            <History size={16} />
+                            Changelog
                         </a>
                     </div>
                 </div>

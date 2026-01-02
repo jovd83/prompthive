@@ -27,3 +27,15 @@ To prevent unauthorized privilege escalation, admin promotion is gated by a shar
 ## 4. Settings Security
 * **Frontend**: Hide link in `Sidebar`.
 * **Page Level**: In `app/(dashboard)/settings/page.tsx`, check `session.user.role`. If not Admin, redirect or show 403.
+
+## 5. Prompt Locking Mechanism
+To prevent accidental edits or enforce ownership boundaries, a prompt creator can "Lock" a prompt.
+* **Field**: `Prompt.isLocked` (Boolean, default false).
+* **Logic**:
+    * **Creator**: Can always edit, DELETE, and Lock/Unlock regardless of `isLocked` state.
+    * **Other Users**:
+        * If `isLocked = false`: Can edit and create new versions.
+        * If `isLocked = true`: Read-only access. Edit, Update, and Save Version actions are denied.
+* **Enforcement**:
+    * **Frontend**: UI elements (Edit button, inputs) are disabled/hidden.
+    * **Backend**: API Routes (`PATCH /api/prompt/[id]`) check `isLocked` state and `userId`. Return 403 if unauthorized.
