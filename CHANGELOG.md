@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.3.2 (Unreleased)
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
 ## v2.3.1 (2026-01-02)
 **Improvements:**
 *   **Import Progress Bar**: Added a progress bar for JSON imports, processing files in batches to prevent the UI from freezing during large uploads.
