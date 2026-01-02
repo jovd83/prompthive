@@ -5,7 +5,7 @@ import { Copy, Eye, Clock, Heart, Check, Terminal } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toggleFavorite } from "@/actions/favorites";
 import { useSession, signIn } from "next-auth/react";
 import { useLanguage } from "./LanguageProvider";
@@ -37,6 +37,12 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
     const router = useRouter();
     const { t, language } = useLanguage();
     const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
+
+    // Sync local state with prop when it changes (e.g. after revalidation)
+    useEffect(() => {
+        setIsFavorited(initialIsFavorited);
+    }, [initialIsFavorited]);
+
     const [isLoading, setIsLoading] = useState(false);
     const [isCopied, setIsCopied] = useState(false);
 
