@@ -6,6 +6,7 @@
 ### Changed
 
 ### Fixed
+*   **Dashboard Favorites**: Fixed a bug where the last favorite item could not be unfavorited from the dashboard due to state synchronization issues in the prompt card component.
 
 ### Removed
 
