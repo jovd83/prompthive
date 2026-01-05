@@ -2,8 +2,8 @@
 
 ---
 title: PromptHive - Project README
-version: 2.3.1
-last_updated: 2026-01-01
+version: 2.3.2
+last_updated: 2026-01-05
 ---
 
 ![Prompthive](public/prompthive_header.png)
