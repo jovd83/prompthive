@@ -1,5 +1,14 @@
 # Changelog
 
+## v2.3.3 (Unreleased)
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
 ## v2.3.2 (2026-01-05)
 ### Added
 *   **Export Collection**: Added "Export Collection" option to the specific collection menu (header '...' button), allowing users to export a collection tree as a JSON file.
