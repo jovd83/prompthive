@@ -72,7 +72,11 @@ export async function createPrompt(formData: FormData) {
     const prompt = await PromptsService.createPromptService(userId, data, attachments, resultImages);
 
     revalidatePath(Routes.HOME);
-    redirect(`${Routes.PROMPTS}/${prompt.id}`);
+    revalidatePath(Routes.HOME);
+
+    // Redirect with expandedCollectionId if set
+    const destination = `${Routes.PROMPTS}/${prompt.id}` + (data.collectionId ? `?expandedCollectionId=${data.collectionId}` : "");
+    redirect(destination);
 }
 
 export async function createVersion(formData: FormData) {
@@ -135,7 +139,11 @@ export async function createVersion(formData: FormData) {
 
     revalidatePath(Routes.HOME);
     revalidatePath(`${Routes.PROMPTS}/${data.promptId}`);
-    redirect(`${Routes.PROMPTS}/${data.promptId}`);
+    revalidatePath(`${Routes.PROMPTS}/${data.promptId}`);
+
+    // Redirect with expandedCollectionId if set
+    const destination = `${Routes.PROMPTS}/${data.promptId}` + (data.collectionId ? `?expandedCollectionId=${data.collectionId}` : "");
+    redirect(destination);
 }
 
 

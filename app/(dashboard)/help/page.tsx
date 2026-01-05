@@ -429,8 +429,6 @@ export default function HelpPage() {
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li3') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li5') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li9') }} />
                                 </ul>
                             </div>
 
@@ -448,9 +446,6 @@ export default function HelpPage() {
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li1') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li2') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li10') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li11') }} />
                                 </ul>
                             </div>
                         </div>

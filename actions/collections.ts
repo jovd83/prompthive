@@ -43,7 +43,9 @@ export async function createCollection(prevState: ActionState, formData: FormDat
     }
 
     revalidatePath("/collections");
+    revalidatePath("/collections");
     revalidatePath("/", "layout");
+    revalidatePath("/prompts/new");
     if (parentId) {
         revalidatePath(`/collections/${parentId}`);
         redirect(`/collections/${parentId}`);

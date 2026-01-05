@@ -1,12 +1,17 @@
 # Changelog
 
-## v2.3.2 (Unreleased)
+## v2.3.2 (2026-01-05)
 ### Added
+*   **Export Collection**: Added "Export Collection" option to the specific collection menu (header '...' button), allowing users to export a collection tree as a JSON file.
 
 ### Changed
+*   **Documentation**: Merged technical documentation (`SAD_Tech_stack.md` into `TECHNICAL_REFERENCE.md`).
 
 ### Fixed
+*   **Documentation**: Fixed broken image paths in `TECHNICAL_REFERENCE.MD`.
 *   **Dashboard Favorites**: Fixed a bug where the last favorite item could not be unfavorited from the dashboard due to state synchronization issues in the prompt card component.
+*   **Prompt View**: Fixed a UI bug where the description of a variable was displayed twice in the prompt detail view.
+*   **Prompt Edit**: Fixed an issue where the description field would get cleared when adding or removing tags during prompt editing.
 
 ### Removed
 
@@ -16,6 +21,7 @@
 *   **Bulk Actions Select All**: Added "Select All" and "Deselect All" buttons to the bulk action header in Collections, allowing users to quickly manage large numbers of prompts.
 *   **Export for PromptHive Zero**: allowing export of specific collections in a lightweight JSON format.
 *   **Locking Prompts**: Creators can now lock their prompts to prevent accidental edits or modification by other users. Locked prompts show a padlock icon and disable edit features.
+
 
 ### Changed
 *   **Export UI**: Renamed generic JSON export button to "Export for PromptHive Zero" and ensured full internationalization support for the export section across all languages.

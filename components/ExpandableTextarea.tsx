@@ -15,6 +15,7 @@ interface ExpandableTextareaProps extends React.TextareaHTMLAttributes<HTMLTextA
 export default function ExpandableTextarea({
     label,
     value,
+    defaultValue,
     onChange,
     onValueChange,
     className = "input h-20 resize-y",
@@ -25,7 +26,9 @@ export default function ExpandableTextarea({
 }: ExpandableTextareaProps) {
     const { t } = useLanguage();
     const [isExpanded, setIsExpanded] = useState(false);
-    const [internalValue, setInternalValue] = useState(value || "");
+    // Initialize with value if present, otherwise defaultValue, otherwise empty string
+    // casting defaultValue to string as it can be string | number | readonly string[]
+    const [internalValue, setInternalValue] = useState(value !== undefined ? value : (defaultValue as string || ""));
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {

@@ -34,6 +34,7 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
     // State for prompt content
     const [content, setContent] = useState(latestVersion.content || "");
     const [shortContent, setShortContent] = useState(latestVersion.shortContent || "");
+    const [description, setDescription] = useState(prompt.description || "");
 
     // Toggle states for code view
     const [isCodeView, setIsCodeView] = useState(false);
@@ -155,7 +156,8 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
                         <ExpandableTextarea
                             name="description"
                             className="input h-20 resize-y"
-                            defaultValue={prompt.description || ""}
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
                             data-lpignore="true"
                             label={t('form.labels.description')}
                         />

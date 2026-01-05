@@ -294,6 +294,17 @@ export default function CollectionSplitView({ collection, selectedPrompt, prompt
                                                             >
                                                                 <Layers size={14} /> Change multiple...
                                                             </button>
+                                                            <button
+                                                                onClick={() => {
+                                                                    import("@/lib/export-client").then(({ exportCollection }) => {
+                                                                        exportCollection(collection.id, collection.title);
+                                                                    });
+                                                                    setIsMenuOpen(false);
+                                                                }}
+                                                                className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-foreground/80 hover:bg-background hover:text-primary rounded-md transition-colors text-left"
+                                                            >
+                                                                <FileText size={14} /> Export Collection
+                                                            </button>
                                                             {isOwner && (
                                                                 <>
                                                                     <button

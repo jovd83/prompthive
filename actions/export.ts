@@ -32,15 +32,53 @@ function getFileAsBase64(urlPath: string | null): { data: string; type: string }
     return null;
 }
 
-export async function getExportMeta(collectionIds?: string[]) {
+// Helper to find all descendant collection IDs
+async function getDescendantCollectionIds(rootIds: string[], userId: string): Promise<Set<string>> {
+    const allUserCollections = await prisma.collection.findMany({
+        where: { ownerId: userId },
+        select: { id: true, parentId: true }
+    });
+
+    const childrenMap = new Map<string, string[]>();
+    allUserCollections.forEach(c => {
+        if (c.parentId) {
+            const list = childrenMap.get(c.parentId) || [];
+            list.push(c.id);
+            childrenMap.set(c.parentId, list);
+        }
+    });
+
+    const result = new Set<string>();
+    const queue = [...rootIds];
+
+    while (queue.length > 0) {
+        const id = queue.pop();
+        if (id) {
+            result.add(id); // items in queue are part of the set (roots or children)
+            const children = childrenMap.get(id);
+            if (children) {
+                children.forEach(childId => queue.push(childId));
+            }
+        }
+    }
+    return result;
+}
+
+export async function getExportMeta(collectionIds?: string[], recursive: boolean = false) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) return { success: false, error: "Unauthorized" };
     const userId = session.user.id;
 
     // 1. Determine Prompt IDs
     const where: any = { createdById: userId };
+
     if (collectionIds && collectionIds.length > 0) {
-        where.collections = { some: { id: { in: collectionIds } } };
+        let targetIds = collectionIds;
+        if (recursive) {
+            const allIds = await getDescendantCollectionIds(collectionIds, userId);
+            targetIds = Array.from(allIds);
+        }
+        where.collections = { some: { id: { in: targetIds } } };
     }
 
     const prompts = await prisma.prompt.findMany({
@@ -58,6 +96,18 @@ export async function getExportMeta(collectionIds?: string[]) {
     prompts.forEach(p => {
         p.collections.forEach(c => relevantCollectionIds.add(c.id));
     });
+
+    // Also include the explicitly requested roots (even if empty) if recursive, so the structure is there
+    if (collectionIds && recursive) {
+        // We re-fetch these to ensure empty folders are included?
+        // Actually, if a folder is empty, it won't be in `prompts`, so it won't be exported unless we explicitly add it to definedCollections.
+        // Let's ensure targetIds are in relevantCollectionIds?
+        // Ideally yes, but standardized export focuses on PROMPTS. V2 structure focuses on RECREATING structure.
+        // We should add all targetIds (descendants) to relevantCollectionIds so empty folders are preserved.
+        const allIds = await getDescendantCollectionIds(collectionIds, userId);
+        allIds.forEach(id => relevantCollectionIds.add(id));
+    }
+
 
     // If "Select All" or no filter, we might want ALL collections?
     // If strict filter, we only want related ones.

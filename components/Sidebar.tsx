@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { LayoutDashboard, Plus, LogOut, FileText, ChevronRight, ChevronDown, Settings as SettingsIcon, HelpCircle, MoreHorizontal, Book, GitMerge, Heart } from "lucide-react";
 import { signOut } from "next-auth/react";
 import ThemeToggle from "./ThemeToggle";
@@ -12,6 +12,8 @@ import UserProfileDialog from "./UserProfileDialog";
 
 import { computeRecursiveCounts } from '@/lib/collection-utils';
 import { useLanguage } from "./LanguageProvider";
+import { exportCollection } from "@/lib/export-client";
+import { Loader2 } from "lucide-react";
 
 type Collection = {
     id: string;
@@ -33,9 +35,20 @@ type Tag = {
 
 type SortOption = 'alpha-asc' | 'alpha-desc' | 'date-new' | 'date-old' | 'count-desc';
 
-const SortMenu = ({ onSort, onClose, currentSort }: { onSort: (opt: SortOption) => void; onClose: () => void; currentSort: SortOption }) => {
+const CollectionOptionsMenu = ({
+    onSort,
+    onClose,
+    currentSort,
+    onError
+}: {
+    onSort: (opt: SortOption) => void;
+    onClose: () => void;
+    currentSort: SortOption;
+    onError: (msg: string) => void;
+}) => {
     const { t } = useLanguage();
     const ref = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -55,7 +68,10 @@ const SortMenu = ({ onSort, onClose, currentSort }: { onSort: (opt: SortOption) 
     ];
 
     return (
-        <div ref={ref} className="absolute right-2 top-8 z-50 w-40 bg-surface border border-border rounded-md shadow-lg p-1 text-sm">
+        <div ref={ref} className="absolute right-2 top-8 z-50 w-48 bg-surface border border-border rounded-md shadow-lg p-1 text-sm">
+            <div className="px-2 py-1 text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                {t('common.sort')}
+            </div>
             {options.map(opt => (
                 <button
                     key={opt.value}
@@ -69,7 +85,8 @@ const SortMenu = ({ onSort, onClose, currentSort }: { onSort: (opt: SortOption) 
     );
 };
 
-const CollectionTreeItem = ({ collection, level = 0, pathname, onError, currentUserId }: { collection: Collection, level?: number, pathname: string, onError: (msg: string) => void, currentUserId?: string }) => {
+// Reverted CollectionTreeItem (removed inline menu)
+const CollectionTreeItem = ({ collection, level = 0, pathname, onError, currentUserId, expandedIds }: { collection: Collection, level?: number, pathname: string, onError: (msg: string) => void, currentUserId?: string, expandedIds?: Set<string> }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isDragOver, setIsDragOver] = useState(false);
     const hasChildren = collection.children && collection.children.length > 0;
@@ -78,10 +95,10 @@ const CollectionTreeItem = ({ collection, level = 0, pathname, onError, currentU
     const isOwner = currentUserId ? collection.ownerId === currentUserId : false;
 
     useEffect(() => {
-        if (isActive || pathname.startsWith(`/collections/${collection.id}/`)) {
+        if (isActive || pathname.startsWith(`/collections/${collection.id}/`) || expandedIds?.has(collection.id)) {
             setIsOpen(true);
         }
-    }, [pathname, collection.id, isActive]);
+    }, [pathname, collection.id, isActive, expandedIds]);
 
     const handleDragStart = (e: React.DragEvent) => {
         e.dataTransfer.setData("collectionId", collection.id);
@@ -166,7 +183,7 @@ const CollectionTreeItem = ({ collection, level = 0, pathname, onError, currentU
             {isOpen && hasChildren && (
                 <div>
                     {collection.children!.map(child => (
-                        <CollectionTreeItem key={child.id} collection={child} level={level + 1} pathname={pathname} onError={onError} currentUserId={currentUserId} />
+                        <CollectionTreeItem key={child.id} collection={child} level={level + 1} pathname={pathname} onError={onError} currentUserId={currentUserId} expandedIds={expandedIds} />
                     ))}
                 </div>
             )}
@@ -177,11 +194,37 @@ const CollectionTreeItem = ({ collection, level = 0, pathname, onError, currentU
 export default function Sidebar({ tags = [], collections = [], unassignedCount = 0, user }: { tags?: Tag[], collections?: Collection[], unassignedCount?: number, user?: { id?: string, name?: string | null, email?: string | null, image?: string | null, role?: string } }) {
     const { t } = useLanguage();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     const [isRootDragOver, setIsRootDragOver] = useState(false);
+
+    // Auto-expansion logic
+    const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+
+    // Effect for expansion
+    useEffect(() => {
+        const expandedColId = searchParams.get('expandedCollectionId');
+        if (expandedColId && collections) {
+            const newExpanded = new Set<string>();
+            let currentId = expandedColId;
+            const colMap = new Map(collections.map(c => [c.id, c]));
+            while (currentId) {
+                newExpanded.add(currentId);
+                const col = colMap.get(currentId);
+                currentId = col?.parentId || "";
+            }
+            setExpandedIds(prev => {
+                const next = new Set(prev);
+                newExpanded.forEach(id => next.add(id));
+                return next;
+            });
+            setIsCollectionsOpen(true);
+        }
+    }, [searchParams, collections]);
+
     const [error, setError] = useState<string | null>(null);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-    // Clear error after 5 seconds
+    // Clear error
     useEffect(() => {
         if (error) {
             const timer = setTimeout(() => setError(null), 5000);
@@ -195,35 +238,27 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
     const [showTagMenu, setShowTagMenu] = useState(false);
     const [showColMenu, setShowColMenu] = useState(false);
 
+    // Active collection for export - REMOVED
+
+
     // Collapse states
     const [isCollectionsOpen, setIsCollectionsOpen] = useState(true);
     const [isTagsOpen, setIsTagsOpen] = useState(true);
     const [isSystemOpen, setIsSystemOpen] = useState(true);
 
-    // Compute counts
+    // Compute counts, build tree (refactor: keeping it same as original effectively)
     const countMap = computeRecursiveCounts(collections as any);
-
-    // Build tree structure
     const buildTree = (items: Collection[]) => {
         const processedItems = Array.from(countMap.values());
         const rootItems: any[] = [];
         const lookup: Record<string, any> = {};
-
+        processedItems.forEach(item => lookup[item.id] = { ...item, children: [] });
         processedItems.forEach(item => {
-            lookup[item.id] = { ...item, children: [] };
+            if (item.parentId && lookup[item.parentId]) lookup[item.parentId].children!.push(lookup[item.id]);
+            else rootItems.push(lookup[item.id]);
         });
-
-        processedItems.forEach(item => {
-            if (item.parentId && lookup[item.parentId]) {
-                lookup[item.parentId].children!.push(lookup[item.id]);
-            } else {
-                rootItems.push(lookup[item.id]);
-            }
-        });
-
         return rootItems;
     };
-
     const sortCollections = (nodes: any[], sortType: SortOption): any[] => {
         const sorted = [...nodes].sort((a, b) => {
             if (sortType === 'alpha-asc') return a.title.localeCompare(b.title);
@@ -233,18 +268,10 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
             if (sortType === 'count-desc') return (b.totalPrompts || 0) - (a.totalPrompts || 0);
             return 0;
         });
-
-        // Recursive sort for children
-        sorted.forEach(node => {
-            if (node.children && node.children.length > 0) {
-                node.children = sortCollections(node.children, sortType);
-            }
-        });
+        sorted.forEach(node => { if (node.children?.length) node.children = sortCollections(node.children, sortType); });
         return sorted;
     };
-
     const collectionTree = sortCollections(buildTree(collections), colSort);
-
     const sortedTags = [...tags].sort((a, b) => {
         if (tagSort === 'alpha-asc') return a.name.localeCompare(b.name);
         if (tagSort === 'alpha-desc') return b.name.localeCompare(a.name);
@@ -254,16 +281,14 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
         return 0;
     });
 
-    // Check role from props or use empty string if undefined
     const isAdmin = user?.role === 'ADMIN';
-
     const links = [
         { href: "/", label: t('common.dashboard'), icon: LayoutDashboard },
         { href: "/favorites", label: t('common.favorites'), icon: Heart },
         { href: "/prompts/new", label: t('common.newPrompt'), icon: Plus },
         { href: "/workflows", label: t('common.workflows'), icon: GitMerge },
     ];
-
+    // Resize logic
     const [width, setWidth] = useState(256);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isResizing, setIsResizing] = useState(false);
@@ -416,10 +441,11 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
                                         </Link>
                                     </div>
                                     {showColMenu && (
-                                        <SortMenu
+                                        <CollectionOptionsMenu
                                             currentSort={colSort}
                                             onSort={(s) => { setColSort(s); setShowColMenu(false); }}
                                             onClose={() => setShowColMenu(false)}
+                                            onError={(msg) => setError(msg)}
                                         />
                                     )}
                                 </div>
@@ -432,7 +458,7 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
                                         </div>
                                     )}
                                     {collectionTree.map((col) => (
-                                        <CollectionTreeItem key={col.id} collection={col} pathname={pathname} onError={setError} currentUserId={user?.id} />
+                                        <CollectionTreeItem key={col.id} collection={col} pathname={pathname} onError={setError} currentUserId={user?.id} expandedIds={expandedIds} />
                                     ))}
                                     {/* No Collection Item */}
                                     <div className={`flex items-center gap-1 px-2 py-1.5 rounded-md transition-colors cursor-pointer border border-transparent ${pathname === '/collections/unassigned' ? "bg-primary/10 text-primary font-medium" : "text-foreground/70 hover:text-primary hover:bg-background"}`}>
@@ -469,10 +495,11 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
                                     <MoreHorizontal size={14} />
                                 </button>
                                 {showTagMenu && (
-                                    <SortMenu
+                                    <CollectionOptionsMenu
                                         currentSort={tagSort}
                                         onSort={(s) => { setTagSort(s); setShowTagMenu(false); }}
                                         onClose={() => setShowTagMenu(false)}
+                                        onError={(msg) => setError(msg)}
                                     />
                                 )}
                             </div>

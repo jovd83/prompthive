@@ -39,6 +39,8 @@ Users can create a prompt with extensive metadata including multiple versions, v
 *   [ ] Verify specific file types are accepted for uploads (images, docs, code).
 *   [ ] Verify successful creation redirects to the new prompt's detail page.
 *   [x] Verify that tags assigned to a prompt are visible during editing even if not in the initial optional list.
+*   [x] Verify that adding/removing tags does not clear or reset other form fields (e.g., Description).
+*   [x] Verify that saving a prompt (create/edit) redirects to the prompt detail page and expands the parent collection in the sidebar.
 
 ### 4. UI Wireframe Specification
 **Image Source:** `assets/wireframes/prompt_create_wireframe.png`
@@ -68,19 +70,6 @@ Users view the prompt details, select versions, fill in dynamic variables, and c
 *   **Main Content**: Displays the prompt content.
 *   **Variable Sidebar**:
     *   **Inputs**: Textarea for each unique variable detected.
-    *   **Maximize**: Button to open a large modal for editing long variable values.
-*   **Copy Button**: Copies content with variables replaced by user input.
-*   **History**: List of previous versions.
-    *   **Restore**: Button to restore an old version. Triggers a Confirmation Modal.
-
-### 3. Acceptance Criteria (AC)
-*   [ ] Verify that typing in a variable input updates the internal state.
-*   [ ] Verify "Copy" puts the interpolated string into the clipboard, replacing both `{{var}}` and `[[var]]` placeholders.
-*   [ ] Verify "Download Markdown" triggers a download of `[title]_v[version].md`.
-*   [ ] Verify "Restore" button creates a new version with the content of the selected old version and updates the current version reference.
-*   [ ] Verify breadcrumbs show the correct collection hierarchy.
-
-### 4. UI Wireframe Specification
 **Image Source:** `assets/wireframes/prompt_detail_wireframe.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
@@ -145,3 +134,50 @@ The creator of a prompt can toggle a "Lock" status (padlock icon). When closed (
 *   [ ] Verify **Creator** sees Edit/Save buttons disabled when Locked.
 *   [ ] Verify Non-Creator sees Edit/Save buttons disabled when Locked.
 *   [ ] Verify Creator must Unlock to edit.
+
+---
+
+## User Story: Import Prompts
+**As a** User
+**I want to** import prompts from a JSON file
+**So that** I can restore backups or migrate data.
+
+### 1. Description
+Users can upload a JSON file containing prompts (standard or legacy format). The system parses it, creates collections if needed (V2), and imports prompts.
+
+### 2. Technical Scope & Fields
+*   **Input**: JSON File.
+*   **Actions**:
+    *   **Unified Import**: Handles single, array, and V2 structure.
+    *   **Batch Processing**: Client-side batching invokes server action.
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify valid JSON is parsed correctly.
+*   [ ] Verify collections are created/restored if defined in V2.
+*   [x] Verify that after import completes, the Sidebar Collections menu automatically refreshes to show new items.
+
+---
+
+## User Story: Export Collection (Sidebar)
+**As a** User
+**I want to** export a specific collection from the sidebar menu
+**So that** I can share or backup just that part of my library.
+
+### 1. Description
+Users can open a context menu ('...') next to a collection in the sidebar and select "Export". This generates a download of the collection and its contents in an importable format (JSON). Note: User request mentioned CSV, but system standard for recursive import is JSON V2. Implementation will prioritize "importable result" (JSON V2) to ensure compatibility.
+
+### 2. Technical Scope
+*   **UI**: Add '...' menu to `CollectionTreeItem` in `Sidebar.tsx`.
+*   **Action**: "Export Collection" triggers client-side generation of V2 JSON for that collection and its children.
+*   **Logic**:
+    *   Fetch all descendant prompt IDs.
+    *   Fetch prompt details.
+    *   Construct V2 JSON.
+    *   Trigger download.
+
+### 3. Acceptance Criteria
+*   [ ] Verify "..." menu appears on hover or always for collections.
+*   [ ] Verify "Export" option is available.
+*   [ ] Verify clicking Export downloads a file named `[collection_name].json` (or verify csv if feasible, but JSON preferred for importability).
+*   [ ] Verify the exported file contains the collection, its subcollections, and all prompts within them.
+*   [ ] Verify the exported file can be imported back into the system.

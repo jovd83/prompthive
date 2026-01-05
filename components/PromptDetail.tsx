@@ -483,7 +483,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                         <div key={v}>
                                             <label htmlFor={v} className="block text-sm font-medium mb-1">{v}</label>
                                             {def?.description && <p className="text-xs text-muted-foreground mb-1">{def.description}</p>}
-                                            {def?.description && <p className="text-xs text-muted-foreground mb-1">{def.description}</p>}
+
                                             <ExpandableTextarea
                                                 id={v}
                                                 value={variables[v] || ""}
