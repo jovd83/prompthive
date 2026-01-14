@@ -1,6 +1,6 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { updateAvatarService, changePasswordService, generateResetTokenService, resetPasswordService, updateLanguageService, updateUserRoleService } from './user';
+import { updateAvatarService, changePasswordService, generateResetTokenService, resetPasswordService, updateLanguageService, updateUserRoleService, createUserService } from './user';
 import { prisma } from '@/lib/prisma';
 import { hash, compare } from 'bcryptjs';
 
@@ -10,6 +10,8 @@ vi.mock('@/lib/prisma', () => ({
         user: {
             update: vi.fn(),
             findUnique: vi.fn(),
+            findFirst: vi.fn(),
+            create: vi.fn(),
         }
     }
 }));
@@ -140,9 +142,53 @@ describe('User Service', () => {
             });
         });
 
+        it('should update role to GUEST for valid input', async () => {
+            await updateUserRoleService(userId, 'GUEST');
+            expect(prisma.user.update).toHaveBeenCalledWith({
+                where: { id: userId },
+                data: { role: 'GUEST' }
+            });
+        });
+
         it('should throw for invalid role', async () => {
             await expect(updateUserRoleService(userId, 'SUPERUSER')).rejects.toThrow('Invalid role');
             expect(prisma.user.update).not.toHaveBeenCalled();
         });
     });
 });
+
+describe('createUserService', () => {
+    it('should create a new user with GUEST role', async () => {
+        (hash as any).mockResolvedValue('hashed-password');
+        (prisma.user.findFirst as any).mockResolvedValue(null);
+
+        await createUserService({
+            username: 'guestuser',
+            email: 'guest@example.com',
+            passwordHash: 'hashed-password',
+            role: 'GUEST'
+        });
+
+
+        expect(prisma.user.create).toHaveBeenCalledWith({
+            data: {
+                username: 'guestuser',
+                email: 'guest@example.com',
+                passwordHash: 'hashed-password',
+                role: 'GUEST'
+            }
+        });
+    });
+
+    it('should throw if user already exists', async () => {
+        (prisma.user.findFirst as any).mockResolvedValue({ id: 'existing-id' });
+
+        await expect(createUserService({
+            username: 'existing',
+            email: 'exist@example.com',
+            passwordHash: 'pass',
+            role: 'USER'
+        })).rejects.toThrow('User with this email or username already exists');
+    });
+});
+

@@ -69,5 +69,14 @@ else
     fi
 fi
 
+log "Running Post-Deploy Migrations (Data Backfill)..."
+# Run the migration script using tsx. 
+# We ignore tsconfig path errors if any, but tsx usually handles it well with tsconfig.json present.
+if npx tsx scripts/post-deploy-migration.ts 2>&1 | tee -a "$LOGFILE"; then
+    log "SUCCESS: Post-deploy migrations completed."
+else
+    log "WARNING: Post-deploy migrations failed. Check logs."
+fi
+
 log "Starting Next.js Server..."
 exec node server.js

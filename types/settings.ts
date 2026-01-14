@@ -14,6 +14,8 @@ export type Settings = {
     backupFrequency: string;
     lastBackupAt: Date | null; // Added
     showPrompterTips: boolean;
+    tagColorsEnabled: boolean;
+    workflowVisible: boolean; // Added // Added
     // Relations are usually optional or loaded separately, 
     // but if we use this for the object from findUnique with includes...
     hiddenUsers?: any[];

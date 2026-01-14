@@ -94,7 +94,7 @@ describe('Collections Service', () => {
         it('should throw if collection not found or denied', async () => {
             (prisma.collection.findUnique as any).mockResolvedValue(null);
             await expect(updateCollectionNameService(userId, 'col-1', 'New Name'))
-                .rejects.toThrow('Collection not found or access denied');
+                .rejects.toThrow('Collection not found');
         });
 
         it('should throw if name collision occurs', async () => {

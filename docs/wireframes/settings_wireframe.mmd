@@ -4,14 +4,12 @@ graph TD
     subgraph Settings [Settings Content]
     S1[Header: Settings]
     
-    S2[Auto-Backup Configuration Card]
-    S2 --> S2a[Enable Checkbox]
-    S2 --> S2b[Path Input]
-    S2 --> S2c[Frequency Dropdown]
-    S2 --> S2d[Backup Now Button]
+    S1[Header: Settings]
 
     S_GEN[General Settings Card]
     S_GEN --> S_GEN_a[Show Prompting Tips]
+    S_GEN --> S_GEN_b[Enable Tag Colors]
+    S_GEN --> S_GEN_c[Enable Private Prompts]
     S_GEN --> S_GEN_s[Save General Settings Btn]
 
     S_LANG[Language Settings Card]
@@ -20,9 +18,7 @@ graph TD
     S3[Data Maintenance Card]
     S3 --> S3a[Delete Unused Tags Button]
     
-    S4[Danger Zone Card]
-    S4 --> S4a[Restore Backup Button]
-    S4 --> S4b[Drop All Content Button]
+    S5[Save Button]
     
     S5[Save Button]
     end
@@ -37,5 +33,5 @@ graph TD
     class Settings container;
     class S2,S3,S4,S_GEN,S_LANG card;
     class S2d,S5 button;
-    class S3a,S4a,S4b danger;
+    class S3a danger;
     class S2b,S2c input;

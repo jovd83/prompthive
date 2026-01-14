@@ -1,4 +1,4 @@
-import { PromptWithRelations } from "@/hooks/usePromptDetails";
+import { PromptWithRelations } from "@/types/prisma";
 import { format } from "date-fns";
 
 /**

@@ -9,9 +9,10 @@ import { useLanguage } from "./LanguageProvider";
 type Tag = {
     id: string;
     name: string;
+    color?: string | null;
 };
 
-export default function TagSelector({ initialTags = [], selectedTagIds = [], initialSelectedTags = [] }: { initialTags: Tag[], selectedTagIds?: string[], initialSelectedTags?: Tag[] }) {
+export default function TagSelector({ initialTags = [], selectedTagIds = [], initialSelectedTags = [], tagColorsEnabled = true }: { initialTags: Tag[], selectedTagIds?: string[], initialSelectedTags?: Tag[], tagColorsEnabled?: boolean }) {
     const { t } = useLanguage();
     // Maintain local list of available tags including newly created ones
     const [availableTags, setAvailableTags] = useState<Tag[]>(initialTags);
@@ -98,18 +99,29 @@ export default function TagSelector({ initialTags = [], selectedTagIds = [], ini
 
             {/* Selected Tags Display */}
             <div className="flex flex-wrap gap-2 mb-2">
-                {selectedTags.map(tag => (
-                    <span key={tag.id} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                        {tag.name}
-                        <button
-                            type="button"
-                            onClick={() => handleRemove(tag.id)}
-                            className="ml-1.5 h-3.5 w-3.5 rounded-full inline-flex items-center justify-center hover:bg-primary/20 focus:outline-none"
+                {selectedTags.map(tag => {
+                    const style = tagColorsEnabled && tag.color ? {
+                        backgroundColor: `${tag.color}20`, // 20% opacity (hex)
+                        color: tag.color,
+                        borderColor: `${tag.color}40`,
+                    } : undefined;
+
+                    return (
+                        <span key={tag.id}
+                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${!style ? "bg-primary/10 text-primary border-primary/20" : ""}`}
+                            style={style}
                         >
-                            <X size={10} />
-                        </button>
-                    </span>
-                ))}
+                            {tag.name}
+                            <button
+                                type="button"
+                                onClick={() => handleRemove(tag.id)}
+                                className="ml-1.5 h-3.5 w-3.5 rounded-full inline-flex items-center justify-center hover:bg-black/10 focus:outline-none"
+                            >
+                                <X size={10} />
+                            </button>
+                        </span>
+                    );
+                })}
             </div>
 
             <div className="relative">

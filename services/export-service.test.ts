@@ -58,7 +58,7 @@ describe("generateZeroExport", () => {
         });
         expect(result.prompts).toHaveLength(1);
         expect(result.prompts[0].title).toBe("Prompt 1");
-        expect(result.prompts[0].body).toBe("Body content");
+        expect(result.prompts[0].content).toBe("Body content");
         expect(result.prompts[0].tags).toEqual(["tag1"]);
         expect(result.prompts[0].collectionId).toBe("col1");
     });

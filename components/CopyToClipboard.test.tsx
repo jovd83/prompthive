@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+// import '@testing-library/jest-dom';
 import { CopyToClipboard } from './CopyToClipboard';
 import React from 'react';
 import { vi, describe, it, expect } from 'vitest';

@@ -86,12 +86,22 @@
                 "create": "Create User",
                 "error": "Failed to create user"
             },
-            "roleToggleTitle": "Click to toggle role"
+            "roleToggleTitle": "Klicken Sie, um die Rolle zu ändern",
+            "deleteConfirmTitle": "Benutzer löschen",
+            "deleteConfirmDesc": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten? Seine Prompts und Sammlungen werden an Sie übertragen.",
+            "delete": "Löschen",
+            "deleteSuccess": "Benutzer {{name}} erfolgreich gelöscht",
+            "roleUpdateSuccess": "Benutzerrolle erfolgreich aktualisiert"
         },
         "save": "Admin-Einstellungen speichern",
         "saving": "Speichern...",
         "success": "Admin-Einstellungen erfolgreich aktualisiert",
-        "error": "Fehler beim Aktualisieren der Admin-Einstellungen"
+        "error": "Fehler beim Aktualisieren der Admin-Einstellungen",
+        "privatePrompts": {
+            "title": "Private Prompts",
+            "desc": "Einstellungen für private Prompts konfigurieren.",
+            "confirmDisable": "Sind Sie sicher? Dies verbirgt alle privaten Prompts vor allen Benutzern."
+        }
     },
     "commandPalette": {
         "placeholder": "Befehl eingeben oder suchen...",
@@ -219,7 +229,8 @@
             "textualResult": "Text-Ergebnis",
             "resultFiles": "Ergebnisdateien / Bilder (Unbegrenzt)",
             "uploadFiles": "Dateien hochladen (Unbegrenzt)",
-            "resource": "Ressourcen-URL oder Zitat"
+            "resource": "Ressourcen-URL oder Zitat",
+            "privatePrompt": "Privater Prompt"
         },
         "buttons": {
             "codeView": "Code-Ansicht",
@@ -245,7 +256,8 @@
             "resource": "https://beispiel.de/quellen-artikel"
         },
         "hints": {
-            "variables": "Definiere die Variablen, die in deinem Prompt verwendet werden (z.B. <code>{{topic}}</code>)."
+            "variables": "Definiere die Variablen, die in deinem Prompt verwendet werden (z.B. <code>{{topic}}</code>).",
+            "privatePrompt": "Nur für dich sichtbar"
         },
         "errors": {
             "createFailed": "Prompt konnte nicht erstellt werden. Bitte versuche es erneut.",
@@ -352,7 +364,9 @@
         "confirmDelete": "Bestätigen: ALLES LÖSCHEN",
         "cancel": "Abbrechen",
         "userVisibility": "Benutzer-Sichtbarkeit",
-        "userVisibilityDesc": "Wähle die Benutzer aus, deren Prompts du in deinem Dashboard sehen möchtest.",
+        "showTipsDesc": "Zeigen Sie jeden Tag einen hilfreichen Prompting-Tipp auf dem Dashboard an.",
+        "tagColors": "Tag-Farben aktivieren",
+        "tagColorsDesc": "Tags mit unterschiedlichen Farben anstatt in einem einheitlichen Stil anzeigen.",
         "checkAll": "Alle auswählen",
         "uncheckAll": "Alle abwählen",
         "you": "(Du)",
@@ -429,22 +443,19 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.2 (Aktuell)",
+                "version": "v2.3.3 (Unveröffentlicht)",
                 "improvements": "Geändert",
                 "fixes": "Behoben",
                 "added": "Hinzugefügt",
                 "desc": "Für ältere Versionen, siehe das <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>vollständige Änderungsprotokoll auf GitHub</a>.",
-                "li1": "<strong>Sammlung exportieren</strong>: Option 'Sammlung exportieren' zum spezifischen Sammlungsmenü hinzugefügt, sodass Benutzer einen Sammlungsbaum als JSON-Datei exportieren können.",
-                "li2": "-",
-                "li3": "<strong>Dokumentation</strong>: Technische Dokumentation zusammengeführt (SAD in Technische Referenz integriert).",
-                "li4": "<strong>Dokumentation</strong>: Fehlerhafte Bildpfade in der Technischen Referenz korrigiert.",
-                "li5": "-",
-                "li6": "<strong>Dashboard-Favoriten</strong>: Fehler behoben, durch den das letzte Favoriten-Element nicht aus den Favoriten entfernt werden konnte.",
-                "li7": "<strong>Prompt-Ansicht</strong>: UI-Fehler behoben, bei dem die Beschreibung einer Variable doppelt angezeigt wurde.",
-                "li8": "<strong>Prompt bearbeiten</strong>: Problem behoben, bei dem das Beschreibungsfeld beim Hinzufügen oder Entfernen von Tags geleert wurde.",
-                "li9": "-",
-                "li10": "-",
-                "li11": "-"
+                "added_1": "<strong>Tag-Farben</strong>: Visuelle Unterscheidung für Tags mit eindeutigen Farben hinzugefügt. Benutzer können diese Funktion in den Allgemeinen Einstellungen aktivieren/deaktivieren.",
+                "added_2": "<strong>Gastkonto</strong>: Neue GUEST-Rolle mit Lesezugriff hinzugefügt. Beinhaltet eingeschränkte Navigation und UI-Elemente.",
+                "added_3": "<strong>Benutzerverwaltung</strong>: Möglichkeit für Administratoren hinzugefügt, Benutzer über die Admin-Einstellungsseite zu löschen. Inhalte bleiben erhalten und werden dem Administrator zugewiesen.",
+                "added_4": "<strong>Tag-Einstellungen</strong>: Einstellung 'Tag-Farben aktivieren' zu den Allgemeinen Einstellungen hinzugefügt.",
+                "added_5": "<strong>Technische IDs</strong>: Unterstützt die Suche nach Technischer ID (z.B. VIBE-123) und direkten URL-Zugriff (/prompts/[id]).",
+                "added_6": "<strong>Verknüpfte Prompts</strong>: Möglichkeit, verwandte Prompts miteinander zu verknüpfen (bidirektional) mit Export/Import-Unterstützung.",
+                "changed_1": "<strong>Einstellungen verschoben</strong>: Auto-Backup und Danger Zone an das Ende der Import/Export-Seite verschoben.",
+                "changed_2": "<strong>Verbessert</strong>: Das Löschen eines Prompts aus einer Sammlung leitet nicht mehr zum Dashboard um."
             },
             "intro": {
                 "welcome": "Willkommen bei <strong>PromptHive</strong>, deinem lokalen Zufluchtsort zum Verwalten, Testen und Organisieren von LLM-Prompts.",
@@ -563,6 +574,22 @@
                 "a2": "Du hast zwei Möglichkeiten: <strong>Alles löschen</strong> (was alle Kinder und Prompts darin löscht) oder <strong>Nur Sammlung löschen</strong> (was alle Kinder/Prompts eine Ebene nach oben oder in die Wurzel verschiebt).",
                 "q3": "F: Kann ich meine Prompts teilen?",
                 "a3": "Derzeit ist PromptHive ein lokales Einzelbenutzer-Tool. Du kannst jedoch die <strong>Import/Export</strong>-Funktion in der Seitenleiste verwenden, um JSON-Dateien mit Kollegen zu teilen."
+            },
+            "technicalIds": {
+                "desc": "Technische IDs bieten eine stabile, lesbare Referenz für Ihre Prompts (z.B. VIBE-123).",
+                "generationTitle": "Automatische Generierung",
+                "generationDesc": "Wenn Sie einen Prompt einer Sammlung zuweisen, erhält er automatisch eine ID basierend auf dem Namen der Sammlung (z.B. 'Verkauf' -> 'VERK-1').",
+                "routingTitle": "Direkte URLs",
+                "routingDesc": "Sie können jeden Prompt direkt aufrufen, indem Sie seine ID in die URL eingeben: <code>/prompts/VIBE-123</code>.",
+                "searchTitle": "Suche",
+                "searchDesc": "Sie können jeden Prompt sofort finden, indem Sie seine technische ID in die Suchleiste des Dashboards eingeben."
+            },
+            "tagColors": {
+                "desc": "Organisieren Sie Ihre Tags visuell durch automatische, einheitliche Farben.",
+                "enableTitle": "Farben aktivieren",
+                "enableDesc": "Gehen Sie zu <strong>Einstellungen > Allgemein</strong> und aktivieren Sie <strong>Tag-Farben aktivieren</strong>.",
+                "howItWorksTitle": "Funktionsweise",
+                "howItWorksDesc": "Farben werden deterministisch basierend auf dem Tag-Namen generiert. Dasselbe Tag hat immer dieselbe Farbe."
             }
         }
     }

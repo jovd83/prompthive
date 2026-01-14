@@ -9,6 +9,11 @@ vi.mock('./files', () => ({
     deleteFile: vi.fn(),
 }));
 
+// Mock ID Service
+vi.mock('./id-service', () => ({
+    generateTechnicalId: vi.fn().mockResolvedValue('TECH-ID-123'),
+}));
+
 // Mock Prisma
 vi.mock('@/lib/prisma', () => ({
     prisma: {
@@ -37,7 +42,17 @@ vi.mock('@/lib/prisma', () => ({
         user: {
             findUnique: vi.fn(),
             update: vi.fn(),
-        }
+        },
+        favorite: {
+            deleteMany: vi.fn(),
+        },
+        workflowStep: {
+            deleteMany: vi.fn(),
+        },
+        collection: {
+            findUnique: vi.fn(),
+        },
+        $transaction: vi.fn(),
     }
 }));
 
@@ -438,10 +453,12 @@ describe('movePromptService', () => {
 
         await movePromptService(userId, promptId, 'col-2');
 
-        expect(prisma.prompt.update).toHaveBeenCalledWith({
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
             where: { id: promptId },
-            data: { collections: { set: [{ id: 'col-2' }] } }
-        });
+            data: expect.objectContaining({
+                collections: { set: [{ id: 'col-2' }] }
+            })
+        }));
     });
 
     it('should clear collections when collectionId is null (Unassigned)', async () => {
@@ -450,10 +467,12 @@ describe('movePromptService', () => {
 
         await movePromptService(userId, promptId, null);
 
-        expect(prisma.prompt.update).toHaveBeenCalledWith({
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
             where: { id: promptId },
-            data: { collections: { set: [] } }
-        });
+            data: expect.objectContaining({
+                collections: { set: [] }
+            })
+        }));
     });
 
     it('should throw "Prompt is locked" if locked and not owner', async () => {
@@ -518,5 +537,183 @@ describe('restoreVersionService', () => {
                 }
             })
         }));
+    });
+});
+
+describe('createTagService', () => {
+    it('should create tag with generated color', async () => {
+        const { createTagService } = await import('./prompts');
+        // Since we can't easily mock lib/color-utils without mocking the module at top level,
+        // and it wasn't mocked, we assume it runs real code which is fine for unit test of service if it's pure.
+
+        (prisma.tag.create as any).mockResolvedValue({ id: 't-1', name: 'Tag', color: '#123456' });
+
+        await createTagService('Tag');
+
+        expect(prisma.tag.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({ name: 'Tag' })
+        }));
+    });
+});
+
+describe('toggleLockService', () => {
+    it('should toggle lock status if owner', async () => {
+        const { toggleLockService } = await import('./prompts');
+        const userId = 'u-1';
+
+        (prisma.prompt.findUnique as any).mockResolvedValue({ id: 'p-1', createdById: userId, isLocked: false });
+
+        await toggleLockService(userId, 'p-1');
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith({
+            where: { id: 'p-1' },
+            data: { isLocked: true }
+        });
+    });
+
+    it('should throw if not owner', async () => {
+        const { toggleLockService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({ id: 'p-1', createdById: 'other' });
+
+        await expect(toggleLockService('u-1', 'p-1')).rejects.toThrow('Only the creator can lock/unlock this prompt.');
+    });
+});
+
+describe('bulkMovePromptsService', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should move prompts to collection', async () => {
+        const { bulkMovePromptsService } = await import('./prompts');
+        const userId = 'u-1';
+
+        // Mock prompts lookup
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId, isLocked: false },
+            { id: 'p-2', createdById: userId, isLocked: false }
+        ]);
+        (prisma.collection.findUnique as any).mockResolvedValue({ id: 'c-1', title: 'Col A' });
+
+        await bulkMovePromptsService(userId, ['p-1', 'p-2'], 'c-1');
+
+        expect(prisma.prompt.update).toHaveBeenCalledTimes(2);
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            where: { id: 'p-1' },
+            data: expect.objectContaining({ collections: { set: [{ id: 'c-1' }] } })
+        }));
+    });
+
+    it('should throw if prompt is locked by another user', async () => {
+        const { bulkMovePromptsService } = await import('./prompts');
+        const userId = 'u-1';
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: 'other', isLocked: true }
+        ]);
+
+        await expect(bulkMovePromptsService(userId, ['p-1'], 'c-1')).rejects.toThrow('locked by its creator');
+    });
+});
+
+describe('bulkAddTagsService', () => {
+    it('should add tags to prompts', async () => {
+        const { bulkAddTagsService } = await import('./prompts');
+        const userId = 'u-1';
+
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId, isLocked: false }
+        ]);
+
+        // Mock transaction
+        (prisma.$transaction as any).mockImplementation((ops: any[]) => Promise.all(ops));
+
+        await bulkAddTagsService(userId, ['p-1'], ['t-1', 't-2']);
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            where: { id: 'p-1' },
+            data: expect.objectContaining({
+                tags: { connect: [{ id: 't-1' }, { id: 't-2' }] }
+            })
+        }));
+    });
+});
+
+describe('Linking Services', () => {
+    describe('searchPromptsForLinkingService', () => {
+        it('should return empty if query too short', async () => {
+            const { searchPromptsForLinkingService } = await import('./prompts');
+            const res = await searchPromptsForLinkingService('u-1', 'a', '');
+            expect(res).toEqual([]);
+        });
+
+        it('should search prompts excluding current one', async () => {
+            const { searchPromptsForLinkingService } = await import('./prompts');
+            (prisma.prompt.findMany as any).mockResolvedValue([{ id: 'p-2' }]);
+
+            await searchPromptsForLinkingService('u-1', 'search', 'p-1');
+
+            expect(prisma.prompt.findMany).toHaveBeenCalledWith(expect.objectContaining({
+                where: expect.objectContaining({
+                    id: { not: 'p-1' },
+                    // OR clause structure is complex (visibility checks), skipping detailed validation
+                    // OR: expect.arrayContaining(...) 
+                })
+            }));
+        });
+    });
+
+    describe('linkPromptsService', () => {
+        it('should link prompt B to A', async () => {
+            const { linkPromptsService } = await import('./prompts');
+            await linkPromptsService('u-1', 'p-a', 'p-b');
+
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-a' },
+                data: {
+                    relatedPrompts: { connect: { id: 'p-b' } }
+                }
+            });
+        });
+
+        it('should throw if linking to self', async () => {
+            const { linkPromptsService } = await import('./prompts');
+            await expect(linkPromptsService('u-1', 'p-a', 'p-a')).rejects.toThrow('Cannot link prompt to itself');
+        });
+    });
+
+    describe('unlinkPromptsService', () => {
+        it('should disconnect if linked one way', async () => {
+            const { unlinkPromptsService } = await import('./prompts');
+
+            // Mock A has B in related
+            (prisma.prompt.findUnique as any).mockResolvedValue({
+                id: 'p-a',
+                relatedPrompts: [{ id: 'p-b' }]
+            });
+
+            await unlinkPromptsService('u-1', 'p-a', 'p-b');
+
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-a' },
+                data: { relatedPrompts: { disconnect: { id: 'p-b' } } }
+            });
+        });
+
+        it('should try other direction if not found', async () => {
+            const { unlinkPromptsService } = await import('./prompts');
+
+            // Mock A does NOT have B
+            (prisma.prompt.findUnique as any).mockResolvedValue({
+                id: 'p-a',
+                relatedPrompts: []
+            });
+
+            await unlinkPromptsService('u-1', 'p-a', 'p-b');
+
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-b' },
+                data: { relatedPrompts: { disconnect: { id: 'p-a' } } }
+            });
+        });
     });
 });

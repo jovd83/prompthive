@@ -1,6 +1,6 @@
 {
   "name": "prompt-hive",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,9 +8,11 @@
     "start": "cross-env DATABASE_URL=file:./prod.db next start -p 3100",
     "lint": "eslint",
     "db:test:push": "dotenv -e .env.test -- npx prisma db push --accept-data-loss",
+    "db:reset:dev": "dotenv -e .env -- npx prisma db push --force-reset",
     "db:reset:test": "dotenv -e .env.test -- npx prisma db push --force-reset",
     "db:push:prod": "cross-env DATABASE_URL=file:./prod.db npx prisma db push --accept-data-loss",
     "db:reset:prod": "cross-env DATABASE_URL=file:./prod.db npx prisma db push --force-reset",
+    "db:migrate": "npx prisma migrate dev",
     "e2e:dev": "dotenv -e .env.test -- next dev",
     "test": "vitest run --coverage",
     "test:load": "npx playwright test -c playwright.load.config.ts"

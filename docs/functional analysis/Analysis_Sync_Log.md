@@ -1,45 +1,63 @@
-# Functional Analysis Synchronization Log
-Last Updated: 2025-12-23
+# Analysis Sync Log
 
-## Phase 1: The Purge (Archived Files)
-The following files have been moved to `functional analysis/obsolete/` because they effectively merged into the main Epics or were outdated features.
+**Date:** 2026-01-10
+**Status:** Complete
 
-| Original File | Archived Name | Reason |
-| :--- | :--- | :--- |
-| `FA-008_AdminFeatures.md` | `FA-008_AdminFeatures_ARCHIVED_2025-12-23.md` | Merged into Epic_Auth_And_Settings |
-| `FA-009_UserVisibilitySettings.md` | `FA-009_UserVisibilitySettings_ARCHIVED_2025-12-23.md` | Merged into Epic_Auth_And_Settings |
-| `FA-010_PromptingTips.md` | `FA-010_PromptingTips_ARCHIVED_2025-12-23.md` | Merged into Epic_Auth_And_Settings (Settings) |
-| `FA-011_DownloadPrompt.md` | `FA-011_DownloadPrompt_ARCHIVED_2025-12-23.md` | Merged into Epic_Prompt_Management |
-| `FA-012_CollapseCollectionsTags.md` | `FA-012_CollapseCollectionsTags_ARCHIVED_2025-12-23.md` | Merged into Epic_Collections_Management |
-| `FA-013_AdminFeatures_Settings.md` | `FA-013_AdminFeatures_Settings_ARCHIVED_2025-12-23.md` | Merged into Epic_Auth_And_Settings |
-| `favorites.md` | `favorites_ARCHIVED_2025-12-23.md` | Merged into Epic_Collections_Management |
-| `enhanced_card.md` | `enhanced_card_ARCHIVED_2025-12-23.md` | Outdated UI spec |
-| `ui_ux_enhancements.md` | `ui_ux_enhancements_ARCHIVED_2025-12-23.md` | General ideas, not strict spec |
-| `FEATURE_SUGGESTIONS.md` | `FEATURE_SUGGESTIONS_ARCHIVED_2025-12-23.md` | Backlog cleanup |
+## 1. Updated Functional Analysis Files
+The following files have been synchronized with the codebase (`prisma/schema.prisma` and `app/**`):
 
-## Phase 2: Updated Epics
-*   [x] **Epic_Auth_And_Settings.md** (Completed)
-*   [x] **Epic_Prompt_Management.md** (Completed)
-*   [x] **Epic_Collections_Management.md** (Completed)
-*   [x] **Epic_Data_Management.md** (Completed)
-*   [x] **Epic_Search_And_Discovery.md** (Completed)
-*   [x] **Epic_Advanced_Workflows.md** (Completed)
+*   **`Epic_Auth_And_Settings.md`** (v2.1)
+    *   Updated "General Settings" to include "Enable Tag Colors".
+    *   Verified Admin Settings and User Management scope.
+    *   Confirmed removal of Backup/Danger Zone sections (moved to Data Management).
+*   **`Epic_Prompt_Management.md`** (v2.3.3)
+    *   Added **Technical ID** to Prompt Detail scope.
+    *   Verified **Linked Prompts** (Related Prompts) functionality matches code.
+    *   Verified **Lock Prompt** and **Permissions** logic.
+    *   Bumped version to reflect highly active feature set.
+*   **`Epic_Data_Management.md`** (v2.1)
+    *   Confirmed inclusion of **Auto-Backup** and **Danger Zone** (moved from Settings).
+    *   Verified specificity of "Import/Export" page location.
+*   **`Epic_Collections_Management.md`** (v2.2)
+    *   Reviewed against `Sidebar` and `CollectionSplitView`. Content remains accurate.
+*   **`Epic_Advanced_Workflows.md`** (v2.1)
+    *   Reviewed against `WorkflowEditor` and `Runner`. Content remains accurate schema-wise.
 
-## Missing Wireframes
-The following wireframes are referenced in the specifications but are missing. Please create them in Nano Banana Pro.
+## 2. Archived Files (The Purge)
+The following files were identified as obsolete or temporary and moved to `docs/functional analysis/obsolete/`:
 
-*   `assets/wireframes/auth_register_wireframe.png`
-*   `assets/wireframes/auth_login_wireframe.png`
-*   `assets/wireframes/settings_general_wireframe.png`
-*   `assets/wireframes/settings_admin_wireframe.png`
-*   `assets/wireframes/prompt_create_wireframe.png`
-*   `assets/wireframes/prompt_detail_wireframe.png`
-*   `assets/wireframes/prompt_diff_wireframe.png`
-*   `assets/wireframes/collection_create_wireframe.png`
-*   `assets/wireframes/sidebar_nav_wireframe.png`
-*   `assets/wireframes/collection_sort_wireframe.png`
-*   `assets/wireframes/data_import_export_wireframe.png`
-*   `assets/wireframes/search_advanced_wireframe.png`
-*   `assets/wireframes/command_palette_wireframe.png`
-*   `assets/wireframes/workflow_editor_wireframe.png`
-*   `assets/wireframes/workflow_runner_wireframe.png`
+*   `Epic_Prompt_Management_temp.md`
+*   `Epic_Prompt_Management_temp_append.md`
+
+## 3. Technical Documentation Updates (Phase 4)
+*   **`docs/diagrams/schema.mmd`**: Updated to match `schema.prisma` v2.3.3.
+    *   Added `Tag.color`.
+    *   Added `Prompt.technicalId`, `isLocked`, `relatedPrompts`.
+    *   Added `Settings.tagColorsEnabled` and hidden relations.
+*   **`docs/diagrams/Data_Models.md`**: Synchronized definitions and embedded Mermaid diagram with the new schema.
+*   **`docs/technical/TECHNICAL_REFERENCE.md`**: Updated embedded Architecture and Schema diagrams. Verified component references.
+*   **`docs/diagrams/render_diagrams.ps1`**: Fixed relative path bugs to ensure successful re-rendering.
+
+## 4. Wireframes (Generated)
+All wireframes have been updated to match the codebase and re-generated using Mermaid.js. They are located in `docs/wireframes/previews/`.
+
+**Auth & Settings**
+*   `docs/wireframes/previews/auth_wireframes.png` (Covers Login/Register)
+*   `docs/wireframes/previews/settings_wireframe.png` (Updated with Tag Colors, Import/Export shift)
+
+**Prompt Management**
+*   `docs/wireframes/previews/prompt_detail_wireframe.png` (Updated with Technical ID, Related Prompts)
+*   `docs/wireframes/previews/editor_wireframe.png` (Covers Create/Edit)
+*   `docs/wireframes/previews/visual_diff_wireframe.png` (Covers Diff)
+
+**Data Management**
+*   `docs/wireframes/previews/data_import_export.png` (Updated with Auto-Backup/Danger Zone)
+
+**Collections & Others**
+*   `docs/wireframes/previews/collection_create.png`
+*   `docs/wireframes/previews/collection_sidebar_update.png`
+*   `docs/wireframes/previews/dashboard_wireframe.png` (Covers Sorting/Grid)
+*   `docs/wireframes/previews/workflow_editor.png`
+
+---
+*Generated by Antigravity Agent - 2026-01-10*

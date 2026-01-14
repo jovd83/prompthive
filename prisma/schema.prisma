@@ -37,6 +37,8 @@ model Settings {
   backupFrequency String    @default("DAILY") // DAILY, WEEKLY, MONTHLY
   lastBackupAt    DateTime?
   showPrompterTips Boolean   @default(true)
+  tagColorsEnabled Boolean   @default(true)
+  workflowVisible Boolean    @default(false)
   hiddenUsers     User[]    @relation("UserVisibility")
   hiddenCollections Collection[] @relation("CollectionVisibility")
 }
@@ -44,6 +46,7 @@ model Settings {
 model GlobalConfiguration {
   id                 String  @id @default("GLOBAL")
   registrationEnabled Boolean @default(true)
+  privatePromptsEnabled Boolean @default(false)
 }
 
 model Prompt {
@@ -58,6 +61,7 @@ model Prompt {
   viewCount       Int       @default(0)
   copyCount       Int       @default(0)
   isLocked        Boolean   @default(false)
+  isPrivate       Boolean   @default(false)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   versions        PromptVersion[]
@@ -65,11 +69,22 @@ model Prompt {
   tags            Tag[]
   workflowSteps   WorkflowStep[]
   favoritedBy     Favorite[]
+  technicalId     String?   @unique // Generated human-readable ID
+  
+  // Many-to-Many Self Relation for Linked Prompts
+  relatedPrompts  Prompt[]  @relation("PromptLinks")
+  relatedToPrompts Prompt[] @relation("PromptLinks")
+}
+
+model TechnicalIdSequence {
+  prefix        String  @id
+  lastValue     Int     @default(0)
 }
 
 model Tag {
   id      String   @id @default(cuid())
   name    String   @unique
+  color   String?
   prompts Prompt[]
   createdAt DateTime @default(now())
 }

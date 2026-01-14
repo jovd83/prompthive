@@ -15,9 +15,10 @@ import { Routes, AuthCallbackUrls } from "@/lib/routes";
 export async function createTag(name: string) {
     const session = await getServerSession(authOptions);
     if (!session) throw new Error("Unauthorized");
+    if ((session.user as any)?.role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     const tag = await PromptsService.createTagService(name);
-    revalidatePath(Routes.HOME);
+    // revalidatePath(Routes.HOME);
     return tag;
 }
 
@@ -25,6 +26,7 @@ export async function createPrompt(formData: FormData) {
     console.log("SERVER ACTION: createPrompt called");
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     const userId = session.user.id;
     const userExists = await prisma.user.findUnique({ where: { id: userId } });
@@ -41,6 +43,7 @@ export async function createPrompt(formData: FormData) {
         resultText: formData.get("resultText") ?? undefined,
         resource: formData.get("resource") ?? undefined,
         tagIds: formData.getAll("tagIds"),
+        isPrivate: formData.get("isPrivate") === "on",
     };
 
     const result = CreatePromptSchema.safeParse(rawData);
@@ -64,6 +67,7 @@ export async function createPrompt(formData: FormData) {
         tagIds: (result.data.tagIds || []) as string[],
         resultText: result.data.resultText || "",
         resource: result.data.resource,
+        isPrivate: result.data.isPrivate,
     };
 
     const attachments = formData.getAll("attachments") as File[];
@@ -82,6 +86,7 @@ export async function createPrompt(formData: FormData) {
 export async function createVersion(formData: FormData) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     const userId = session.user.id;
     const userExists = await prisma.user.findUnique({ where: { id: userId } });
@@ -103,6 +108,7 @@ export async function createVersion(formData: FormData) {
         existingResultImagePath: formData.get("existingResultImagePath") ?? undefined,
         keepAttachmentIds: formData.getAll("keepAttachmentIds"),
         keepResultImageIds: formData.getAll("keepResultImageIds"),
+        isPrivate: formData.get("isPrivate") === "on",
     };
 
     const result = CreateVersionSchema.safeParse(rawData);
@@ -130,6 +136,7 @@ export async function createVersion(formData: FormData) {
         keepAttachmentIds: (result.data.keepAttachmentIds || []) as string[],
         keepResultImageIds: (result.data.keepResultImageIds || []) as string[],
         existingResultImagePath: result.data.existingResultImagePath || "",
+        isPrivate: result.data.isPrivate,
     };
 
     const attachments = formData.getAll("attachments") as File[];
@@ -151,6 +158,7 @@ export async function createVersion(formData: FormData) {
 export async function restorePromptVersion(promptId: string, versionId: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await PromptsService.restoreVersionService(session.user.id, promptId, versionId);
 
@@ -162,6 +170,7 @@ export async function restorePromptVersion(promptId: string, versionId: string) 
 export async function deletePrompt(promptId: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await PromptsService.deletePromptService(session.user.id, promptId);
 
@@ -172,6 +181,7 @@ export async function deletePrompt(promptId: string) {
 export async function deleteUnusedTags() {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
     return PromptsService.deleteUnusedTagsService();
 }
 
@@ -184,6 +194,7 @@ export async function cleanupPromptAssets(promptId: string) {
 export async function movePrompt(promptId: string, collectionId: string | null) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await PromptsService.movePromptService(session.user.id, promptId, collectionId);
 
@@ -194,6 +205,7 @@ export async function movePrompt(promptId: string, collectionId: string | null) 
 export async function bulkMovePrompts(promptIds: string[], collectionId: string | null) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await PromptsService.bulkMovePromptsService(session.user.id, promptIds, collectionId);
 
@@ -204,6 +216,7 @@ export async function bulkMovePrompts(promptIds: string[], collectionId: string 
 export async function bulkAddTags(promptIds: string[], tagIds: string[]) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await PromptsService.bulkAddTagsService(session.user.id, promptIds, tagIds);
 
@@ -214,8 +227,47 @@ export async function bulkAddTags(promptIds: string[], tagIds: string[]) {
 export async function toggleLock(promptId: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await PromptsService.toggleLockService(session.user.id, promptId);
 
     revalidatePath(`${Routes.PROMPTS}/${promptId}`);
+}
+
+export async function toggleVisibility(promptId: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+
+    await PromptsService.toggleVisibilityService(session.user.id, promptId);
+
+    revalidatePath(`${Routes.PROMPTS}/${promptId}`);
+    revalidatePath(Routes.HOME);
+}
+
+export async function linkPrompts(promptIdA: string, promptIdB: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+
+    await PromptsService.linkPromptsService(session.user.id, promptIdA, promptIdB);
+    revalidatePath(`${Routes.PROMPTS}/${promptIdA}`);
+    revalidatePath(`${Routes.PROMPTS}/${promptIdB}`);
+}
+
+export async function unlinkPrompts(promptIdA: string, promptIdB: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+
+    await PromptsService.unlinkPromptsService(session.user.id, promptIdA, promptIdB);
+    revalidatePath(`${Routes.PROMPTS}/${promptIdA}`);
+    revalidatePath(`${Routes.PROMPTS}/${promptIdB}`);
+}
+
+export async function searchCandidatePrompts(query: string, excludeId: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) return [];
+
+    return PromptsService.searchPromptsForLinkingService(session.user.id, query, excludeId);
 }

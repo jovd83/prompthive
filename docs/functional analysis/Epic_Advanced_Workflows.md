@@ -31,7 +31,7 @@ Users can create a workflow by adding multiple prompts in a specific order. They
 *   [ ] Verify saving persists the mappings and order.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/workflow_editor_wireframe.png`
+**Image Source:** `../wireframes/previews/workflow_editor.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** 2-Column (Steps Builder | Logic Info).
@@ -67,7 +67,7 @@ The runner executes steps sequentially. For each step, it requests user inputs (
 *   [ ] Verify that finishing the workflow displays a summary of all steps.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/workflow_runner_wireframe.png`
+**Image Source:** `../wireframes/previews/workflow_editor.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Split View (Inputs/Prompt | Result/Action).

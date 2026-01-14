@@ -24,33 +24,36 @@ test.describe('Admin User Management', () => {
     test('Admin can create user and toggle role', async ({ page }) => {
         // Login
         await page.goto('/login');
-        await page.fill('input[name="username"]', 'admin');
-        await page.fill('input[name="password"]', 'admin123');
-        await page.click('button[type="submit"]');
+        await page.getByPlaceholder('username').fill('admin');
+        await page.getByPlaceholder('••••••••').fill('admin123');
+        await page.locator('button[type="submit"]').click();
         await expect(page).toHaveURL('/');
 
         // Go to Settings
         await page.goto('/settings');
 
+        // Ensure Admin Section is Open (Robust Logic)
+        const adminButton = page.getByRole('button', { name: 'Admin Configuration' });
+        await expect(adminButton).toBeVisible();
+        const expandedState = await adminButton.getAttribute('aria-expanded');
+        if (expandedState !== 'true') {
+            await adminButton.click();
+            await page.waitForTimeout(500);
+        }
+
         // Check for User Management Section
         await expect(page.getByText('User Management')).toBeVisible();
 
         // Add User
-        await page.click('button:has-text("Add User")');
-        await expect(page.getByText('Add New User')).toBeVisible();
-
-        await page.fill('input[value=""] >> nth=0', 'test_created_user'); // Username - fragile selector but functional if sequential
-        // Better to use labels if available or placeholder
-        // My component code: params are bound to value, placeholders not unique?
-        // Let's use getByLabel if possible or placeholders if I added them
-        // "Username", "Email", "Password" labels exist.
+        await page.getByRole('button', { name: 'Add User' }).click();
+        await expect(page.getByRole('heading', { name: 'Add New User' })).toBeVisible();
 
         await page.getByLabel('Username').fill('test_created_user');
         await page.getByLabel('Email').fill('test_created@example.com');
         await page.getByLabel('Password').fill('password123');
-        await page.selectOption('select', 'USER');
+        await page.getByLabel('Role').selectOption('USER');
 
-        await page.click('button:has-text("Create User")');
+        await page.getByRole('button', { name: 'Create User' }).click();
 
         // Check list
         await expect(page.getByText('test_created_user')).toBeVisible();

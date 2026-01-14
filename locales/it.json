@@ -68,6 +68,7 @@
         "users": {
             "title": "Gestione Utenti",
             "desc": "Gestisci gli utenti esistenti e i loro ruoli.",
+            "showTipsDesc": "Mostra un suggerimento utile sulla dashboard ogni giorno.",
             "addUser": "Add User",
             "searchPlaceholder": "Search users...",
             "table": {
@@ -86,12 +87,22 @@
                 "create": "Create User",
                 "error": "Failed to create user"
             },
-            "roleToggleTitle": "Click to toggle role"
+            "roleToggleTitle": "Clicca per cambiare ruolo",
+            "deleteConfirmTitle": "Elimina utente",
+            "deleteConfirmDesc": "Sei sicuro di voler eliminare questo utente? I suoi prompt e le sue collezioni ti saranno trasferiti.",
+            "delete": "Elimina",
+            "deleteSuccess": "Utente {{name}} eliminato con successo",
+            "roleUpdateSuccess": "Ruolo utente aggiornato con successo"
         },
         "save": "Salva Impostazioni Admin",
         "saving": "Salvataggio...",
         "success": "Impostazioni Admin aggiornate con successo",
-        "error": "Errore aggiornamento impostazioni Admin"
+        "error": "Errore aggiornamento impostazioni Admin",
+        "privatePrompts": {
+            "title": "Prompt Privati",
+            "desc": "Configura le impostazioni per i prompt privati.",
+            "confirmDisable": "Sei sicuro? Questo nasconderà tutti i prompt privati a tutti gli utenti."
+        }
     },
     "commandPalette": {
         "placeholder": "Digita un comando o cerca...",
@@ -219,7 +230,8 @@
             "textualResult": "Risultato Testuale",
             "resultFiles": "File Risultato / Immagini (Illimitato)",
             "uploadFiles": "Carica File (Illimitato)",
-            "resource": "URL Risorsa o Citazione"
+            "resource": "URL Risorsa o Citazione",
+            "privatePrompt": "Prompt Privato"
         },
         "buttons": {
             "codeView": "Vista Codice",
@@ -245,7 +257,8 @@
             "resource": "https://esempio.com/articolo-fonte"
         },
         "hints": {
-            "variables": "Definisci le variabili usate nel tuo prompt (es. <code>{{topic}}</code>)."
+            "variables": "Definisci le variabili usate nel tuo prompt (es. <code>{{topic}}</code>).",
+            "privatePrompt": "Visibile solo a te"
         },
         "errors": {
             "createFailed": "Creazione prompt fallita. Riprova.",
@@ -325,6 +338,8 @@
     },
     "settings": {
         "title": "Impostazioni",
+        "tagColors": "Abilita colori tag",
+        "tagColorsDesc": "Mostra i tag con colori distinti invece di uno stile uniforme.",
         "autoBackupConfig": "Configurazione Auto-Backup",
         "enableAutoBackup": "Abilita Auto-Backup",
         "backupPath": "Percorso Directory Backup",
@@ -429,22 +444,19 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.2 (Attuale)",
+                "version": "v2.3.3 (Non rilasciato)",
                 "improvements": "Modificato",
                 "fixes": "Risolto",
                 "added": "Aggiunto",
                 "desc": "Per le versioni precedenti, consultare il <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>changelog completo su GitHub</a>.",
-                "li1": "<strong>Esporta Collezione</strong>: Aggiunta l'opzione 'Esporta Collezione' al menu specifico della collezione, consentendo agli utenti di esportare un albero di collezione come file JSON.",
-                "li2": "-",
-                "li3": "<strong>Documentazione</strong>: Unita la documentazione tecnica (SAD unito nel Riferimento Tecnico).",
-                "li4": "<strong>Documentazione</strong>: Corretti i percorsi immagine interrotti nel Riferimento Tecnico.",
-                "li5": "-",
-                "li6": "<strong>Preferiti Dashboard</strong>: Risolto un bug in cui l'ultimo elemento preferito non poteva essere rimosso dai preferiti.",
-                "li7": "<strong>Vista Prompt</strong>: Risolto un bug dell'interfaccia utente in cui la descrizione di una variabile veniva visualizzata due volte.",
-                "li8": "<strong>Modifica Prompt</strong>: Risolto un problema in cui il campo descrizione veniva cancellato durante l'aggiunta o la rimozione di tag.",
-                "li9": "-",
-                "li10": "-",
-                "li11": "-"
+                "added_1": "<strong>Colori dei Tag</strong>: Aggiunta distinzione visiva per i tag con colori unici. Gli utenti possono abilitare/disabilitare questa funzione nelle Impostazioni Generali.",
+                "added_2": "<strong>Account Ospite</strong>: Aggiunto un nuovo ruolo GUEST con accesso di sola lettura. Include navigazione ed elementi dell'interfaccia utente limitati.",
+                "added_3": "<strong>Gestione Utenti</strong>: Aggiunta la possibilità per gli amministratori di eliminare gli utenti tramite la pagina Impostazioni Amministratore. Il contenuto viene conservato e riassegnato all'amministratore.",
+                "added_4": "<strong>Impostazioni Tag</strong>: Aggiunta preferenza 'Abilita Colori Tag' nelle Impostazioni Generali.",
+                "added_5": "<strong>ID Tecnici</strong>: Supporta la ricerca per ID Tecnico (ad es. VIBE-123) e l'accesso diretto tramite URL (/prompts/[id]).",
+                "added_6": "<strong>Prompt Collegati</strong>: Possibilità di collegare prompt correlati (bidirezionale) con supporto esportazione/importazione.",
+                "changed_1": "<strong>Spostamento Impostazioni</strong>: Spostati Auto-backup e Danger Zone in fondo alla pagina Importa/Esporta.",
+                "changed_2": "<strong>Migliorato</strong>: L'eliminazione di un prompt da una Collezione non reindirizza più alla Dashboard."
             },
             "intro": {
                 "welcome": "Benvenuto in <strong>PromptHive</strong>, il tuo santuario locale per gestire, testare e organizzare prompt LLM.",

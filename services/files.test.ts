@@ -18,6 +18,14 @@ vi.mock('fs/promises', () => ({
     }
 }));
 
+// Mock sharp
+vi.mock('sharp', () => ({
+    default: vi.fn().mockReturnValue({
+        resize: vi.fn().mockReturnThis(),
+        toFile: vi.fn().mockResolvedValue({}),
+    })
+}));
+
 describe('Files Service', () => {
     // Mock File object
     const mockFile = new File(['content'], 'test.txt', { type: 'text/plain' });
@@ -45,6 +53,16 @@ describe('Files Service', () => {
             expect(result.filePath).toContain('prefix-');
             expect(result.filePath).toContain('test.txt');
             expect(result.fileType).toBe('text/plain');
+        });
+
+        it('should generate thumbnail for images', async () => {
+            const { default: sharp } = await import('sharp');
+            const mockImage = new File(['img'], 'test.jpg', { type: 'image/jpeg' });
+            mockImage.arrayBuffer = vi.fn().mockResolvedValue(new ArrayBuffer(8));
+
+            await uploadFile(mockImage);
+
+            expect(sharp).toHaveBeenCalled();
         });
     });
 

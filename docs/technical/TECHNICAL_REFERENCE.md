@@ -48,50 +48,68 @@ All user inputs are validated using **Zod** schemas before reaching the business
 erDiagram
     User ||--o{ Prompt : has
     User ||--o{ Collection : owns
+    User ||--o| Settings : has
     User {
         string id PK
         string username
         string email
         string passwordHash
+        string role "USER | ADMIN"
         string avatarUrl
         string resetToken
-        dateTime resetTokenExpires
+        datetime resetTokenExpires
+        datetime createdAt
+    }
+
+    Settings {
+        string id PK
+        boolean autoBackupEnabled
+        string backupFrequency
+        boolean showPrompterTips
+        boolean tagColorsEnabled
+        string backupPath
+        datetime lastBackupAt
     }
     
     Prompt ||--|{ PromptVersion : contains
     Prompt }|--|{ Collection : "belongs to"
     Prompt }|--|{ Tag : "tagged with"
+    Prompt }|--|{ Prompt : "related to"
     Prompt {
         string id PK
         string title
+        string description
+        string resource
         string currentVersionId FK
+        string createdById FK
+        boolean isLocked
+        string technicalId
+        datetime createdAt
     }
 
     PromptVersion {
         string id PK
         string content
+        string shortContent
         string variableDefinitions
         int versionNumber
+        string changelog
+        string createdById FK
     }
 
     Collection ||--o{ Collection : "parent of"
     Collection {
         string id PK
         string title
+        string description
         string parentId FK
+        string ownerId FK
     }
 
     Tag {
         string id PK
         string name
-    }
-
-    User ||--o{ Favorite : "favorites"
-    Prompt ||--o{ Favorite : "favorited in"
-    Favorite {
-        string userId FK
-        string promptId FK
-        dateTime createdAt
+        string color
     }
 ```
 </details>

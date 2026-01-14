@@ -1,14 +1,22 @@
 
 import { prisma } from "@/lib/prisma";
-import fs from "fs/promises";
+import fs from "fs";
 import path from "path";
 import { validateFileExtension } from "./utils";
 import { uploadFile, deleteFile } from "./files";
+import { generateTechnicalId } from "./id-service";
 import { Prisma } from "@prisma/client";
 
+import { generateColorFromName } from "@/lib/color-utils";
+
 export async function createTagService(name: string) {
+    // Determine color deterministically based on name for consistency
+    const color = generateColorFromName(name);
     return prisma.tag.create({
-        data: { name },
+        data: {
+            name,
+            color
+        } as any,
     });
 }
 
@@ -23,6 +31,26 @@ export type CreatePromptInput = {
     tagIds: string[];
     resultText: string;
     resource?: string;
+    isPrivate?: boolean;
+};
+
+export type CreateVersionInput = {
+    promptId: string;
+    title: string;
+    content: string;
+    shortContent: string;
+    usageExample: string;
+    variableDefinitions: string;
+    resultText: string;
+    resource?: string;
+    collectionId: string;
+    tagIds?: string[];
+    changelog: string;
+    description?: string;
+    keepAttachmentIds: string[];
+    keepResultImageIds: string[];
+    existingResultImagePath?: string;
+    isPrivate?: boolean;
 };
 
 export async function createPromptService(
@@ -31,6 +59,7 @@ export async function createPromptService(
     attachments: File[],
     resultImages: File[]
 ) {
+    console.log("[Service] createPromptService called. prisma.prompt:", !!prisma?.prompt);
     const savedAttachments = [];
 
     if (attachments.length > 0) {
@@ -65,9 +94,25 @@ export async function createPromptService(
         throw new Error("A prompt with this title already exists.");
     }
 
+    // Determine Collection Name for ID generation
+    let collectionName = "Unassigned";
+    if (input.collectionId) {
+        const collection = await prisma.collection.findUnique({
+            where: { id: input.collectionId },
+            select: { title: true }
+        });
+        if (collection) collectionName = collection.title;
+    }
+
+    const technicalId = await generateTechnicalId(collectionName);
+
     const prompt = await prisma.prompt.create({
         data: {
             title: input.title,
+            technicalId: technicalId,
+            isPrivate: input.isPrivate ?? false,
+            // ... (skipping unchanged middle parts, wait I can't skip with replace_file_content unless I use chunks)
+            // I should use multi_replace for targeted fixes.
             description: input.description,
             resource: input.resource,
             createdById: userId,
@@ -88,7 +133,7 @@ export async function createPromptService(
                     },
                 },
             },
-        },
+        } as any,
         include: { versions: true },
     });
 
@@ -100,23 +145,7 @@ export async function createPromptService(
     return prompt;
 }
 
-export type CreateVersionInput = {
-    promptId: string;
-    title: string;
-    content: string;
-    shortContent: string;
-    usageExample: string;
-    variableDefinitions: string;
-    changelog: string;
-    resultText: string;
-    collectionId: string;
-    description?: string;
-    tagIds?: string[];
-    keepAttachmentIds: string[];
-    keepResultImageIds: string[];
-    existingResultImagePath: string;
-    resource?: string;
-};
+
 
 export async function createVersionService(
     userId: string,
@@ -242,6 +271,7 @@ export async function createVersionService(
         title: input.title || undefined,
         description: input.description,
         resource: input.resource,
+        isPrivate: input.isPrivate,
     };
 
     if (input.collectionId) {
@@ -362,6 +392,16 @@ export async function deletePromptService(userId: string, promptId: string) {
         select: { tags: { select: { id: true } } }
     });
 
+    // Manual cleanup of foreign keys to safely delete prompt
+    // 1. Delete associated Favorites
+    await prisma.favorite.deleteMany({
+        where: { promptId }
+    });
+    // 2. Delete associated Workflow Steps
+    await prisma.workflowStep.deleteMany({
+        where: { promptId }
+    });
+
     await prisma.prompt.delete({
         where: { id: promptId },
     });
@@ -446,25 +486,45 @@ export async function movePromptService(userId: string, promptId: string, collec
     // Permission check removed as per CR-006 (Relax Permissions)
 
 
+    const collectionIdToUse = collectionId;
+
+    let newTechnicalId: string | undefined = undefined;
+
+    if (collectionIdToUse) {
+        // Fetch new collection title
+        const collection = await prisma.collection.findUnique({
+            where: { id: collectionIdToUse },
+            select: { title: true }
+        });
+        if (collection) {
+            newTechnicalId = await generateTechnicalId(collection.title);
+        }
+    } else {
+        // Moving to root/unassigned
+        newTechnicalId = await generateTechnicalId("Unassigned");
+    }
+
     if (collectionId) {
         // Move to specific collection
         await prisma.prompt.update({
             where: { id: promptId },
             data: {
+                technicalId: newTechnicalId,
                 collections: {
                     set: [{ id: collectionId }]
                 }
-            }
+            } as any
         });
     } else {
         // Move to root (remove from all collections)
         await prisma.prompt.update({
             where: { id: promptId },
             data: {
+                technicalId: newTechnicalId,
                 collections: {
                     set: []
                 }
-            }
+            } as any
         });
     }
 }
@@ -490,30 +550,39 @@ export async function bulkMovePromptsService(userId: string, promptIds: string[]
 
     if (collectionId) {
         // Move to specific collection
-        // Prisma doesn't support updateMany with relations, so we use transaction or distinct updates
-        // Since we are setting a relation, we can't use updateMany.
-        await prisma.$transaction(
-            validPromptIds.map(id => prisma.prompt.update({
+        // Need to loop because each needs a unique ID based on the sequence
+        const collection = await prisma.collection.findUnique({
+            where: { id: collectionId },
+            select: { title: true }
+        });
+        const collectionName = collection?.title || "Unassigned";
+
+        for (const id of validPromptIds) {
+            const newTechId = await generateTechnicalId(collectionName);
+            await prisma.prompt.update({
                 where: { id },
                 data: {
+                    technicalId: newTechId,
                     collections: {
                         set: [{ id: collectionId }]
                     }
-                }
-            }))
-        );
+                } as any
+            });
+        }
     } else {
         // Move to root
-        await prisma.$transaction(
-            validPromptIds.map(id => prisma.prompt.update({
+        for (const id of validPromptIds) {
+            const newTechId = await generateTechnicalId("Unassigned");
+            await prisma.prompt.update({
                 where: { id },
                 data: {
+                    technicalId: newTechId,
                     collections: {
                         set: []
                     }
                 }
-            }))
-        );
+            });
+        }
     }
 }
 
@@ -565,4 +634,145 @@ export async function toggleLockService(userId: string, promptId: string) {
         where: { id: promptId },
         data: { isLocked: !prompt.isLocked }
     });
+}
+
+export async function toggleVisibilityService(userId: string, promptId: string) {
+    const prompt = await prisma.prompt.findUnique({
+        where: { id: promptId },
+    });
+
+    if (!prompt) throw new Error("Prompt not found");
+
+    if (prompt.createdById !== userId) {
+        throw new Error("Only the creator can change visibility.");
+    }
+
+    return prisma.prompt.update({
+        where: { id: promptId },
+        data: { isPrivate: !prompt.isPrivate }
+    });
+}
+
+export async function searchPromptsForLinkingService(userId: string, query: string, excludeId: string) {
+    try {
+        fs.appendFileSync('debug_search.log', `[Service] search: query="${query}" user="${userId}"\n`);
+    } catch (e) { }
+
+    // Simple sanitization
+    if (!query || query.length < 2) return [];
+
+    // Get excluded IDs (self + already related)
+    const exclusionList = [excludeId];
+
+    if (excludeId) {
+        const current = await prisma.prompt.findUnique({
+            where: { id: excludeId },
+            select: {
+                relatedPrompts: { select: { id: true } },
+                relatedToPrompts: { select: { id: true } }
+            }
+        });
+
+        if (current) {
+            current.relatedPrompts.forEach((p) => exclusionList.push(p.id));
+            current.relatedToPrompts.forEach((p) => exclusionList.push(p.id));
+        }
+    }
+
+    const prompts = await prisma.prompt.findMany({
+        where: {
+            createdById: userId,
+            id: { notIn: exclusionList },
+            OR: [
+                {
+                    AND: [
+                        { isPrivate: false },
+                        {
+                            OR: [
+                                { title: { contains: query } },
+                                { technicalId: { contains: query } }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    AND: [
+                        { isPrivate: true },
+                        { createdById: userId },
+                        {
+                            OR: [
+                                { title: { contains: query } },
+                                { technicalId: { contains: query } }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        select: {
+            id: true,
+            title: true,
+            technicalId: true
+        },
+        take: 10
+    });
+    try {
+        fs.appendFileSync('debug_search.log', `[Service] found ${prompts.length}\n`);
+    } catch (e) { }
+    return prompts;
+}
+
+export async function linkPromptsService(userId: string, promptIdA: string, promptIdB: string) {
+    if (promptIdA === promptIdB) throw new Error("Cannot link prompt to itself");
+
+    // Check ownership/permissions if strict, or just allowed for now
+    // We'll rely on global access for now (or assume user has access to both)
+
+    // Connect A to B. Prisma implicit M-N will handle the join table.
+    // We connect A's relatedPrompts to B.
+    await prisma.prompt.update({
+        where: { id: promptIdA },
+        data: {
+            relatedPrompts: {
+                connect: { id: promptIdB }
+            }
+        }
+    });
+}
+
+export async function unlinkPromptsService(userId: string, promptIdA: string, promptIdB: string) {
+    // Disconnect. 
+    // We try to disconnect from both directions just in case, or check which way it was linked.
+    // Actually, for implicit m-n, disconnecting A->B or B->A removes the entry from the join table.
+    // BUT, we need to know which direction it was created in? 
+    // Prisma implicit m-n: Only one table. A->B (A id, B id). 
+    // So if we disconnect A->B it works. If it was B->A, we might need to try the other way?
+    // Actually, `relatedPrompts` and `relatedToPrompts` represent the two sides.
+    // Ideally we check if B is in A.relatedPrompts, disconnect; else if A is in B.relatedPrompts, disconnect.
+
+    const promptA = await prisma.prompt.findUnique({
+        where: { id: promptIdA },
+        include: { relatedPrompts: { select: { id: true } } }
+    });
+
+    if (promptA?.relatedPrompts.some(p => p.id === promptIdB)) {
+        await prisma.prompt.update({
+            where: { id: promptIdA },
+            data: {
+                relatedPrompts: {
+                    disconnect: { id: promptIdB }
+                }
+            }
+        });
+    } else {
+        // Try the other direction
+        await prisma.prompt.update({
+            where: { id: promptIdB },
+            data: {
+                relatedPrompts: {
+                    disconnect: { id: promptIdA }
+                }
+            }
+        });
+    }
 }

@@ -86,12 +86,22 @@
                 "create": "Create User",
                 "error": "Failed to create user"
             },
-            "roleToggleTitle": "Click to toggle role"
+            "roleToggleTitle": "Klik om rol te wisselen",
+            "deleteConfirmTitle": "Gebruiker verwijderen",
+            "deleteConfirmDesc": "Weet u zeker dat u deze gebruiker wilt verwijderen? Hun prompts en collecties worden aan u overgedragen.",
+            "delete": "Verwijderen",
+            "deleteSuccess": "Gebruiker {{name}} succesvol verwijderd",
+            "roleUpdateSuccess": "Gebruikersrol succesvol bijgewerkt"
         },
         "save": "Admin instellingen opslaan",
         "saving": "Opslaan...",
         "success": "Admin instellingen succesvol bijgewerkt",
-        "error": "Kon admin instellingen niet bijwerken"
+        "error": "Kon admin instellingen niet bijwerken",
+        "privatePrompts": {
+            "title": "Privé Prompts",
+            "desc": "Configureer instellingen voor privé prompts.",
+            "confirmDisable": "Weet u het zeker? Dit verbergt alle privé prompts voor alle gebruikers."
+        }
     },
     "commandPalette": {
         "placeholder": "Typ een commando of zoek...",
@@ -202,7 +212,8 @@
             "textualResult": "Tekstueel Resultaat",
             "resultFiles": "Resultaat Bestanden / Afbeeldingen (Onbeperkt)",
             "uploadFiles": "Bestanden Uploaden (Onbeperkt)",
-            "resource": "Bron URL of Citaat"
+            "resource": "Bron URL of Citaat",
+            "privatePrompt": "Privé Prompt"
         },
         "buttons": {
             "codeView": "Code Weergave",
@@ -228,7 +239,8 @@
             "resource": "https://example.com/bron-artikel"
         },
         "hints": {
-            "variables": "Definieer de variabelen die in je prompt worden gebruikt (bijv. <code>{{topic}}</code>)."
+            "variables": "Definieer de variabelen die in je prompt worden gebruikt (bijv. <code>{{topic}}</code>).",
+            "privatePrompt": "Alleen zichtbaar voor jou"
         },
         "errors": {
             "createFailed": "Kon prompt niet maken. Probeer het opnieuw.",
@@ -251,10 +263,14 @@
         "breadcrumbs": {
             "collections": "Collecties"
         },
+        "badges": {
+            "private": "Privé"
+        },
         "actions": {
             "edit": "Bewerken",
             "delete": "Verwijderen",
             "copy": "Kopieer Prompt",
+            "linkPrompt": "Link Gerelateerde Prompt",
             "copied": "Gekopieerd!",
             "codeView": "Code Weergave",
             "addToFavorites": "Toevoegen aan favorieten",
@@ -287,7 +303,8 @@
             "source": "Bron",
             "shortPrompt": "Korte Prompt",
             "usageExample": "Gebruiksvoorbeeld",
-            "editingVariable": "Variabele bewerken"
+            "editingVariable": "Variabele bewerken",
+            "relatedPrompts": "Gerelateerde Prompts"
         },
         "meta": {
             "by": "Door",
@@ -299,7 +316,8 @@
             "noDescription": "Geen beschrijving gegeven.",
             "noVersions": "Geen versies gevonden.",
             "valueFor": "Waarde voor {{name}}",
-            "enterLargeText": "Voer hier korte of lange tekst in..."
+            "enterLargeText": "Voer hier korte of lange tekst in...",
+            "searchPrompts": "Zoek op titel of ID..."
         },
         "errors": {
             "deleteFailed": "Kon prompt niet verwijderen.",
@@ -325,6 +343,10 @@
     },
     "settings": {
         "title": "Instellingen",
+        "tagColors": "Tagkleuren inschakelen",
+        "tagColorsDesc": "Toon tags met verschillende kleuren in plaats van een uniforme stijl.",
+        "showWorkflows": "Workflows Tonen",
+        "showWorkflowsDesc": "Schakel de workflows-functie in de zijbalk in.",
         "autoBackupConfig": "Auto-Backup Configuratie",
         "enableAutoBackup": "Schakel Auto-Backup in",
         "backupPath": "Backup Map Pad",
@@ -426,22 +448,19 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.2 (Huidig)",
+                "version": "v2.3.3 (Unreleased)",
                 "improvements": "Gewijzigd",
                 "fixes": "Opgelost",
                 "added": "Toegevoegd",
                 "desc": "Voor oudere versies, zie de <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>volledige changelog op GitHub</a>.",
-                "li1": "<strong>Collectie Exporteren</strong>: Optie 'Collectie Exporteren' toegevoegd aan het specifieke collectiemenu, waarmee gebruikers een collectieboom als JSON-bestand kunnen exporteren.",
-                "li2": "-",
-                "li3": "<strong>Documentatie</strong>: Technische documentatie samengevoegd (SAD samengevoegd in Technische Referentie).",
-                "li4": "<strong>Documentatie</strong>: Kapotte afbeeldingspaden in Technische Referentie gerepareerd.",
-                "li5": "-",
-                "li6": "<strong>Dashboard Favorieten</strong>: Bug verholpen waarbij het laatste favoriete item niet uit favorieten kon worden verwijderd.",
-                "li7": "<strong>Prompt Weergave</strong>: UI-bug verholpen waarbij de beschrijving van een variabele dubbel werd weergegeven.",
-                "li8": "<strong>Prompt Bewerken</strong>: Probleem verholpen waarbij het beschrijvingsveld werd gewist bij het toevoegen of verwijderen van tags.",
-                "li9": "-",
-                "li10": "-",
-                "li11": "-"
+                "added_1": "<strong>Tag Kleuren</strong>: Visueel onderscheid toegevoegd voor tags met unieke kleuren. Gebruikers kunnen deze functie in- of uitschakelen in Algemene Instellingen.",
+                "added_2": "<strong>Gast Account</strong>: Nieuwe GUEST-rol met alleen-lezen toegang toegevoegd. Bevat beperkte navigatie en UI-elementen.",
+                "added_3": "<strong>Gebruikersbeheer</strong>: Mogelijkheid toegevoegd voor beheerders om gebruikers te verwijderen via de Admin Instellingen pagina. Inhoud wordt bewaard en toegewezen aan de beheerder.",
+                "added_4": "<strong>Tag Instellingen</strong>: Voorkeur 'Tag Kleuren Inschakelen' toegevoegd aan Algemene Instellingen.",
+                "added_5": "<strong>Technische IDs</strong>: Ondersteunt zoeken op Technische ID (bijv. VIBE-123) en directe URL-toegang (/prompts/[id]).",
+                "added_6": "<strong>Gekoppelde Prompts</strong>: Mogelijkheid om gerelateerde prompts aan elkaar te koppelen (bidirectioneel) met export/import ondersteuning.",
+                "changed_1": "<strong>Instellingen Verplaatsing</strong>: Auto-backup en Danger Zone verplaatst naar de onderkant van de Import/Export pagina.",
+                "changed_2": "<strong>Verbeterd</strong>: Het verwijderen van een prompt vanuit een Collectie leidt niet langer om naar het Dashboard."
             },
             "intro": {
                 "welcome": "Welkom bij <strong>PromptHive</strong>, je lokale toevluchtsoord voor het beheren, testen en organiseren van LLM-prompts.",
@@ -546,7 +565,8 @@
                 "registrationTitle": "Registratie Controle",
                 "registrationDesc": "Je kunt <strong>nieuwe gebruikersregistratie uitschakelen</strong> om je instantie privé te houden. Bestaande gebruikers kunnen nog steeds inloggen.",
                 "visibilityTitle": "Gebruikerszichtbaarheid",
-                "visibilityDesc": "Beheer wiens prompts in je dashboard verschijnen. Je kunt ervoor kiezen om alleen je eigen werk te zien, of werk van andere gebruikers op deze instantie."
+                "visibilityDesc": "Beheer wiens prompts in je dashboard verschijnen. Je kunt ervoor kiezen om alleen je eigen werk te zien, of werk van andere gebruikers op deze instantie.",
+                "showTipsDesc": "Toon elke dag een nuttige prompting-tip op het dashboard."
             },
             "exporting": {
                 "desc": "Je kunt je data in verschillende formaten exporteren voor backup of delen.",

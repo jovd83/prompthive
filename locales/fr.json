@@ -86,12 +86,22 @@
                 "create": "Create User",
                 "error": "Failed to create user"
             },
-            "roleToggleTitle": "Click to toggle role"
+            "roleToggleTitle": "Cliquez pour changer le rôle",
+            "deleteConfirmTitle": "Supprimer l'utilisateur",
+            "deleteConfirmDesc": "Êtes-vous sûr de vouloir supprimer cet utilisateur ? Ses prompts et collections vous seront transférés.",
+            "delete": "Supprimer",
+            "deleteSuccess": "Utilisateur {{name}} supprimé avec succès",
+            "roleUpdateSuccess": "Rôle utilisateur mis à jour avec succès"
         },
         "save": "Enregistrer les paramètres Admin",
         "saving": "Enregistrement...",
         "success": "Paramètres Admin mis à jour avec succès",
-        "error": "Échec de la mise à jour des paramètres Admin"
+        "error": "Échec de la mise à jour des paramètres Admin",
+        "privatePrompts": {
+            "title": "Prompts Privés",
+            "desc": "Configurer les paramètres des prompts privés.",
+            "confirmDisable": "Êtes-vous sûr ? Cela cachera tous les prompts privés pour tous les utilisateurs."
+        }
     },
     "commandPalette": {
         "placeholder": "Tapez une commande ou recherchez...",
@@ -219,7 +229,8 @@
             "textualResult": "Résultat textuel",
             "resultFiles": "Fichiers de résultat / Images (Illimité)",
             "uploadFiles": "Télécharger des fichiers (Illimité)",
-            "resource": "URL de la ressource ou citation"
+            "resource": "URL de la ressource ou citation",
+            "privatePrompt": "Prompt Privé"
         },
         "buttons": {
             "codeView": "Vue Code",
@@ -245,7 +256,8 @@
             "resource": "https://example.com/article-source"
         },
         "hints": {
-            "variables": "Définissez les variables utilisées dans votre prompt (ex: <code>{{topic}}</code>)."
+            "variables": "Définissez les variables utilisées dans votre prompt (ex: <code>{{topic}}</code>).",
+            "privatePrompt": "Visible uniquement par vous"
         },
         "errors": {
             "createFailed": "Échec de la création du prompt. Veuillez réessayer.",
@@ -268,10 +280,14 @@
         "breadcrumbs": {
             "collections": "Collections"
         },
+        "badges": {
+            "private": "Privé"
+        },
         "actions": {
             "edit": "Éditer",
             "delete": "Supprimer",
             "copy": "Copier Prompt",
+            "linkPrompt": "Lier un Prompt",
             "copied": "Copié !",
             "codeView": "Vue Code",
             "addToFavorites": "Ajouter aux favoris",
@@ -304,7 +320,8 @@
             "source": "Source",
             "shortPrompt": "Prompt Court",
             "usageExample": "Exemple d'Utilisation",
-            "editingVariable": "Édition de la variable"
+            "editingVariable": "Édition de la variable",
+            "relatedPrompts": "Prompts Liés"
         },
         "meta": {
             "by": "Par",
@@ -316,7 +333,8 @@
             "noDescription": "Aucune description fournie.",
             "noVersions": "Aucune version trouvée.",
             "valueFor": "Valeur pour {{name}}",
-            "enterLargeText": "Entrez du texte court ou long ici..."
+            "enterLargeText": "Entrez du texte court ou long ici...",
+            "searchPrompts": "Rechercher par titre ou ID..."
         },
         "errors": {
             "deleteFailed": "Échec de la suppression du prompt.",
@@ -325,6 +343,8 @@
     },
     "settings": {
         "title": "Paramètres",
+        "tagColors": "Activer les couleurs des tags",
+        "tagColorsDesc": "Afficher les tags avec des couleurs distinctes au lieu d'un style uniforme.",
         "autoBackupConfig": "Configuration de la Sauvegarde Auto",
         "enableAutoBackup": "Activer la Sauvegarde Auto",
         "backupPath": "Chemin du Répertoire de Sauvegarde",
@@ -356,6 +376,8 @@
         "checkAll": "Tout cocher",
         "uncheckAll": "Tout décocher",
         "you": "(Vous)",
+        "showWorkflows": "Afficher les Workflows",
+        "showWorkflowsDesc": "Activer la fonctionnalité de workflows dans la barre latérale.",
         "general": "Paramètres Généraux",
         "settingsSaved": "Paramètres enregistrés avec succès.",
         "settingsFailed": "Échec de l'enregistrement des paramètres.",
@@ -426,22 +448,19 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.2 (Actuel)",
+                "version": "v2.3.3 (Non publié)",
                 "improvements": "Modifié",
                 "fixes": "Corrigé",
                 "added": "Ajouté",
                 "desc": "Pour les anciennes versions, veuillez consulter le <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>journal des modifications complet sur GitHub</a>.",
-                "li1": "<strong>Exporter la collection</strong> : Ajout de l'option 'Exporter la collection' au menu spécifique de la collection, permettant aux utilisateurs d'exporter une arborescence de collection sous forme de fichier JSON.",
-                "li2": "-",
-                "li3": "<strong>Documentation</strong> : Fusion de la documentation technique (SAD fusionné dans la Référence Technique).",
-                "li4": "<strong>Documentation</strong> : Correction des chemins d'images cassés dans la Référence Technique.",
-                "li5": "-",
-                "li6": "<strong>Favoris du tableau de bord</strong> : Correction d'un bug où le dernier élément favori ne pouvait pas être retiré des favoris.",
-                "li7": "<strong>Vue Prompt</strong> : Correction d'un bug d'interface où la description d'une variable s'affichait deux fois.",
-                "li8": "<strong>Modifier Prompt</strong> : Correction d'un problème où le champ de description s'effaçait lors de l'ajout ou de la suppression de tags.",
-                "li9": "-",
-                "li10": "-",
-                "li11": "-"
+                "added_1": "<strong>Couleurs des tags</strong> : Ajout d'une distinction visuelle pour les tags avec des couleurs uniques. Les utilisateurs peuvent activer/désactiver cette fonctionnalité dans les Paramètres généraux.",
+                "added_2": "<strong>Compte Invité</strong> : Ajout d'un nouveau rôle GUEST avec accès en lecture seule. Inclut une navigation et des éléments d'interface restreints.",
+                "added_3": "<strong>Gestion des utilisateurs</strong> : Ajout de la possibilité pour les administrateurs de supprimer des utilisateurs via la page des Paramètres Admin. Le contenu est préservé et réassigné à l'administrateur.",
+                "added_4": "<strong>Paramètres des tags</strong> : Ajout de la préférence 'Activer les couleurs des tags' aux Paramètres généraux.",
+                "added_5": "<strong>IDs Techniques</strong> : Prend en charge la recherche par ID technique (par ex. VIBE-123) et l'accès direct par URL (/prompts/[id]).",
+                "added_6": "<strong>Prompts Liés</strong> : Possibilité de lier des prompts connexes ensemble (bidirectionnel) avec prise en charge de l'export/import.",
+                "changed_1": "<strong>Déplacement des Paramètres</strong> : Déplacement de la sauvegarde automatique et de la zone de danger vers le bas de la page Import/Export.",
+                "changed_2": "<strong>Amélioré</strong> : La suppression d'un prompt depuis une Collection ne redirige plus vers le Tableau de bord."
             },
             "intro": {
                 "welcome": "Bienvenue sur <strong>PromptHive</strong>, votre sanctuaire local pour gérer, tester et organiser vos prompts LLM.",

@@ -21,16 +21,18 @@ Users can search for prompts using keywords and advanced filters like Tags and C
 *   **Search Bar**: Text Input (Keywords).
 *   **Filter Toggle**: Button (Filter Icon).
 *   **Filters Panel**:
-    *   **Tags**: Text Input (Comma-separated).
+    *   **Tags**: Text Input (Comma-separated). Tags display with their assigned color if enabled.
     *   **Creator**: Text Input (Username/Email).
+    *   **Technical ID**: System searches automatically for ID patterns (e.g. UNAS-1).
 
 ### 3. Acceptance Criteria (AC)
 *   [ ] Verify that pressing Enter triggers the search.
 *   [ ] Verify that opening the filter panel reveals advanced options.
 *   [ ] Verify "Clear" resets all fields.
+*   [ ] Verify searching by Technical ID (e.g. UNAS-123) retrieves the specific prompt.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/search_advanced_wireframe.png`
+**Image Source:** `../wireframes/previews/search_advanced.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Search Component with Dropdown Panel.
@@ -61,7 +63,7 @@ A global command palette (`Ctrl+K`) allows users to navigate to pages, perform q
 *   [ ] Verify clicking an action performs the expected navigation.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/command_palette_wireframe.png`
+**Image Source:** `../wireframes/previews/command_palette_wireframe.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Centered Modal Overlay.

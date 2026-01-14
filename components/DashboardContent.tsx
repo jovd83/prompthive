@@ -20,8 +20,9 @@ interface DashboardContentProps {
     newPrompts: Prompt[];
     popularPrompts: Prompt[];
     favoriteIds: string[];
-    user?: { name?: string | null; id?: string };
+    user?: { name?: string | null; id?: string; role?: string };
     showPrompterTips?: boolean;
+    tagColorsEnabled?: boolean;
 }
 
 export default function DashboardContent({
@@ -34,7 +35,8 @@ export default function DashboardContent({
     popularPrompts,
     favoriteIds,
     user,
-    showPrompterTips = true
+    showPrompterTips = true,
+    tagColorsEnabled = true
 }: DashboardContentProps) {
     const { t } = useLanguage();
     const favSet = new Set(favoriteIds);
@@ -49,9 +51,11 @@ export default function DashboardContent({
                 {showPrompterTips && <TipOfTheDay className="mb-6" />}
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold truncate" title={pageTitle}>{pageTitle}</h1>
-                    <Link href="/prompts/new" className="btn btn-primary">
-                        <Plus size={18} /> {t('prompts.newPrompt')}
-                    </Link>
+                    {user?.role !== 'GUEST' && (
+                        <Link href="/prompts/new" className="btn btn-primary">
+                            <Plus size={18} /> {t('prompts.newPrompt')}
+                        </Link>
+                    )}
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-4 mb-6 items-start justify-between relative">
@@ -64,14 +68,16 @@ export default function DashboardContent({
                 {searchResults.length === 0 ? (
                     <div className="text-center py-12 text-muted-foreground bg-surface rounded-lg border border-border">
                         <p className="mb-4">{t('prompts.noResults')}</p>
-                        <Link href="/prompts/new" className="text-primary hover:underline">
-                            {t('prompts.createFirst')}
-                        </Link>
+                        {user?.role !== 'GUEST' && (
+                            <Link href="/prompts/new" className="text-primary hover:underline">
+                                {t('prompts.createFirst')}
+                            </Link>
+                        )}
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {searchResults.map((prompt) => (
-                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} />
+                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} tagColorsEnabled={tagColorsEnabled} />
                         ))}
                     </div>
                 )}
@@ -84,9 +90,11 @@ export default function DashboardContent({
             {showPrompterTips && <TipOfTheDay className="mb-6" />}
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold">{t('prompts.dashboard')}</h1>
-                <Link href="/prompts/new" className="btn btn-primary">
-                    <Plus size={18} /> {t('prompts.newPrompt')}
-                </Link>
+                {user?.role !== 'GUEST' && (
+                    <Link href="/prompts/new" className="btn btn-primary">
+                        <Plus size={18} /> {t('prompts.newPrompt')}
+                    </Link>
+                )}
             </div>
 
             {searchParams.deletedCollection && (
@@ -127,7 +135,7 @@ export default function DashboardContent({
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {favoritePrompts.map((prompt) => (
-                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={true} />
+                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={true} tagColorsEnabled={tagColorsEnabled} />
                         ))}
                     </div>
                 </section>
@@ -146,7 +154,7 @@ export default function DashboardContent({
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             {recentPrompts.map((prompt) => (
-                                <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} />
+                                <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} tagColorsEnabled={tagColorsEnabled} />
                             ))}
                         </div>
                     </section>
@@ -163,7 +171,7 @@ export default function DashboardContent({
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {newPrompts.map((prompt) => (
-                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} />
+                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} tagColorsEnabled={tagColorsEnabled} />
                         ))}
                     </div>
                 </section>
@@ -179,7 +187,7 @@ export default function DashboardContent({
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {popularPrompts.map((prompt) => (
-                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} />
+                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} tagColorsEnabled={tagColorsEnabled} />
                         ))}
                     </div>
                 </section>

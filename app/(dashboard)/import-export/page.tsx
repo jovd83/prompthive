@@ -11,6 +11,33 @@ export default async function ImportExportPage() {
         redirect("/auth/signin");
     }
 
+    let settings = await prisma.settings.findUnique({
+        where: { userId: session.user.id },
+    });
+
+    if (!settings) {
+        // Handle stale session: if user doesn't exist, redirect to login
+        const userExists = await prisma.user.findUnique({ where: { id: session.user.id } });
+        if (!userExists) {
+            redirect("/auth/signin");
+        }
+
+        settings = await prisma.settings.create({
+            data: {
+                userId: session.user.id,
+                autoBackupEnabled: false,
+                backupFrequency: "DAILY",
+            },
+        });
+    }
+
+    // Fetch fresh user to ensure role is up to date (session might be stale after promotion)
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { role: true }
+    });
+    const isAdmin = user?.role === 'ADMIN';
+
     const collections = await prisma.collection.findMany({
         where: { ownerId: session.user.id },
         include: {
@@ -19,14 +46,17 @@ export default async function ImportExportPage() {
         orderBy: { title: 'asc' }
     });
 
-    // Add explicit totalPrompts if needed or rely on _count
-    // computeRecursiveCounts expects slightly different structure?
-    // computeRecursiveCounts expects children array if recursive.
-    // But findMany is flat unless recursive include.
-    // computeRecursiveCounts in `lib/collection-utils` processes flat array if it has parentId?
-    // Let's assume it works with flat array (as Sidebar uses it).
-    // Sidebar fetches collections? No, Layout does.
-    // Sidebar.tsx line 150: `computeRecursiveCounts(collections)`.
+    // Ensure settings matches the expected type locally if DB schema lags behind types
+    const safeSettings = {
+        ...settings,
+        tagColorsEnabled: (settings as any).tagColorsEnabled ?? false
+    };
 
-    return <ImportExportContent collections={collections as any} />;
+    return (
+        <ImportExportContent
+            collections={collections as any}
+            initialSettings={safeSettings}
+            isAdmin={isAdmin}
+        />
+    );
 }

@@ -28,7 +28,7 @@ Users can create nested collections (folders) to organize their prompts.
 *   [ ] Verify successful creation updates the sidebar list.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/collection_create_wireframe.png`
+**Image Source:** `../wireframes/previews/collection_create.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Simple Form Card.
@@ -62,7 +62,7 @@ The sidebar displays a hierarchical tree of collections and a list of tags. Both
 *   [ ] Verify "Unassigned" count matches the number of orphan prompts.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/sidebar_nav_wireframe.png`
+**Image Source:** `../wireframes/previews/collection_sidebar_update.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Sidebar Component.
@@ -93,7 +93,7 @@ A unified sorting control (dropdown menu) allows users to order lists by name or
 *   [ ] Verify the active sort option shows a checkmark.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/collection_sort_wireframe.png`
+**Image Source:** `../wireframes/previews/dashboard_wireframe.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Popover Menu.

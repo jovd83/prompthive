@@ -24,10 +24,11 @@ export async function loginUser(page: Page) {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/');
     // Check for dashboard element to confirm session is active
-    await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible({ timeout: 15000 });
 
-    // Check for sidebar elements - updated to use the ID which is more stable
-    await expect(page.locator('button[data-testid="user-profile-trigger"]')).toBeVisible();
+    // Check for sidebar elements - updated to use the ID with wait
+    // We wait for the profile trigger to be attached/visible as the sidebar loads
+    await expect(page.locator('button[data-testid="user-profile-trigger"]')).toBeVisible({ timeout: 15000 });
 
     return { username, email, password };
 }
@@ -39,9 +40,13 @@ export async function promoteUserToAdmin(page: Page) {
     // Switch to Preferences tab
     await page.locator('[data-testid="tab-preferences"]').click();
 
+    // Wait for the preferences content to render
+    await expect(page.locator('[data-testid="content-preferences"]')).toBeVisible();
+
     // Click the toggle to open Admin code modal
-    // The input is hidden (sr-only), so we click the visual representation or label
-    await page.locator('label:has-text("Admin Access")').click({ force: true });
+    // The input is hidden inside a label within the preferences content.
+    // It is the only checkbox in this tab, so we can target it by the tab's test ID.
+    await page.locator('[data-testid="content-preferences"] input[type="checkbox"]').click({ force: true });
 
     // Wait for modal
     await expect(page.locator('input[name="code"]')).toBeVisible();

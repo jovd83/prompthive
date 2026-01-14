@@ -9,9 +9,10 @@ export interface ZeroExportData {
     }[];
     prompts: {
         id: string;
+        technicalId: string | null;
         title: string;
         description: string | null;
-        body: string;
+        content: string;
         shortPrompt: string;
         exampleOutput: string;
         expectedResult: string;
@@ -19,6 +20,7 @@ export interface ZeroExportData {
         collectionId: string | undefined;
         createdAt: Date;
         updatedAt: Date;
+        relatedPrompts?: string[]; // List of Technical IDs
     }[];
 }
 
@@ -54,28 +56,35 @@ export async function generateZeroExport(userId: string, collectionIds: string[]
             },
             collections: {
                 select: { id: true }
+            },
+            relatedPrompts: {
+                select: { technicalId: true }
             }
-        }
+        } as any // Cast to any to bypass stale Prisma types
     });
 
-    const exportPrompts = prompts.map(p => {
+    const exportPrompts = (prompts as any[]).map(p => {
         const latestVersion = p.versions[0];
         // Find a collectionId for this prompt that is in the exported set
-        const relevantCollection = p.collections.find(c => collectionIds.includes(c.id));
+        const relevantCollection = p.collections.find((c: any) => collectionIds.includes(c.id));
         const collectionId = relevantCollection ? relevantCollection.id : p.collections[0]?.id;
+
+        const relatedPrompts = (p as any).relatedPrompts?.map((rp: any) => rp.technicalId).filter((id: any): id is string => !!id);
 
         return {
             id: p.id,
+            technicalId: p.technicalId,
             title: p.title,
             description: p.description,
-            body: latestVersion?.content || "",
+            content: latestVersion?.content || "",
             shortPrompt: latestVersion?.shortContent || "",
             exampleOutput: latestVersion?.usageExample || "",
             expectedResult: latestVersion?.resultText || "",
-            tags: p.tags.map(t => t.name),
+            tags: p.tags.map((t: any) => t.name),
             collectionId: collectionId,
             createdAt: p.createdAt,
-            updatedAt: p.updatedAt
+            updatedAt: p.updatedAt,
+            relatedPrompts
         };
     });
 

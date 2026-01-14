@@ -5,6 +5,7 @@ The application uses `next-auth` for authentication.
 Authorization is Role-Based (RBAC) stored in the `User` model's `role` field.
 * `USER`: Default role. Can manage own resources.
 * `ADMIN`: Superuser. Can manage all resources and system settings.
+* `GUEST`: Read-only access. Can view resources but cannot create, edit, or delete content.
 
 ## 2. Admin Promotion Mechanism
 To prevent unauthorized privilege escalation, admin promotion is gated by a shared secret code.

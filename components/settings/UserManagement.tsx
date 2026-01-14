@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { User } from "@prisma/client";
-import { getUsers, createUser, updateUserRole } from "@/actions/admin";
-import { Plus, Search, Shield, User as UserIcon, Loader2 } from "lucide-react";
+import { getUsers, createUser, updateUserRole, deleteUser } from "@/actions/admin";
+import { Plus, Search, Shield, User as UserIcon, Loader2, Trash2 } from "lucide-react";
+import ConfirmationDialog from "../ConfirmationDialog";
 import { useLanguage } from "../LanguageProvider";
+import { ROLES } from "@/lib/permissions";
 
 type AdminUser = Pick<User, "id" | "username" | "email" | "role" | "avatarUrl" | "createdAt">;
 
@@ -15,9 +17,13 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    // ... existing imports ...
+
     // New User Form State
-    const [newUserState, setNewUserState] = useState({ username: "", email: "", password: "", role: "USER" });
+    const [newUserState, setNewUserState] = useState({ username: "", email: "", password: "", role: ROLES.USER });
     const [createError, setCreateError] = useState("");
+    const [userToDelete, setUserToDelete] = useState<AdminUser | null>(null);
+    const [successMessage, setSuccessMessage] = useState("");
 
     const filteredUsers = users.filter(u =>
         u.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -27,43 +33,67 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
     const handleCreateUser = async (e: React.FormEvent) => {
         e.preventDefault();
         setCreateError("");
+        if (!newUserState.username || !newUserState.email || !newUserState.password) {
+            setCreateError(t('admin.users.add.missingFields') || "Please fill in all fields");
+            return;
+        }
+
         setIsLoading(true);
-
         try {
-            const created = await createUser(newUserState);
-            // We need to cast the result slightly because Date objects over wire might be strings or actual dates depending on nextjs serialization
-            // But action returns the created user object. Just fetch fresh list or append. 
-            // Appending optimistically is faster.
-            const newUserFormatted: AdminUser = {
-                id: created.id,
-                username: created.username,
-                email: created.email,
-                role: created.role,
-                avatarUrl: created.avatarUrl,
-                createdAt: created.createdAt
-            };
-
-            setUsers([newUserFormatted, ...users]);
+            const newUser = await createUser(newUserState);
+            setUsers([...users, newUser]);
             setIsAdding(false);
-            setNewUserState({ username: "", email: "", password: "", role: "USER" });
+            setNewUserState({ username: "", email: "", password: "", role: ROLES.USER });
+            setSuccessMessage(t('admin.users.add.success') || "User created successfully");
+            setTimeout(() => setSuccessMessage(""), 3000);
         } catch (err: any) {
-            setCreateError(err.message || t('admin.users.add.error'));
+            console.error("Failed to create user", err);
+            setCreateError(err.message || "Failed to create user");
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleRoleToggle = async (userId: string, currentRole: string) => {
-        const newRole = currentRole === "ADMIN" ? "USER" : "ADMIN";
+    const handleRoleChange = async (userId: string, currentRole: string, newRole: string) => {
+        if (currentRole === newRole) return;
+
         // Optimistic update
-        setUsers(users.map(u => u.id === userId ? { ...u, role: newRole } : u));
+        const previousUsers = [...users];
+        setUsers(users.map(u => u.id === userId ? { ...u, role: newRole as any } : u));
 
         try {
             await updateUserRole(userId, newRole);
-        } catch (err) {
-            console.error("Failed to update role", err);
-            // Revert on failure
-            setUsers(users.map(u => u.id === userId ? { ...u, role: currentRole } : u));
+            setSuccessMessage(t('admin.users.roleUpdateSuccess') || "User role updated");
+            setTimeout(() => setSuccessMessage(""), 3000);
+        } catch (err: any) {
+            console.error("Failed to update user role", err);
+            // Revert
+            setUsers(previousUsers);
+            alert(err.message || "Failed to update user role");
+        }
+    };
+
+    const handleDeleteClick = (user: AdminUser) => {
+        setUserToDelete(user);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!userToDelete) return;
+
+        const previousUsers = [...users];
+        const deletedUsername = userToDelete.username;
+        setUsers(users.filter(u => u.id !== userToDelete.id));
+
+        try {
+            await deleteUser(userToDelete.id);
+            setSuccessMessage(t('admin.users.deleteSuccess', { name: deletedUsername }) || `User ${deletedUsername} deleted successfully`);
+            setTimeout(() => setSuccessMessage(""), 3000);
+        } catch (err: any) {
+            console.error("Failed to delete user", err);
+            setUsers(previousUsers);
+            alert(err.message || "Failed to delete user");
+        } finally {
+            setUserToDelete(null);
         }
     };
 
@@ -81,6 +111,12 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                     <Plus size={14} /> {t('admin.users.addUser')}
                 </button>
             </div>
+
+            {successMessage && (
+                <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-sm rounded-md border border-green-200 dark:border-green-800 animate-in fade-in slide-in-from-top-2">
+                    {successMessage}
+                </div>
+            )}
 
             <div className="relative mb-4">
                 <Search className="absolute left-3 top-2.5 text-muted-foreground" size={16} />
@@ -111,20 +147,31 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                                         <div className="text-xs text-muted-foreground">{user.email}</div>
                                     </td>
                                     <td className="p-3">
-                                        <button
-                                            onClick={() => handleRoleToggle(user.id, user.role)}
-                                            className={`flex items-center gap-1 px-2 py-1 rounded text-xs font-medium border transition-colors ${user.role === 'ADMIN'
-                                                ? 'bg-purple-100 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800'
-                                                : 'bg-gray-100 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700'
+                                        <select
+                                            value={user.role}
+                                            onChange={(e) => handleRoleChange(user.id, user.role, e.target.value)}
+                                            className={`text-xs font-medium border rounded px-2 py-1 outline-none focus:ring-2 focus:ring-ring ${user.role === ROLES.ADMIN
+                                                ? 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800'
+                                                : user.role === ROLES.GUEST
+                                                    ? 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800'
+                                                    : 'bg-gray-50 text-gray-600 border-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'
                                                 }`}
-                                            title="Click to toggle role"
                                         >
-                                            {user.role === 'ADMIN' ? <Shield size={12} className="fill-current" /> : <UserIcon size={12} />}
-                                            {user.role}
-                                        </button>
+                                            <option value={ROLES.USER}>User</option>
+                                            <option value={ROLES.ADMIN}>Admin</option>
+                                            <option value={ROLES.GUEST}>Guest</option>
+                                        </select>
                                     </td>
-                                    <td className="p-3 text-right text-xs text-muted-foreground">
-                                        {new Date(user.createdAt).toLocaleDateString()}
+                                    <td className="p-3 text-right text-xs text-muted-foreground flex items-center justify-end gap-2">
+                                        <span suppressHydrationWarning>{new Date(user.createdAt).toLocaleDateString()}</span>
+                                        <button
+                                            onClick={() => handleDeleteClick(user)}
+                                            className="p-1.5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded transition-colors"
+                                            title={t('admin.users.delete') || "Delete User"}
+                                            data-testid={`delete-user-${user.username}`}
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -152,8 +199,9 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                         )}
                         <form onSubmit={handleCreateUser} className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium mb-1">{t('admin.users.add.username')}</label>
+                                <label htmlFor="new-user-username" className="block text-sm font-medium mb-1">{t('admin.users.add.username')}</label>
                                 <input
+                                    id="new-user-username"
                                     type="text"
                                     className="input"
                                     required
@@ -162,8 +210,9 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">{t('admin.users.add.email')}</label>
+                                <label htmlFor="new-user-email" className="block text-sm font-medium mb-1">{t('admin.users.add.email')}</label>
                                 <input
+                                    id="new-user-email"
                                     type="email"
                                     className="input"
                                     required
@@ -172,8 +221,9 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">{t('admin.users.add.password')}</label>
+                                <label htmlFor="new-user-password" className="block text-sm font-medium mb-1">{t('admin.users.add.password')}</label>
                                 <input
+                                    id="new-user-password"
                                     type="password"
                                     className="input"
                                     required
@@ -182,14 +232,16 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">{t('admin.users.add.role')}</label>
+                                <label htmlFor="new-user-role" className="block text-sm font-medium mb-1">{t('admin.users.add.role')}</label>
                                 <select
+                                    id="new-user-role"
                                     className="input"
                                     value={newUserState.role}
-                                    onChange={e => setNewUserState({ ...newUserState, role: e.target.value })}
+                                    onChange={e => setNewUserState({ ...newUserState, role: e.target.value as any })}
                                 >
-                                    <option value="USER">User</option>
-                                    <option value="ADMIN">Admin</option>
+                                    <option value={ROLES.USER}>User</option>
+                                    <option value={ROLES.ADMIN}>Admin</option>
+                                    <option value={ROLES.GUEST}>Guest</option>
                                 </select>
                             </div>
 
@@ -213,6 +265,16 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                     </div>
                 </div>
             )}
+
+            <ConfirmationDialog
+                isOpen={!!userToDelete}
+                onClose={() => setUserToDelete(null)}
+                onConfirm={handleConfirmDelete}
+                title={t('admin.users.deleteConfirmTitle') || "Delete User"}
+                description={t('admin.users.deleteConfirmDesc') || "Are you sure you want to delete this user? This action cannot be undone and will remove all their data."}
+                confirmLabel={t('admin.users.delete') || "Delete"}
+                variant="danger"
+            />
         </div>
     );
 }

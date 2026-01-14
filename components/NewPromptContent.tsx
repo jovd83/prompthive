@@ -7,11 +7,15 @@ import { Collection, Tag } from "@prisma/client";
 export default function NewPromptContent({
     collections,
     tags,
-    initialCollectionId
+    initialCollectionId,
+    tagColorsEnabled,
+    privatePromptsEnabled
 }: {
     collections: (Collection & { _count?: { prompts: number } })[],
     tags: Tag[],
-    initialCollectionId?: string
+    initialCollectionId?: string,
+    tagColorsEnabled?: boolean;
+    privatePromptsEnabled?: boolean;
 }) {
     const { t } = useLanguage();
     return (
@@ -21,6 +25,8 @@ export default function NewPromptContent({
                 collections={collections}
                 tags={tags}
                 initialCollectionId={initialCollectionId}
+                tagColorsEnabled={tagColorsEnabled}
+                privatePromptsEnabled={privatePromptsEnabled}
             />
         </div>
     );

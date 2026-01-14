@@ -17,7 +17,7 @@ type Language = 'en' | 'nl' | 'fr' | 'es' | 'it' | 'de' | 'sv';
 const LanguageContext = createContext<{
     language: Language;
     setLanguage: (lang: Language) => void;
-    t: (key: string) => string;
+    t: (key: string, variables?: Record<string, string | number>) => string;
 }>({
     language: 'en',
     setLanguage: () => { },
@@ -59,22 +59,39 @@ export const LanguageProvider = ({ children, initialLanguage = 'en', user }: { c
         }
     };
 
-    const t = (path: string) => {
+    const t = (path: string, variables?: Record<string, string | number>) => {
         const keys = path.split('.');
         let current: any = dictionaries[language];
-        for (const key of keys) {
-            if (current === undefined || current[key] === undefined) {
-                // Fallback to English
-                current = dictionaries['en'];
-                for (const enKey of keys) {
-                    if (current === undefined || current[enKey] === undefined) return path;
-                    current = current[enKey];
-                }
-                return current as string;
+        let result: string | undefined = undefined;
+
+        // Helper to traverse
+        const traverse = (root: any, k: string[]) => {
+            let node = root;
+            for (const key of k) {
+                if (node === undefined || node[key] === undefined) return undefined;
+                node = node[key];
             }
-            current = current[key];
+            return node;
         }
-        return current as string;
+
+        result = traverse(dictionaries[language], keys);
+
+        // Fallback to English
+        if (result === undefined) {
+            result = traverse(dictionaries['en'], keys);
+        }
+
+        // If still not found, return path
+        if (result === undefined || typeof result !== 'string') return path;
+
+        // Interpolation
+        if (variables) {
+            for (const [key, value] of Object.entries(variables)) {
+                result = result.replace(new RegExp(`{{${key}}}`, 'g'), String(value));
+            }
+        }
+
+        return result;
     };
 
     return (

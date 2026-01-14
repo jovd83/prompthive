@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { prisma } from '../lib/prisma'; // Assumes direct DB access for setup/teardown in tests
+import { prisma } from '../lib/prisma';
 import { hash } from 'bcryptjs';
 
-test.setTimeout(60000);
 
 test.describe('Admin Registration Toggle', () => {
+    test.setTimeout(120000);
 
     test.beforeAll(async () => {
-        // Ensure admin user exists (if running isolated or seed didn't run)
         const passwordHash = await hash('admin123', 10);
         await prisma.user.upsert({
             where: { username: 'admin' },
@@ -15,7 +14,6 @@ test.describe('Admin Registration Toggle', () => {
             create: { username: 'admin', email: 'admin@test.com', role: 'ADMIN', passwordHash }
         });
 
-        // Ensure registration is enabled by default
         await prisma.globalConfiguration.upsert({
             where: { id: "GLOBAL" },
             update: { registrationEnabled: true },
@@ -24,54 +22,65 @@ test.describe('Admin Registration Toggle', () => {
     });
 
     test('Admin can disable registration', async ({ page }) => {
-        // Login as Admin
+        console.log('Step 1: Login');
         await page.goto('/login');
-        await page.fill('input[name="username"]', 'admin'); // Assuming seeded admin
-        await page.fill('input[name="password"]', 'admin123');
-        await page.click('button[type="submit"]');
-        await expect(page).toHaveURL('/');
+        await page.getByPlaceholder('username').fill('admin');
+        await page.getByPlaceholder('••••••••').fill('admin123');
+        await page.locator('button[type="submit"]').click();
 
-        // Go to Settings
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+        console.log('Logged in');
+
         await page.goto('/settings');
+        console.log('On Settings page');
 
         // Check for Admin Section
-        const adminSection = page.getByText('Admin Configuration');
-        await expect(adminSection).toBeVisible();
-        await adminSection.click(); // Open if needed
+        const adminButton = page.getByRole('button', { name: 'Admin Configuration' });
+        await expect(adminButton).toBeVisible();
 
-        // Toggle Registration to OFF
-        const toggle = page.locator('input[type="checkbox"]').nth(1); // MIGHT BE FRAGILE if multiple checkboxes. Better locator needed.
-        // Better:
-        const regToggle = page.getByLabel('Enable User Registration'); // Provided we used label correctly or aria-label
-        // My code: <label className="relative..."><input type="checkbox" ... /></label>
-        // It doesn't have explicit "Enable User Registration" text association via `for` or `aria-label`. 
-        // The text is in a sibling div.
-        // Let's rely on text proximity or just use the nth checkbox if it's the only one in that section.
-        // Actually, let's fix the accessibility in the component later, for now query by context.
 
-        // Click the label wrapper - Scoped by heading and taking first to avoid nested div strict mode issues
-        await page.locator('div').filter({ has: page.getByRole('heading', { name: 'Enable User Registration' }) }).locator('input[type="checkbox"]').first().uncheck();
+        // Ensure section is open
+        const expandedState = await adminButton.getAttribute('aria-expanded');
+        if (expandedState !== 'true') {
+            console.log('Admin section collapsed, clicking to open.');
+            await adminButton.click();
+            await page.waitForTimeout(1000);
+        } else {
+            console.log('Admin section already open.');
+        }
 
-        await page.getByText('Save Admin Settings').click();
+        const regCheckbox = page.getByRole('checkbox', { name: 'Enable User Registration' });
+        // Wait specifically for it in case of animation
+        await expect(regCheckbox).toBeVisible({ timeout: 5000 });
+
+        console.log('Toggling registration');
+        if (await regCheckbox.isChecked()) {
+            await regCheckbox.uncheck({ force: true });
+        } else {
+            console.log('Registration already disabled?');
+        }
+
+        await page.getByTestId('admin-save-button').click();
         await expect(page.getByText('Admin settings updated successfully')).toBeVisible();
+        console.log('Settings saved');
 
         // Logout
-        await page.getByRole('button', { name: /admin/i }).click(); // Avatar/name
+        const profileBtn = page.locator('button[data-testid="user-profile-trigger"]');
+        await expect(profileBtn).toBeVisible();
+        await profileBtn.click();
         await page.getByText('Sign Out').click();
 
         // Attempt Registration
         await page.goto('/register');
-        await page.fill('input[name="username"]', 'newuser_disabled');
-        await page.fill('input[name="email"]', 'newuser_disabled@test.com');
-        await page.fill('input[name="password"]', 'password123');
-        await page.click('button[type="submit"]');
+        await page.getByPlaceholder('username').fill('newuser_disabled');
+        await page.getByPlaceholder('user@example.com').fill('newuser_disabled@test.com');
+        await page.getByPlaceholder('Basic password').fill('password123');
+        await page.locator('button[type="submit"]').click();
 
-        // Expect Error
         await expect(page.getByText('Registration is currently disabled')).toBeVisible();
     });
 
     test.afterAll(async () => {
-        // Reset to enabled
         await prisma.globalConfiguration.update({
             where: { id: "GLOBAL" },
             data: { registrationEnabled: true }

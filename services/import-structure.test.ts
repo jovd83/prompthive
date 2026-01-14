@@ -8,6 +8,7 @@ vi.mock('@/lib/prisma', () => ({
         collection: {
             findFirst: vi.fn(),
             create: vi.fn(),
+            upsert: vi.fn().mockRejectedValue(new Error("Not implemented")),
         }
     }
 }));

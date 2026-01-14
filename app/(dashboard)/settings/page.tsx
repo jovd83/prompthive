@@ -30,13 +30,20 @@ export default async function SettingsPage() {
                 userId: session.user.id,
                 autoBackupEnabled: false,
                 backupFrequency: "DAILY",
-            },
+                tagColorsEnabled: true,
+                workflowVisible: false,
+            } as any,
             include: {
                 hiddenUsers: { select: { id: true } },
                 hiddenCollections: { select: { id: true } }
             }
         });
     }
+
+    // settings is guaranteed to be populated here or we redirected/created it.
+    // However, if create failed, it could throw (which is fine). 
+    // TypeScript might think it's null because of the conditional logic structure.
+    if (!settings) throw new Error("Settings could not be loaded");
 
     const allUsers = await prisma.user.findMany({
         select: { id: true, username: true, email: true, avatarUrl: true },
@@ -60,7 +67,10 @@ export default async function SettingsPage() {
     if (isAdmin) {
         // Fetch directly from prisma to avoid "Unauthorized" error if generic action called by non-admin logic (though here we know isAdmin)
         // Or reuse the action logic safely.
-        globalSettings = await prisma.globalConfiguration.findUnique({ where: { id: "GLOBAL" } });
+        // Fetch directly using raw query to bypass potentially stale Prisma Client schema in dev environment
+        // standard findUnique would return partial data if the Schema wasn't re-generated/loaded
+        const rawGlobalSettings = await prisma.$queryRaw<any[]>`SELECT * FROM "GlobalConfiguration" WHERE "id" = 'GLOBAL'`;
+        globalSettings = rawGlobalSettings[0] || null;
         // If not exists, create default (same logic as action but inline for server component safety/performance)
         if (!globalSettings) {
             globalSettings = await prisma.globalConfiguration.create({
@@ -84,14 +94,14 @@ export default async function SettingsPage() {
     return (
         <div className="container mx-auto py-8">
             <SettingsForm
-                initialSettings={settings}
+                initialSettings={settings as any}
                 allUsers={allUsers}
                 initialHiddenIds={hiddenUserIds}
                 initialHiddenCollectionIds={hiddenCollectionIds}
                 allCollections={allCollections}
                 currentUserId={session.user.id}
                 isAdmin={isAdmin}
-                initialGlobalSettings={globalSettings ? { registrationEnabled: globalSettings.registrationEnabled } : undefined}
+                initialGlobalSettings={globalSettings ? { registrationEnabled: globalSettings.registrationEnabled, privatePromptsEnabled: (globalSettings as any).privatePromptsEnabled } as any : undefined}
                 initialUsers={adminUsers}
             />
         </div>

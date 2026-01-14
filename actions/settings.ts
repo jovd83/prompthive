@@ -38,9 +38,11 @@ export async function saveGeneralSettings(prevState: any, formData: FormData): P
     if (!session?.user?.id) return { error: "Unauthorized" };
 
     const showPrompterTips = formData.get("showPrompterTips") === "on";
+    const tagColorsEnabled = formData.get("tagColorsEnabled") === "on";
+    const workflowVisible = formData.get("workflowVisible") === "on";
 
     try {
-        await updateGeneralSettingsService(session.user.id, { showPrompterTips });
+        await updateGeneralSettingsService(session.user.id, { showPrompterTips, tagColorsEnabled, workflowVisible });
         revalidatePath("/");
         revalidatePath("/settings");
         return { success: "Settings saved." };

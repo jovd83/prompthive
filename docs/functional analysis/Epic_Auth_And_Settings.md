@@ -1,7 +1,7 @@
 ﻿---
 title: Epic_Auth_And_Settings
-version: 2.0
-last_updated: 2025-12-23
+version: 2.1
+last_updated: 2026-01-10
 status: Live
 ---
 
@@ -33,7 +33,7 @@ Users can sign up for a new account using a username, email, and password. The s
 *   [ ] Verify redirection to `/login?registered=true` on success.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/auth_register_wireframe.png`
+**Image Source:** `../wireframes/previews/auth_wireframes.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *If the image above does not exist, create it in Nano Banana Pro with these requirements:*
@@ -67,7 +67,7 @@ Users authenticate using their username and password.
 *   [ ] Verify "Account created successfully" message if `?registered=true` is present.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/auth_login_wireframe.png`
+**Image Source:** `../wireframes/previews/auth_wireframes.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Centered Card with Logo.
@@ -95,13 +95,54 @@ Users can toggle daily prompting tips and change the application language.
 *   [ ] Verify that changing language updates the UI immediately.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/settings_general_wireframe.png`
+**Image Source:** `../wireframes/previews/settings_wireframe.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Settings Layout > General Tab.
 *   **Key Elements:** "Show Prompting Tips" toggle with description. "Language" selector.
 
 ---
+
+## User Story: Tag Color Preferences
+**As a** User
+**I want to** See tags with distinct colors or a uniform color
+**So that** I can organize my prompts visually or keep a clean look.
+
+### 1. Description
+Users can choose between a colorful palette for tags (where each tag has a distinct color) or a uniform color for all tags (cleaner look).
+
+### 2. Technical Scope & Fields
+*Derived from Code (components/settings/GeneralSettings.tsx, TagSelector.tsx)*
+
+*   **Tag Colors Enabled**: Checkbox/Toggle - Default: True.
+*   **Tag Color**: String (Hex) - Stored on Tag entity.
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify that toggling "Enable Tag Colors" updates `Settings.tagColorsEnabled`.
+*   [ ] Verify that when enabled, tags display their assigned color.
+*   [ ] Verify that when disabled, tags display the default system color.
+*   [ ] Verify that new tags get a color assigned (either automatically or manually).
+
+## User Story: Workflow Visibility
+**As a** User
+**I want to** show or hide workflows
+**So that** I can simplify my interface if I don't use them.
+
+### 1. Description
+Users can toggle the visibility of the "Workflows" section in the application. By default, this is disabled (hidden) to keep the interface simple.
+
+### 2. Technical Scope & Fields
+*Derived from Code (components/settings/GeneralSettings.tsx, Sidebar.tsx)*
+
+*   **Show Workflows**: Checkbox/Toggle - Default: False.
+*   **Sidebar Link**: "Workflows" item.
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify that the default state is unchecked (Workflows hidden).
+*   [ ] Verify that checking the box updates `Settings.workflowVisible`.
+*   [ ] Verify that checking the box makes the "Workflows" link appear in the sidebar immediately.
+*   [ ] Verify that unchecking the box removes the link.
+
 
 ## User Story: User Visibility
 **As a** User
@@ -165,28 +206,54 @@ Admins can enable/disable registration, manage backups, and manage user accounts
 *Derived from Code (components/settings/AdminSettings.tsx, UserManagement.tsx, BackupSettings.tsx)*
 
 *   **Enable User Registration**: Toggle - Controls `GlobalConfiguration.registrationEnabled`.
+*   **Enable Private Prompts**: Toggle - Controls `GlobalConfiguration.privatePromptsEnabled`.
 *   **User Management Table**:
     *   Columns: User, Role, Actions.
     *   **Role Toggle**: Button - Switches between ADMIN and USER.
-*   **Add User Modal**:
+    *   **Add User Modal**:
     *   **Username**: Text - Required.
     *   **Email**: Email - Required.
     *   **Password**: Password - Required.
-    *   **Role**: Dropdown - Options: USER, ADMIN.
-*   **Backup Settings**:
-    *   **Auto Backup**: Toggle.
-    *   **Backup Frequency**: Dropdown - DAILY, WEEKLY, MONTHLY.
-    *   **Backup Path**: Input (inferred logic, potentially hardcoded in backend actions but UI might exist).
+    *   **Role**: Dropdown - Options: USER, ADMIN, GUEST.
+    *   **Delete User**:
+    *   **Delete Button**: Icon (Trash)
+    *   **Confirmation**: Dialog - "Are you sure you want to delete this user?".
 
 ### 3. Acceptance Criteria (AC)
 *   [ ] Verify disabling registration prevents new sign-ups.
+*   [ ] Verify toggling "Enable Private Prompts" updates the database value.
+*   [ ] Verify that disabling "Private Prompts" shows a confirmation dialog: "Are you sure? This will hide all private prompts...".
+*   [ ] Verify that when disabled, the option to create/edit private prompts is hidden in the UI.
 *   [ ] Verify "Add User" creates a user entry in the table immediately.
 *   [ ] Verify toggling role updates the user's permission level.
+*   [ ] Verify clicking "Delete" opens a confirmation dialog.
+*   [ ] Verify confirming delete removes the user from the database and UI.
+*   [ ] Verify Admin cannot delete themselves (optional but recommended safety).
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/settings_admin_wireframe.png`
+**Image Source:** `../wireframes/previews/settings_wireframe.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Settings Layout > Admin Section (Collapsible).
-*   **Key Elements:** Registration Toggle (Red styling). User Table with Role Toggle buttons. "Add User" (+ Icon) button.
+*   **Key Elements**: Registration Toggle (Red styling). Private Prompts Toggle (Blue styling). User Table with Role Toggle buttons and Delete (Trash) buttons. "Add User" (+ Icon) button.
 
+---
+
+## User Story: Private Prompt Visibility
+**As a** User
+**I want to** Create and View Private Prompts
+**So that** I can keep drafts or personal prompts secret.
+
+### 1. Description
+Users can mark prompts as "Private". These are only visible to the creator. However, this feature is dependent on the Global Admin Setting "Enable Private Prompts".
+
+### 2. Technical Scope & Fields
+*Derived from Code (components/UnifiedPromptForm.tsx, PromptDetail.tsx)*
+
+*   **Private Prompt Checkbox**: Visible only if `GlobalConfiguration.privatePromptsEnabled` is TRUE.
+*   **Make Private/Public Toggle (Eye Icon)**: Visible only if `GlobalConfiguration.privatePromptsEnabled` is TRUE.
+
+### 3. Acceptance Criteria (AC)
+*   [ ] Verify "Private Prompt" checkbox is hidden during creation/editing if global setting is disabled.
+*   [ ] Verify "Eye Icon" (Make Private/Public) is hidden on prompt detail page if global setting is disabled.
+*   [ ] Verify existing private prompts are NOT accessible/visible if global setting is disabled (Optional: or just hidden from lists).

@@ -1,11 +1,62 @@
 # Changelog
 
-## v2.3.3 (Unreleased)
+## v2.3.4 (2026-01-14)
+### Changed
+*   **Infrastructure**: Updated build scripts and acceptance environment configuration.
+*   **Tests**: Updated frontend tests.
+
+## v2.3.3 (2026-01-13)
 ### Added
+*   **Tag Colors**: Added visual distinction for tags with unique colors. Users can enable/disable this feature in General Settings.
+*   **Guest Account**: Added a new `GUEST` role with read-only access.
+    *   Admins can create Guest users via the new Admin Dashboard (`/admin/users`).
+    *   Guest users can view Prompts and Collections but cannot Edit, Delete, Link, or Favorite items.
+    *   Restricted "New Prompt" and "Admin" navigation for Guests.
+    *   **UI Restrictions**: Hidden 'Import/Export' and 'Preferences', disabled download and delete actions for Guest users.
+*   **User Management**: Added ability for Admins to **Delete Users** via the Admin Settings page. **Content Preservation**: Prompts, Collections, and Workflows are reassigned to the Admin instead of being deleted.
+*   **Tag Settings**: Added "Enable Tag Colors" preference to General Settings.
+*   **Technical IDs**:
+    *   Supports searching by Technical ID (e.g., `VIBE-123`) in the main dashboard.
+    *   Direct URL access via `/prompts/[technicalId]`.
+    *   **Fix**: Ensure Technical IDs are generated when importing JSON files.
+    *   IDs are generated automatically based on the collection name.
+    *   IDs are regenerating when moving prompts between collections or importing.
+    *   Search now supports finding prompts by their Technical ID.
+    *   Direct URL routing is supported (e.g. `/prompts/VIBE-1`).
+*   **Linked Prompts**:
+    *   **Relation**: Ability to link related prompts together (bidirectional).
+    *   **UI**: "Related Prompts" section in prompt details with card view.
+    *   **Export/Import**: Linked relationships are preserved during JSON export and restored upon import (matching by Technical ID).
+*   **Workflow Visibility**:
+    *   **Settings**: Added "Show Workflows" toggle in General Settings (Default: Hidden).
+    *   **Sidebar**: Workflows section is now hidden by default to declutter the UI for users who don't need it.
+    *   **Logic**: Conditionally renders sidebar links and routes based on user preference.
+*   **Private Prompts**:
+    *   **Feature**: Added ability for users to mark prompts as "Private", making them visible only to themselves.
+    *   **Admin Control**: Feature can be toggled on/off globally by Administrators in General Settings.
+    *   **UI**: Added visual "Private" badge to prompt details and a checkbox in the prompt editor.
+    *   **Visibility Toggle**: Dedicated Eye/EyeOff toggle button for creators in the prompt detailed view (next to Favorite icon) to quickly switch between Public and Private status.
 
 ### Changed
+*   **Settings Relocation**: Moved **Auto-backup** and **Danger Zone** (Restore/Reset) from the generic Settings page to the bottom of the **Import/Export** page (`/import-export`) to centralize data management operations.
+*   **Improved**: Deleting a prompt from within a Collection no longer redirects to the Dashboard, but keeps you in the Collection.
 
 ### Fixed
+*   **Prompt Locking**: Fixed an issue where the **Delete** button remained active even when a prompt was locked. It is now correctly disabled.
+*   **Related Prompts UI**: Fixed the layout and styling of the "Related Prompts" section in the prompt detail view. It is now positioned as the last pane and uses consistent `PromptCard` styling matching the dashboard.
+*   **Related Prompts Scroll**: Updated the "Related Prompts" section to use a single row layout with horizontal scrolling for better space utilization.
+*   **Technical ID Display**: Fixed an issue where the Technical ID was missing from the prompt detail header. It is now displayed in a badge alongside the author and timestamp information.
+*   **Linked Prompts Visibility**: Fixed bidirectional visibility for related prompts. Linking Prompt A to Prompt B now correctly ensures Prompt A appears in Prompt B's "Related Prompts" section.
+*   **Tag Colors**: Fixed an issue where tag colors were not being displayed on the prompt detail page. They now correctly reflect the assigned color.
+*   **Unlink Prompt**: Removed the confirmation dialog when unlinking prompts. The action is now immediate for a smoother user flow.
+*   **Guest Permissions**: Fixed a security issue where Guest users could see and interact with the prompt delete button. It is now correctly disabled.
+*   **Collection Drag & Drop**: Fixed a bug where dragging prompts into sidebar subcollections (nested items) was not possible. Added better drop zone detection and visual feedback for nested structures.
+*   **Collection List View Drop**: Enabled dragging prompts into sub-collection folders directly from the main collection list view.
+*   **Dashboard Search**: Fixed Dashboard Search to include Technical ID in search results.
+*   **Guest Favorites**: Fixed an issue where Guest users could see and interact with the favorite button. It is now correctly disabled.
+*   **Guest Interaction**: Fixed a bug where Guest users could drag prompt cards, which caused potential errors. Drag and drop is now disabled for guests.
+*   **Search Prompts**: Fixed an issue where already linked prompts appeared in the "Link Prompt" search results. They are now filtered out.
+*   **Tag Display**: Fixed tag overflow on prompt detail pages. Tags now display in a single line with a "View all" expansion option for cleaner layout.
 
 ### Removed
 
@@ -42,6 +93,8 @@
 *   **Hydration Error**: Fixed a React hydration mismatch error related to relative time display (e.g., "Updated 3 mins ago") in prompt cards.
 *   **Copy Button**: Fixed an issue where the "Copy" button for the AI System Prompt in the Help section was non-functional in non-secure contexts (HTTP). Implemented a robust fallback mechanism.
 *   **Import Linking**: Fixed a critical bug where imported prompts were not correctly linked to their nested collections if the ID mapping required a fallback to name-based lookup. This ensures prompts now correctly appear in deep hierarchies (Level 3+) after import.
+*   **Prompt Deletion**: Resolved "Foreign Key Constraint" error when deleting Prompts. Associated Favorites and Workflow Steps are now properly cleaned up before deletion.
+*   **Import Technical IDs**: Resolved issue where imported prompts (JSON) were missing Technical IDs (`technicalId`), preventing search and routing.
 
 ## v2.3.0 (2025-12-29)
 ### Added

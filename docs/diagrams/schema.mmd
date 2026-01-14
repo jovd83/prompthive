@@ -23,7 +23,9 @@ erDiagram
         boolean autoBackupEnabled
         string backupFrequency
         boolean showPrompterTips
+        boolean tagColorsEnabled
         string backupPath
+        datetime lastBackupAt
     }
     
     GlobalConfiguration {
@@ -36,6 +38,7 @@ erDiagram
     Prompt }|--|{ Tag : "tagged with"
     Prompt ||--o{ WorkflowStep : "used in"
     Prompt ||--o{ Favorite : "favorited by"
+    Prompt }|--|{ Prompt : "related to"
 
     Prompt {
         string id PK
@@ -46,6 +49,8 @@ erDiagram
         string createdById FK
         int viewCount
         int copyCount
+        boolean isLocked
+        string technicalId "Unique VIBE-ID"
         datetime createdAt
     }
 
@@ -84,6 +89,7 @@ erDiagram
     Tag {
         string id PK
         string name
+        string color
     }
 
     Workflow ||--o{ WorkflowStep : contains
@@ -108,4 +114,5 @@ erDiagram
         datetime createdAt
     }
 
-    Settings }|--|{ Collection : "hides"
+    Settings }|--|{ Collection : "hides (hiddenCollections)"
+    Settings }|--|{ User : "hides (hiddenUsers)"

@@ -9,6 +9,7 @@ import * as FavoritesService from "@/services/favorites";
 export async function toggleFavorite(promptId: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     // Verify user exists in DB (handles stale sessions after DB reset)
     const user = await prisma.user.findUnique({

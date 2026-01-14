@@ -26,12 +26,14 @@ export default async function DashboardPage({
     // Fetch settings
     let hiddenIds: string[] = [];
     let showPrompterTips = true;
+    let tagColorsEnabled = true;
 
     if (session?.user?.id) {
         const settings = await getSettingsService(session.user.id);
         hiddenIds = settings.hiddenUsers.map(u => u.id);
         // Cast to any because Prisma Client is not yet regenerated in this environment
         showPrompterTips = (settings as any).showPrompterTips ?? true;
+        tagColorsEnabled = (settings as any).tagColorsEnabled ?? true;
     }
 
     // Common WHERE clause for visibility
@@ -81,23 +83,29 @@ export default async function DashboardPage({
         // RE-WRITING SEARCH LOGIC TO BE SAFE
 
         if (search) {
-            where.OR = [
-                { title: { contains: search } },
-                { description: { contains: search } },
+            where.AND = [
+                visibleWhere,
                 {
-                    createdBy: {
-                        OR: [
-                            { email: { contains: search } },
-                            { username: { contains: search } }
-                        ]
-                    }
-                },
-                {
-                    tags: {
-                        some: {
-                            name: { contains: search }
-                        }
-                    }
+                    OR: [
+                        { title: { contains: search } },
+                        { description: { contains: search } },
+                        {
+                            createdBy: {
+                                OR: [
+                                    { email: { contains: search } },
+                                    { username: { contains: search } }
+                                ]
+                            }
+                        },
+                        {
+                            tags: {
+                                some: {
+                                    name: { contains: search }
+                                }
+                            }
+                        },
+                        { technicalId: { contains: search } }
+                    ]
                 }
             ];
         }
@@ -245,8 +253,9 @@ export default async function DashboardPage({
             newPrompts={newPrompts}
             popularPrompts={mostViewedPrompts}
             favoriteIds={Array.from(favoriteIds)}
-            user={session?.user ? { name: session.user.name || "", id: session.user.id } : undefined}
+            user={session?.user ? { name: session.user.name || "", id: session.user.id, role: (session.user as any).role } : undefined}
             showPrompterTips={showPrompterTips}
+            tagColorsEnabled={tagColorsEnabled}
         />
     );
 }

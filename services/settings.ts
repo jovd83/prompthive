@@ -14,7 +14,10 @@ export async function getSettingsService(userId: string) {
                     // defaults
                     autoBackupEnabled: false,
                     backupFrequency: "DAILY",
+                    backupFrequency: "DAILY",
                     showPrompterTips: true,
+                    tagColorsEnabled: true,
+                    workflowVisible: false, // Default hidden
                 },
                 include: { hiddenUsers: true }
             });
@@ -33,6 +36,8 @@ export async function getSettingsService(userId: string) {
                     backupFrequency: "DAILY",
                     lastBackupAt: null,
                     showPrompterTips: true,
+                    tagColorsEnabled: true,
+                    workflowVisible: false,
                     hiddenUsers: []
                 };
             }
@@ -43,11 +48,13 @@ export async function getSettingsService(userId: string) {
     return settings;
 }
 
-export async function updateGeneralSettingsService(userId: string, data: { showPrompterTips: boolean }) {
+export async function updateGeneralSettingsService(userId: string, data: { showPrompterTips: boolean; tagColorsEnabled: boolean; workflowVisible: boolean }) {
     return await prisma.settings.update({
         where: { userId },
         data: {
-            showPrompterTips: data.showPrompterTips
+            showPrompterTips: data.showPrompterTips,
+            tagColorsEnabled: data.tagColorsEnabled,
+            workflowVisible: data.workflowVisible
         }
     });
 }
@@ -89,4 +96,19 @@ export async function getHiddenCollectionIdsService(userId: string): Promise<str
         select: { hiddenCollections: { select: { id: true } } }
     });
     return settings?.hiddenCollections.map(c => c.id) || [];
+}
+
+export async function updateGlobalSettingsService(data: { registrationEnabled: boolean; privatePromptsEnabled?: boolean }) {
+    return prisma.globalConfiguration.upsert({
+        where: { id: "GLOBAL" },
+        update: {
+            registrationEnabled: data.registrationEnabled,
+            privatePromptsEnabled: data.privatePromptsEnabled
+        },
+        create: {
+            id: "GLOBAL",
+            registrationEnabled: data.registrationEnabled,
+            privatePromptsEnabled: data.privatePromptsEnabled ?? false
+        }
+    });
 }

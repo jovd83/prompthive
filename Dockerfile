@@ -52,6 +52,15 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 # Copy primsa schema
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 
+# Install tsx for running migration scripts
+RUN npm install -g tsx
+
+# Copy source files needed for post-deploy migration script
+COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+COPY --from=builder --chown=nextjs:nodejs /app/services ./services
+COPY --from=builder --chown=nextjs:nodejs /app/lib ./lib
+COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
+
 # Ensure uploads directory exists
 RUN mkdir -p /app/public/uploads && chown nextjs:nodejs /app/public/uploads
 

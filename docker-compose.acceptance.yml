@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  prompthive-acceptance:
+    image: prompthive-prod-debian:latest
+    container_name: prompthive-acceptance
+    restart: unless-stopped
+    ports:
+      - "3101:3000"
+    volumes:
+      # Map data directory for the SQLite database
+      # NOTE: Do not rename 'prod.db' inside the container; the startup script hardcodes this name.
+      # Isolation is handled by the different host folder (./data).
+      - ./data:/app/data
+
+      # Map uploads directory for user-uploaded images
+      - ./uploads:/app/public/uploads
+    environment:
+      - DATABASE_URL=file:/app/data/prod.db
+      - NODE_ENV=production
+      - PORT=3000
+      # NextAuth requires a secret in production. You can change this to any random string.
+      - NEXTAUTH_SECRET=super-secret-acceptance-key-123
+      # Update this if you access via a specific domain, otherwise this usually works for basic setups
+      - NEXTAUTH_URL=http://localhost:3101

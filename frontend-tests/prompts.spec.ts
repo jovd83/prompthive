@@ -187,11 +187,11 @@ test.describe('Prompt Management', () => {
         const modal = page.locator('text=Editing Variable');
         await expect(modal).toBeVisible();
         // Scope to the modal container to ensure we aren't finding the obscured sidebar label
-        const modalContainer = page.locator('.fixed.z-50');
+        const modalContainer = page.locator('.fixed.z-\\[9999\\]');
         await expect(modalContainer.locator(`text=${variableName}`)).toBeVisible(); // Variable name in header
 
         // 4. Edit in Modal
-        const modalTextarea = page.locator('textarea[placeholder*="regular or large text"]');
+        const modalTextarea = modalContainer.locator('textarea');
         await expect(modalTextarea).toBeVisible();
         const longText = 'This is a very long text that I am typing into the modal to verify functionality.';
         await modalTextarea.fill(longText);
@@ -276,7 +276,7 @@ test.describe('Prompt Management', () => {
 
         // Open Modal
         await maximizeBtn.click();
-        const modal = page.locator('.fixed.z-50');
+        const modal = page.locator('.fixed.z-\\[9999\\]');
         await expect(modal).toBeVisible();
         await expect(modal).toContainText('Description'); // Label is passed as "Description"
 
@@ -291,6 +291,75 @@ test.describe('Prompt Management', () => {
 
         // Verify in form
         await expect(descriptionArea).toHaveValue(longText);
+    });
+
+    // 10. Delete Prompt Navigation Context (Regression Test)
+    test('should preserve navigation context when deleting a prompt from collection view', async ({ page }) => {
+        const timestamp = Date.now();
+        const collectionTitle = `Context Collection ${timestamp}`;
+        const promptTitle = `Context Prompt ${timestamp}`;
+
+        // 1. Create Collection
+        await page.goto('/collections/new');
+        await page.fill('input[name="title"]', collectionTitle);
+        // Ensure parent is root (default)
+        await page.click('button[type="submit"]');
+        // Wait for redirect to collections list
+        await expect(page).toHaveURL(/\/collections/);
+
+        // 2. Create Prompt assigned to Collection
+        await page.goto('/prompts/new');
+        await page.fill('input[name="title"]', promptTitle);
+        await page.fill('textarea[name="content"]', 'Context content');
+
+        // Select Collection
+        // Note: We need to wait for select to be populated/visible
+        // Playwright handles auto-waiting, but finding by label text is safer
+        const option = page.locator(`option:has-text("${collectionTitle}")`).first();
+        // Wait for option to appear (might need reload if collection state is not instant?)
+        // CreatePromptForm fetches collections. If revalidation happened, it should be there.
+        // Assuming test environment is fast enough or revalidates correctly.
+
+        // Alternative: Use selectOption with label directly if value is unknown
+        await page.locator('select[name="collectionId"]').selectOption({ label: `${collectionTitle} (0)` }); // Count might be 0
+        // If label match fails due to count suffix, we might need to find by value.
+        // Let's rely on standard logic: newly created collection has 0 prompts.
+
+        await page.click('button[type="submit"]');
+
+        // 3. Navigate to Collection View
+        await page.goto('/collections'); // Go to root collections list
+        await page.click(`aside a:has-text("${collectionTitle}")`);
+
+        // Verify we are at /collections/[id]
+        await expect(page).toHaveURL(/\/collections\/.+/);
+        const collectionUrl = page.url();
+
+        // 4. Click the prompt in the list to open Detail View (Split View)
+        await page.click(`text=${promptTitle}`);
+
+        // Verify URL updates to include promptId
+        await expect(page).toHaveURL(/promptId=/);
+
+        // 5. Delete Prompt
+        // Click Trash Icon in the detail view toolbar
+        const deleteBtn = page.locator('button[title="Delete"]');
+        await deleteBtn.click();
+
+        // Confirm Delete (Red 'Yes' button)
+        await page.click('button:has-text("Yes")');
+
+        // 6. Assertions
+        // Should NOT go to dashboard (/)
+        await expect(page).not.toHaveURL(/\/$/);
+
+        // Should stay on collection URL (base)
+        // We check if it starts with the collection URL base
+        const collectionBase = collectionUrl.split('?')[0];
+        await expect(page).toHaveURL(new RegExp(collectionBase));
+
+        // Prompt should be gone
+        await expect(page.locator(`text=${promptTitle}`)).not.toBeVisible();
     });
 });
 

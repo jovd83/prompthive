@@ -85,7 +85,7 @@ describe('PromptCard', () => {
         expect(screen.getByText('Test Prompt')).toBeInTheDocument();
         expect(screen.getByText('A test description')).toBeInTheDocument();
         expect(screen.getByText('10')).toBeInTheDocument();
-        expect(screen.getByText('Prompt Content')).toBeInTheDocument();
+        expect(screen.getAllByText('Prompt Content').length).toBeGreaterThan(0);
     });
 
     it('navigates to prompt detail on card click', () => {

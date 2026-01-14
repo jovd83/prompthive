@@ -1,7 +1,7 @@
 # PowerShell Script to Render Mermaid Diagrams
 # Usage: .\docs\render_diagrams.ps1
 
-$ErrorActionPreference = "Stop"
+# $ErrorActionPreference = "Stop"
 
 # Ensure output directory exists
 $OutputDir = "docs/diagrams/img"
@@ -20,20 +20,16 @@ function Render-Diagram {
         [string]$PageTitle
     )
 
-    $TempFile = "docs/diagrams/src/temp_render.mmd"
+    $TempFile = "docs/diagrams/temp_render.mmd"
 
-    # Create temporary file with Frontmatter Title
-    $Content = @"
----
-title: $PageTitle | v$Version | $CurrentDate
----
-"@
-    Set-Content -Path $TempFile -Value $Content
-    Add-Content -Path $TempFile -Value (Get-Content -Path $InputFile -Raw)
+    # Create temporary file (Copy input to temp to avoid modifying original or injecting frontmatter if needed)
+    # We copy simply to avoid locking the source or just to have a standard temp file
+    Copy-Item -Path $InputFile -Destination $TempFile -Force
 
     Write-Host "Rendering $PageTitle..." -ForegroundColor Cyan
 
-    # Run mmdc via npx (cmd /c is needed because npx is a batch file usually)
+    # Run mmdc via npx
+    # Using specific mermaid-cli version or local install if available
     cmd /c npx -y @mermaid-js/mermaid-cli -i "$TempFile" -o "$OutputFile" --backgroundColor white --scale 3
 
     # Cleanup
@@ -43,12 +39,11 @@ title: $PageTitle | v$Version | $CurrentDate
 }
 
 # 1. Architecture
-Render-Diagram "docs/diagrams/src/architecture.mmd" "docs/diagrams/img/architecture.png" "PromptHive Architecture"
+Render-Diagram "docs/diagrams/architecture.mmd" "docs/diagrams/img/architecture.png" "PromptHive Architecture"
 
 # 2. Schema
-# Check if schema exists first, if not skip (it was mentioned in valid files list earlier?)
-if (Test-Path "docs/diagrams/src/schema.mmd") {
-    Render-Diagram "docs/diagrams/src/schema.mmd" "docs/diagrams/img/schema.png" "PromptHive Data Schema"
+if (Test-Path "docs/diagrams/schema.mmd") {
+    Render-Diagram "docs/diagrams/schema.mmd" "docs/diagrams/img/schema.png" "PromptHive Data Schema"
 }
 
 # 3. Wireframes
@@ -65,7 +60,6 @@ foreach ($File in $Wireframes) {
     $Name = $File.BaseName
     # Replace underscores with spaces for title
     $TitleClean = $Name -replace "_", " "
-    # Title Case (optional, keeping it simple)
     $Title = "Wireframe: $TitleClean"
     
     Render-Diagram $File.FullName "$WireframeOutputDir/$Name.png" $Title

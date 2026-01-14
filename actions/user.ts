@@ -99,8 +99,10 @@ export async function promoteToAdmin(prevState: any, formData: FormData): Promis
         const propsPath = path.join(process.cwd(), 'admin.properties');
 
         if (!fs.existsSync(propsPath)) {
+            console.log('Action: File missing path', propsPath);
             return { error: "Configuration file missing." };
         }
+        console.log('Action: File exists');
 
         const content = fs.readFileSync(propsPath, 'utf-8');
         const match = content.match(/admin\.code=(.{6})/);

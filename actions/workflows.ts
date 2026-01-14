@@ -9,6 +9,7 @@ import * as WorkflowService from "@/services/workflows";
 export async function createWorkflowAction(formData: FormData) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     const title = (formData.get("title") as string) || "";
     const description = (formData.get("description") as string) || "";
@@ -29,6 +30,7 @@ export async function createWorkflowAction(formData: FormData) {
 export async function updateWorkflowAction(workflowId: string, formData: FormData) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     const title = (formData.get("title") as string) || "";
     const description = (formData.get("description") as string) || "";
@@ -49,6 +51,7 @@ export async function updateWorkflowAction(workflowId: string, formData: FormDat
 export async function deleteWorkflowAction(workflowId: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await WorkflowService.deleteWorkflow(session.user.id, workflowId);
     revalidatePath("/workflows");

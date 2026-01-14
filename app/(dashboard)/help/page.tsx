@@ -428,24 +428,36 @@ export default function HelpPage() {
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li3') }} />
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
-                                <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li4') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li6') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li7') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li8') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.changed_1') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.changed_2') }} />
                                 </ul>
                             </div>
 
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.li1') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_1') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_2') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_3') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_4') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_5') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_6') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_7') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_8') }} />
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_1') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_2') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_3') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_4') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_5') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_6') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_7') }} />
+                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_8') }} />
                                 </ul>
                             </div>
                         </div>

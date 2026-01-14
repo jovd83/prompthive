@@ -1,7 +1,11 @@
 # TE-013: Admin Features Implementation (Updated)
 
 ## 1. Architecture Overview
-(Previous content regarding GlobalConfiguration remains).
+### Global Configuration
+*   **Model**: `GlobalConfiguration` (Singleton, ID="GLOBAL").
+*   **Fields**:
+    *   `registrationEnabled`: Boolean. Controls new sign-ups.
+    *   `privatePromptsEnabled`: Boolean. Controls availability of "Private Prompt" checkbox.
 
 ## 2. User Management Architecture
 
@@ -26,15 +30,15 @@
     *   `prisma.user.update`.
     *   Prevent demoting self (optional safety).
 
-### Frontend Components
+### Frontend Implementation
 
-#### `UserManagement.tsx`
-*   Client Component.
-*   Fetch users on mount or receive as prop initial data.
-*   State: `users`, `isAddingUser`.
-*   Render table of users.
-*   Render "Add User" dialog.
-*   Optimistic updates or revalidatePath integration.
+#### User Management Section
+*   **Path**: `components/settings/UserManagement.tsx` (Embedded in `AdminSettings.tsx`, accessible via `/settings`).
+*   **Features**:
+    *   List all users with roles.
+    *   "Add User" modal (Username, Email, Password, Role).
+    *   Role selection includes `USER`, `ADMIN`, `GUEST`.
+*   **Security**:
+    *   Server Actions (`createUser`, `updateUserRole`, `getUsers`) enforce `ADMIN` role check.
+    *   Frontend checks `user.role === 'ADMIN'` before rendering management UI.
 
-#### `AdminSettings.tsx`
-*   Consume `UserManagement`.

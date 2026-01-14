@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { hash, compare } from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
+import { ROLES } from "@/lib/permissions";
 
 // 1 Hour Expiry
 const RESET_TOKEN_EXPIRY = 60 * 60 * 1000;
@@ -74,12 +75,94 @@ export async function updateLanguageService(userId: string, language: string) {
 }
 
 export async function updateUserRoleService(userId: string, role: string) {
-    if (!['USER', 'ADMIN'].includes(role)) {
+    if (![ROLES.USER, ROLES.ADMIN, ROLES.GUEST].includes(role as any)) {
         throw new Error("Invalid role");
     }
 
     return prisma.user.update({
         where: { id: userId },
         data: { role },
+    });
+}
+
+export async function createUserService(data: { username: string; email: string; passwordHash: string; role: string }) {
+    // Validate role
+    if (![ROLES.USER, ROLES.ADMIN, ROLES.GUEST].includes(data.role as any)) {
+        throw new Error("Invalid role");
+    }
+
+    const existingUser = await prisma.user.findFirst({
+        where: {
+            OR: [
+                { email: data.email },
+                { username: data.username }
+            ]
+        }
+    });
+
+    if (existingUser) {
+        throw new Error("User with this email or username already exists");
+    }
+
+    return prisma.user.create({
+        data: {
+            username: data.username,
+            email: data.email,
+            passwordHash: data.passwordHash,
+            role: data.role,
+        }
+    });
+}
+
+export async function getAllUsersService() {
+    return prisma.user.findMany({
+        orderBy: { createdAt: 'desc' },
+        select: {
+            id: true,
+            username: true,
+            email: true,
+            role: true,
+            createdAt: true,
+            avatarUrl: true
+        }
+    });
+}
+
+export async function deleteUserService(userId: string, transferToUserId: string) {
+    // Perform manual cascade delete in a transaction to avoid FK violations
+    // AND Reassign content to the admin to preserve it.
+    return prisma.$transaction(async (tx) => {
+        // 1. Reassign Content (Prompts, Collections, Workflows, Versions)
+
+        // Prompts
+        await tx.prompt.updateMany({
+            where: { createdById: userId },
+            data: { createdById: transferToUserId }
+        });
+
+        // Prompt Versions
+        await tx.promptVersion.updateMany({
+            where: { createdById: userId },
+            data: { createdById: transferToUserId }
+        });
+
+        // Collections
+        await tx.collection.updateMany({
+            where: { ownerId: userId },
+            data: { ownerId: transferToUserId }
+        });
+
+        // Workflows
+        await tx.workflow.updateMany({
+            where: { ownerId: userId },
+            data: { ownerId: transferToUserId }
+        });
+
+        // 2. Delete Personal Data (Settings, Favorites)
+        await tx.settings.deleteMany({ where: { userId } });
+        await tx.favorite.deleteMany({ where: { userId } });
+
+        // 3. Finally delete User (using deleteMany for idempotency to avoid "Record to delete does not exist" errors)
+        return tx.user.deleteMany({ where: { id: userId } });
     });
 }

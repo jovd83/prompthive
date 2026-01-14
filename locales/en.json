@@ -92,12 +92,22 @@
                 "create": "Create User",
                 "error": "Failed to create user"
             },
-            "roleToggleTitle": "Click to toggle role"
+            "roleToggleTitle": "Click to toggle role",
+            "deleteConfirmTitle": "Delete User",
+            "deleteConfirmDesc": "Are you sure you want to delete this user? Their prompts and collections will be transferred to you.",
+            "delete": "Delete",
+            "deleteSuccess": "User {{name}} deleted successfully",
+            "roleUpdateSuccess": "User role updated successfully"
         },
         "save": "Save Admin Settings",
         "saving": "Saving...",
         "success": "Admin settings updated successfully",
-        "error": "Failed to update admin settings"
+        "error": "Failed to update admin settings",
+        "privatePrompts": {
+            "title": "Private Prompts",
+            "desc": "Configure settings for private prompts.",
+            "confirmDisable": "Are you sure? This will hide all private prompts from all users."
+        }
     },
     "commandPalette": {
         "placeholder": "Type a command or search...",
@@ -232,7 +242,8 @@
             "textualResult": "Textual Result",
             "resultFiles": "Result Files / Images (Unlimited)",
             "uploadFiles": "Upload Files (Unlimited)",
-            "resource": "Resource URL or Citation"
+            "resource": "Resource URL or Citation",
+            "privatePrompt": "Private Prompt"
         },
         "buttons": {
             "codeView": "Code View",
@@ -258,7 +269,8 @@
             "resource": "https://example.com/source-article"
         },
         "hints": {
-            "variables": "Define the variables used in your prompt (e.g. <code>{{topic}}</code>)."
+            "variables": "Define the variables used in your prompt (e.g. <code>{{topic}}</code>).",
+            "privatePrompt": "Only visible to you"
         },
         "errors": {
             "createFailed": "Failed to create prompt. Please try again.",
@@ -269,7 +281,9 @@
     "tags": {
         "placeholder": "Select or create tags...",
         "create": "Create tag \"{{tag}}\"",
-        "noMatch": "No matching tags found."
+        "noMatch": "No matching tags found.",
+        "viewAll": "View all",
+        "showLess": "Show less"
     },
     "diff": {
         "title": "Compare Versions",
@@ -281,10 +295,14 @@
         "breadcrumbs": {
             "collections": "Collections"
         },
+        "badges": {
+            "private": "Private"
+        },
         "actions": {
             "edit": "Edit",
             "delete": "Delete",
             "copy": "Copy Prompt",
+            "linkPrompt": "Link Related Prompt",
             "copied": "Copied!",
             "codeView": "Code View",
             "addToFavorites": "Add to favorites",
@@ -318,7 +336,8 @@
             "source": "Source",
             "shortPrompt": "Short Prompt",
             "usageExample": "Usage Example",
-            "editingVariable": "Editing Variable"
+            "editingVariable": "Editing Variable",
+            "relatedPrompts": "Related Prompts"
         },
         "meta": {
             "by": "By",
@@ -330,7 +349,8 @@
             "noDescription": "No description provided.",
             "noVersions": "No versions found.",
             "valueFor": "Value for {{name}}",
-            "enterLargeText": "Enter regular or large text here..."
+            "enterLargeText": "Enter regular or large text here...",
+            "searchPrompts": "Search by title or ID..."
         },
         "errors": {
             "deleteFailed": "Failed to delete prompt.",
@@ -373,6 +393,10 @@
         "general": "General Settings",
         "showTips": "Show Prompting Tips",
         "showTipsDesc": "Display a helpful prompting tip on the dashboard each day.",
+        "tagColors": "Enable Tag Colors",
+        "tagColorsDesc": "Show tags with distinct colors instead of a uniform style.",
+        "showWorkflows": "Show Workflows",
+        "showWorkflowsDesc": "Enable the workflows feature in the sidebar.",
         "settingsSaved": "Settings saved successfully.",
         "settingsFailed": "Failed to save settings.",
         "cleanupComplete": "Cleanup complete. Removed {{count}} unused tags.",
@@ -442,28 +466,37 @@
             "userProfile": "User Profile & Security",
             "exporting": "Exporting & Downloading",
             "locking": "Locking Prompts (Protection)",
+            "technicalIds": "Technical IDs",
+            "tagColors": "Tag Colors",
             "faq": "FAQ & Troubleshooting",
             "admin": "Admin Features",
             "changelog": "Changelog"
         },
         "content": {
             "changelog": {
-                "version": "v2.3.2 (Current)",
+                "version": "v2.3.3 (2026-01-13)",
                 "improvements": "Changed",
                 "fixes": "Fixed",
                 "added": "Added",
                 "desc": "For older versions, please see the <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>full changelog on GitHub</a>.",
-                "li1": "<strong>Export Collection</strong>: Added 'Export Collection' option to the specific collection menu, allowing users to export a collection tree as a JSON file.",
-                "li2": "-",
-                "li3": "<strong>Documentation</strong>: Merged technical documentation (SAD merged into Technical Reference).",
-                "li4": "<strong>Documentation</strong>: Fixed broken image paths in Technical Reference.",
-                "li5": "-",
-                "li6": "<strong>Dashboard Favorites</strong>: Fixed a bug where the last favorite item could not be unfavorited.",
-                "li7": "<strong>Prompt View</strong>: Fixed a UI bug where the description of a variable was displayed twice.",
-                "li8": "<strong>Prompt Edit</strong>: Fixed an issue where the description field would get cleared when adding or removing tags.",
-                "li9": "-",
-                "li10": "-",
-                "li11": "-"
+                "added_1": "<strong>Tag Colors</strong>: Added visual distinction for tags with unique colors. Users can enable/disable this feature in General Settings.",
+                "added_2": "<strong>Guest Account</strong>: Added a new GUEST role with read-only access. Includes restricted navigation and UI elements.",
+                "added_3": "<strong>User Management</strong>: Added ability for Admins to Delete Users via the Admin Settings page. Content is preserved and reassigned to Admin.",
+                "added_4": "<strong>Tag Settings</strong>: Added 'Enable Tag Colors' preference to General Settings.",
+                "added_5": "<strong>Technical IDs</strong>: Supports searching by Technical ID (e.g., VIBE-123) and direct URL access (/prompts/[id]).",
+                "added_6": "<strong>Linked Prompts</strong>: Ability to link related prompts together (bidirectional) with export/import support.",
+                "added_7": "<strong>Workflow Visibility</strong>: Added 'Show Workflows' toggle in General Settings. Sidebar section is hidden by default.",
+                "added_8": "<strong>Private Prompts</strong>: Added ability to mark prompts as 'Private' (visible only to creator). Includes Admin toggle.",
+                "changed_1": "<strong>Settings Relocation</strong>: Moved Auto-backup and Danger Zone to the bottom of Import/Export page.",
+                "changed_2": "<strong>Improved</strong>: Deleting a prompt from within a Collection no longer redirects to Dashboard.",
+                "fixed_1": "<strong>Prompt Locking</strong>: Fixed 'Delete' button remaining active on locked prompts.",
+                "fixed_2": "<strong>Related Prompts</strong>: Fixed UI layout, scrolling, and bidirectional visibility issues.",
+                "fixed_3": "<strong>Technical ID</strong>: Fixed missing ID display in prompt header.",
+                "fixed_4": "<strong>Tag Colors</strong>: Fixed colors not displaying on prompt detail page.",
+                "fixed_5": "<strong>Guest Permissions</strong>: Fixed Guest users seeing Delete/Favorite buttons and drag handles.",
+                "fixed_6": "<strong>Collection DnD</strong>: Fixed dragging prompts into subcollections and from list view.",
+                "fixed_7": "<strong>Search</strong>: Fixed Dashboard Search to include Technical IDs and exclude already linked prompts.",
+                "fixed_8": "<strong>Tag Display</strong>: Fixed tag overflow issues on prompt detail pages."
             },
             "intro": {
                 "welcome": "Welcome to <strong>PromptHive</strong>, your local-first sanctuary for managing, testing, and organizing LLM prompts.",
@@ -593,6 +626,22 @@
                 "a1": "Everything is stored in a local SQLite database (`dev.db`) in your project folder. Images are stored in `public/uploads`.",
                 "q2": "Q: What happens if I delete a parent collection?",
                 "a2": "You have two choices: <strong>Delete Everything</strong> (which wipes all children and prompts inside) or <strong>Delete Collection Only</strong> (which moves all children/prompts up to the parent level or Root)."
+            },
+            "technicalIds": {
+                "desc": "Technical IDs provide a stable, human-readable reference for your prompts (e.g., VIBE-123).",
+                "generationTitle": "Automatic Generation",
+                "generationDesc": "When you assign a prompt to a collection, it automatically gets an ID based on that collection's name (e.g., 'Sales' -> 'SALE-1').",
+                "routingTitle": "Direct URLs",
+                "routingDesc": "You can access any prompt directly by typing its ID in the URL: <code>/prompts/VIBE-123</code>.",
+                "searchTitle": "Search",
+                "searchDesc": "You can find any prompt instantly by typing its Technical ID into the dashboard search bar."
+            },
+            "tagColors": {
+                "desc": "Organize your tags visually by assigning them automatic, consistent colors.",
+                "enableTitle": "Enabling Colors",
+                "enableDesc": "Go to <strong>Settings > General</strong> and check <strong>Enable Tag Colors</strong>.",
+                "howItWorksTitle": "How it works",
+                "howItWorksDesc": "Colors are deterministically generated based on the tag name. The same tag will always have the same color across the application."
             }
         }
     }

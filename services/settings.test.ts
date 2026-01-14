@@ -1,74 +1,107 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { getSettingsService, updateVisibilitySettingsService, getHiddenUserIdsService } from './settings';
+import * as SettingsService from './settings';
 import { prisma } from '@/lib/prisma';
 
+// Mock prisma
 vi.mock('@/lib/prisma', () => ({
     prisma: {
         settings: {
             findUnique: vi.fn(),
             create: vi.fn(),
-            update: vi.fn(),
+            update: vi.fn()
+        },
+        globalConfiguration: {
+            upsert: vi.fn()
         }
     }
 }));
 
 describe('Settings Service', () => {
-    const userId = 'user-1';
-
+    const userId = 'u-1';
     beforeEach(() => {
         vi.clearAllMocks();
     });
 
     describe('getSettingsService', () => {
         it('should return existing settings', async () => {
-            const mockSettings = { id: 's-1', userId, hiddenUsers: [] };
-            (prisma.settings.findUnique as any).mockResolvedValue(mockSettings);
-
-            const result = await getSettingsService(userId);
-            expect(result).toEqual(mockSettings);
+            (prisma.settings.findUnique as any).mockResolvedValue({ id: 's-1', userId });
+            const res = await SettingsService.getSettingsService(userId);
+            expect(res.id).toBe('s-1');
         });
 
-        it('should create default settings if not found', async () => {
+        it('should create defaults if missing', async () => {
             (prisma.settings.findUnique as any).mockResolvedValue(null);
-            const mockCreated = { id: 's-new', userId, hiddenUsers: [] };
-            (prisma.settings.create as any).mockResolvedValue(mockCreated);
+            (prisma.settings.create as any).mockResolvedValue({ id: 's-new', userId });
 
-            const result = await getSettingsService(userId);
+            const res = await SettingsService.getSettingsService(userId);
+            expect(res.id).toBe('s-new');
             expect(prisma.settings.create).toHaveBeenCalled();
-            expect(result).toEqual(mockCreated);
-        });
-    });
-
-    describe('updateVisibilitySettingsService', () => {
-        it('should update hidden users relation', async () => {
-            const hiddenIds = ['u-2', 'u-3'];
-            await updateVisibilitySettingsService(userId, hiddenIds);
-
-            expect(prisma.settings.update).toHaveBeenCalledWith({
-                where: { userId },
-                data: {
-                    hiddenUsers: {
-                        set: [{ id: 'u-2' }, { id: 'u-3' }]
-                    }
-                }
-            });
-        });
-    });
-
-    describe('getHiddenUserIdsService', () => {
-        it('should return ids list', async () => {
-            (prisma.settings.findUnique as any).mockResolvedValue({
-                hiddenUsers: [{ id: 'u-2' }, { id: 'u-3' }]
-            });
-
-            const ids = await getHiddenUserIdsService(userId);
-            expect(ids).toEqual(['u-2', 'u-3']);
         });
 
-        it('should return empty list if settings not found (or no hidden users)', async () => {
+        it('should return default object on P2003 error (user not found)', async () => {
             (prisma.settings.findUnique as any).mockResolvedValue(null);
-            const ids = await getHiddenUserIdsService(userId);
-            expect(ids).toEqual([]);
+            const err = new Error('FK Error');
+            (err as any).code = 'P2003';
+            (prisma.settings.create as any).mockRejectedValue(err);
+
+            const res = await SettingsService.getSettingsService(userId);
+            expect(res.id).toBe('transient');
+        });
+
+        it('should throw other errors', async () => {
+            (prisma.settings.findUnique as any).mockResolvedValue(null);
+            (prisma.settings.create as any).mockRejectedValue(new Error('DB Fail'));
+
+            await expect(SettingsService.getSettingsService(userId)).rejects.toThrow('DB Fail');
+        });
+    });
+
+    describe('updates', () => {
+        it('updateGeneralSettingsService', async () => {
+            await SettingsService.updateGeneralSettingsService(userId, { showPrompterTips: false, tagColorsEnabled: false, workflowVisible: true });
+            expect(prisma.settings.update).toHaveBeenCalledWith(expect.objectContaining({
+                where: { userId },
+                data: expect.objectContaining({ showPrompterTips: false })
+            }));
+        });
+
+        it('updateVisibilitySettingsService', async () => {
+            await SettingsService.updateVisibilitySettingsService(userId, ['u-2']);
+            expect(prisma.settings.update).toHaveBeenCalledWith(expect.objectContaining({
+                data: { hiddenUsers: { set: [{ id: 'u-2' }] } }
+            }));
+        });
+
+        it('updateCollectionVisibilitySettingsService', async () => {
+            await SettingsService.updateCollectionVisibilitySettingsService(userId, ['c-2']);
+            expect(prisma.settings.update).toHaveBeenCalledWith(expect.objectContaining({
+                data: { hiddenCollections: { set: [{ id: 'c-2' }] } }
+            }));
+        });
+
+        it('updateGlobalSettingsService', async () => {
+            await SettingsService.updateGlobalSettingsService({ registrationEnabled: true });
+            expect(prisma.globalConfiguration.upsert).toHaveBeenCalled();
+        });
+    });
+
+    describe('getters', () => {
+        it('getHiddenUserIdsService', async () => {
+            (prisma.settings.findUnique as any).mockResolvedValue({ hiddenUsers: [{ id: 'u-2' }] });
+            const res = await SettingsService.getHiddenUserIdsService(userId);
+            expect(res).toEqual(['u-2']);
+        });
+
+        it('getHiddenCollectionIdsService', async () => {
+            (prisma.settings.findUnique as any).mockResolvedValue({ hiddenCollections: [{ id: 'c-2' }] });
+            const res = await SettingsService.getHiddenCollectionIdsService(userId);
+            expect(res).toEqual(['c-2']);
+        });
+
+        it('getHiddenUserIdsService returns empty if no settings', async () => {
+            (prisma.settings.findUnique as any).mockResolvedValue(null);
+            const res = await SettingsService.getHiddenUserIdsService(userId);
+            expect(res).toEqual([]);
         });
     });
 });

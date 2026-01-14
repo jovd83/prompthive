@@ -5,32 +5,48 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock } from "lucide-react";
+import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock, Loader2, Eye, EyeOff } from "lucide-react";
+// ... (skip down to insertion)
+
 import CollapsibleSection from "./CollapsibleSection";
 import ExpandableTextarea from "./ExpandableTextarea";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import CodeEditor from "./CodeEditor";
 import VisualDiff from "./VisualDiff";
+import PromptCard from "./PromptCard";
 import { useLanguage } from "./LanguageProvider";
 import { useSession } from "next-auth/react";
-import { usePromptDetails, PromptWithRelations } from "@/hooks/usePromptDetails";
+import { usePromptDetails } from "@/hooks/usePromptDetails";
+import { PromptWithRelations } from "@/types/prisma";
 import { VariableDef, replaceVariables } from "@/lib/prompt-utils";
 import { copyToClipboard } from "@/lib/clipboard";
 import { generateMarkdown, downloadStringAsFile } from "@/lib/markdown";
-import { restorePromptVersion, toggleLock } from "@/actions/prompts";
+import { restorePromptVersion, toggleLock, toggleVisibility, unlinkPrompts } from "@/actions/prompts";
+import LinkPromptDialog from "./LinkPromptDialog";
+import TagList from "./TagList";
+import { Link as LinkIcon } from "lucide-react";
+import { isGuest } from "@/lib/permissions";
 
 type PromptDetailProps = {
     prompt: PromptWithRelations;
     isFavorited?: boolean;
     serverParsedVariables?: VariableDef[];
     collectionPaths?: { id: string, title: string }[][];
+    privatePromptsEnabled?: boolean;
+    tagColorsEnabled?: boolean;
+    relatedPrompts?: any[];
+    currentUser?: { id: string; role: string;[key: string]: any };
 };
 
 const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
 
-export default function PromptDetail({ prompt, isFavorited: initialIsFavorited = false, serverParsedVariables, collectionPaths }: PromptDetailProps) {
+export default function PromptDetail({ prompt, isFavorited: initialIsFavorited = false, serverParsedVariables, collectionPaths, privatePromptsEnabled = false, tagColorsEnabled = true, relatedPrompts, currentUser }: PromptDetailProps) {
     const { t, language } = useLanguage();
+    const router = useRouter();
     const { data: session } = useSession();
+
+    const user = currentUser || session?.user;
 
     // Use the Hook
     const {
@@ -59,11 +75,29 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
     const [versionToRestore, setVersionToRestore] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [isLocking, setIsLocking] = useState(false);
+    const [isVisibilityLoading, setIsVisibilityLoading] = useState(false);
+    const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
+    const [unlinkingId, setUnlinkingId] = useState<string | null>(null);
 
-    const isCreator = session?.user?.id === prompt.createdById;
+    const handleUnlink = async (targetId: string) => {
+        if (unlinkingId) return;
+        // Direct unlink without confirmation as per checking (Bug fix)
+        setUnlinkingId(targetId);
+        try {
+            await unlinkPrompts(prompt.id, targetId);
+            router.refresh();
+        } catch (error) {
+            console.error("Failed to unlink", error);
+            setError("Failed to unlink prompt");
+        } finally {
+            setUnlinkingId(null);
+        }
+    };
+
+    const isCreator = user?.id === prompt.createdById;
     // Cast prompt to any to access isLocked if types are stale
     const isLocked = (prompt as any).isLocked;
-    const canEdit = !isLocked;
+    const canEdit = !isLocked && !isGuest(user);
 
     // Derived UI State
     if (!selectedVersion) return <div>{t('detail.placeholders.noVersions')}</div>;
@@ -129,12 +163,24 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
         setIsLocking(true);
         try {
             await toggleLock(prompt.id);
-            // Optimistic update or refresh happens via server action revalidate
         } catch (err) {
             console.error("Failed to toggle lock:", err);
             setError("Failed to toggle lock status.");
         } finally {
             setIsLocking(false);
+        }
+    };
+
+    const handleToggleVisibility = async () => {
+        if (!isCreator) return;
+        setIsVisibilityLoading(true);
+        try {
+            await toggleVisibility(prompt.id);
+        } catch (err) {
+            console.error("Failed to toggle visibility:", err);
+            setError("Failed to toggle visibility.");
+        } finally {
+            setIsVisibilityLoading(false);
         }
     };
 
@@ -187,83 +233,123 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
             )}
 
             {/* Header */}
-            <div className="flex justify-between items-start mb-6">
-                <div>
-                    <h1 className="text-3xl font-bold mb-2">{prompt.title}</h1>
-                    <div className="flex gap-2 text-sm text-muted-foreground items-center">
+            <div className="mb-6">
+                {/* Top Row: Title + Actions */}
+                <div className="flex justify-between items-start mb-2 gap-4">
+                    <h1 className="text-3xl font-bold break-words min-w-0 flex-1">{prompt.title}</h1>
+
+                    <div className="flex gap-2 items-center flex-shrink-0">
+                        <button
+                            onClick={handleToggleFavorite}
+                            disabled={isGuest(user)}
+                            className={`btn border border-border hover:bg-background ${isFavorited ? "text-red-500 border-red-200 bg-red-50 dark:bg-red-950/20" : "bg-surface"} ${isGuest(user) ? "opacity-50 cursor-not-allowed" : ""}`}
+                            title={isGuest(user) ? t('detail.actions.guestNoFavorite') || "Guests cannot favorite" : (isFavorited ? t('detail.actions.removeFromFavorites') : t('detail.actions.addToFavorites'))}
+                        >
+                            <Heart size={20} fill={isFavorited ? "currentColor" : "none"} />
+                        </button>
+                        {isCreator && (
+                            <button
+                                onClick={() => setIsLinkDialogOpen(true)}
+                                className="btn border border-border hover:bg-background bg-surface"
+                                title={t('detail.actions.linkPrompt') || "Link Related Prompt"}
+                            >
+                                <LinkIcon size={20} />
+                            </button>
+                        )}
+
+                        <button
+                            onClick={handleDownloadMarkdown}
+                            className="btn border border-border hover:bg-background bg-surface"
+                            title={t('detail.actions.downloadMarkdown') || "Download Markdown"}
+                        >
+                            <FileDown size={20} />
+                        </button>
+
+                        {successMessage && <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100 animate-in fade-in slide-in-from-top-1">{successMessage}</span>}
+
+
+                        {isCreator && privatePromptsEnabled && (
+                            <button
+                                onClick={handleToggleVisibility}
+                                disabled={isVisibilityLoading}
+                                className={`btn border border-border hover:bg-background ${(prompt as any).isPrivate ? "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400" : "bg-surface"}`}
+                                title={(prompt as any).isPrivate ? "Make Public" : "Make Private"}
+                            >
+                                {isVisibilityLoading ? (
+                                    <Loader2 size={20} className="animate-spin" />
+                                ) : (prompt as any).isPrivate ? (
+                                    <EyeOff size={20} />
+                                ) : (
+                                    <Eye size={20} />
+                                )}
+                            </button>
+                        )}
+
+                        {/* Lock Button (Creator Only) */}
+                        {isCreator && (
+                            <button
+                                onClick={handleToggleLock}
+                                disabled={isLocking}
+                                className={`btn border hover:bg-background ${isLocked ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/20 dark:text-amber-500" : "bg-surface border-border"}`}
+                                title={isLocked ? t('detail.actions.unlockPrompt') : t('detail.actions.lockPrompt')}
+                            >
+                                {isLocking ? (
+                                    <span className="loading loading-spinner loading-xs"></span>
+                                ) : isLocked ? (
+                                    <Lock size={20} />
+                                ) : (
+                                    <Unlock size={20} />
+                                )}
+                            </button>
+                        )}
+
+                        {isDeleting ? (
+                            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2">
+                                <span className="text-sm font-bold text-red-600">{t('detail.actions.confirmDelete')}</span>
+                                <button onClick={confirmDelete} className="btn btn-sm bg-red-600 text-white hover:bg-red-700">{t('detail.actions.yes')}</button>
+                                <button onClick={() => setIsDeleting(false)} className="btn btn-sm bg-surface text-foreground border border-border hover:bg-muted">{t('detail.actions.no')}</button>
+                            </div>
+                        ) : (
+                            <>
+                                <Link
+                                    href={canEdit ? `/prompts/${prompt.id}/edit` : "#"}
+                                    className={`btn bg-surface border border-border hover:bg-background ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                    title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
+                                >
+                                    <Edit size={16} />
+                                </Link>
+                                <button
+                                    onClick={() => setIsDeleting(true)}
+                                    disabled={!canEdit}
+                                    className={`btn bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:bg-red-950/10 dark:text-red-400 dark:border-red-900/30 dark:hover:bg-red-900/20 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                    title={canEdit ? t('detail.actions.delete') : t('detail.actions.lockedByCreator')}
+                                >
+                                    <Trash2 size={16} />
+                                </button>
+                            </>
+                        )}
+                    </div>
+                </div>
+
+                {/* Bottom Row: Meta + Tags (Full Width) */}
+                <div className="flex flex-wrap gap-2 text-sm text-muted-foreground items-center">
+                    <div className="flex gap-2 items-center mr-2">
+                        {prompt.technicalId && (
+                            <span className="border border-border bg-muted/40 px-1.5 py-0.5 rounded text-xs font-mono font-medium text-foreground select-all" title="Technical ID">
+                                {prompt.technicalId}
+                            </span>
+                        )}
                         <span>{t('detail.meta.by')} {prompt.createdBy.username}</span>
                         <span>•</span>
                         <span>{t('detail.meta.ago').replace('{{time}}', timeAgo)}</span>
-                        <div className="flex gap-1 ml-2">
-                            {prompt.tags && prompt.tags.map((tag) => (
-                                <Link key={tag.id} href={`/?tags=${tag.id}`} className="bg-secondary px-2 py-0.5 rounded-full text-xs hover:bg-primary hover:text-primary-foreground transition-colors">#{tag.name}</Link>
-                            ))}
-                        </div>
                     </div>
-                </div>
-                <div className="flex gap-2 items-center">
-                    <button
-                        onClick={handleToggleFavorite}
-                        className={`btn border border-border hover:bg-background ${isFavorited ? "text-red-500 border-red-200 bg-red-50 dark:bg-red-950/20" : "bg-surface"}`}
-                        title={isFavorited ? t('detail.actions.removeFromFavorites') : t('detail.actions.addToFavorites')}
-                    >
-                        <Heart size={20} fill={isFavorited ? "currentColor" : "none"} />
-                    </button>
 
-                    <button
-                        onClick={handleDownloadMarkdown}
-                        className="btn border border-border hover:bg-background bg-surface"
-                        title={t('detail.actions.downloadMarkdown') || "Download Markdown"}
-                    >
-                        <FileDown size={20} />
-                    </button>
-
-
-
-                    {successMessage && <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100 animate-in fade-in slide-in-from-top-1">{successMessage}</span>}
-
-
-                    {/* Lock Button (Creator Only) */}
-                    {isCreator && (
-                        <button
-                            onClick={handleToggleLock}
-                            disabled={isLocking}
-                            className={`btn border hover:bg-background ${isLocked ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/20 dark:text-amber-500" : "bg-surface border-border"}`}
-                            title={isLocked ? t('detail.actions.unlockPrompt') : t('detail.actions.lockPrompt')}
-                        >
-                            {isLocking ? (
-                                <span className="loading loading-spinner loading-xs"></span>
-                            ) : isLocked ? (
-                                <Lock size={20} />
-                            ) : (
-                                <Unlock size={20} />
-                            )}
-                        </button>
-                    )}
-
-                    {isDeleting ? (
-                        <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2">
-                            <span className="text-sm font-bold text-red-600">{t('detail.actions.confirmDelete')}</span>
-                            <button onClick={confirmDelete} className="btn btn-sm bg-red-600 text-white hover:bg-red-700">{t('detail.actions.yes')}</button>
-                            <button onClick={() => setIsDeleting(false)} className="btn btn-sm bg-surface text-foreground border border-border hover:bg-muted">{t('detail.actions.no')}</button>
-                        </div>
-                    ) : (
-                        <>
-                            <Link
-                                href={canEdit ? `/prompts/${prompt.id}/edit` : "#"}
-                                className={`btn bg-surface border border-border hover:bg-background ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
-                                title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
-                            >
-                                <Edit size={16} />
-                            </Link>
-                            <button
-                                onClick={() => setIsDeleting(true)}
-                                className="btn bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:bg-red-950/10 dark:text-red-400 dark:border-red-900/30 dark:hover:bg-red-900/20"
-                                title={t('detail.actions.delete')}
-                            >
-                                <Trash2 size={16} />
-                            </button>
-                        </>
+                    {prompt.tags && prompt.tags.length > 0 && (
+                        <TagList
+                            tags={prompt.tags}
+                            tagColorsEnabled={tagColorsEnabled}
+                            t={t}
+                        />
                     )}
                 </div>
             </div>
@@ -277,6 +363,8 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             <p>{prompt.description || <span className="text-muted-foreground/60 italic">{t('detail.placeholders.noDescription')}</span>}</p>
                         </div>
                     </div>
+
+
 
                     <div className="card">
                         <div className="flex justify-between items-center mb-4">
@@ -469,6 +557,8 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             )}
                         </div>
                     )}
+
+
                 </div>
 
                 {/* Sidebar (Variables & History) */}
@@ -555,6 +645,33 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                 </div>
             </div>
 
+            {relatedPrompts && relatedPrompts.length > 0 && (
+                <div className="card mt-8">
+                    <h3 className="font-bold mb-4 text-sm text-muted-foreground flex items-center gap-2">
+                        <LinkIcon size={16} /> {t('detail.labels.relatedPrompts') || "Related Prompts"}
+                    </h3>
+                    <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
+                        {relatedPrompts.map((rp: any) => (
+                            <div key={rp.id} className="relative group h-full min-w-[280px] max-w-[320px] flex-shrink-0">
+                                <div className="h-full">
+                                    <PromptCard prompt={rp} tagColorsEnabled={tagColorsEnabled} />
+                                </div>
+                                {isCreator && (
+                                    <button
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleUnlink(rp.id); }}
+                                        className="absolute top-2 right-2 p-1.5 bg-background/90 hover:bg-red-100 dark:hover:bg-red-900/50 text-muted-foreground hover:text-red-500 rounded-md border border-border transition-colors opacity-0 group-hover:opacity-100 z-10 shadow-sm"
+                                        title={t('detail.actions.unlink') || "Unlink Prompt"}
+                                        disabled={unlinkingId === rp.id}
+                                    >
+                                        {unlinkingId === rp.id ? <Loader2 size={14} className="animate-spin" /> : <Trash2 size={14} />}
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             {diffConfig && (
                 <VisualDiff
                     oldText={diffConfig.oldVersion.content}
@@ -575,6 +692,22 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                 description={t('detail.actions.confirmRestore') || "Are you sure you want to restore this version? This will create a new version with the same content."}
                 confirmLabel={t('detail.actions.restore') || "Restore"}
                 cancelLabel={t('common.cancel')}
+            />
+
+            <LinkPromptDialog
+                isOpen={isLinkDialogOpen}
+                onClose={() => setIsLinkDialogOpen(false)}
+                currentPromptId={prompt.id}
+            />
+
+            <div
+                id="debug-info"
+                className="hidden"
+                data-user-id={user?.id || "undefined"}
+                data-creator-id={prompt.createdById || "undefined"}
+                data-is-creator={isCreator ? "true" : "false"}
+                data-user-role={user?.role || "undefined"}
+                data-is-guest={isGuest(user) ? "true" : "false"}
             />
         </div>
     );

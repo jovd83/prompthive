@@ -86,12 +86,22 @@
                 "create": "Create User",
                 "error": "Failed to create user"
             },
-            "roleToggleTitle": "Click to toggle role"
+            "roleToggleTitle": "Klicka för att ändra roll",
+            "deleteConfirmTitle": "Ta bort användare",
+            "deleteConfirmDesc": "Är du säker på att du vill ta bort denna användare? Deras prompts och samlingar kommer att överföras till dig.",
+            "delete": "Ta bort",
+            "deleteSuccess": "Användare {{name}} borttagen",
+            "roleUpdateSuccess": "Användarroll uppdaterad framgångsrikt"
         },
         "save": "Spara Admin-inställningar",
         "saving": "Sparar...",
         "success": "Admin-inställningar uppdaterades",
-        "error": "Misslyckades att uppdatera Admin-inställningar"
+        "error": "Misslyckades att uppdatera Admin-inställningar",
+        "privatePrompts": {
+            "title": "Privata Prompts",
+            "desc": "Konfigurera inställningar för privata prompts.",
+            "confirmDisable": "Är du säker? Detta kommer att dölja alla privata prompts för alla användare."
+        }
     },
     "commandPalette": {
         "placeholder": "Skriv ett kommando eller sök...",
@@ -219,7 +229,8 @@
             "textualResult": "Textresultat",
             "resultFiles": "Resultatfiler / Bilder (Obegränsat)",
             "uploadFiles": "Ladda Upp Filer (Obegränsat)",
-            "resource": "Resurs-URL eller Citat"
+            "resource": "Resurs-URL eller Citat",
+            "privatePrompt": "Privat Prompt"
         },
         "buttons": {
             "codeView": "Kodvy",
@@ -245,7 +256,8 @@
             "resource": "https://exempel.se/käll-artikel"
         },
         "hints": {
-            "variables": "Definiera variablerna som används i din prompt (t.ex. <code>{{topic}}</code>)."
+            "variables": "Definiera variablerna som används i din prompt (t.ex. <code>{{topic}}</code>).",
+            "privatePrompt": "Endast synlig för dig"
         },
         "errors": {
             "createFailed": "Misslyckades att skapa prompt. Försök igen.",
@@ -325,6 +337,8 @@
     },
     "settings": {
         "title": "Inställningar",
+        "tagColors": "Aktivera taggfärger",
+        "tagColorsDesc": "Visa taggar med distinkta färger istället för en enhetlig stil.",
         "autoBackupConfig": "Auto-Backup Konfiguration",
         "enableAutoBackup": "Aktivera Auto-Backup",
         "backupPath": "Backup-katalogens sökväg",
@@ -429,22 +443,19 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.2 (Aktuell)",
+                "version": "v2.3.3 (Opublicerad)",
                 "improvements": "Ändrad",
                 "fixes": "Fixad",
                 "added": "Tillagd",
                 "desc": "För äldre versioner, se den <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>fullständiga ändringsloggen på GitHub</a>.",
-                "li1": "<strong>Exportera Samling</strong>: Lade till alternativet 'Exportera Samling' i den specifika samlingsmenyn, vilket gör att användare kan exportera ett samlingsträd som en JSON-fil.",
-                "li2": "-",
-                "li3": "<strong>Dokumentation</strong>: Slog samman teknisk dokumentation (SAD slogs samman till Teknisk Referens).",
-                "li4": "<strong>Dokumentation</strong>: Fixade brutna bildsökvägar i Teknisk Referens.",
-                "li5": "-",
-                "li6": "<strong>Instrumentpanel Favoriter</strong>: Fixade en bugg där det sista favoritobjektet inte kunde tas bort från favoriter.",
-                "li7": "<strong>Prompt Vy</strong>: Fixade en UI-bugg där beskrivningen av en variabel visades två gånger.",
-                "li8": "<strong>Redigera Prompt</strong>: Fixade ett problem där beskrivningsfältet rensades när taggar lades till eller togs bort.",
-                "li9": "-",
-                "li10": "-",
-                "li11": "-"
+                "added_1": "<strong>Taggfärger</strong>: Lade till visuell skillnad för taggar med unika färger. Användare kan aktivera/inaktivera denna funktion i Allmänna inställningar.",
+                "added_2": "<strong>Gästkonto</strong>: Lade till en ny GUEST-roll med skrivskyddad åtkomst. Inkluderar begränsad navigering och UI-element.",
+                "added_3": "<strong>Användarhantering</strong>: Lade till möjlighet för administratörer att ta bort användare via sidan Admininställningar. Innehåll bevaras och tilldelas administratören.",
+                "added_4": "<strong>Tagginställningar</strong>: Lade till preferensen 'Aktivera Taggfärger' i Allmänna inställningar.",
+                "added_5": "<strong>Tekniska ID:n</strong>: Stöder sökning efter tekniskt ID (t.ex. VIBE-123) och direkt URL-åtkomst (/prompts/[id]).",
+                "added_6": "<strong>Länkade Prompts</strong>: Möjlighet att länka relaterade prompts tillsammans (dubbelriktad) med export/import-stöd.",
+                "changed_1": "<strong>Inställningsflytt</strong>: Flyttade Auto-backup och Danger Zone till botten av Import/Export-sidan.",
+                "changed_2": "<strong>Förbättrat</strong>: Att radera en prompt inifrån en Samling omdirigerar inte längre till Instrumentpanelen."
             },
             "intro": {
                 "welcome": "Välkommen till <strong>PromptHive</strong>, din local-first fristad för att hantera, testa och organisera LLM-prompts.",
@@ -492,6 +503,7 @@
                 "dragDropDesc": "Du kan dra samlingar i sidofältet för att reorganisera dem. Släpp en samling på en annan för att göra den till ett barn. Släpp den på rubriken \"Samlingar\" för att göra den till en rotmapp.",
                 "sortingTitle": "Sortering",
                 "sortingDesc": "Du kan sortera prompter i en samling efter <strong>Namn</strong> eller <strong>Datum</strong> med kontrollerna i listrubriken.",
+                "showTipsDesc": "Visa ett användbart prompting-tips på instrumentpanelen varje dag.",
                 "collapseDesc": "Du kan <strong>komprimera</strong> sektionerna Samlingar och Taggar i sidofältet för att spara vertikalt utrymme.",
                 "visibilityTitle": "Dölja Samlingar",
                 "visibilityDesc": "Om du har samlingar du sällan använder kan du <strong>dölja</strong> dem från instrumentpanelen. Gå till <strong>Inställningar</strong> > <strong>Samlingssynlighet</strong> och avmarkera de samlingar du vill dölja. De finns kvar i databasen men stökar inte till din vy."

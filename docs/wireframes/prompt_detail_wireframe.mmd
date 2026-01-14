@@ -5,14 +5,18 @@ graph TD
     H[Header Area]
     H --> H1[Breadcrumbs]
     H --> H2[Title]
+    H --> H6[Technical ID Badge]
+    H --> H7[Private Badge]
     H --> H3[Collection Badge]
     H --> H4[Tags List]
     H --> H5[Action Buttons]
+    H5 --> H5f[Favorite]
+    H5 --> H5g[Link Prompt]
     H5 --> H5a[Edit Version]
     H5 --> H5b[Delete Prompt]
     H5 --> H5c[Copy to Clipboard]
     H5 --> H5d[Download Markdown]
-    H5 --> H5e[Lock/Unlock (Creator Only)]
+    H5 --> H5e["Lock/Unlock (Creator Only)"]
     
     M[Main Content Grid]
     M --> M1[Left Column: Prompt Content]
@@ -29,6 +33,9 @@ graph TD
     M2 --> M2d[Usage Example]
     M2 --> M2e[Attachments List]
     M2 --> M2f[Result Images Gallery]
+    
+    M --> M3[Bottom Section]
+    M3 --> M3a[Related Prompts Carousel]
     end
 
     %% Premium Styling
@@ -39,7 +46,7 @@ graph TD
     classDef input fill:#ffffff,stroke:#d1d5db,color:#374151,rx:4,ry:4,stroke-dasharray: 2 2;
 
     class Detail container;
-    class M1,M2 panel;
-    class H5a,H5c,M1b1,H5d button;
+    class M1,M2,M3 panel;
+    class H5a,H5c,M1b1,H5d,H5f,H5g button;
     class H5b danger;
     class M1a1,M1a2 input;

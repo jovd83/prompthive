@@ -8,11 +8,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import * as FavoritesService from "@/services/favorites";
 import { parseVariableDefinitions } from "@/lib/prompt-utils";
+import { getSettingsService } from "@/services/settings";
 
 export default async function PromptDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const session = await getServerSession(authOptions);
-    const prompt = await prisma.prompt.findUnique({
+    let prompt = await prisma.prompt.findUnique({
         where: { id },
         include: {
             versions: {
@@ -54,8 +55,152 @@ export default async function PromptDetailPage({ params }: { params: Promise<{ i
                 }
             },
             tags: true,
+            relatedPrompts: {
+                select: {
+                    id: true,
+                    title: true,
+                    technicalId: true,
+                    description: true,
+                    isLocked: true,
+                    viewCount: true,
+                    copyCount: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    createdBy: { select: { email: true, username: true } },
+                    tags: { select: { id: true, name: true, color: true } },
+                    versions: {
+                        orderBy: { versionNumber: "desc" },
+                        take: 1,
+                        select: {
+                            content: true,
+                            resultImage: true,
+                            attachments: { select: { filePath: true, role: true } }
+                        }
+                    }
+                }
+            },
+            relatedToPrompts: {
+                select: {
+                    id: true,
+                    title: true,
+                    technicalId: true,
+                    description: true,
+                    isLocked: true,
+                    viewCount: true,
+                    copyCount: true,
+                    createdAt: true,
+                    updatedAt: true,
+                    createdBy: { select: { email: true, username: true } },
+                    tags: { select: { id: true, name: true, color: true } },
+                    versions: {
+                        orderBy: { versionNumber: "desc" },
+                        take: 1,
+                        select: {
+                            content: true,
+                            resultImage: true,
+                            attachments: { select: { filePath: true, role: true } }
+                        }
+                    }
+                }
+            },
         },
     });
+
+    if (!prompt) {
+        // Try finding by Technical ID
+        prompt = await prisma.prompt.findUnique({
+            where: { technicalId: id } as any,
+            include: {
+                versions: {
+                    orderBy: { versionNumber: "desc" },
+                    include: {
+                        createdBy: true,
+                        attachments: true,
+                    },
+                },
+                createdBy: true,
+                collections: {
+                    include: {
+                        _count: { select: { prompts: true } }, // Level 0 (Leaf)
+                        parent: {
+                            include: {
+                                _count: { select: { prompts: true } }, // Level 1
+                                parent: {
+                                    include: {
+                                        _count: { select: { prompts: true } }, // Level 2
+                                        parent: {
+                                            include: {
+                                                _count: { select: { prompts: true } }, // Level 3
+                                                parent: {
+                                                    include: {
+                                                        _count: { select: { prompts: true } }, // Level 4
+                                                        parent: {
+                                                            include: {
+                                                                _count: { select: { prompts: true } } // Level 5
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                tags: true,
+                relatedPrompts: {
+                    select: {
+                        id: true,
+                        title: true,
+                        technicalId: true,
+                        description: true,
+                        isLocked: true,
+                        viewCount: true,
+                        copyCount: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        createdBy: { select: { email: true, username: true } },
+                        tags: true,
+                        versions: {
+                            orderBy: { versionNumber: "desc" },
+                            take: 1,
+                            select: {
+                                content: true,
+                                resultImage: true,
+                                attachments: { select: { filePath: true, role: true } }
+                            }
+                        }
+                    }
+                },
+                relatedToPrompts: {
+                    select: {
+                        id: true,
+                        title: true,
+                        technicalId: true,
+                        description: true,
+                        isLocked: true,
+                        viewCount: true,
+                        copyCount: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        createdBy: { select: { email: true, username: true } },
+                        tags: true,
+                        versions: {
+                            orderBy: { versionNumber: "desc" },
+                            take: 1,
+                            select: {
+                                content: true,
+                                resultImage: true,
+                                attachments: { select: { filePath: true, role: true } }
+                            }
+                        }
+                    }
+                },
+            },
+        });
+    }
 
     if (!prompt) {
         notFound();
@@ -84,6 +229,14 @@ export default async function PromptDetailPage({ params }: { params: Promise<{ i
         return enrichNode(col);
     });
 
+    // Merge bidirectional links
+    const relatedPrompts = [
+        ...prompt.relatedPrompts,
+        ...prompt.relatedToPrompts
+    ].filter((v, i, a) => a.findIndex(t => t.id === v.id) === i); // Dedupe
+
+
+
     const promptWithCounts = {
         ...prompt,
         collections: enrichedCollections
@@ -93,18 +246,6 @@ export default async function PromptDetailPage({ params }: { params: Promise<{ i
     const collectionPaths = prompt.collections.map((col: any) => {
         const path = [];
         let current = col;
-        // Use the fetched prisma structure (col.parent) before enrichment replaced it?
-        // Actually enrichedCollections preserves .parent structure (just adds counts).
-        // Let's use enrichedCollections to match what we have. 
-        // Wait, enrichedCollections is used for promptWithCounts.collections.
-        // Let's use enrichedCollections for consistency in traversal.
-        // But wait, my PromptDetail traversal change removed local calculation.
-        // I should use enrichedCollections because it IS the tree structure.
-
-        // HOWEVER, there's a risk enrichedCollections might not have parent if enrichNode failed.
-        // Let's rely on Prisma 'prompt.collections' (col) since `prompt` variable holds the Raw Data with Includes.
-        // Prisma object: col.parent.parent...
-
         current = col;
         while (current) {
             path.push({ id: current.id, title: current.title });
@@ -118,10 +259,17 @@ export default async function PromptDetailPage({ params }: { params: Promise<{ i
     const currentVersion = prompt.versions.find(v => v.id === currentVersionId) || prompt.versions[0];
     const serverParsedVariables = parseVariableDefinitions(currentVersion?.variableDefinitions);
 
+    const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
+    const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: "GLOBAL" } });
+
     return <PromptDetail
         prompt={promptWithCounts}
         isFavorited={isFavorited}
         serverParsedVariables={serverParsedVariables}
         collectionPaths={collectionPaths}
+        tagColorsEnabled={(settings as any)?.tagColorsEnabled ?? true}
+        relatedPrompts={relatedPrompts}
+        privatePromptsEnabled={globalConfig?.privatePromptsEnabled ?? false}
+        currentUser={session?.user}
     />;
 }

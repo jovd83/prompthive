@@ -34,6 +34,7 @@ Users can import prompts from PromptHive backups, PromptCat exports, local folde
 ### 3. Acceptance Criteria (AC)
 *   [ ] Verify Unified Import accepts valid PromptHive JSON (array).
 *   [ ] Verify Unified Import accepts valid PromptCat JSON (object/array).
+*   [ ] **AC_NEW:** Verify Unified Import accepts legacy JSON formats (e.g. string tags, missing optional fields) without error.
 *   [ ] Verify Unified Import reconstructs the nested collection tree structure from `definedCollections`.
 *   [ ] **AC8:** Verify imported prompts are correctly linked to their restored parent collections in the database and visible in the UI.
 *   [ ] Verify proper progress bar is shown during import (identical UI to export).
@@ -41,7 +42,7 @@ Users can import prompts from PromptHive backups, PromptCat exports, local folde
 *   [ ] Verify Scraper copy button uses compact icon style to preserve layout space.
 
 ### 4. UI Wireframe Specification
-**Image Source:** `assets/wireframes/data_import_export_wireframe.png`
+**Image Source:** `../wireframes/previews/data_import_export.png`
 
 **[MISSING IMAGE PLACEHOLDER]**
 *   **Layout:** Dashboard Card Layout (Grid).
@@ -113,5 +114,39 @@ A specialized export function that produces a simplified JSON structure compatib
 *   [ ] Verify "Select All" toggles all checkboxes.
 *   [ ] Verify generated JSON matches the specific PromptHive Zero schema.
 *   [ ] Verify only prompts within selected collections are exported.
+
+---
+
+## User Story: Auto-Backup Configuration (Moved from Settings)
+**As an** Admin
+**I want to** configure automatic backups
+**So that** I can ensure data safety without manual intervention.
+
+### 1. Description
+Admin users can configure the frequency and location of automatic backups directly from the bottom of the Import/Export page.
+
+### 2. Technical Scope & Fields
+*   **Toggle**: Enable/Disable.
+*   **Frequency**: Dropdown (Daily, Weekly, Monthly).
+*   **Path**: Server-side path for backups.
+*   **Access**: ADMIN role only.
+
+---
+
+## User Story: Danger Zone (Moved from Settings)
+**As an** Admin
+**I want to** perform destructive data actions
+**So that** I can reset the system or restore from a backup.
+
+### 1. Description
+Critical data operations available only to admins.
+
+### 2. Actions
+*   **Restore Data**: Restore the latest backup (overwrites current data).
+*   **Reset Database**: Delete all data (Factory reset).
+
+### 3. Acceptance Criteria
+*   [ ] Verify these sections are visible ONLY to Admins.
+*   [ ] Verify destructive actions require explicit confirmation.
 
 

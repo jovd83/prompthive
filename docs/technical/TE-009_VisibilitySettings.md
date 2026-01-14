@@ -65,3 +65,20 @@ model User {
 ### Service Logic
 *   `services/settings.ts` needs `updateCollectionVisibilitySettings`.
 *   Fetching collections (`services/collections.ts`) should check `Settings.hiddenCollections` for the current user and filter them out (unless specifically requested, e.g. in Settings page).
+
+## 6. Private Prompts Visibility
+*   **Logic**:
+    *   If `Prompt.isPrivate` is true:
+        *   Prompt is visible **only** if `currentUser.id === prompt.createdById`.
+    *   This check applies globally (Search, Collection View, User Profile).
+    *   It supersedes other visibility settings (e.g. if a user is not hidden but their prompt is private, the prompt is hidden).
+*   **Service Layer**:
+    *   `services/prompts.ts` must enforce this filter in `findMany` calls:
+        ```typescript
+        where: {
+          OR: [
+            { isPrivate: false },
+            { isPrivate: true, createdById: currentUserId }
+          ]
+        }
+        ```

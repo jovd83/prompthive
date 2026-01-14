@@ -1,9 +1,10 @@
+// @vitest-environment jsdom
 import { describe, it, expect } from 'vitest';
 import { generateMarkdown } from './markdown';
-import { PromptWithRelations } from '@/hooks/usePromptDetails';
+import { PromptWithRelations } from '@/types/prisma';
 
 describe('generateMarkdown', () => {
-    const mockPrompt: PromptWithRelations = {
+    const mockPrompt: any = {
         id: 'p1',
         title: 'Test Prompt',
         description: 'A description',
@@ -14,6 +15,8 @@ describe('generateMarkdown', () => {
         copyCount: 0,
         resource: 'https://example.com',
         currentVersionId: 'v1',
+        isLocked: false,
+        technicalId: null,
         createdBy: {
             id: 'u1',
             username: 'tester',
@@ -122,5 +125,41 @@ describe('generateMarkdown', () => {
         expect(md).toContain('**Collection:** None');
         expect(md).toContain('**Source:** None');
         expect(md).toContain('*   legacy.png');
+    });
+});
+
+
+import { downloadStringAsFile } from './markdown';
+import { vi } from 'vitest';
+
+describe('downloadStringAsFile', () => {
+    it('creates a blob link and clicks it', () => {
+        // Mocks
+        const mockLink = {
+            href: '',
+            download: '',
+            click: vi.fn(),
+        };
+        const createElementSpy = vi.spyOn(document, 'createElement').mockReturnValue(mockLink as any);
+        const appendChildSpy = vi.spyOn(document.body, 'appendChild').mockImplementation(() => mockLink as any);
+        const removeChildSpy = vi.spyOn(document.body, 'removeChild').mockImplementation(() => mockLink as any);
+
+        global.URL.createObjectURL = vi.fn(() => 'blob:url');
+        global.URL.revokeObjectURL = vi.fn();
+
+        // Act
+        downloadStringAsFile('# content', 'test.md');
+
+        // Assert
+        expect(createElementSpy).toHaveBeenCalledWith('a');
+        expect(mockLink.download).toBe('test.md');
+        expect(mockLink.href).toBe('blob:url');
+        expect(appendChildSpy).toHaveBeenCalledWith(mockLink);
+        expect(mockLink.click).toHaveBeenCalled();
+        expect(removeChildSpy).toHaveBeenCalledWith(mockLink);
+        expect(global.URL.revokeObjectURL).toHaveBeenCalledWith('blob:url');
+
+        // Cleanup
+        vi.restoreAllMocks();
     });
 });

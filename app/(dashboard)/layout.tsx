@@ -5,7 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import { prisma } from "@/lib/prisma";
 import { checkAndRunAutoBackup } from "@/actions/backup";
 import { LanguageProvider } from "@/components/LanguageProvider";
-import { getHiddenCollectionIdsService } from "@/services/settings";
+import { getHiddenCollectionIdsService, getSettingsService } from "@/services/settings";
 import { filterHiddenCollections } from "@/lib/collection-utils";
 
 export default async function DashboardLayout({
@@ -60,6 +60,10 @@ export default async function DashboardLayout({
         select: { id: true, username: true, email: true, avatarUrl: true, language: true, role: true }
     });
 
+    const settings = await getSettingsService(session.user.id);
+    const workflowVisible = settings.workflowVisible;
+    console.log(`[DEBUG] DashboardLayout: User ${currentUser?.email} - workflowVisible:`, workflowVisible);
+
     return (
         <LanguageProvider initialLanguage={currentUser?.language || 'en'} user={currentUser}>
             <div className="flex min-h-screen bg-background text-foreground">
@@ -74,6 +78,7 @@ export default async function DashboardLayout({
                         image: currentUser?.avatarUrl,
                         role: currentUser?.role,
                     }}
+                    showWorkflows={settings?.workflowVisible ?? false}
                 />
                 <main className="flex-1 p-8 overflow-y-auto h-screen">{children}</main>
             </div>

@@ -4,7 +4,7 @@ import CollectionSplitView from "@/components/CollectionSplitView";
 import { computeRecursiveCounts } from "@/lib/collection-utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getHiddenUserIdsService } from "@/services/settings";
+import { getHiddenUserIdsService, getSettingsService } from "@/services/settings";
 
 export default async function CollectionDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams: Promise<{ promptId?: string, sort?: string, order?: string }> }) {
     const { id } = await params;
@@ -54,8 +54,9 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
             children: [],
             parent: null,
             totalPrompts: prompts.length,
-            ownerId: null, // Global
+            ownerId: "", // Global (empty string for type compatibility)
             parentId: null,
+            createdAt: new Date(0), // Epoch
             _count: { prompts: prompts.length }
         };
 
@@ -151,6 +152,7 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
                 },
                 createdBy: true,
                 collections: true,
+                tags: true,
                 favoritedBy: { where: { userId: session.user.id } }
             },
         });
@@ -162,5 +164,7 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
 
     const tags = await prisma.tag.findMany({ orderBy: { name: 'asc' } });
 
-    return <CollectionSplitView collection={enhancedCollection} selectedPrompt={selectedPrompt} promptId={promptId} currentUserId={session.user.id} collectionPath={collectionPath} isFavorited={isFavorited} tags={tags} />;
+    const settings = await getSettingsService(session.user.id);
+
+    return <CollectionSplitView collection={enhancedCollection as any} selectedPrompt={selectedPrompt} promptId={promptId} currentUserId={session.user.id} collectionPath={collectionPath} isFavorited={isFavorited} tags={tags as any} tagColorsEnabled={(settings as any)?.tagColorsEnabled ?? true} />;
 }

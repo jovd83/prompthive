@@ -15,57 +15,83 @@ This document serves as the dictionary for the PromptHive local database (SQLite
 erDiagram
     User ||--o{ Prompt : has
     User ||--o{ Collection : owns
+    User ||--o| Settings : has
+    User ||--o{ Workflow : owns
+    User ||--o{ Favorite : "favorites"
+    
     User {
         string id PK
         string username
         string email
         string passwordHash
+        string role "USER | ADMIN"
+        string language
         string avatarUrl
         string resetToken
-        dateTime resetTokenExpires
-        dateTime resetTokenExpires
+        datetime resetTokenExpires
+        datetime createdAt
     }
 
-    User ||--o| Settings : has
     Settings {
         string id PK
+        boolean autoBackupEnabled
+        string backupFrequency
         boolean showPrompterTips
+        boolean tagColorsEnabled
+        boolean workflowVisible
+        string backupPath
+        datetime lastBackupAt
     }
     
     Prompt ||--|{ PromptVersion : contains
     Prompt }|--|{ Collection : "belongs to"
     Prompt }|--|{ Tag : "tagged with"
+    Prompt ||--o{ WorkflowStep : "used in"
+    Prompt ||--o{ Favorite : "favorited by"
+    Prompt }|--|{ Prompt : "related to"
+
     Prompt {
         string id PK
         string title
+        string description
+        string resource
         string currentVersionId FK
+        string createdById FK
+        int viewCount
+        int copyCount
+        boolean isLocked
+        string technicalId "Unique VIBE-ID"
+        datetime createdAt
     }
 
     PromptVersion {
         string id PK
         string content
-        string variableDefinitions
+        string shortContent
+        string usageExample
+        string variableDefinitions "JSON"
+        string model
+        string resultImage
+        string resultText
         int versionNumber
+        string changelog
+        string createdById FK
+        datetime createdAt
     }
 
     Collection ||--o{ Collection : "parent of"
     Collection {
         string id PK
         string title
+        string description
         string parentId FK
+        string ownerId FK
     }
 
     Tag {
         string id PK
         string name
-    }
-
-    User ||--o{ Favorite : "favorites"
-    Prompt ||--o{ Favorite : "favorited in"
-    Favorite {
-        string userId FK
-        string promptId FK
-        dateTime createdAt
+        string color
     }
 ```
 
@@ -73,36 +99,30 @@ erDiagram
 
 ### 1. User
 Represents a registered user of the system.
-*   **Fields**: `id`, `username`, `email`, `passwordHash`, `role`, `avatarUrl`, `resetToken`, `resetTokenExpires`.
+*   **Fields**: `id`, `username`, `email`, `passwordHash`, `role`, `language`, `avatarUrl`, `resetToken`, `resetTokenExpires`.
 *   **Purpose**: Authentication, profile management, and ownership.
-*   **Note**: Login handled via username. Password reset supported via token flow.
 
 ### 2. Prompt & PromptVersion
-*   **Prompt**: The central entity. Container for metadata (`title`, `description`, `collections`, `tags`). Tracks `currentVersionId`.
+*   **Prompt**: The central entity. Container for metadata (`title`, `description`, `resource`, `collections`, `tags`).
+    *   **New Fields**: `technicalId` (Human-readable ID), `isLocked` (Creator lock).
+    *   **Relations**: Contains `relatedPrompts` (Many-to-Many self-relation) to allow linking prompts together.
 *   **PromptVersion**: Immutable snapshot of the prompt content.
     *   `content`: The main prompt text.
-    *   `longContent`: Optional extended version.
-    *   `variableDefinitions`: JSON string defining inputs (e.g., `{{topic}}`).
-    *   `changelog`: User notes on what changed in this version.
-*   **Versioning Strategy**: Updating a prompt creates a new `PromptVersion` record and updates the `currentVersionId` on the parent `Prompt`. This ensures history is preserved.
+    *   `shortContent`: Optional concise version.
+    *   `variableDefinitions`: JSON string defining inputs.
+    *   `changelog`: User notes on what changed.
+    *   `attachments`: Related files/images.
 
 ### 3. Collection
 Folders for organization.
-*   **Structure**: Hierarchical (Adjacency List model).
-*   **Fields**: `id`, `title`, `parentId`, `ownerId`.
-*   **Behavior**:
-    *   Collections can contain Prompts and other Collections (children).
-    *   Prompts can technically belong to multiple collections (Many-to-Many), though the UI primarily enforces a folder-like structure.
-    *   Deletion of a collection usually moves contents to the parent or root.
+*   **Fields**: `id`, `title`, `description`, `parentId`, `ownerId`.
+*   **Behavior**: Hierarchical (Adjacency List). Items can be hidden via Settings.
 
 ### 4. Tag
-*   **Fields**: `id`, `name`.
-*   **Behavior**: Global tags that can be attached to any prompt. Many-to-many relationship.
+*   **Fields**: `id`, `name`, `color`.
+*   **Behavior**: Global tags with optional color customization (hex code).
 
-### 5. Favorite
-*   **Fields**: `userId`, `promptId`, `createdAt`.
-*   **Purpose**: Allows users to mark prompts for quick access.
-
-### 6. Settings
-*   **Fields**: `id`, `userId`, `autoBackupEnabled`, `backupPath`, `backupFrequency`, `showPrompterTips`, `hiddenUsers`, `hiddenCollections`.
-*   **Purpose**: Stores user-specific configuration and preferences.
+### 5. Settings
+*   **Fields**: `id`, `userId`, `autoBackupEnabled`, `backupPath`, `backupFrequency`, `lastBackupAt`, `showPrompterTips`, `tagColorsEnabled`, `workflowVisible`.
+*   **Relations**: `hiddenUsers`, `hiddenCollections` (Many-to-Many visibility toggles).
+*   **Purpose**: Stores user-specific configuration, preferences, and admin backup settings.

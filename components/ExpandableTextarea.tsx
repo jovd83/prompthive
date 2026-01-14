@@ -35,10 +35,11 @@ export default function ExpandableTextarea({
         setMounted(true);
     }, []);
 
-    // Sync internal value if prop changes
-    if (value !== undefined && value !== internalValue) {
-        setInternalValue(value);
-    }
+    useEffect(() => {
+        if (value !== undefined) {
+            setInternalValue(value);
+        }
+    }, [value]);
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setInternalValue(e.target.value);

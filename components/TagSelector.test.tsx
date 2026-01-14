@@ -39,7 +39,7 @@ describe('TagSelector', () => {
 
     it('filters available tags when typing', () => {
         render(<TagSelector initialTags={mockTags} />);
-        const input = screen.getByPlaceholderText('tags.placeholder');
+        const input = screen.getByRole('textbox', { hidden: true });
 
         fireEvent.change(input, { target: { value: 'Back' } });
         fireEvent.focus(input);
@@ -50,7 +50,7 @@ describe('TagSelector', () => {
 
     it('selects a tag from the list', () => {
         render(<TagSelector initialTags={mockTags} />);
-        const input = screen.getByPlaceholderText('tags.placeholder');
+        const input = screen.getByRole('textbox', { hidden: true });
 
         fireEvent.focus(input);
         fireEvent.click(screen.getByText('Frontend'));
@@ -75,7 +75,7 @@ describe('TagSelector', () => {
 
     it('creates a new tag when not found', async () => {
         render(<TagSelector initialTags={mockTags} />);
-        const input = screen.getByPlaceholderText('tags.placeholder');
+        const input = screen.getByRole('textbox', { hidden: true });
 
         fireEvent.change(input, { target: { value: 'NewTopic' } });
         fireEvent.focus(input);
@@ -95,7 +95,7 @@ describe('TagSelector', () => {
 
     it('navigates with keyboard arrows', () => {
         render(<TagSelector initialTags={mockTags} />);
-        const input = screen.getByPlaceholderText('tags.placeholder');
+        const input = screen.getByRole('textbox', { hidden: true });
         fireEvent.focus(input);
 
         // Arrow Down to highlight first
@@ -111,7 +111,7 @@ describe('TagSelector', () => {
 
     it('closes on escape', () => {
         render(<TagSelector initialTags={mockTags} />);
-        const input = screen.getByPlaceholderText('tags.placeholder');
+        const input = screen.getByRole('textbox', { hidden: true });
         fireEvent.focus(input);
         expect(screen.getByRole('listbox')).toBeInTheDocument();
 
@@ -121,7 +121,7 @@ describe('TagSelector', () => {
 
     it('creates tag on Enter if unique', async () => {
         render(<TagSelector initialTags={mockTags} />);
-        const input = screen.getByPlaceholderText('tags.placeholder');
+        const input = screen.getByRole('textbox', { hidden: true });
 
         fireEvent.change(input, { target: { value: 'UniqueTag' } });
         fireEvent.keyDown(input, { key: 'Enter' });

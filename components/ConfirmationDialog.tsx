@@ -48,6 +48,7 @@ export default function ConfirmationDialog({
             <div
                 ref={dialogRef}
                 role="dialog"
+                data-testid="confirmation-dialog"
                 aria-modal="true"
                 className="bg-surface border border-border rounded-lg shadow-xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200"
             >

@@ -8,8 +8,6 @@ import { UserBasic, Settings } from "@/types/settings";
 import CollectionVisibilitySettings from "./settings/CollectionVisibilitySettings";
 import { CollectionWithCount } from "@/lib/collection-utils";
 import UserVisibilitySettings from "./settings/UserVisibilitySettings";
-import BackupSettings from "./settings/BackupSettings";
-import DangerZoneSettings from "./settings/DangerZoneSettings";
 import GeneralSettings from "./settings/GeneralSettings";
 import LanguageSettings from "./settings/LanguageSettings";
 import AdminSettings from "./settings/AdminSettings";
@@ -70,8 +68,6 @@ export default function SettingsForm({
             {isAdmin && (
                 <>
                     <AdminSettings initialGlobalSettings={initialGlobalSettings} initialUsers={initialUsers} />
-                    <BackupSettings initialSettings={initialSettings} />
-                    <DangerZoneSettings />
                 </>
             )}
         </div>

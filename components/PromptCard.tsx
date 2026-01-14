@@ -14,9 +14,10 @@ import { copyToClipboard } from "@/lib/clipboard";
 interface PromptCardProps {
     prompt: {
         id: string;
+        technicalId?: string | null;
         title: string;
         description: string | null;
-        tags: { id: string; name: string }[];
+        tags: { id: string; name: string; color?: string | null }[];
         viewCount: number;
         copyCount: number;
         createdAt: Date;
@@ -29,11 +30,12 @@ interface PromptCardProps {
         }[];
     };
     isFavorited?: boolean;
+    tagColorsEnabled?: boolean;
 }
 
 const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
 
-export default function PromptCard({ prompt, isFavorited: initialIsFavorited = false }: PromptCardProps) {
+export default function PromptCard({ prompt, isFavorited: initialIsFavorited = false, tagColorsEnabled = true }: PromptCardProps) {
     const router = useRouter();
     const { t, language } = useLanguage();
     const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
@@ -68,16 +70,18 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
     };
 
 
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
 
     const handleToggleFavorite = async (e: React.MouseEvent) => {
         e.stopPropagation();
         e.preventDefault();
 
-        if (!session?.user) {
+        if (status !== 'authenticated' || !session?.user) {
             signIn();
             return;
         }
+
+        if (session.user.role === 'GUEST') return;
 
         if (isLoading) return;
 
@@ -94,7 +98,6 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
             setIsLoading(false);
         }
     };
-
     const [copyCount, setCopyCount] = useState(prompt.copyCount);
 
     const handleCopy = async (e: React.MouseEvent) => {
@@ -122,12 +125,19 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
         }
     };
 
-    const timeAgo = formatDistanceToNow(new Date(prompt.updatedAt), { addSuffix: false, locale: localeMap[language] || enUS });
+    const date = prompt.updatedAt ? new Date(prompt.updatedAt) : new Date();
+    const safeDate = isNaN(date.getTime()) ? new Date() : date;
+    const timeAgo = formatDistanceToNow(safeDate, { addSuffix: false, locale: localeMap[language] || enUS }); const isGuest = session?.user?.role === 'GUEST' || session?.user?.role === 'guest';
+    const canDrag = status === 'authenticated' && !isGuest;
 
     return (
         <div
-            draggable
+            draggable={canDrag}
             onDragStart={(e) => {
+                if (!canDrag) {
+                    e.preventDefault();
+                    return;
+                }
                 e.dataTransfer.setData("promptId", prompt.id);
                 // Optional: set ghost image or effect
             }}
@@ -137,9 +147,11 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
             {/* 1. Header: Title, Fav, Stats */}
             <div className="flex justify-between items-start mb-3 gap-2">
                 <div className="min-w-0 flex-1">
-                    <h3 className="font-bold text-lg group-hover:text-primary transition-colors truncate" title={prompt.title}>
-                        {prompt.title}
-                    </h3>
+                    <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-bold text-lg group-hover:text-primary transition-colors truncate" title={prompt.title}>
+                            {prompt.title}
+                        </h3>
+                    </div>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
                         <span className="flex items-center gap-1 bg-muted px-1.5 py-0.5 rounded" title={t('list.views')}>
                             <Eye size={12} /> {prompt.viewCount}
@@ -151,8 +163,8 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
                 </div>
                 <button
                     onClick={handleToggleFavorite}
-                    className={`shrink-0 p-1.5 rounded-full hover:bg-muted transition-colors ${isFavorited ? "text-red-500" : "text-muted-foreground hover:text-red-500"}`}
-                    disabled={isLoading}
+                    className={`shrink-0 p-1.5 rounded-full hover:bg-muted transition-colors ${isFavorited ? "text-red-500" : "text-muted-foreground hover:text-red-500"} ${session?.user?.role === 'GUEST' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={isLoading || session?.user?.role === 'GUEST'}
                     title={isFavorited ? t('prompts.removeFromFavorites') : t('prompts.addToFavorites')}
                 >
                     <Heart size={20} fill={isFavorited ? "currentColor" : "none"} />
@@ -225,24 +237,34 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
             {/* 5. Footer: Tags & Timestamp */}
             <div className="mt-auto pt-3 border-t border-border/50 flex flex-col gap-2">
                 <div className="flex gap-1 flex-wrap w-full">
-                    {prompt.tags && prompt.tags.slice(0, 3).map((tag) => (
-                        <Link
-                            key={tag.id}
-                            href={`/?tags=${tag.id}`}
-                            className="px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            #{tag.name}
-                        </Link>
-                    ))}
+                    {prompt.tags && prompt.tags.slice(0, 3).map((tag) => {
+                        const style = tagColorsEnabled && (tag as any).color ? {
+                            backgroundColor: `${(tag as any).color}20`,
+                            color: (tag as any).color,
+                            borderColor: `${(tag as any).color}40`,
+                        } : undefined;
+
+                        return (
+                            <Link
+                                key={tag.id}
+                                href={`/?tags=${tag.id}`}
+                                className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider transition-colors border ${!style ? "bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground border-transparent" : "hover:brightness-110"}`}
+                                style={style}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                #{tag.name}
+                            </Link>
+                        );
+                    })}
                     {(!prompt.tags || prompt.tags.length === 0) && <span className="text-[10px] text-muted-foreground italic">{t('list.noTags')}</span>}
                 </div>
+                <div data-testid="debug-role" className="hidden">{session?.user?.role}</div>
 
                 <div className="flex justify-between items-center text-[10px] text-muted-foreground">
                     <span className="flex items-center gap-1">
                         {t('list.by')} <span className="font-medium text-foreground">{prompt.createdBy?.username || prompt.createdBy?.email?.split('@')[0]}</span>
                     </span>
-                    <span className="flex items-center gap-1" title={prompt.updatedAt.toString()} suppressHydrationWarning>
+                    <span className="flex items-center gap-1" title={safeDate.toString()} suppressHydrationWarning>
                         <Clock size={10} /> {t('list.updatedAgo').replace('{{time}}', timeAgo)}
                     </span>
                 </div>

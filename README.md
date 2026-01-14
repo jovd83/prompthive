@@ -2,8 +2,8 @@
 
 ---
 title: PromptHive - Project README
-version: 2.3.2
-last_updated: 2026-01-05
+version: 2.3.3
+last_updated: 2026-01-13
 ---
 
 ![Prompthive](public/prompthive_header.png)
@@ -29,6 +29,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history of changes.
 *   **Dynamic Variables**: Define variables like `{{topic}}` or `[[style]]` and auto-generate testing forms.
 *   **Version Control**: Automatically track every change.
 *   **Visual Diff**: Compare any two versions side-by-side to see exactly what changed (additions/deletions).
+*   **Private Prompts**: Mark drafts or sensitive prompts as private so only you can see them.
 *   **Metadata**: Add tags, descriptions, source URLs, and attachments to your prompts.
 
 ### 🗂️ Organization & Discovery

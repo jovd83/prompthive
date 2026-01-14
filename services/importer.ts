@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { prisma } from '@/lib/prisma';
+import { generateTechnicalId } from './id-service';
 
 // Helper to copy file to uploads folder
 async function copyToUploads(sourcePath: string): Promise<{ relativePath: string, mimeType: string }> {
@@ -60,11 +61,14 @@ async function processDirectory(dirPath: string, parentCollectionId: string | nu
 
         const description = content.substring(0, 150).replace(/\n/g, ' ') + '...';
 
+        const technicalId = await generateTechnicalId(dirName);
+
         // 2. Create Prompt
         const prompt = await prisma.prompt.create({
             data: {
                 title: dirName, // Folder Name = Prompt Title
                 description: description,
+                technicalId: technicalId,
                 createdById: userId,
                 collections: parentCollectionId ? { connect: { id: parentCollectionId } } : undefined,
             }

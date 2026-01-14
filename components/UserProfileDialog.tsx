@@ -7,6 +7,7 @@ import { updateAvatar, changePassword, promoteToAdmin, type ActionState } from "
 import { X, Camera, Lock, User, Upload, LogOut, Globe, Shield } from "lucide-react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
+import { ROLES } from "@/lib/permissions";
 
 import { useLanguage } from "./LanguageProvider";
 
@@ -74,7 +75,9 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
 
     if (!isOpen || !mounted) return null;
 
-    const isAdmin = user.role === 'ADMIN';
+    if (!isOpen || !mounted) return null;
+
+    const isAdmin = user.role === ROLES.ADMIN;
 
     return createPortal(
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md animate-in fade-in duration-200">
@@ -105,14 +108,16 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
                     >
                         {t('common.security')}
                     </button>
-                    <button
-                        type="button"
-                        data-testid="tab-preferences"
-                        onClick={() => setActiveTab('preferences')}
-                        className={`flex-1 p-3 text-sm font-medium transition-colors whitespace-nowrap ${activeTab === 'preferences' ? 'border-b-2 border-primary text-primary bg-primary/5' : 'text-muted-foreground hover:bg-surface-hover'}`}
-                    >
-                        {t('common.preferences')}
-                    </button>
+                    {user.role !== ROLES.GUEST && (
+                        <button
+                            type="button"
+                            data-testid="tab-preferences"
+                            onClick={() => setActiveTab('preferences')}
+                            className={`flex-1 p-3 text-sm font-medium transition-colors whitespace-nowrap ${activeTab === 'preferences' ? 'border-b-2 border-primary text-primary bg-primary/5' : 'text-muted-foreground hover:bg-surface-hover'}`}
+                        >
+                            {t('common.preferences')}
+                        </button>
+                    )}
                 </div>
 
                 <div className="p-6">
