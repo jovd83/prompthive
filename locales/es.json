@@ -445,143 +445,143 @@
                 "added_6": "<strong>Prompts Vinculados</strong>: Capacidad para vincular prompts relacionados (bidireccional) con soporte de exportación/importación.",
                 "changed_1": "<strong>Reubicación de Configuración</strong>: Se movió la copia de seguridad automática y la zona de peligro a la parte inferior de la página de Importación/Exportación.",
                 "changed_2": "<strong>Mejorado</strong>: Eliminar un prompt desde una Colección ya no redirige al Panel de Control."
+            },
+            "intro": {
+                "welcome": "Bienvenido a <strong>PromptHive</strong>, tu santuario local-first para gestionar, probar y organizar prompts de LLM.",
+                "desc": "La ingeniería de prompts es un proceso iterativo. Almacenar prompts en archivos de texto o historiales de chat lleva al caos de versiones. PromptHive resuelve esto tratando los prompts como código—con <strong>control de versiones</strong>, <strong>variables</strong> y <strong>organización estructurada</strong>.",
+                "organizeTitle": "Organizar",
+                "organizeDesc": "Colecciones anidadas infinitas y etiquetas mantienen tu biblioteca limpia.",
+                "versionTitle": "Versión",
+                "versionDesc": "Nunca pierdas un buen prompt. Cada guardado crea una nueva entrada en el historial.",
+                "templatizeTitle": "Templatizar",
+                "templatizeDesc": "Usa variables como <code>{{topic}}</code> para crear plantillas reutilizables."
+            },
+            "gettingStarted": {
+                "tip": "No necesitas conexión a internet. PromptHive se ejecuta completamente local en tu máquina.",
+                "step1Title": "1. Creando tu primer Prompt",
+                "step1Li1": "Haz clic en <strong>Nuevo Prompt</strong> en la barra lateral.",
+                "step1Li2": "Dale un título claro (ej., <em>\"Generador de Blog SEO\"</em>).",
+                "step1Li3": "(Opcional) Asígnalo a una Colección o añade Etiquetas.",
+                "showTipsDesc": "Mostrar un consejo útil de prompting en el panel cada día.",
+                "step1Li5": "Haz clic en <strong>Crear Prompt</strong>.",
+                "step2Title": "2. Ejecutando una Prueba",
+                "step2Desc": "Una vez creado, puedes \"Ejecutar\" un prompt manualmente para documentar su salida.",
+                "step2Li1": "Abre un prompt.",
+                "step2Li2": "Llena cualquier Variable (si está definida).",
+                "step2Li3": "Pega la salida de ChatGPT/Claude en el campo <strong>\"Texto Resultado\"</strong>.",
+                "step2Li4": "Adjunta capturas de pantalla si es necesario.",
+                "step2Li5": "Haz clic en <strong>Guardar Nueva Versión</strong>."
+            },
+            "variables": {
+                "desc": "Las variables hacen tus prompts dinámicos. En lugar de reescribir \"Escribe un blog sobre Perros\", puedes escribir \"Escribe un blog sobre <code>{{topic}}</code>\".",
+                "syntaxTitle": "Sintaxis",
+                "good": "// Bien",
+                "goodEx1": "Actúa como un experto <span class=\"text-blue-600 font-bold\">{{role}}</span>.",
+                "goodEx2": "Escribe un <span class=\"text-blue-600 font-bold\">{{content_type}}</span> sobre...",
+                "bad": "// Mal (Espacios dentro de las llaves están bien, pero mantenlo simple)",
+                "badEx": "Actúa como experto { role }.",
+                "autoDetectTitle": "Detección Automática",
+                "autoDetectDesc": "Cuando escribes <code>{{variable}}</code> en el editor, haz clic en el botón <strong>\"Auto Añadir Variables\"</strong>. ¡La app escaneará automáticamente tu texto y creará campos para ellas!"
+            },
+            "collections": {
+                "desc": "PromptHive usa una <strong>estructura de carpetas recursiva</strong>. Esto significa:",
+                "li1": "Una Colección puede contener <strong>Prompts</strong>.",
+                "li2": "Una Colección puede contener <strong>otras Colecciones</strong> (Sub-carpetas).",
+                "li3": "No hay límite para la profundidad de anidamiento.",
+                "dragDropTitle": "Arrastrar y Soltar",
+                "dragDropDesc": "Puedes arrastrar colecciones en la barra lateral para reorganizarlas. Suelta una colección sobre otra para hacerla hija. Suéltala sobre el encabezado \"Colecciones\" para hacerla carpeta raíz.",
+                "sortingTitle": "Clasificación",
+                "sortingDesc": "Puedes ordenar los prompts dentro de una colección por <strong>Nombre</strong> o <strong>Fecha</strong> usando los controles en el encabezado de la lista.",
+                "collapseDesc": "Puedes <strong>contraer</strong> las secciones de Colecciones y Etiquetas en la barra lateral para ahorrar espacio vertical.",
+                "visibilityTitle": "Ocultar Colecciones",
+                "visibilityDesc": "Si tienes colecciones que usas raramente, puedes <strong>ocultarlas</strong> del panel. Ve a <strong>Configuración</strong> > <strong>Visibilidad de Colección</strong> y desmarca las colecciones que quieras ocultar. Permanecerán en la base de datos pero no saturarán tu vista."
+            },
+            "aiScraping": {
+                "desc1": "Puedes importar fácilmente prompts de cualquier sitio web (blogs, artículos, etc.) usando un LLM como ChatGPT, Claude o Gemini como un scraper \"intermediario\".",
+                "desc2": "Simplemente copia la URL de la página que quieres extraer, dásela a la IA junto con la <strong>Instrucción del Sistema</strong> abajo, y luego importa el archivo JSON generado aquí.",
+                "systemPromptTitle": "Prompt del Sistema para Scraping"
+            },
+            "commandPalette": {
+                "desc": "Navega por PromptHive eficientemente sin quitar las manos del teclado usando la <strong>Paleta de Comandos</strong> global.",
+                "shortcut": "Atajo",
+                "whatCanDo": "¿Qué puedes hacer?",
+                "li1": "<strong>Navegar</strong> instantáneamente a Inicio, Configuración o Ayuda.",
+                "li2": "<strong>Crear</strong> un nuevo Prompt o Colección.",
+                "li3": "<strong>Alternar</strong> modo Claro/Oscuro.",
+                "li4": "<strong>Buscar</strong> acciones (ej., escribe \"Tema\")."
+            },
+            "visualDiff": {
+                "desc": "La ingeniería de prompts involucra muchos pequeños ajustes. PromptHive te permite <strong>Comparar Visualmente</strong> dos versiones cualesquiera de un prompt para ver exactamente qué cambió.",
+                "howToTitle": "Cómo Comparar",
+                "li1": "Ve a la página de detalle de un Prompt.",
+                "li2": "Mira la lista de <strong>Historial de Versiones</strong> en el lado derecho.",
+                "li3": "Haz clic en el icono <span class=\"inline-flex items-center justify-center p-1 bg-muted rounded border border-border\">Comparar</span> en cualquier fila de versión (excepto la seleccionada actualmente).",
+                "li4": "Aparecerá un modal mostrando el <strong>diff</strong> entre la versión seleccionada y la versión clicada.",
+                "greenTitle": "Fondo Verde",
+                "greenDesc": "Indica texto que fue <strong>Añadido</strong> en la versión más nueva.",
+                "redTitle": "Fondo Rojo",
+                "redDesc": "Indica texto que fue <strong>Eliminado</strong> de la versión más antigua.",
+                "restoreTitle": "Restaurar Versiones Antiguas",
+                "restoreDesc": "Puedes restaurar cualquier versión anterior para que se convierta en la nueva versión actual. Haz clic en el icono 'Restaurar' (flecha circular) junto a una versión en la lista del historial. Esto crea una nueva copia de versión, preservando tu historial lineal.",
+                "tipTitle": "Consejo",
+                "tipDesc": "¡Usa esto para verificar si tu último \"ajuste\" realmente mejoró el prompt o solo movió palabras!"
+            },
+            "language": {
+                "desc": "PromptHive soporta múltiples idiomas. Puedes cambiar tu idioma preferido en cualquier momento.",
+                "li1": "Haz clic en tu <strong>Avatar de Usuario</strong> en la esquina inferior izquierda.",
+                "li2": "Selecciona la pestaña <strong>Preferencias</strong>.",
+                "li3": "Elige tu idioma del menú desplegable (ej., English, Nederlands, Français).",
+                "tip": "Tu preferencia de idioma se guarda en tu cuenta y persistirá entre sesiones."
+            },
+            "userProfile": {
+                "desc": "Gestiona tu identidad y configuración de seguridad directamente desde la aplicación.",
+                "accessTitle": "Accediendo a tu Perfil",
+                "accessDesc": "Haz clic en tu <strong>Avatar</strong> o <strong>Nombre de Usuario</strong> al fondo de la barra lateral. Esto abre tu diálogo de Perfil donde puedes:",
+                "li1": "<strong>Actualizar Avatar</strong>: Sube una foto de perfil personalizada (JPG/PNG).",
+                "li2": "<strong>Cambiar Contraseña</strong>: Actualiza tus credenciales de inicio de sesión de forma segura.",
+                "forgotTitle": "¿Olvidaste tu Contraseña?",
+                "forgotDesc": "Si estás bloqueado fuera, usa el enlace <strong>¿Olvidaste tu contraseña?</strong> en la pantalla de inicio de sesión. Puedes solicitar un enlace de restablecimiento a tu correo registrado."
+            },
+            "admin": {
+                "desc": "Si eres un administrador, tienes acceso a configuraciones adicionales en la sección 'Configuración de Admin' de la página de Configuración.",
+                "usersTitle": "Gestión de Usuarios",
+                "usersDesc": "Ver todos los usuarios registrados y gestionar su estado de administrador. Los <strong>Administradores</strong> pueden ver todos los prompts de todos los usuarios si así lo eligen, y pueden gestionar configuraciones de todo el sistema.",
+                "registrationTitle": "Control de Registro",
+                "registrationDesc": "Puedes <strong>desactivar el registro de nuevos usuarios</strong> para bloquear tu instancia de forma privada. Los usuarios existentes aún podrán iniciar sesión.",
+                "visibilityTitle": "Visibilidad de Usuario",
+                "visibilityDesc": "Controla qué prompts aparecen en tu panel. Puedes elegir ver solo tu propio trabajo, o ver el trabajo de otros usuarios en esta instancia."
+            },
+            "exporting": {
+                "desc": "Puedes exportar tus datos en varios formatos para respaldo o compartir.",
+                "markdownTitle": "Exportación Markdown",
+                "markdownDesc": "Exporta prompts individuales como archivos Markdown. Útil para compartir.",
+                "jsonTitle": "Exportación JSON",
+                "jsonDesc": "Exporta toda tu biblioteca como un archivo JSON. Úsalo para respaldos."
+            },
+            "faq": {
+                "q1": "P: ¿Dónde se guardan mis datos?",
+                "a1": "Todo se guarda en una base de datos SQLite local (`dev.db`) en tu carpeta de proyecto. Las imágenes se guardan en `public/uploads`.",
+                "q2": "P: ¿Qué pasa si elimino una colección padre?",
+                "a2": "Tienes dos opciones: <strong>Eliminar Todo</strong> (que borra todos los hijos y prompts dentro) o <strong>Eliminar Solo Colección</strong> (que mueve todos los hijos/prompts un nivel arriba o a la Raíz).",
+                "q3": "P: ¿Puedo compartir mis prompts?",
+                "a3": "Actualmente, PromptHive es una herramienta local de un solo usuario. Sin embargo, puedes usar la función <strong>Importar/Exportar</strong> en la barra lateral para compartir archivos JSON con colegas."
+            },
+            "technicalIds": {
+                "desc": "Los identificadores técnicos proporcionan una referencia estable y legible para tus prompts (ej. VIBE-123).",
+                "generationTitle": "Generación Automática",
+                "generationDesc": "Al asignar un prompt a una colección, este obtiene automáticamente un ID basado en el nombre de la colección (ej. 'Ventas' -> 'VENT-1').",
+                "routingTitle": "URLs Directas",
+                "routingDesc": "Puedes acceder a cualquier prompt directamente escribiendo su ID en la URL: <code>/prompts/VIBE-123</code>.",
+                "searchTitle": "Búsqueda",
+                "searchDesc": "Puedes encontrar cualquier prompt instantáneamente escribiendo su ID técnico en la barra de búsqueda."
+            },
+            "tagColors": {
+                "desc": "Organiza tus etiquetas visualmente asignándoles colores automáticos y consistentes.",
+                "enableTitle": "Habilitar Colores",
+                "enableDesc": "Ve a <strong>Configuración > General</strong> y marca <strong>Habilitar Colores de Etiquetas</strong>.",
+                "howItWorksTitle": "Cómo funciona",
+                "howItWorksDesc": "Los colores se generan de forma determinista basándose en el nombre de la etiqueta. La misma etiqueta siempre tendrá el mismo color en toda la aplicación."
             }
-        },
-        "intro": {
-            "welcome": "Bienvenido a <strong>PromptHive</strong>, tu santuario local-first para gestionar, probar y organizar prompts de LLM.",
-            "desc": "La ingeniería de prompts es un proceso iterativo. Almacenar prompts en archivos de texto o historiales de chat lleva al caos de versiones. PromptHive resuelve esto tratando los prompts como código—con <strong>control de versiones</strong>, <strong>variables</strong> y <strong>organización estructurada</strong>.",
-            "organizeTitle": "Organizar",
-            "organizeDesc": "Colecciones anidadas infinitas y etiquetas mantienen tu biblioteca limpia.",
-            "versionTitle": "Versión",
-            "versionDesc": "Nunca pierdas un buen prompt. Cada guardado crea una nueva entrada en el historial.",
-            "templatizeTitle": "Templatizar",
-            "templatizeDesc": "Usa variables como <code>{{topic}}</code> para crear plantillas reutilizables."
-        },
-        "gettingStarted": {
-            "tip": "No necesitas conexión a internet. PromptHive se ejecuta completamente local en tu máquina.",
-            "step1Title": "1. Creando tu primer Prompt",
-            "step1Li1": "Haz clic en <strong>Nuevo Prompt</strong> en la barra lateral.",
-            "step1Li2": "Dale un título claro (ej., <em>\"Generador de Blog SEO\"</em>).",
-            "step1Li3": "(Opcional) Asígnalo a una Colección o añade Etiquetas.",
-            "showTipsDesc": "Mostrar un consejo útil de prompting en el panel cada día.",
-            "step1Li5": "Haz clic en <strong>Crear Prompt</strong>.",
-            "step2Title": "2. Ejecutando una Prueba",
-            "step2Desc": "Una vez creado, puedes \"Ejecutar\" un prompt manualmente para documentar su salida.",
-            "step2Li1": "Abre un prompt.",
-            "step2Li2": "Llena cualquier Variable (si está definida).",
-            "step2Li3": "Pega la salida de ChatGPT/Claude en el campo <strong>\"Texto Resultado\"</strong>.",
-            "step2Li4": "Adjunta capturas de pantalla si es necesario.",
-            "step2Li5": "Haz clic en <strong>Guardar Nueva Versión</strong>."
-        },
-        "variables": {
-            "desc": "Las variables hacen tus prompts dinámicos. En lugar de reescribir \"Escribe un blog sobre Perros\", puedes escribir \"Escribe un blog sobre <code>{{topic}}</code>\".",
-            "syntaxTitle": "Sintaxis",
-            "good": "// Bien",
-            "goodEx1": "Actúa como un experto <span class=\"text-blue-600 font-bold\">{{role}}</span>.",
-            "goodEx2": "Escribe un <span class=\"text-blue-600 font-bold\">{{content_type}}</span> sobre...",
-            "bad": "// Mal (Espacios dentro de las llaves están bien, pero mantenlo simple)",
-            "badEx": "Actúa como experto { role }.",
-            "autoDetectTitle": "Detección Automática",
-            "autoDetectDesc": "Cuando escribes <code>{{variable}}</code> en el editor, haz clic en el botón <strong>\"Auto Añadir Variables\"</strong>. ¡La app escaneará automáticamente tu texto y creará campos para ellas!"
-        },
-        "collections": {
-            "desc": "PromptHive usa una <strong>estructura de carpetas recursiva</strong>. Esto significa:",
-            "li1": "Una Colección puede contener <strong>Prompts</strong>.",
-            "li2": "Una Colección puede contener <strong>otras Colecciones</strong> (Sub-carpetas).",
-            "li3": "No hay límite para la profundidad de anidamiento.",
-            "dragDropTitle": "Arrastrar y Soltar",
-            "dragDropDesc": "Puedes arrastrar colecciones en la barra lateral para reorganizarlas. Suelta una colección sobre otra para hacerla hija. Suéltala sobre el encabezado \"Colecciones\" para hacerla carpeta raíz.",
-            "sortingTitle": "Clasificación",
-            "sortingDesc": "Puedes ordenar los prompts dentro de una colección por <strong>Nombre</strong> o <strong>Fecha</strong> usando los controles en el encabezado de la lista.",
-            "collapseDesc": "Puedes <strong>contraer</strong> las secciones de Colecciones y Etiquetas en la barra lateral para ahorrar espacio vertical.",
-            "visibilityTitle": "Ocultar Colecciones",
-            "visibilityDesc": "Si tienes colecciones que usas raramente, puedes <strong>ocultarlas</strong> del panel. Ve a <strong>Configuración</strong> > <strong>Visibilidad de Colección</strong> y desmarca las colecciones que quieras ocultar. Permanecerán en la base de datos pero no saturarán tu vista."
-        },
-        "aiScraping": {
-            "desc1": "Puedes importar fácilmente prompts de cualquier sitio web (blogs, artículos, etc.) usando un LLM como ChatGPT, Claude o Gemini como un scraper \"intermediario\".",
-            "desc2": "Simplemente copia la URL de la página que quieres extraer, dásela a la IA junto con la <strong>Instrucción del Sistema</strong> abajo, y luego importa el archivo JSON generado aquí.",
-            "systemPromptTitle": "Prompt del Sistema para Scraping"
-        },
-        "commandPalette": {
-            "desc": "Navega por PromptHive eficientemente sin quitar las manos del teclado usando la <strong>Paleta de Comandos</strong> global.",
-            "shortcut": "Atajo",
-            "whatCanDo": "¿Qué puedes hacer?",
-            "li1": "<strong>Navegar</strong> instantáneamente a Inicio, Configuración o Ayuda.",
-            "li2": "<strong>Crear</strong> un nuevo Prompt o Colección.",
-            "li3": "<strong>Alternar</strong> modo Claro/Oscuro.",
-            "li4": "<strong>Buscar</strong> acciones (ej., escribe \"Tema\")."
-        },
-        "visualDiff": {
-            "desc": "La ingeniería de prompts involucra muchos pequeños ajustes. PromptHive te permite <strong>Comparar Visualmente</strong> dos versiones cualesquiera de un prompt para ver exactamente qué cambió.",
-            "howToTitle": "Cómo Comparar",
-            "li1": "Ve a la página de detalle de un Prompt.",
-            "li2": "Mira la lista de <strong>Historial de Versiones</strong> en el lado derecho.",
-            "li3": "Haz clic en el icono <span class=\"inline-flex items-center justify-center p-1 bg-muted rounded border border-border\">Comparar</span> en cualquier fila de versión (excepto la seleccionada actualmente).",
-            "li4": "Aparecerá un modal mostrando el <strong>diff</strong> entre la versión seleccionada y la versión clicada.",
-            "greenTitle": "Fondo Verde",
-            "greenDesc": "Indica texto que fue <strong>Añadido</strong> en la versión más nueva.",
-            "redTitle": "Fondo Rojo",
-            "redDesc": "Indica texto que fue <strong>Eliminado</strong> de la versión más antigua.",
-            "restoreTitle": "Restaurar Versiones Antiguas",
-            "restoreDesc": "Puedes restaurar cualquier versión anterior para que se convierta en la nueva versión actual. Haz clic en el icono 'Restaurar' (flecha circular) junto a una versión en la lista del historial. Esto crea una nueva copia de versión, preservando tu historial lineal.",
-            "tipTitle": "Consejo",
-            "tipDesc": "¡Usa esto para verificar si tu último \"ajuste\" realmente mejoró el prompt o solo movió palabras!"
-        },
-        "language": {
-            "desc": "PromptHive soporta múltiples idiomas. Puedes cambiar tu idioma preferido en cualquier momento.",
-            "li1": "Haz clic en tu <strong>Avatar de Usuario</strong> en la esquina inferior izquierda.",
-            "li2": "Selecciona la pestaña <strong>Preferencias</strong>.",
-            "li3": "Elige tu idioma del menú desplegable (ej., English, Nederlands, Français).",
-            "tip": "Tu preferencia de idioma se guarda en tu cuenta y persistirá entre sesiones."
-        },
-        "userProfile": {
-            "desc": "Gestiona tu identidad y configuración de seguridad directamente desde la aplicación.",
-            "accessTitle": "Accediendo a tu Perfil",
-            "accessDesc": "Haz clic en tu <strong>Avatar</strong> o <strong>Nombre de Usuario</strong> al fondo de la barra lateral. Esto abre tu diálogo de Perfil donde puedes:",
-            "li1": "<strong>Actualizar Avatar</strong>: Sube una foto de perfil personalizada (JPG/PNG).",
-            "li2": "<strong>Cambiar Contraseña</strong>: Actualiza tus credenciales de inicio de sesión de forma segura.",
-            "forgotTitle": "¿Olvidaste tu Contraseña?",
-            "forgotDesc": "Si estás bloqueado fuera, usa el enlace <strong>¿Olvidaste tu contraseña?</strong> en la pantalla de inicio de sesión. Puedes solicitar un enlace de restablecimiento a tu correo registrado."
-        },
-        "admin": {
-            "desc": "Si eres un administrador, tienes acceso a configuraciones adicionales en la sección 'Configuración de Admin' de la página de Configuración.",
-            "usersTitle": "Gestión de Usuarios",
-            "usersDesc": "Ver todos los usuarios registrados y gestionar su estado de administrador. Los <strong>Administradores</strong> pueden ver todos los prompts de todos los usuarios si así lo eligen, y pueden gestionar configuraciones de todo el sistema.",
-            "registrationTitle": "Control de Registro",
-            "registrationDesc": "Puedes <strong>desactivar el registro de nuevos usuarios</strong> para bloquear tu instancia de forma privada. Los usuarios existentes aún podrán iniciar sesión.",
-            "visibilityTitle": "Visibilidad de Usuario",
-            "visibilityDesc": "Controla qué prompts aparecen en tu panel. Puedes elegir ver solo tu propio trabajo, o ver el trabajo de otros usuarios en esta instancia."
-        },
-        "exporting": {
-            "desc": "Puedes exportar tus datos en varios formatos para respaldo o compartir.",
-            "markdownTitle": "Exportación Markdown",
-            "markdownDesc": "Exporta prompts individuales como archivos Markdown. Útil para compartir.",
-            "jsonTitle": "Exportación JSON",
-            "jsonDesc": "Exporta toda tu biblioteca como un archivo JSON. Úsalo para respaldos."
-        },
-        "faq": {
-            "q1": "P: ¿Dónde se guardan mis datos?",
-            "a1": "Todo se guarda en una base de datos SQLite local (`dev.db`) en tu carpeta de proyecto. Las imágenes se guardan en `public/uploads`.",
-            "q2": "P: ¿Qué pasa si elimino una colección padre?",
-            "a2": "Tienes dos opciones: <strong>Eliminar Todo</strong> (que borra todos los hijos y prompts dentro) o <strong>Eliminar Solo Colección</strong> (que mueve todos los hijos/prompts un nivel arriba o a la Raíz).",
-            "q3": "P: ¿Puedo compartir mis prompts?",
-            "a3": "Actualmente, PromptHive es una herramienta local de un solo usuario. Sin embargo, puedes usar la función <strong>Importar/Exportar</strong> en la barra lateral para compartir archivos JSON con colegas."
-        },
-        "technicalIds": {
-            "desc": "Los identificadores técnicos proporcionan una referencia estable y legible para tus prompts (ej. VIBE-123).",
-            "generationTitle": "Generación Automática",
-            "generationDesc": "Al asignar un prompt a una colección, este obtiene automáticamente un ID basado en el nombre de la colección (ej. 'Ventas' -> 'VENT-1').",
-            "routingTitle": "URLs Directas",
-            "routingDesc": "Puedes acceder a cualquier prompt directamente escribiendo su ID en la URL: <code>/prompts/VIBE-123</code>.",
-            "searchTitle": "Búsqueda",
-            "searchDesc": "Puedes encontrar cualquier prompt instantáneamente escribiendo su ID técnico en la barra de búsqueda."
-        },
-        "tagColors": {
-            "desc": "Organiza tus etiquetas visualmente asignándoles colores automáticos y consistentes.",
-            "enableTitle": "Habilitar Colores",
-            "enableDesc": "Ve a <strong>Configuración > General</strong> y marca <strong>Habilitar Colores de Etiquetas</strong>.",
-            "howItWorksTitle": "Cómo funciona",
-            "howItWorksDesc": "Los colores se generan de forma determinista basándose en el nombre de la etiqueta. La misma etiqueta siempre tendrá el mismo color en toda la aplicación."
         }
     }
 }
