@@ -54,10 +54,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history of changes.
 
 ## 🎥 Demos
 
-| | |
-|:---:|:---:|
-| **[Watch Log In Demo](demo/login.gif)** | **[Watch Navigation Demo](demo/navigation.gif)** |
-| **[Watch Collection Management Demo](demo/collection.gif)** | **[Watch Prompt Management Demo](demo/prompt.gif)** |
+Demo videos can be found on the following [YouTube Channel](https://www.youtube.com/playlist?list=PLG6RzOn0AXs7ZOoVIXxpU2coTS59sIj_4).
 
 ## 🛠️ Technology Stack
 *   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
