@@ -3,7 +3,7 @@
 ---
 title: PromptHive - Project README
 version: 3.0.0
-last_updated: 2026-01-13
+last_updated: 2026-01-18
 ---
 
 ![Prompthive](public/prompthive_header.png)
@@ -216,7 +216,6 @@ For deep dives, check the `docs/` folder:
 
 ## 🗺️ Roadmap
 
-*   [x] **Mobile view**: Optimize the layout for smaller screens to allow managing prompts on the go.
 *   [ ] **Storing skills.md entities**: Support for parsing and storing entity definitions from `skills.md` files for better structured data integration.
 
 ## Why did I make it?

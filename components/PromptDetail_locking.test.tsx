@@ -40,6 +40,19 @@ vi.mock('next/link', () => ({
     ),
 }));
 
+// Mock next/navigation (App Router)
+vi.mock('next/navigation', () => ({
+    useRouter: () => ({
+        push: vi.fn(),
+        replace: vi.fn(),
+        refresh: vi.fn(),
+        back: vi.fn(),
+        forward: vi.fn(),
+    }),
+    useSearchParams: () => new URLSearchParams(),
+    usePathname: () => '/prompt/p1',
+}));
+
 // Mock useLanguage
 vi.mock('./LanguageProvider', () => ({
     useLanguage: () => ({

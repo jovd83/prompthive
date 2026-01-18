@@ -656,7 +656,7 @@ describe('Linking Services', () => {
 
             expect(prisma.prompt.findMany).toHaveBeenCalledWith(expect.objectContaining({
                 where: expect.objectContaining({
-                    id: { not: 'p-1' },
+                    id: { notIn: ['p-1'] },
                     // OR clause structure is complex (visibility checks), skipping detailed validation
                     // OR: expect.arrayContaining(...) 
                 })

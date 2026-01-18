@@ -439,11 +439,6 @@ export default function HelpPage() {
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_1') }} />
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_2') }} />
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_3') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_4') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_5') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_6') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_7') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_8') }} />
                                 </ul>
                             </div>
 
@@ -454,10 +449,6 @@ export default function HelpPage() {
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_2') }} />
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_3') }} />
                                     <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_4') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_5') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_6') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_7') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_8') }} />
                                 </ul>
                             </div>
                         </div>

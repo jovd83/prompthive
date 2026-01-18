@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 - mobile_view
+## 3.0.0 - mobile_view (2026-01-18)
 
 ### Added
 - **Responsive Design**: Complete overhaul of the layout for mobile and tablet devices.
@@ -9,14 +9,27 @@
     - Refactored Prompt Detail view for better readability on small screens.
     - Added `MobileHeader` component.
 
-## v2.3.5
-
 ### Fixed
-*   **Localization**: Fixed missing Command Palette help translation keys in the Spanish (es) locale file.
-*   **Command Palette**: Fixed a critical bug where the Command Palette failed to display translated text, showing only translation keys. The component now correctly accesses the language context.
-*   **Collection Deletion**: Fixed an issue where "Delete everything" on a collection moved child collections to the root instead of deleting them recursively. The action now correctly removes all nested content.
-*   **Attachment Filenames**: Fixed an issue where attachment filenames were displayed with a system database prefix. They now show the original filename uploaded by the user.
-*   **Prompt Detail Header**: Added 'viewed' and 'copied' counters to the prompt detail header, bringing consistency with the dashboard card view.
+- **Localization**: Fixed missing Command Palette help translation keys in the Spanish (es) locale file.
+- **Command Palette**: Fixed a critical bug where the Command Palette failed to display translated text, showing only translation keys. The component now correctly accesses the language context.
+- **Collection Deletion**: Fixed an issue where "Delete everything" on a collection moved child collections to the root instead of deleting them recursively. The action now correctly removes all nested content.
+- **Attachment Filenames**: Fixed an issue where attachment filenames were displayed with a system database prefix. They now show the original filename uploaded by the user.
+- **Prompt Detail Header**: Added 'viewed' and 'copied' counters to the prompt detail header, bringing consistency with the dashboard card view.
+- **Prompt Locking**: Fixed an issue where the **Delete** button remained active even when a prompt was locked. It is now correctly disabled.
+- **Related Prompts UI**: Fixed the layout and styling of the "Related Prompts" section in the prompt detail view. It is now positioned as the last pane and uses consistent `PromptCard` styling matching the dashboard.
+- **Related Prompts Scroll**: Updated the "Related Prompts" section to use a single row layout with horizontal scrolling for better space utilization.
+- **Technical ID Display**: Fixed an issue where the Technical ID was missing from the prompt detail header. It is now displayed in a badge alongside the author and timestamp information.
+- **Linked Prompts Visibility**: Fixed bidirectional visibility for related prompts. Linking Prompt A to Prompt B now correctly ensures Prompt A appears in Prompt B's "Related Prompts" section.
+- **Tag Colors**: Fixed an issue where tag colors were not being displayed on the prompt detail page. They now correctly reflect the assigned color.
+- **Unlink Prompt**: Removed the confirmation dialog when unlinking prompts. The action is now immediate for a smoother user flow.
+- **Guest Permissions**: Fixed a security issue where Guest users could see and interact with the prompt delete button. It is now correctly disabled.
+- **Collection Drag & Drop**: Fixed a bug where dragging prompts into sidebar subcollections (nested items) was not possible. Added better drop zone detection and visual feedback for nested structures.
+- **Collection List View Drop**: Enabled dragging prompts into sub-collection folders directly from the main collection list view.
+- **Dashboard Search**: Fixed Dashboard Search to include Technical ID in search results.
+- **Guest Favorites**: Fixed an issue where Guest users could see and interact with the favorite button. It is now correctly disabled.
+- **Guest Interaction**: Fixed a bug where Guest users could drag prompt cards, which caused potential errors. Drag and drop is now disabled for guests.
+- **Search Prompts**: Fixed an issue where already linked prompts appeared in the "Link Prompt" search results. They are now filtered out.
+- **Tag Display**: Fixed tag overflow on prompt detail pages. Tags now display in a single line with a "View all" expansion option for cleaner layout.
 
 ## v2.3.4 (2026-01-14)
 ### Changed
