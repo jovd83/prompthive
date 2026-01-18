@@ -7,6 +7,7 @@ import { checkAndRunAutoBackup } from "@/actions/backup";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { getHiddenCollectionIdsService, getSettingsService } from "@/services/settings";
 import { filterHiddenCollections } from "@/lib/collection-utils";
+import CommandPalette from "@/components/CommandPalette";
 
 export default async function DashboardLayout({
     children,
@@ -66,22 +67,24 @@ export default async function DashboardLayout({
 
     return (
         <LanguageProvider initialLanguage={currentUser?.language || 'en'} user={currentUser}>
-            <div className="flex min-h-screen bg-background text-foreground">
-                <Sidebar
-                    tags={uniqueTags}
-                    collections={collections}
-                    unassignedCount={unassignedCount}
-                    user={{
-                        id: currentUser?.id,
-                        name: currentUser?.username,
-                        email: currentUser?.email,
-                        image: currentUser?.avatarUrl,
-                        role: currentUser?.role,
-                    }}
-                    showWorkflows={settings?.workflowVisible ?? false}
-                />
-                <main className="flex-1 p-8 overflow-y-auto h-screen">{children}</main>
-            </div>
+            <CommandPalette>
+                <div className="flex min-h-screen bg-background text-foreground">
+                    <Sidebar
+                        tags={uniqueTags}
+                        collections={collections}
+                        unassignedCount={unassignedCount}
+                        user={{
+                            id: currentUser?.id,
+                            name: currentUser?.username,
+                            email: currentUser?.email,
+                            image: currentUser?.avatarUrl,
+                            role: currentUser?.role,
+                        }}
+                        showWorkflows={settings?.workflowVisible ?? false}
+                    />
+                    <main className="flex-1 p-8 overflow-y-auto h-screen">{children}</main>
+                </div>
+            </CommandPalette>
         </LanguageProvider>
     );
 }

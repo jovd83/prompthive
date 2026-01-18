@@ -163,25 +163,72 @@ export async function deleteCollectionService(userId: string, collectionId: stri
 
     const parentId = collection.parentId;
 
-    if (collection.children.length > 0) {
-        await prisma.collection.updateMany({
-            where: { parentId: collectionId },
-            data: { parentId: parentId },
-        });
-    }
-
     if (deletePrompts) {
-        const prompts = await prisma.prompt.findMany({
-            where: { collections: { some: { id: collectionId } } },
+        // Recursive Delete
+        // 1. Fetch full hierarchy to delete from bottom up
+        // Note: Prisma doesn't do deep cascading deletes on self-relations easily without raw queries or configured cascade behavior in DB.
+        // We do it manually to ensure cleanupPromptAssetsService is called.
+
+        // Helper to collect all descendant IDs (BFS or DFS)
+        const getAllDescendants = async (rootId: string): Promise<string[]> => {
+            const descendants: string[] = [];
+            const queue = [rootId];
+            while (queue.length > 0) {
+                const currentId = queue.shift()!;
+                const children = await prisma.collection.findMany({
+                    where: { parentId: currentId },
+                    select: { id: true }
+                });
+                for (const child of children) {
+                    descendants.push(child.id);
+                    queue.push(child.id);
+                }
+            }
+            return descendants.reverse(); // Child before Parent
+        };
+
+        const allCollectionIdsToDelete = await getAllDescendants(collectionId);
+        // Add root collection last (after children handled, though here we're building a list to iterate)
+        // Actually, we want to delete prompts in all these collections, then delete the collections from bottom up.
+
+        // 1. Delete prompts in all affected collections (including root)
+        const targetCollectionIds = [...allCollectionIdsToDelete, collectionId];
+
+        const allPrompts = await prisma.prompt.findMany({
+            where: { collections: { some: { id: { in: targetCollectionIds } } } },
             select: { id: true }
         });
 
-        for (const p of prompts) {
-            await cleanupPromptAssetsService(p.id);
-            await prisma.prompt.delete({ where: { id: p.id } });
+        // Unique prompts (in case of multi-collection, but here we're nuking the structure)
+        const promptIds = Array.from(new Set(allPrompts.map(p => p.id)));
+
+        for (const pid of promptIds) {
+            await cleanupPromptAssetsService(pid);
+            await prisma.prompt.delete({ where: { id: pid } });
         }
         await deleteUnusedTagsService();
+
+        // 2. Delete collections from bottom up (children first)
+        for (const cid of allCollectionIdsToDelete) {
+            await prisma.collection.delete({ where: { id: cid } });
+        }
+
+        // 3. Delete root collection
+        await prisma.collection.delete({
+            where: { id: collectionId },
+        });
+
     } else {
+        // Reparenting Logic (Keep Contents)
+        const parentId = collection.parentId;
+
+        if (collection.children.length > 0) {
+            await prisma.collection.updateMany({
+                where: { parentId: collectionId },
+                data: { parentId: parentId },
+            });
+        }
+
         const promptIds = collection.prompts.map(p => p.id);
         if (promptIds.length > 0) {
             if (parentId) {
@@ -195,11 +242,11 @@ export async function deleteCollectionService(userId: string, collectionId: stri
                 }
             }
         }
-    }
 
-    await prisma.collection.delete({
-        where: { id: collectionId },
-    });
+        await prisma.collection.delete({
+            where: { id: collectionId },
+        });
+    }
 
     return parentId;
 }

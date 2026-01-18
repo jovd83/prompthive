@@ -3,6 +3,8 @@
 ## v2.3.5 (Unreleased)
 ### Fixed
 *   **Localization**: Fixed missing Command Palette help translation keys in the Spanish (es) locale file.
+*   **Command Palette**: Fixed a critical bug where the Command Palette failed to display translated text, showing only translation keys. The component now correctly accesses the language context.
+*   **Collection Deletion**: Fixed an issue where "Delete everything" on a collection moved child collections to the root instead of deleting them recursively. The action now correctly removes all nested content.
 
 ## v2.3.4 (2026-01-14)
 ### Changed
@@ -46,7 +48,7 @@
 *   **Improved**: Deleting a prompt from within a Collection no longer redirects to the Dashboard, but keeps you in the Collection.
 
 ### Fixed
-*   **Collection Deletion**: Fixed an issue where "Delete everything" on a collection moved child collections to the root instead of deleting them recursively. The action now correctly removes all nested content.
+
 *   **Prompt Locking**: Fixed an issue where the **Delete** button remained active even when a prompt was locked. It is now correctly disabled.
 *   **Related Prompts UI**: Fixed the layout and styling of the "Related Prompts" section in the prompt detail view. It is now positioned as the last pane and uses consistent `PromptCard` styling matching the dashboard.
 *   **Related Prompts Scroll**: Updated the "Related Prompts" section to use a single row layout with horizontal scrolling for better space utilization.

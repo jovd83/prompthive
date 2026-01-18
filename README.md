@@ -56,6 +56,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full history of changes.
 
 Demo videos can be found on the following [YouTube Channel](https://www.youtube.com/playlist?list=PLG6RzOn0AXs7ZOoVIXxpU2coTS59sIj_4).
 
+
 ## 🛠️ Technology Stack
 *   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
 *   **Database**: SQLite with [Prisma ORM](https://www.prisma.io/)
@@ -212,6 +213,11 @@ For deep dives, check the `docs/` folder:
 
 ## 🔗 Links
 *   [GitHub Repository](https://github.com/jovd83/prompthive)
+
+## 🗺️ Roadmap
+
+*   [ ] **Mobile view**: Optimize the layout for smaller screens to allow managing prompts on the go.
+*   [ ] **Storing skills.md entities**: Support for parsing and storing entity definitions from `skills.md` files for better structured data integration.
 
 ## Why did I make it?
 

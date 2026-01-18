@@ -69,23 +69,23 @@
             "title": "Gestione Utenti",
             "desc": "Gestisci gli utenti esistenti e i loro ruoli.",
             "showTipsDesc": "Mostra un suggerimento utile sulla dashboard ogni giorno.",
-            "addUser": "Add User",
-            "searchPlaceholder": "Search users...",
+            "addUser": "Aggiungi Utente",
+            "searchPlaceholder": "Cerca utenti...",
             "table": {
-                "user": "User",
-                "role": "Role",
-                "actions": "Actions",
-                "noUsers": "No users found."
+                "user": "Utente",
+                "role": "Ruolo",
+                "actions": "Azioni",
+                "noUsers": "Nessun utente trovato."
             },
             "add": {
-                "title": "Add New User",
-                "username": "Username",
+                "title": "Aggiungi Nuovo Utente",
+                "username": "Nome utente",
                 "email": "Email",
                 "password": "Password",
-                "role": "Role",
-                "cancel": "Cancel",
-                "create": "Create User",
-                "error": "Failed to create user"
+                "role": "Ruolo",
+                "cancel": "Annulla",
+                "create": "Crea Utente",
+                "error": "Impossibile creare utente"
             },
             "roleToggleTitle": "Clicca per cambiare ruolo",
             "deleteConfirmTitle": "Elimina utente",
@@ -107,7 +107,7 @@
     "commandPalette": {
         "placeholder": "Digita un comando o cerca...",
         "actions": {
-            "home": "Home",
+            "home": "Pagina iniziale",
             "settings": "Impostazioni",
             "help": "Centro Aiuto",
             "createPrompt": "Crea Nuovo Prompt",

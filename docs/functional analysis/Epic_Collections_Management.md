@@ -183,6 +183,8 @@ Each collection in the sidebar should have a context menu (accessible via '...' 
     *   **Add Sub-collection**: Navigates to create collection with this parent pre-selected.
     *   **Edit Collection**: Open dialog/navigate to edit name/desc. (Available to Owner/Admin)
     *   **Delete**: Prompt for confirmation. (Available to Owner/Admin)
+        *   Option to "Delete everything" must recursively delete all child collections and prompts.
+        *   Option to "Keep contents" moves all children and prompts to the parent collection.
 
 ### 3. Acceptance Criteria (AC)
 *   [ ] Verify context menu appears for collections.

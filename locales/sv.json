@@ -68,23 +68,23 @@
         "users": {
             "title": "Användarhantering",
             "desc": "Hantera befintliga användare och deras roller.",
-            "addUser": "Add User",
-            "searchPlaceholder": "Search users...",
+            "addUser": "Lägg till användare",
+            "searchPlaceholder": "Sök användare...",
             "table": {
-                "user": "User",
-                "role": "Role",
-                "actions": "Actions",
-                "noUsers": "No users found."
+                "user": "Användare",
+                "role": "Roll",
+                "actions": "Åtgärder",
+                "noUsers": "Inga användare hittades."
             },
             "add": {
-                "title": "Add New User",
-                "username": "Username",
-                "email": "Email",
-                "password": "Password",
-                "role": "Role",
-                "cancel": "Cancel",
-                "create": "Create User",
-                "error": "Failed to create user"
+                "title": "Lägg till ny användare",
+                "username": "Användarnamn",
+                "email": "E-post",
+                "password": "Lösenord",
+                "role": "Roll",
+                "cancel": "Avbryt",
+                "create": "Skapa användare",
+                "error": "Kunde inte skapa användare"
             },
             "roleToggleTitle": "Klicka för att ändra roll",
             "deleteConfirmTitle": "Ta bort användare",

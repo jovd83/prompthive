@@ -13,6 +13,7 @@ vi.mock('@/lib/prisma', () => ({
             updateMany: vi.fn(),
             delete: vi.fn(),
             findFirst: vi.fn(),
+            findMany: vi.fn(),
         },
         prompt: {
             findMany: vi.fn(),
@@ -36,6 +37,7 @@ describe('Collections Service', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
+        (prisma.collection.findMany as any).mockResolvedValue([]);
     });
 
     describe('createCollectionService', () => {

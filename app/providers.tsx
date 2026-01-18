@@ -8,9 +8,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <SessionProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-                <CommandPalette>
-                    {children}
-                </CommandPalette>
+                {children}
             </ThemeProvider>
         </SessionProvider>
     );

@@ -68,23 +68,23 @@
         "users": {
             "title": "Benutzerverwaltung",
             "desc": "Verwalten Sie bestehende Benutzer und ihre Rollen.",
-            "addUser": "Add User",
-            "searchPlaceholder": "Search users...",
+            "addUser": "Benutzer hinzufügen",
+            "searchPlaceholder": "Benutzer suchen...",
             "table": {
-                "user": "User",
-                "role": "Role",
-                "actions": "Actions",
-                "noUsers": "No users found."
+                "user": "Benutzer",
+                "role": "Rolle",
+                "actions": "Aktionen",
+                "noUsers": "Keine Benutzer gefunden."
             },
             "add": {
-                "title": "Add New User",
-                "username": "Username",
-                "email": "Email",
-                "password": "Password",
-                "role": "Role",
-                "cancel": "Cancel",
-                "create": "Create User",
-                "error": "Failed to create user"
+                "title": "Neuen Benutzer hinzufügen",
+                "username": "Benutzername",
+                "email": "E-Mail",
+                "password": "Passwort",
+                "role": "Rolle",
+                "cancel": "Abbrechen",
+                "create": "Benutzer erstellen",
+                "error": "Benutzer konnte nicht erstellt werden"
             },
             "roleToggleTitle": "Klicken Sie, um die Rolle zu ändern",
             "deleteConfirmTitle": "Benutzer löschen",
@@ -106,7 +106,7 @@
     "commandPalette": {
         "placeholder": "Befehl eingeben oder suchen...",
         "actions": {
-            "home": "Home",
+            "home": "Startseite",
             "settings": "Einstellungen",
             "help": "Hilfezentrum",
             "createPrompt": "Neuen Prompt erstellen",

@@ -68,23 +68,23 @@
         "users": {
             "title": "Gestion des Utilisateurs",
             "desc": "Gérez les utilisateurs existants et leurs rôles.",
-            "addUser": "Add User",
-            "searchPlaceholder": "Search users...",
+            "addUser": "Ajouter un utilisateur",
+            "searchPlaceholder": "Rechercher des utilisateurs...",
             "table": {
-                "user": "User",
-                "role": "Role",
+                "user": "Utilisateur",
+                "role": "Rôle",
                 "actions": "Actions",
-                "noUsers": "No users found."
+                "noUsers": "Aucun utilisateur trouvé."
             },
             "add": {
-                "title": "Add New User",
-                "username": "Username",
+                "title": "Ajouter un nouvel utilisateur",
+                "username": "Nom d'utilisateur",
                 "email": "Email",
-                "password": "Password",
-                "role": "Role",
-                "cancel": "Cancel",
-                "create": "Create User",
-                "error": "Failed to create user"
+                "password": "Mot de passe",
+                "role": "Rôle",
+                "cancel": "Annuler",
+                "create": "Créer un utilisateur",
+                "error": "Échec de la création de l'utilisateur"
             },
             "roleToggleTitle": "Cliquez pour changer le rôle",
             "deleteConfirmTitle": "Supprimer l'utilisateur",

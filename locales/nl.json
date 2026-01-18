@@ -68,23 +68,23 @@
         "users": {
             "title": "Gebruikersbeheer",
             "desc": "Beheer bestaande gebruikers en hun rollen.",
-            "addUser": "Add User",
-            "searchPlaceholder": "Search users...",
+            "addUser": "Gebruiker toevoegen",
+            "searchPlaceholder": "Zoek gebruikers...",
             "table": {
-                "user": "User",
-                "role": "Role",
-                "actions": "Actions",
-                "noUsers": "No users found."
+                "user": "Gebruiker",
+                "role": "Rol",
+                "actions": "Acties",
+                "noUsers": "Geen gebruikers gevonden."
             },
             "add": {
-                "title": "Add New User",
-                "username": "Username",
-                "email": "Email",
-                "password": "Password",
-                "role": "Role",
-                "cancel": "Cancel",
-                "create": "Create User",
-                "error": "Failed to create user"
+                "title": "Nieuwe gebruiker toevoegen",
+                "username": "Gebruikersnaam",
+                "email": "E-mail",
+                "password": "Wachtwoord",
+                "role": "Rol",
+                "cancel": "Annuleren",
+                "create": "Gebruiker aanmaken",
+                "error": "Kon gebruiker niet aanmaken"
             },
             "roleToggleTitle": "Klik om rol te wisselen",
             "deleteConfirmTitle": "Gebruiker verwijderen",
@@ -106,7 +106,7 @@
     "commandPalette": {
         "placeholder": "Typ een commando of zoek...",
         "actions": {
-            "home": "Home",
+            "home": "Startpagina",
             "settings": "Instellingen",
             "help": "Helpcentrum",
             "createPrompt": "Nieuwe Prompt Maken",
