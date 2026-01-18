@@ -53,6 +53,7 @@ describe('Files Service', () => {
             expect(result.filePath).toContain('prefix-');
             expect(result.filePath).toContain('test.txt');
             expect(result.fileType).toBe('text/plain');
+            expect(result.originalName).toBe('test.txt');
         });
 
         it('should generate thumbnail for images', async () => {

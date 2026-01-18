@@ -1,10 +1,22 @@
 # Changelog
 
-## v2.3.5 (Unreleased)
+## 3.0.0 - mobile_view
+
+### Added
+- **Responsive Design**: Complete overhaul of the layout for mobile and tablet devices.
+    - Added Mobile Navigation with Hamburger Menu and Drawer.
+    - Updated Dashboard to use a responsive grid (1 column on mobile).
+    - Refactored Prompt Detail view for better readability on small screens.
+    - Added `MobileHeader` component.
+
+## v2.3.5
+
 ### Fixed
 *   **Localization**: Fixed missing Command Palette help translation keys in the Spanish (es) locale file.
 *   **Command Palette**: Fixed a critical bug where the Command Palette failed to display translated text, showing only translation keys. The component now correctly accesses the language context.
 *   **Collection Deletion**: Fixed an issue where "Delete everything" on a collection moved child collections to the root instead of deleting them recursively. The action now correctly removes all nested content.
+*   **Attachment Filenames**: Fixed an issue where attachment filenames were displayed with a system database prefix. They now show the original filename uploaded by the user.
+*   **Prompt Detail Header**: Added 'viewed' and 'copied' counters to the prompt detail header, bringing consistency with the dashboard card view.
 
 ## v2.3.4 (2026-01-14)
 ### Changed

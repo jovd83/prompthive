@@ -60,3 +60,10 @@ export function replaceVariables(content: string | null | undefined, variables: 
 
     return result;
 }
+
+export const getDisplayName = (att: { originalName?: string | null, filePath: string }) => {
+    if (att.originalName) return att.originalName;
+    const name = att.filePath.split('/').pop() || "";
+    // Fallback: Try to strip digit-prefix if it looks like a timestamp (e.g. 1700000-name.txt)
+    return name.replace(/^\d+-/, '');
+};

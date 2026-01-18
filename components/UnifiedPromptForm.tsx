@@ -12,6 +12,7 @@ import { usePromptEditor, Variable, UsePromptEditorProps } from "@/hooks/useProm
 
 // Helper for collection counts
 import { computeRecursiveCounts } from '@/lib/collection-utils';
+import { getDisplayName } from "@/lib/prompt-utils";
 
 interface UnifiedPromptFormProps {
     // Mode
@@ -81,6 +82,8 @@ export default function UnifiedPromptForm({
         keptAttachments, keptResultImages,
         removeKeptAttachment, removeKeptResultImage
     } = usePromptEditor(hookProps);
+
+
 
     // Dropdown options
     const collectionsWithCounts = Array.from(computeRecursiveCounts(collections as any).values());
@@ -336,7 +339,7 @@ export default function UnifiedPromptForm({
                                 <div key={att.id} className="flex items-center justify-between p-2 rounded-md border border-border bg-amber-500/10 border-amber-500/20">
                                     <span className="text-sm truncate max-w-[80%] flex items-center gap-2">
                                         <span className="text-amber-600 font-bold text-xs uppercase">{t('form.labels.keep')}{att.isLegacy ? ` ${t('form.labels.legacy')}` : ''}</span>
-                                        {att.filePath.split('/').pop()}
+                                        {getDisplayName(att)}
                                     </span>
                                     <button type="button" onClick={() => removeKeptResultImage(att.id)} className="text-muted-foreground hover:text-red-500">
                                         <Trash size={14} />
@@ -379,7 +382,7 @@ export default function UnifiedPromptForm({
                             <div key={att.id} className="flex items-center justify-between p-2 rounded-md border border-border bg-secondary/10">
                                 <span className="text-sm truncate max-w-[80%] flex items-center gap-2">
                                     <span className="text-muted-foreground text-xs">{t('form.labels.keep')}</span>
-                                    {att.filePath.split('/').pop()}
+                                    {getDisplayName(att)}
                                 </span>
                                 <button type="button" onClick={() => removeKeptAttachment(att.id)} className="text-muted-foreground hover:text-red-500">
                                     <Trash size={14} />

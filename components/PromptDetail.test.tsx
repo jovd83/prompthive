@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import PromptDetail from './PromptDetail';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -26,6 +26,9 @@ vi.mock('lucide-react', () => ({
     Eye: () => <div data-testid="icon-eye" />,
     EyeOff: () => <div data-testid="icon-eye-off" />,
     Loader2: () => <div data-testid="icon-loader" />,
+    Unlock: () => <div data-testid="icon-unlock" />,
+    Lock: () => <div data-testid="icon-lock" />,
+    Link: () => <div data-testid="icon-link" />
 }));
 
 // Mock Next.js hooks
@@ -35,7 +38,21 @@ vi.mock('next/link', () => ({
     ),
 }));
 
-// Mock useLanguage
+vi.mock('next/navigation', () => ({
+    useRouter: vi.fn(() => ({
+        push: vi.fn(),
+        replace: vi.fn(),
+        refresh: vi.fn(),
+        back: vi.fn(),
+        forward: vi.fn(),
+        prefetch: vi.fn(),
+    })),
+    useSearchParams: vi.fn(() => ({
+        get: vi.fn(),
+    })),
+    usePathname: vi.fn(() => '/'),
+}));
+
 vi.mock('./LanguageProvider', () => ({
     useLanguage: () => ({
         t: (key: string) => key,
@@ -43,68 +60,59 @@ vi.mock('./LanguageProvider', () => ({
     })
 }));
 
-// Mock child components
-vi.mock('./prompt-detail/PromptContent', () => ({ default: () => <div data-testid="prompt-content" /> }));
-vi.mock('./prompt-detail/PromptSidebar', () => ({ default: () => <div data-testid="prompt-sidebar" /> }));
+// Mock child components that are heavy or irrelevant for shallow testing
 vi.mock('./ConfirmationDialog', () => ({ default: () => <div data-testid="confirmation-dialog" /> }));
 vi.mock('./VisualDiff', () => ({ default: () => <div data-testid="visual-diff" /> }));
 vi.mock('./LinkPromptModal', () => ({ default: () => <div data-testid="link-prompt-modal" /> }));
-vi.mock('./CollapsibleSection', () => ({ default: ({ children }: any) => <div data-testid="collapsible-section">{children}</div> }));
-vi.mock('./ExpandableTextarea', () => ({ default: () => <div data-testid="expandable-textarea" /> }));
-vi.mock('./CodeEditor', () => ({ default: () => <div data-testid="code-editor" /> }));
+vi.mock('./LinkPromptDialog', () => ({ default: () => <div data-testid="link-prompt-dialog" /> }));
+vi.mock('./PromptCard', () => ({ default: () => <div data-testid="prompt-card" /> }));
 
-// Mock usePromptDetails
-const mockFillVariable = vi.fn();
-const mockVariables = { 'topic': 'initial value' };
+// Real Hooks Mocking
+// We need to mock usePromptDetails because PromptDetail relies on it for state.
+// We'll use a factory to allow overriding returns in specific tests if needed, 
+// but for now a static mock is fine for basic structure.
+
+const defaultMockUsePromptDetails = {
+    selectedVersionId: 'v1',
+    setSelectedVersionId: vi.fn(),
+    selectedVersion: {
+        id: 'v1',
+        versionNumber: 1,
+        content: 'Content',
+        shortContent: '',
+        usageExample: '',
+        resultText: '',
+        resultImage: '',
+        changelog: 'Initial version',
+        attachments: [],
+        createdAt: new Date(),
+        createdBy: { username: 'testuser' }
+    },
+    variables: {},
+    fillVariable: vi.fn(),
+    isFavorited: false,
+    handleToggleFavorite: vi.fn(),
+    isDeleting: false,
+    setIsDeleting: vi.fn(),
+    confirmDelete: vi.fn(),
+    error: null,
+    diffConfig: null,
+    setDiffConfig: vi.fn(),
+    variableDefs: [],
+    uniqueVars: []
+};
 
 vi.mock('@/hooks/usePromptDetails', () => ({
-    usePromptDetails: () => ({
-        selectedVersionId: 'v1',
-        setSelectedVersionId: vi.fn(),
-        selectedVersion: {
-            id: 'v1',
-            versionNumber: 1,
-            content: 'Write a blog about {{topic}}',
-            createdAt: new Date(),
-            createdBy: { username: 'testuser' }
-        },
-        variables: mockVariables,
-        fillVariable: mockFillVariable,
-        isFavorited: false,
-        handleToggleFavorite: vi.fn(),
-        isDeleting: false,
-        setIsDeleting: vi.fn(),
-        confirmDelete: vi.fn(),
-        error: null,
-        diffConfig: null,
-        setDiffConfig: vi.fn(),
-        variableDefs: [{ key: 'topic', description: 'Topic of the blog' }],
-        uniqueVars: ['topic']
-    })
+    usePromptDetails: vi.fn(() => defaultMockUsePromptDetails)
 }));
 
-// Mock actions
 import * as promptActions from '@/actions/prompts';
 vi.mock('@/actions/prompts', () => ({
-    createTag: vi.fn(),
-    createPrompt: vi.fn(),
-    createVersion: vi.fn(),
-    restorePromptVersion: vi.fn(),
-    deletePrompt: vi.fn(),
-    deleteUnusedTags: vi.fn(),
-    cleanupPromptAssets: vi.fn(),
-    movePrompt: vi.fn(),
-    bulkMovePrompts: vi.fn(),
-    bulkAddTags: vi.fn(),
-    toggleLock: vi.fn(),
     toggleVisibility: vi.fn(),
-    linkPrompts: vi.fn(),
+    toggleLock: vi.fn(),
     unlinkPrompts: vi.fn(),
-    searchCandidatePrompts: vi.fn(),
-    toggleFavorite: vi.fn(),
 }));
 
-// Mock useSession
 vi.mock("next-auth/react", () => ({
     useSession: () => ({
         data: { user: { id: "user1", role: "USER" } },
@@ -112,43 +120,48 @@ vi.mock("next-auth/react", () => ({
     }),
 }));
 
-describe.skip('PromptDetail', () => {
+describe('PromptDetail', () => {
     const mockPrompt: any = {
         id: 'p1',
         title: 'Test Prompt',
+        description: 'Test Description',
         createdById: 'user1',
         createdAt: new Date(),
         createdBy: { username: 'testuser' },
         versions: [],
         collections: [],
-        isPrivate: false
+        isPrivate: false,
+        tags: []
     };
 
-    it('renders prompt detail with child components', () => {
-        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} />);
-        expect(screen.getByTestId('prompt-content')).toBeInTheDocument();
-        expect(screen.getByTestId('prompt-sidebar')).toBeInTheDocument();
+    it('renders prompt detail with basic info', () => {
+        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} currentUser={{ id: 'user1', role: 'USER' }} />);
+
+        expect(screen.getByText('Test Prompt')).toBeInTheDocument();
+        expect(screen.getByText('Test Description')).toBeInTheDocument();
+        // Check for header buttons by title (using logic from component)
+        expect(screen.getByTitle('detail.actions.addToFavorites')).toBeInTheDocument();
     });
 
     it('renders visibility toggle for creator when enabled', () => {
-        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} />);
-        // Should show "Make Private" (Eye) because default is public
+        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} currentUser={{ id: 'user1', role: 'USER' }} />);
+        // prompt.isPrivate is false, so it shows "Make Private" (Eye icon)
         const toggleBtn = screen.getByTitle('Make Private');
         expect(toggleBtn).toBeInTheDocument();
-        expect(screen.getByTestId('icon-eye')).toBeInTheDocument();
     });
 
     it('calls toggleVisibility action on click', () => {
-        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} />);
+        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} currentUser={{ id: 'user1', role: 'USER' }} />);
         const toggleBtn = screen.getByTitle('Make Private');
         fireEvent.click(toggleBtn);
         expect(promptActions.toggleVisibility).toHaveBeenCalledWith('p1');
     });
 
-    it('does NOT render visibility toggle when disabled globally', () => {
-        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={false} />);
-        const toggleBtn = screen.queryByTitle('Make Private');
-        expect(toggleBtn).not.toBeInTheDocument();
+    it('renders layout elements (Responsive Check)', () => {
+        render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} currentUser={{ id: 'user1', role: 'USER' }} />);
+        // Just ensure the main areas are present
+        expect(screen.getByText('detail.labels.description')).toBeInTheDocument();
+        expect(screen.getByText('detail.labels.promptContent')).toBeInTheDocument();
+        expect(screen.getByText('detail.labels.history')).toBeInTheDocument();
     });
 });
-

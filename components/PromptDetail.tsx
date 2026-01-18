@@ -19,7 +19,7 @@ import { useLanguage } from "./LanguageProvider";
 import { useSession } from "next-auth/react";
 import { usePromptDetails } from "@/hooks/usePromptDetails";
 import { PromptWithRelations } from "@/types/prisma";
-import { VariableDef, replaceVariables } from "@/lib/prompt-utils";
+import { VariableDef, replaceVariables, getDisplayName } from "@/lib/prompt-utils";
 import { copyToClipboard } from "@/lib/clipboard";
 import { generateMarkdown, downloadStringAsFile } from "@/lib/markdown";
 import { restorePromptVersion, toggleLock, toggleVisibility, unlinkPrompts } from "@/actions/prompts";
@@ -40,6 +40,8 @@ type PromptDetailProps = {
 };
 
 const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
+
+
 
 export default function PromptDetail({ prompt, isFavorited: initialIsFavorited = false, serverParsedVariables, collectionPaths, privatePromptsEnabled = false, tagColorsEnabled = true, relatedPrompts, currentUser }: PromptDetailProps) {
     const { t, language } = useLanguage();
@@ -70,6 +72,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
 
     // Local UI state
     const [copied, setCopied] = useState(false);
+    const [copyCount, setCopyCount] = useState(prompt.copyCount || 0);
     const [isCodeView, setIsCodeView] = useState(false);
     const [isLongCodeView, setIsLongCodeView] = useState(false); // keeping var name internal for now or rename? logic is same. Let's keep internal vars stable to avoid excessive churn.
     const [versionToRestore, setVersionToRestore] = useState<string | null>(null);
@@ -108,6 +111,8 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
     const showLegacyResultImage = resultAttachments.length === 0 && selectedVersion.resultImage;
     const timeAgo = formatDistanceToNow(new Date(prompt.createdAt), { addSuffix: false, locale: localeMap[language] || enUS });
 
+
+
     const handleCopy = async () => {
         const content = replaceVariables(selectedVersion.content, variables);
 
@@ -115,6 +120,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
 
         if (success) {
             setCopied(true);
+            setCopyCount(prev => prev + 1);
             setTimeout(() => setCopied(false), 2000);
 
             fetch("/api/analytics", {
@@ -235,14 +241,14 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
             {/* Header */}
             <div className="mb-6">
                 {/* Top Row: Title + Actions */}
-                <div className="flex justify-between items-start mb-2 gap-4">
-                    <h1 className="text-3xl font-bold break-words min-w-0 flex-1">{prompt.title}</h1>
+                <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-4">
+                    <h1 className="text-2xl md:text-3xl font-bold break-words w-full">{prompt.title}</h1>
 
-                    <div className="flex gap-2 items-center flex-shrink-0">
+                    <div className="flex gap-2 items-center flex-shrink-0 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
                         <button
                             onClick={handleToggleFavorite}
                             disabled={isGuest(user)}
-                            className={`btn border border-border hover:bg-background ${isFavorited ? "text-red-500 border-red-200 bg-red-50 dark:bg-red-950/20" : "bg-surface"} ${isGuest(user) ? "opacity-50 cursor-not-allowed" : ""}`}
+                            className={`btn border border-border hover:bg-background flex-shrink-0 ${isFavorited ? "text-red-500 border-red-200 bg-red-50 dark:bg-red-950/20" : "bg-surface"} ${isGuest(user) ? "opacity-50 cursor-not-allowed" : ""}`}
                             title={isGuest(user) ? t('detail.actions.guestNoFavorite') || "Guests cannot favorite" : (isFavorited ? t('detail.actions.removeFromFavorites') : t('detail.actions.addToFavorites'))}
                         >
                             <Heart size={20} fill={isFavorited ? "currentColor" : "none"} />
@@ -250,7 +256,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         {isCreator && (
                             <button
                                 onClick={() => setIsLinkDialogOpen(true)}
-                                className="btn border border-border hover:bg-background bg-surface"
+                                className="btn border border-border hover:bg-background bg-surface flex-shrink-0"
                                 title={t('detail.actions.linkPrompt') || "Link Related Prompt"}
                             >
                                 <LinkIcon size={20} />
@@ -259,20 +265,20 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
 
                         <button
                             onClick={handleDownloadMarkdown}
-                            className="btn border border-border hover:bg-background bg-surface"
+                            className="btn border border-border hover:bg-background bg-surface flex-shrink-0"
                             title={t('detail.actions.downloadMarkdown') || "Download Markdown"}
                         >
                             <FileDown size={20} />
                         </button>
 
-                        {successMessage && <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100 animate-in fade-in slide-in-from-top-1">{successMessage}</span>}
+                        {successMessage && <span className="text-sm text-green-600 bg-green-50 px-2 py-1 rounded border border-green-100 flex-shrink-0 animate-in fade-in slide-in-from-top-1">{successMessage}</span>}
 
 
                         {isCreator && privatePromptsEnabled && (
                             <button
                                 onClick={handleToggleVisibility}
                                 disabled={isVisibilityLoading}
-                                className={`btn border border-border hover:bg-background ${(prompt as any).isPrivate ? "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400" : "bg-surface"}`}
+                                className={`btn border border-border hover:bg-background flex-shrink-0 ${(prompt as any).isPrivate ? "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400" : "bg-surface"}`}
                                 title={(prompt as any).isPrivate ? "Make Public" : "Make Private"}
                             >
                                 {isVisibilityLoading ? (
@@ -290,7 +296,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             <button
                                 onClick={handleToggleLock}
                                 disabled={isLocking}
-                                className={`btn border hover:bg-background ${isLocked ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/20 dark:text-amber-500" : "bg-surface border-border"}`}
+                                className={`btn border hover:bg-background flex-shrink-0 ${isLocked ? "bg-amber-50 text-amber-600 border-amber-200 dark:bg-amber-950/20 dark:text-amber-500" : "bg-surface border-border"}`}
                                 title={isLocked ? t('detail.actions.unlockPrompt') : t('detail.actions.lockPrompt')}
                             >
                                 {isLocking ? (
@@ -304,7 +310,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         )}
 
                         {isDeleting ? (
-                            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2">
+                            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 flex-shrink-0">
                                 <span className="text-sm font-bold text-red-600">{t('detail.actions.confirmDelete')}</span>
                                 <button onClick={confirmDelete} className="btn btn-sm bg-red-600 text-white hover:bg-red-700">{t('detail.actions.yes')}</button>
                                 <button onClick={() => setIsDeleting(false)} className="btn btn-sm bg-surface text-foreground border border-border hover:bg-muted">{t('detail.actions.no')}</button>
@@ -313,7 +319,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             <>
                                 <Link
                                     href={canEdit ? `/prompts/${prompt.id}/edit` : "#"}
-                                    className={`btn bg-surface border border-border hover:bg-background ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                    className={`btn bg-surface border border-border hover:bg-background flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
                                     title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
                                 >
                                     <Edit size={16} />
@@ -321,7 +327,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                 <button
                                     onClick={() => setIsDeleting(true)}
                                     disabled={!canEdit}
-                                    className={`btn bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:bg-red-950/10 dark:text-red-400 dark:border-red-900/30 dark:hover:bg-red-900/20 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                    className={`btn bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:bg-red-950/10 dark:text-red-400 dark:border-red-900/30 dark:hover:bg-red-900/20 flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
                                     title={canEdit ? t('detail.actions.delete') : t('detail.actions.lockedByCreator')}
                                 >
                                     <Trash2 size={16} />
@@ -339,6 +345,12 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                 {prompt.technicalId}
                             </span>
                         )}
+                        <span className="flex items-center gap-1 bg-muted px-1.5 py-0.5 rounded text-xs" title={t('list.views') || "Views"}>
+                            <Eye size={12} /> {prompt.viewCount}
+                        </span>
+                        <span className="flex items-center gap-1 bg-muted px-1.5 py-0.5 rounded text-xs" title={t('list.copies') || "Copies"}>
+                            <Copy size={12} /> {copyCount}
+                        </span>
                         <span>{t('detail.meta.by')} {prompt.createdBy.username}</span>
                         <span>•</span>
                         <span>{t('detail.meta.ago').replace('{{time}}', timeAgo)}</span>
@@ -489,7 +501,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                                             <FileText size={20} />
                                                         </div>
                                                         <div className="flex-1 min-w-0">
-                                                            <p className="text-sm font-medium truncate">{att.filePath.split('/').pop()}</p>
+                                                            <p className="text-sm font-medium truncate">{getDisplayName(att)}</p>
                                                             <p className="text-xs text-muted-foreground">{t('detail.actions.download')}</p>
                                                         </div>
                                                         <Download size={16} className="text-muted-foreground" />
@@ -528,7 +540,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                             <FileText size={20} />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-medium truncate">{att.filePath.split('/').pop()}</p>
+                                            <p className="text-sm font-medium truncate">{getDisplayName(att)}</p>
                                             <p className="text-xs text-muted-foreground">{att.fileType}</p>
                                         </div>
                                         <Download size={16} className="text-muted-foreground" />

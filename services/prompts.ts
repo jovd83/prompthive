@@ -167,7 +167,7 @@ export async function createVersionService(
     }
 
     const nextVersionNumber = (prompt.versions[0]?.versionNumber || 0) + 1;
-    const savedAttachments: { filePath: string; fileType: string; role?: string }[] = [];
+    const savedAttachments: { filePath: string; fileType: string; originalName?: string; role?: string }[] = [];
 
     // Process kept attachments
     if (input.keepAttachmentIds.length > 0) {
@@ -182,6 +182,7 @@ export async function createVersionService(
             savedAttachments.push({
                 filePath: att.filePath,
                 fileType: att.fileType,
+                originalName: att.originalName || undefined, // Carry over existing originalName if present
             });
         }
     }
@@ -210,6 +211,7 @@ export async function createVersionService(
             savedAttachments.push({
                 filePath: att.filePath,
                 fileType: att.fileType,
+                originalName: att.originalName || undefined,
                 role: "RESULT",
             });
         }

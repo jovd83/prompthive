@@ -85,7 +85,8 @@ describe('Prompts Service', () => {
             const { uploadFile } = await import('./files');
             (uploadFile as any).mockResolvedValue({
                 filePath: '/uploads/test.txt',
-                fileType: 'text/plain'
+                fileType: 'text/plain',
+                originalName: 'test.txt'
             });
 
             const mockPrompt = { id: 'p-1', versions: [{ id: 'v-1' }] };
@@ -243,7 +244,7 @@ describe('Prompts Service', () => {
 
         // Mock existing attachments lookup
         (prisma.attachment.findMany as any).mockResolvedValue([
-            { id: 'att-1', filePath: '/old.txt', fileType: 'text/plain' }
+            { id: 'att-1', filePath: '/old.txt', fileType: 'text/plain', originalName: 'old.txt' }
         ]);
 
         (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
@@ -288,7 +289,7 @@ describe('Prompts Service', () => {
         (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
 
         const { uploadFile } = await import('./files');
-        (uploadFile as any).mockResolvedValue({ filePath: '/new.png', fileType: 'image/png' });
+        (uploadFile as any).mockResolvedValue({ filePath: '/new.png', fileType: 'image/png', originalName: 'new.png' });
 
         await createVersionService(userId, input, [], [mockFile]);
 
@@ -399,7 +400,7 @@ describe('Full Integration Test for CreatePrompt', () => {
         };
 
         const { uploadFile } = await import('./files');
-        (uploadFile as any).mockResolvedValue({ filePath: '/res.png', fileType: 'image/png' });
+        (uploadFile as any).mockResolvedValue({ filePath: '/res.png', fileType: 'image/png', originalName: 'res.png' });
 
         // Redefine mockFile locally since previous scope is closed
         const localMockFile = new File(['content'], 'test.txt', { type: 'text/plain' });
@@ -510,7 +511,7 @@ describe('restoreVersionService', () => {
             content: 'Old Content',
             shortContent: 'Old Short',
             usageExample: 'Old Usage',
-            attachments: [{ id: 'att-1', role: 'ATTACHMENT', filePath: '/old.txt' }]
+            attachments: [{ id: 'att-1', role: 'ATTACHMENT', filePath: '/old.txt', originalName: 'old.txt' }]
         });
 
         // 3. createVersionService internal calls (prompt lookup for version number)
@@ -520,7 +521,7 @@ describe('restoreVersionService', () => {
         (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-6', versionNumber: 6 });
 
         // 5. Attachment lookup (for keepAttachmentIds)
-        (prisma.attachment.findMany as any).mockResolvedValue([{ id: 'att-1', filePath: '/old.txt', fileType: 'text/plain' }]);
+        (prisma.attachment.findMany as any).mockResolvedValue([{ id: 'att-1', filePath: '/old.txt', fileType: 'text/plain', originalName: 'old.txt' }]);
 
         await restoreVersionService(userId, promptId, versionId);
 
@@ -648,6 +649,7 @@ describe('Linking Services', () => {
 
         it('should search prompts excluding current one', async () => {
             const { searchPromptsForLinkingService } = await import('./prompts');
+            (prisma.prompt.findUnique as any).mockImplementation(() => Promise.resolve({ relatedPrompts: [], relatedToPrompts: [] }));
             (prisma.prompt.findMany as any).mockResolvedValue([{ id: 'p-2' }]);
 
             await searchPromptsForLinkingService('u-1', 'search', 'p-1');

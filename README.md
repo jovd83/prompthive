@@ -2,7 +2,7 @@
 
 ---
 title: PromptHive - Project README
-version: 2.3.3
+version: 3.0.0
 last_updated: 2026-01-13
 ---
 
@@ -216,7 +216,7 @@ For deep dives, check the `docs/` folder:
 
 ## 🗺️ Roadmap
 
-*   [ ] **Mobile view**: Optimize the layout for smaller screens to allow managing prompts on the go.
+*   [x] **Mobile view**: Optimize the layout for smaller screens to allow managing prompts on the go.
 *   [ ] **Storing skills.md entities**: Support for parsing and storing entity definitions from `skills.md` files for better structured data integration.
 
 ## Why did I make it?

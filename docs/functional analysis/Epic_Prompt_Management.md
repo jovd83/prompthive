@@ -41,6 +41,7 @@ Users can create a prompt with extensive metadata including multiple versions, v
 *   [x] Verify that tags assigned to a prompt are visible during editing even if not in the initial optional list.
 *   [x] Verify that adding/removing tags does not clear or reset other form fields (e.g., Description).
 *   [x] Verify that saving a prompt (create/edit) redirects to the prompt detail page and expands the parent collection in the sidebar.
+*   [ ] Verify uploaded attachments display their original filename (without internal system prefixes) in the file list.
 
 ### 4. UI Wireframe Specification
 **Image Source:** `../wireframes/previews/editor_wireframe.png`
@@ -62,12 +63,13 @@ Users view the prompt details, select versions, fill in dynamic variables, and c
 ### 2. Technical Scope & Fields
 *Derived from Code (components/PromptDetail.tsx, lib/prompt-utils.ts)*
 
-*   **Header**: Title, Technical ID (in a rectangle/badge, e.g., REVI-123), Author, Date, Tags (Colored if enabled).
+*   **Header**: Title, Technical ID (in a rectangle/badge, e.g., REVI-123), Counters (Viewed, Copied), Author, Date, Tags (Colored if enabled).
 *   **Acceptance Criteria Updated**:
     *   [x] Verify tags are displayed with their assigned colors if `tagColorsEnabled` is true.
     *   [x] Verify Guest users see Edit/Delete buttons disabled (or locked state).
     *   [ ] Verify Guest users cannot drag prompt cards (draggable attribute is disabled).
     *   [ ] Verify Guest users cannot toggle Favorites (Heart icon disabled).
+    *   [ ] Verify attachments and result files display the original filename (e.g., "my-file.txt") and not the internal system name (e.g. "123456-my-file.txt").
 *   **Actions**:
     *   **Favorite**: Toggle Heart icon.
     *   **Visibility Toggle**: Eye icon (Public) / EyeOff icon (Private). **Creator Only**.

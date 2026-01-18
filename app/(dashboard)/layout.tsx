@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import Sidebar from "@/components/Sidebar";
+import DashboardLayoutClient from "@/components/DashboardLayoutClient";
 import { prisma } from "@/lib/prisma";
 import { checkAndRunAutoBackup } from "@/actions/backup";
 import { LanguageProvider } from "@/components/LanguageProvider";
@@ -68,22 +68,23 @@ export default async function DashboardLayout({
     return (
         <LanguageProvider initialLanguage={currentUser?.language || 'en'} user={currentUser}>
             <CommandPalette>
-                <div className="flex min-h-screen bg-background text-foreground">
-                    <Sidebar
-                        tags={uniqueTags}
-                        collections={collections}
-                        unassignedCount={unassignedCount}
-                        user={{
+                <DashboardLayoutClient
+                    sidebarProps={{
+                        tags: uniqueTags,
+                        collections: collections,
+                        unassignedCount: unassignedCount,
+                        user: {
                             id: currentUser?.id,
                             name: currentUser?.username,
                             email: currentUser?.email,
                             image: currentUser?.avatarUrl,
                             role: currentUser?.role,
-                        }}
-                        showWorkflows={settings?.workflowVisible ?? false}
-                    />
-                    <main className="flex-1 p-8 overflow-y-auto h-screen">{children}</main>
-                </div>
+                        },
+                        showWorkflows: settings?.workflowVisible ?? false
+                    }}
+                >
+                    {children}
+                </DashboardLayoutClient>
             </CommandPalette>
         </LanguageProvider>
     );

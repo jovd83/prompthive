@@ -4,7 +4,7 @@ import { validateFileExtension } from "./utils";
 
 import sharp from "sharp";
 
-export async function uploadFile(file: File, prefix: string = ""): Promise<{ filePath: string; fileType: string }> {
+export async function uploadFile(file: File, prefix: string = ""): Promise<{ filePath: string; fileType: string; originalName: string }> {
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     await fs.mkdir(uploadDir, { recursive: true });
 
@@ -30,6 +30,7 @@ export async function uploadFile(file: File, prefix: string = ""): Promise<{ fil
     return {
         filePath: `/uploads/${fileName}`,
         fileType: file.type,
+        originalName: file.name
     };
 }
 
