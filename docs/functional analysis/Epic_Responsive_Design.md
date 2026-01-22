@@ -1,7 +1,7 @@
 # Epic: Responsive Design Overhaul
 
 ## 1. Description
-The goal of this epic is to ensure PromptHive provides a seamless and optimized user experience across all device sizes, specifically targeting mobile phones (e.g., iPhone) and tablets (e.g., iPad). Currently, the application is optimized for desktop, leading to layout breaks and usability issues on smaller screens.
+The goal of this epic is to ensure MyPromptHive provides a seamless and optimized user experience across all device sizes, specifically targeting mobile phones (e.g., iPhone) and tablets (e.g., iPad). Currently, the application is optimized for desktop, leading to layout breaks and usability issues on smaller screens.
 
 ## 2. User Stories
 

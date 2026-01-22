@@ -6,7 +6,7 @@
 
 ### Changed
 
-- **Name Change** Renamed the app from MyPromptHive to MyPrompthive
+- **Name Change** Renamed the app from PromptHive to MyPromptHive
 
 ### Fixed
 

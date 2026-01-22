@@ -13,14 +13,14 @@ status: Live
 **So that** I can consolidate my library.
 
 ### 1. Description
-Users can import prompts from PromptHive backups, PromptCat exports, local folders, or by scraping web pages.
+Users can import prompts from MyPromptHive backups, PromptCat exports, local folders, or by scraping web pages.
 
 ### 2. Technical Scope & Fields
 *Derived from Code (components/ImportExportContent.tsx)*
 
 *   **Unified Import**:
     *   **File**: .json (Required). Supports:
-        *   Standard PromptHive Backup (Array of prompts or Object with `prompts` and `definedCollections`).
+        *   Standard MyPromptHive Backup (Array of prompts or Object with `prompts` and `definedCollections`).
         *   PromptCat Export (Object with prompts/folders or Array).
         *   Auto-detection of format.
 *   **Local Folder Import**:
@@ -32,7 +32,7 @@ Users can import prompts from PromptHive backups, PromptCat exports, local folde
     *   **Import Action**: Imports selected items.
 
 ### 3. Acceptance Criteria (AC)
-*   [ ] Verify Unified Import accepts valid PromptHive JSON (array).
+*   [ ] Verify Unified Import accepts valid MyPromptHive JSON (array).
 *   [ ] Verify Unified Import accepts valid PromptCat JSON (object/array).
 *   [ ] **AC_NEW:** Verify Unified Import accepts legacy JSON formats (e.g. string tags, missing optional fields) without error.
 *   [ ] Verify Unified Import reconstructs the nested collection tree structure from `definedCollections`.
@@ -72,7 +72,7 @@ Users can download their entire library as a standard JSON file.
 
 ### 3. Acceptance Criteria (AC)
 *   [ ] Verify clicking button triggers a download of `prompts.json` (or similar).
-*   [ ] **AC2:** The export file should be named `prompthive-backup-[DATE].json`.
+*   [ ] **AC2:** The export file should be named `myprompthive-backup-[DATE].json`.
 *   [ ] **AC3:** The export can be filtered by selecting specific collections via a Tree View interface.
 *   [ ] **AC4:** Granular selection options: "Select All", "Deselect All", and individual collection checkboxes.
 *   [ ] **AC5:** Exported JSON must include `definedCollections` array describing the hierarchy (parent/child relationships).
@@ -81,7 +81,7 @@ Users can download their entire library as a standard JSON file.
 
 ---
 
-## User Story: Selective Export for PromptHive Zero
+*   [ ] Verify generated JSON matches the specific MyPromptHive Zero schema.
 **As a** system user
 **I want to** select which collections to include in the "PromptHive Zero" export using a hierarchical tree view
 **So that** I can easily choose specific folders and their sub-folders to share or deploy to a lightweight instance.
@@ -112,7 +112,7 @@ A specialized export function that produces a simplified JSON structure compatib
 ### 3. Acceptance Criteria (AC)
 *   [ ] Verify user can select/deselect collections.
 *   [ ] Verify "Select All" toggles all checkboxes.
-*   [ ] Verify generated JSON matches the specific PromptHive Zero schema.
+*   [ ] Verify generated JSON matches the specific MyPromptHive Zero schema.
 *   [ ] Verify only prompts within selected collections are exported.
 
 ---

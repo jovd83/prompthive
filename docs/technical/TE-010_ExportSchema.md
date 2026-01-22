@@ -1,7 +1,7 @@
 # TE-010: Unified Export JSON Schema v2
 
 ## Overview
-This document describes the updated JSON schema for PromptHive's export functionality. Version 2 introduces support for hierarchical collections preservation during import/export cycles.
+This document describes the updated JSON schema for MyPromptHive's export functionality. Version 2 introduces support for hierarchical collections preservation during import/export cycles.
 
 ## Schema Structure
 

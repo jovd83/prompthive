@@ -7,7 +7,7 @@ author: AI Agent
 
 # 🗄️ Data Models & Schema Dictionary
 
-This document serves as the dictionary for the PromptHive local database (SQLite). It matches the definition in `prisma/schema.prisma`.
+This document serves as the dictionary for the MyPromptHive local database (SQLite). It matches the definition in `prisma/schema.prisma`.
 
 ## Entity-Relationship Diagram
 

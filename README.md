@@ -187,17 +187,6 @@ The project uses environment variables for configuration.
 └── public/               # Static Assets
 ```
 
-### 📸 Application Screenshots
-
-| | | |
-|:---:|:---:|:---:|
-| ![Login](screenshots/ph_login.png)<br>**Login**<br>Authentication screen. | ![Dashboard](screenshots/ph_dashboard.png)<br>**Dashboard**<br>Main user dashboard overview. | ![Dashboard Dark Mode](screenshots/ph_dashboardDarkmode.png)<br>**Dashboard (Dark)**<br>Dashboard in dark mode. |
-| ![Dashboard Scrolled](screenshots/ph_dashbord_scrolleddown.png)<br>**Dashboard Scrolled**<br>Extended view of the dashboard. | ![Collections](screenshots/ph_collections.png)<br>**Collections**<br>Overview of all collections. | ![Collection View](screenshots/ph_collection_view.png)<br>**Collection View**<br>Browsing a prompt collection. |
-| ![Drag and Drop](screenshots/ph_dragAndDrop.png)<br>**Drag & Drop**<br>Organizing items via drag and drop. | ![New Prompt](screenshots/ph_newprompt.png)<br>**New Prompt**<br>Creating a fresh prompt. | ![Prompt Details](screenshots/ph_promptDetails.png)<br>**Prompt Details**<br>Viewing prompt specifics. |
-| ![Compare Versions](screenshots/ph_compareversions.png)<br>**Compare Versions**<br>Side-by-side version diffing. | ![Bulk Edit](screenshots/ph_bulkedit.png)<br>**Bulk Edit**<br>Batch operations on multiple items. | ![Command Palette](screenshots/ph_commandPalette.png)<br>**Command Palette**<br>Quick navigation and actions. |
-| ![Favorites](screenshots/ph_favorites.png)<br>**Favorites**<br>Quick access to favorite prompts. | ![Workflows](screenshots/ph_workflows.png)<br>**Workflows**<br>Automation workflows. | ![Scraping Prompt](screenshots/ph_scrapingprompt.png)<br>**Scraping Prompt**<br>AI web scraper interface. |
-| ![Settings](screenshots/ph_settings.png)<br>**Settings**<br>Application configuration. | ![User Config](screenshots/ph_userconfig.png)<br>**User Config**<br>Personal user preferences. | ![User Management](screenshots/ph_settings_user_management.png)<br>**User Management**<br>Administering user accounts. |
-| ![Create User](screenshots/ph_createUser.png)<br>**Create User**<br>Admin interface for adding users. | ![Import/Export](screenshots/ph_importexport.png)<br>**Import/Export**<br>Data migration tools. | ![Manual](screenshots/ph_manual.png)<br>**Manual**<br>Help and documentation view. |
 
 ## 🧪 Testing
 

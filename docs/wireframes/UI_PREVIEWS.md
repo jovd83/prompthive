@@ -1,6 +1,6 @@
 # High-Fidelity UI Previews
 
-This document provides a preview of the core UI components in PromptHive, based on the wireframe logic and the intended "Clean, Professional SaaS" aesthetic.
+This document provides a preview of the core UI components in MyPromptHive, based on the wireframe logic and the intended "Clean, Professional SaaS" aesthetic.
 
 ## 1. Dashboard
 The main command center for managing prompts.
