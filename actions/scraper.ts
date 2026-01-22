@@ -11,7 +11,7 @@ export async function scrapeUrlForPrompts(url: string): Promise<ScrapedPrompt[]>
     try {
         const response = await fetch(url, {
             headers: {
-                'User-Agent': 'PromptHive-Scraper/1.0',
+                'User-Agent': 'MyPromptHive-Scraper/1.0',
             }
         });
 

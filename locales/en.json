@@ -442,9 +442,9 @@
         "successImport": "Successfully imported {{count}} prompts!",
         "importComplete": "Import complete: {{count}} imported, {{skipped}} skipped.",
         "exportComplete": "Export complete: {{count}} prompts exported.",
-        "exportZeroTitle": "Export for PromptHive Zero",
+        "exportZeroTitle": "Export for MyPromptHive Zero",
         "exportZeroDesc": "Select collections to export for the lightweight version.",
-        "exportZeroButton": "Export for PromptHive Zero"
+        "exportZeroButton": "Export for MyPromptHive Zero"
     },
     "help": {
         "title": "Help Center",
@@ -490,8 +490,8 @@
                 "fixed_4": "<strong>Prompt Detail</strong>: Added 'viewed' and 'copied' counters to header for consistency."
             },
             "intro": {
-                "welcome": "Welcome to <strong>PromptHive</strong>, your local-first sanctuary for managing, testing, and organizing LLM prompts.",
-                "desc": "Prompt engineering is an iterative process. Storing prompts in text files or chat histories leads to version chaos. PromptHive solves this by treating prompts like code—with <strong>version control</strong>, <strong>variables</strong>, and <strong>structured organization</strong>.",
+                "welcome": "Welcome to <strong>MyPromptHive</strong>, your local-first sanctuary for managing, testing, and organizing LLM prompts.",
+                "desc": "Prompt engineering is an iterative process. Storing prompts in text files or chat histories leads to version chaos. MyPromptHive solves this by treating prompts like code—with <strong>version control</strong>, <strong>variables</strong>, and <strong>structured organization</strong>.",
                 "organizeTitle": "Organize",
                 "organizeDesc": "Infinite nested collections and tags keep your library clean.",
                 "versionTitle": "Version",
@@ -502,7 +502,7 @@
                 "tipsDesc": "Get daily <strong>Prompting Tips</strong> on your dashboard to improve your skills (can be disabled in Settings)."
             },
             "gettingStarted": {
-                "tip": "You don't need an internet connection. PromptHive runs entirely locally on your machine.",
+                "tip": "You don't need an internet connection. MyPromptHive runs entirely locally on your machine.",
                 "step1Title": "1. Creating your first Prompt",
                 "step1Li1": "Click <strong>New Prompt</strong> in the sidebar.",
                 "step1Li2": "Give it a clear title (e.g., <em>\"SEO Blog Post Generator\"</em>).",
@@ -529,7 +529,7 @@
                 "autoDetectDesc": "When you type <code>{{variable}}</code> in the editor, click the <strong>\"Auto Add Variables\"</strong> button. The app will automatically scan your text and create form fields for them!"
             },
             "collections": {
-                "desc": "PromptHive uses a <strong>recursive folder structure</strong>. This means:",
+                "desc": "MyPromptHive uses a <strong>recursive folder structure</strong>. This means:",
                 "li1": "A Collection can contain <strong>Prompts</strong>.",
                 "li2": "A Collection can contain <strong>other Collections</strong> (Sub-folders).",
                 "li3": "There is no limit to the depth of nesting.",
@@ -547,7 +547,7 @@
                 "systemPromptTitle": "System Prompt for Scraping"
             },
             "commandPalette": {
-                "desc": "Navigate PromptHive efficiently without taking your hands off the keyboard using the global <strong>Command Palette</strong>.",
+                "desc": "Navigate MyPromptHive efficiently without taking your hands off the keyboard using the global <strong>Command Palette</strong>.",
                 "shortcut": "Shortcut",
                 "whatCanDo": "What can you do?",
                 "li1": "<strong>Navigate</strong> instantly to Home, Settings, or Help.",
@@ -556,7 +556,7 @@
                 "li4": "<strong>Search</strong> for actions (e.g., type \"Theme\")."
             },
             "visualDiff": {
-                "desc": "Prompt engineering involves many small tweaks. PromptHive allows you to <strong>Visually Compare</strong> any two versions of a prompt to see exactly what changed.",
+                "desc": "Prompt engineering involves many small tweaks. MyPromptHive allows you to <strong>Visually Compare</strong> any two versions of a prompt to see exactly what changed.",
                 "howToTitle": "How to Compare",
                 "li1": "Navigate to a Prompt's detail page.",
                 "li2": "Look at the <strong>Version History</strong> list on the right side.",
@@ -572,7 +572,7 @@
                 "tipDesc": "Use this to verify if your latest \"tweak\" actually improved the prompt or just moved words around!"
             },
             "language": {
-                "desc": "PromptHive supports multiple languages. You can change your preferred language at any time.",
+                "desc": "MyPromptHive supports multiple languages. You can change your preferred language at any time.",
                 "li1": "Navigate to the <strong>Settings</strong> page via the sidebar.",
                 "li2": "Locate the <strong>Language Settings</strong> card.",
                 "li3": "Choose your language from the dropdown menu (e.g., English, Nederlands, Français).",
@@ -588,7 +588,7 @@
                 "forgotDesc": "If you are locked out, use the <strong>Forgot Password</strong> link on the login screen. You can request a reset link to be sent to your registered email address."
             },
             "exporting": {
-                "desc": "PromptHive offers multiple ways to get your data out:",
+                "desc": "MyPromptHive offers multiple ways to get your data out:",
                 "markdownTitle": "Download as Markdown",
                 "markdownDesc": "On any prompt detail page, click the <span class=\"inline-flex items-center justify-center p-1 bg-surface rounded border border-border\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><polyline points=\"7 10 12 15 17 10\"/><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"/></svg></span> button to download a formatted <code>.md</code> file. This file includes the prompt version, variables, metadata, and references to attachments.",
                 "jsonTitle": "Full JSON Export",

@@ -413,9 +413,9 @@
         "successImport": "¡Se importaron exitosamente {{count}} prompts!",
         "importComplete": "Importación completa: {{count}} importado(s), {{skipped}} omitido(s).",
         "exportComplete": "Exportación completa: {{count}} prompts exportados.",
-        "exportZeroTitle": "Exportar para PromptHive Zero",
+        "exportZeroTitle": "Exportar para MyPromptHive Zero",
         "exportZeroDesc": "Seleccione colecciones para exportar para la versión ligera.",
-        "exportZeroButton": "Exportar para PromptHive Zero"
+        "exportZeroButton": "Exportar para MyPromptHive Zero"
     },
     "help": {
         "title": "Centro de Ayuda",
@@ -447,8 +447,8 @@
                 "changed_2": "<strong>Mejorado</strong>: Eliminar un prompt desde una Colección ya no redirige al Panel de Control."
             },
             "intro": {
-                "welcome": "Bienvenido a <strong>PromptHive</strong>, tu santuario local-first para gestionar, probar y organizar prompts de LLM.",
-                "desc": "La ingeniería de prompts es un proceso iterativo. Almacenar prompts en archivos de texto o historiales de chat lleva al caos de versiones. PromptHive resuelve esto tratando los prompts como código—con <strong>control de versiones</strong>, <strong>variables</strong> y <strong>organización estructurada</strong>.",
+                "welcome": "Bienvenido a <strong>MyPromptHive</strong>, tu santuario local-first para gestionar, probar y organizar prompts de LLM.",
+                "desc": "La ingeniería de prompts es un proceso iterativo. Almacenar prompts en archivos de texto o historiales de chat lleva al caos de versiones. MyPromptHive resuelve esto tratando los prompts como código—con <strong>control de versiones</strong>, <strong>variables</strong> y <strong>organización estructurada</strong>.",
                 "organizeTitle": "Organizar",
                 "organizeDesc": "Colecciones anidadas infinitas y etiquetas mantienen tu biblioteca limpia.",
                 "versionTitle": "Versión",
@@ -457,7 +457,7 @@
                 "templatizeDesc": "Usa variables como <code>{{topic}}</code> para crear plantillas reutilizables."
             },
             "gettingStarted": {
-                "tip": "No necesitas conexión a internet. PromptHive se ejecuta completamente local en tu máquina.",
+                "tip": "No necesitas conexión a internet. MyPromptHive se ejecuta completamente local en tu máquina.",
                 "step1Title": "1. Creando tu primer Prompt",
                 "step1Li1": "Haz clic en <strong>Nuevo Prompt</strong> en la barra lateral.",
                 "step1Li2": "Dale un título claro (ej., <em>\"Generador de Blog SEO\"</em>).",
@@ -484,7 +484,7 @@
                 "autoDetectDesc": "Cuando escribes <code>{{variable}}</code> en el editor, haz clic en el botón <strong>\"Auto Añadir Variables\"</strong>. ¡La app escaneará automáticamente tu texto y creará campos para ellas!"
             },
             "collections": {
-                "desc": "PromptHive usa una <strong>estructura de carpetas recursiva</strong>. Esto significa:",
+                "desc": "MyPromptHive usa una <strong>estructura de carpetas recursiva</strong>. Esto significa:",
                 "li1": "Una Colección puede contener <strong>Prompts</strong>.",
                 "li2": "Una Colección puede contener <strong>otras Colecciones</strong> (Sub-carpetas).",
                 "li3": "No hay límite para la profundidad de anidamiento.",
@@ -502,7 +502,7 @@
                 "systemPromptTitle": "Prompt del Sistema para Scraping"
             },
             "commandPalette": {
-                "desc": "Navega por PromptHive eficientemente sin quitar las manos del teclado usando la <strong>Paleta de Comandos</strong> global.",
+                "desc": "Navega por MyPromptHive eficientemente sin quitar las manos del teclado usando la <strong>Paleta de Comandos</strong> global.",
                 "shortcut": "Atajo",
                 "whatCanDo": "¿Qué puedes hacer?",
                 "li1": "<strong>Navegar</strong> instantáneamente a Inicio, Configuración o Ayuda.",
@@ -511,7 +511,7 @@
                 "li4": "<strong>Buscar</strong> acciones (ej., escribe \"Tema\")."
             },
             "visualDiff": {
-                "desc": "La ingeniería de prompts involucra muchos pequeños ajustes. PromptHive te permite <strong>Comparar Visualmente</strong> dos versiones cualesquiera de un prompt para ver exactamente qué cambió.",
+                "desc": "La ingeniería de prompts involucra muchos pequeños ajustes. MyPromptHive te permite <strong>Comparar Visualmente</strong> dos versiones cualesquiera de un prompt para ver exactamente qué cambió.",
                 "howToTitle": "Cómo Comparar",
                 "li1": "Ve a la página de detalle de un Prompt.",
                 "li2": "Mira la lista de <strong>Historial de Versiones</strong> en el lado derecho.",
@@ -527,7 +527,7 @@
                 "tipDesc": "¡Usa esto para verificar si tu último \"ajuste\" realmente mejoró el prompt o solo movió palabras!"
             },
             "language": {
-                "desc": "PromptHive soporta múltiples idiomas. Puedes cambiar tu idioma preferido en cualquier momento.",
+                "desc": "MyPromptHive soporta múltiples idiomas. Puedes cambiar tu idioma preferido en cualquier momento.",
                 "li1": "Haz clic en tu <strong>Avatar de Usuario</strong> en la esquina inferior izquierda.",
                 "li2": "Selecciona la pestaña <strong>Preferencias</strong>.",
                 "li3": "Elige tu idioma del menú desplegable (ej., English, Nederlands, Français).",
@@ -564,7 +564,7 @@
                 "q2": "P: ¿Qué pasa si elimino una colección padre?",
                 "a2": "Tienes dos opciones: <strong>Eliminar Todo</strong> (que borra todos los hijos y prompts dentro) o <strong>Eliminar Solo Colección</strong> (que mueve todos los hijos/prompts un nivel arriba o a la Raíz).",
                 "q3": "P: ¿Puedo compartir mis prompts?",
-                "a3": "Actualmente, PromptHive es una herramienta local de un solo usuario. Sin embargo, puedes usar la función <strong>Importar/Exportar</strong> en la barra lateral para compartir archivos JSON con colegas."
+                "a3": "Actualmente, MyPromptHive es una herramienta local de un solo usuario. Sin embargo, puedes usar la función <strong>Importar/Exportar</strong> en la barra lateral para compartir archivos JSON con colegas."
             },
             "technicalIds": {
                 "desc": "Los identificadores técnicos proporcionan una referencia estable y legible para tus prompts (ej. VIBE-123).",

@@ -1,22 +1,22 @@
 
 
 ---
-title: PromptHive - Project README
+title: MyPromptHive - Project README
 version: 3.0.0
 last_updated: 2026-01-18
 ---
 
-![Prompthive](public/prompthive_header.png)
+![MyPromptHive](public/prompthive_header.png)
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![Tech](https://img.shields.io/badge/Tech-Next.js%20%7C%20Prisma%20%7C%20SQLite-black)
 
-**PromptHive** is a self-hosted, local-first Prompt Management System designed for prompt engineers and AI enthusiasts. It allows you to organize, version, and text your LLM prompts in a beautiful, structured interface.
+**MyPromptHive** is a self-hosted, local-first Prompt Management System designed for prompt engineers and AI enthusiasts. It allows you to organize, version, and text your LLM prompts in a beautiful, structured interface.
 
 > 🧪 **Experiment Disclaimer**: This project is an experiment on the limits of "vibe coding". It was **completely vibe coded**, including all documentation, testing, and infrastructure configuration. No manual coding was performed.
 
-![PromptHive App Screenshot](demo/prompthive_Screenshot.png)
+![MyPromptHive App Screenshot](demo/prompthive_Screenshot.png)
 
 ## 📜 Changelog
 
@@ -75,8 +75,8 @@ Demo videos can be found on the following [YouTube Channel](https://www.youtube.
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/prompt-hive.git
-    cd prompt-hive
+    git clone https://github.com/yourusername/myprompthive.git
+    cd myprompthive
     ```
 
 2.  **Install dependencies**
@@ -139,7 +139,7 @@ Demo videos can be found on the following [YouTube Channel](https://www.youtube.
 
     ```powershell
     # 1. Build the Image
-    docker build -t prompthive-production .
+    docker build -t myprompthive-production .
 
     # 2. Prepare Data Directory
     # Create a 'data' folder in your project root to persist the database.
@@ -153,7 +153,7 @@ Demo videos can be found on the following [YouTube Channel](https://www.youtube.
       -v ${PWD}/data:/app/data `
       -v ${PWD}/public/uploads:/app/public/uploads `
       --env-file docker.env `
-      prompthive-production
+      myprompthive-production
     ```
     Open [http://localhost:3100](http://localhost:3100).
 
@@ -220,4 +220,4 @@ For deep dives, check the `docs/` folder:
 
 ## Why did I make it?
 
-I built Promthive because I needed a better way to manage my growing collection of prompts. I wanted something that could store prompts efficiently on my own infrastructure, without being locked into any particular AI model or provider. Most existing solutions either lived in the cloud (where I had less control), were tightly coupled to specific APIs, or lacked essential features like proper version history, a flexible folder structure for organization, variable substitution, and attachment support. But equally important was security: I needed a system that could completely decouple prompt management from API credentials. With kids in the house who are naturally curious about AI, I wanted to prevent scenarios where they could accidentally rack up tens of euros in token costs by having access to my API keys. Promthive is that solution: a self-hosted, model-agnostic prompt library that puts organization, security, and cost control first.
+I built MyPrompthive because I needed a better way to manage my growing collection of prompts. I wanted something that could store prompts efficiently on my own infrastructure, without being locked into any particular AI model or provider. Most existing solutions either lived in the cloud (where I had less control), were tightly coupled to specific APIs, or lacked essential features like proper version history, a flexible folder structure for organization, variable substitution, and attachment support. But equally important was security: I needed a system that could completely decouple prompt management from API credentials. With kids in the house who are naturally curious about AI, I wanted to prevent scenarios where they could accidentally rack up tens of euros in token costs by having access to my API keys. Promthive is that solution: a self-hosted, model-agnostic prompt library that puts organization, security, and cost control first.

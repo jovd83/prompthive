@@ -421,9 +421,9 @@
         "successImport": "{{count}} prompts succesvol geïmporteerd!",
         "importComplete": "Import voltooid: {{count}} geïmporteerd, {{skipped}} overgeslagen.",
         "exportComplete": "Export voltooid: {{count}} prompts geëxporteerd.",
-        "exportZeroTitle": "Exporteer voor PromptHive Zero",
+        "exportZeroTitle": "Exporteer voor MyPromptHive Zero",
         "exportZeroDesc": "Selecteer collecties om te exporteren voor de lichtgewicht versie.",
-        "exportZeroButton": "Exporteer voor PromptHive Zero"
+        "exportZeroButton": "Exporteer voor MyPromptHive Zero"
     },
     "help": {
         "title": "Helpcentrum",
@@ -463,8 +463,8 @@
                 "changed_2": "<strong>Verbeterd</strong>: Het verwijderen van een prompt vanuit een Collectie leidt niet langer om naar het Dashboard."
             },
             "intro": {
-                "welcome": "Welkom bij <strong>PromptHive</strong>, je lokale toevluchtsoord voor het beheren, testen en organiseren van LLM-prompts.",
-                "desc": "Prompt engineering is een iteratief proces. Prompts opslaan in tekstbestanden of chatgeschiedenis leidt tot versie-chaos. PromptHive lost dit op door prompts als code te behandelen—met <strong>versiebeheer</strong>, <strong>variabelen</strong> en <strong>gestructureerde organisatie</strong>.",
+                "welcome": "Welkom bij <strong>MyPromptHive</strong>, je lokale toevluchtsoord voor het beheren, testen en organiseren van LLM-prompts.",
+                "desc": "Prompt engineering is een iteratief proces. Prompts opslaan in tekstbestanden of chatgeschiedenis leidt tot versie-chaos. MyPromptHive lost dit op door prompts als code te behandelen—met <strong>versiebeheer</strong>, <strong>variabelen</strong> en <strong>gestructureerde organisatie</strong>.",
                 "organizeTitle": "Organiseren",
                 "organizeDesc": "Oneindig geneste collecties en tags houden je bibliotheek schoon.",
                 "versionTitle": "Versie",
@@ -473,7 +473,7 @@
                 "templatizeDesc": "Gebruik variabelen zoals <code>{{topic}}</code> om herbruikbare sjablonen te maken."
             },
             "gettingStarted": {
-                "tip": "Je hebt geen internetverbinding nodig. PromptHive draait volledig lokaal op je machine.",
+                "tip": "Je hebt geen internetverbinding nodig. MyPromptHive draait volledig lokaal op je machine.",
                 "step1Title": "1. Je eerste Prompt maken",
                 "step1Li1": "Klik op <strong>Nieuwe Prompt</strong> in de zijbalk.",
                 "step1Li2": "Geef het een duidelijke titel (bijv. <em>\"SEO Blog Post Generator\"</em>).",
@@ -500,7 +500,7 @@
                 "autoDetectDesc": "Wanneer je <code>{{variable}}</code> typt in de editor, klik op de knop <strong>\"Auto Variabelen Toevoegen\"</strong>. De app zal je tekst automatisch scannen en formuliervelden voor ze aanmaken!"
             },
             "collections": {
-                "desc": "PromptHive gebruikt een <strong>recursieve mappenstructuur</strong>. Dit betekent:",
+                "desc": "MyPromptHive gebruikt een <strong>recursieve mappenstructuur</strong>. Dit betekent:",
                 "li1": "Een Collectie kan <strong>Prompts</strong> bevatten.",
                 "li2": "Een Collectie kan <strong>andere Collecties</strong> bevatten (Submappen).",
                 "li3": "Er is geen limiet aan de diepte van nesting.",
@@ -518,7 +518,7 @@
                 "systemPromptTitle": "Systeem Prompt voor Scraping"
             },
             "commandPalette": {
-                "desc": "Navigeer efficiënt door PromptHive zonder je handen van het toetsenbord te halen met het globale <strong>Commando Palet</strong>.",
+                "desc": "Navigeer efficiënt door MyPromptHive zonder je handen van het toetsenbord te halen met het globale <strong>Commando Palet</strong>.",
                 "shortcut": "Sneltoets",
                 "whatCanDo": "Wat kun je doen?",
                 "li1": "<strong>Navigeer</strong> direct naar Home, Instellingen of Help.",
@@ -527,7 +527,7 @@
                 "li4": "<strong>Zoek</strong> naar acties (bijv. typ \"Thema\")."
             },
             "visualDiff": {
-                "desc": "Prompt engineering omvat veel kleine aanpassingen. PromptHive stelt je in staat om <strong>Visueel te Vergelijken</strong> tussen twee versies van een prompt om precies te zien wat er is veranderd.",
+                "desc": "Prompt engineering omvat veel kleine aanpassingen. MyPromptHive stelt je in staat om <strong>Visueel te Vergelijken</strong> tussen twee versies van een prompt om precies te zien wat er is veranderd.",
                 "howToTitle": "Hoe te Vergelijken",
                 "li1": "Navigeer naar de detailpagina van een Prompt.",
                 "li2": "Kijk naar de <strong>Versiegeschiedenis</strong> lijst aan de rechterkant.",
@@ -543,7 +543,7 @@
                 "tipDesc": "Gebruik dit om te verifiëren of je laatste \"aanpassing\" de prompt daadwerkelijk verbeterde of alleen woorden verplaatste!"
             },
             "language": {
-                "desc": "PromptHive ondersteunt meerdere talen. Je kunt je voorkeurstaal op elk moment wijzigen.",
+                "desc": "MyPromptHive ondersteunt meerdere talen. Je kunt je voorkeurstaal op elk moment wijzigen.",
                 "li1": "Klik op je <strong>Gebruikersavatar</strong> in de linkerbenedenhoek.",
                 "li2": "Selecteer het tabblad <strong>Voorkeuren</strong>.",
                 "li3": "Kies je taal uit het dropdownmenu (bijv. English, Nederlands, Français).",
@@ -581,7 +581,7 @@
                 "q2": "V: Wat gebeurt er als ik een bovenliggende collectie verwijder?",
                 "a2": "Je hebt twee keuzes: <strong>Alles Verwijderen</strong> (wist alle kinderen en prompts daarbinnen) of <strong>Alleen Collectie Verwijderen</strong> (verplaatst alle kinderen/prompts naar het bovenliggende niveau of Root).",
                 "q3": "V: Kan ik mijn prompts delen?",
-                "a3": "Momenteel is PromptHive een lokale tool voor één gebruiker. Je kunt echter de <strong>Import/Export</strong> functie in de zijbalk gebruiken om JSON-bestanden met collega's te delen."
+                "a3": "Momenteel is MyPromptHive een lokale tool voor één gebruiker. Je kunt echter de <strong>Import/Export</strong> functie in de zijbalk gebruiken om JSON-bestanden met collega's te delen."
             }
         }
     }

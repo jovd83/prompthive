@@ -416,9 +416,9 @@
         "successImport": "{{count}} Prompts erfolgreich importiert!",
         "importComplete": "Import abgeschossen: {{count}} importiert, {{skipped}} übersprungen.",
         "exportComplete": "Export vollständig: {{count}} Prompts exportiert.",
-        "exportZeroTitle": "Export für PromptHive Zero",
+        "exportZeroTitle": "Export für MyPromptHive Zero",
         "exportZeroDesc": "Wählen Sie Sammlungen aus, um sie für die Lightweight-Version zu exportieren.",
-        "exportZeroButton": "Export für PromptHive Zero"
+        "exportZeroButton": "Export für MyPromptHive Zero"
     },
     "help": {
         "title": "Hilfe-Center",
@@ -458,8 +458,8 @@
                 "changed_2": "<strong>Verbessert</strong>: Das Löschen eines Prompts aus einer Sammlung leitet nicht mehr zum Dashboard um."
             },
             "intro": {
-                "welcome": "Willkommen bei <strong>PromptHive</strong>, deinem lokalen Zufluchtsort zum Verwalten, Testen und Organisieren von LLM-Prompts.",
-                "desc": "Prompt-Engineering ist ein iterativer Prozess. Das Speichern von Prompts in Textdateien oder Chat-Verläufen führt zu Versions-Chaos. PromptHive löst dies, indem es Prompts wie Code behandelt – mit <strong>Versionskontrolle</strong>, <strong>Variablen</strong> und <strong>strukturierter Organisation</strong>.",
+                "welcome": "Willkommen bei <strong>MyPromptHive</strong>, deinem lokalen Zufluchtsort zum Verwalten, Testen und Organisieren von LLM-Prompts.",
+                "desc": "Prompt-Engineering ist ein iterativer Prozess. Das Speichern von Prompts in Textdateien oder Chat-Verläufen führt zu Versions-Chaos. MyPromptHive löst dies, indem es Prompts wie Code behandelt – mit <strong>Versionskontrolle</strong>, <strong>Variablen</strong> und <strong>strukturierter Organisation</strong>.",
                 "organizeTitle": "Organisieren",
                 "organizeDesc": "Unendlich verschachtelte Sammlungen und Tags halten deine Bibliothek sauber.",
                 "versionTitle": "Versionieren",
@@ -468,7 +468,7 @@
                 "templatizeDesc": "Verwende Variablen wie <code>{{topic}}</code>, um wiederverwendbare Vorlagen zu erstellen."
             },
             "gettingStarted": {
-                "tip": "Du benötigst keine Internetverbindung. PromptHive läuft vollständig lokal auf deiner Maschine.",
+                "tip": "Du benötigst keine Internetverbindung. MyPromptHive läuft vollständig lokal auf deiner Maschine.",
                 "step1Title": "1. Erstellen deines ersten Prompts",
                 "step1Li1": "Klicke auf <strong>Neuer Prompt</strong> in der Seitenleiste.",
                 "step1Li2": "Gib ihm einen klaren Titel (z.B. <em>\"SEO Blog Post Generator\"</em>).",
@@ -495,7 +495,7 @@
                 "autoDetectDesc": "Wenn du <code>{{variable}}</code> im Editor tippst, klicke auf den Button <strong>\"Variablen automatisch hinzufügen\"</strong>. Die App scannt deinen Text automatisch und erstellt Felder dafür!"
             },
             "collections": {
-                "desc": "PromptHive verwendet eine <strong>rekursive Ordnerstruktur</strong>. Das bedeutet:",
+                "desc": "MyPromptHive verwendet eine <strong>rekursive Ordnerstruktur</strong>. Das bedeutet:",
                 "li1": "Eine Sammlung kann <strong>Prompts</strong> enthalten.",
                 "li2": "Eine Sammlung kann <strong>andere Sammlungen</strong> (Unterordner) enthalten.",
                 "li3": "Es gibt kein Limit für die Verschachtelungstiefe.",
@@ -513,7 +513,7 @@
                 "systemPromptTitle": "System-Prompt für Scraping"
             },
             "commandPalette": {
-                "desc": "Navigiere effizient durch PromptHive, ohne die Hände von der Tastatur zu nehmen, mit der globalen <strong>Befehlspalette</strong>.",
+                "desc": "Navigiere effizient durch MyPromptHive, ohne die Hände von der Tastatur zu nehmen, mit der globalen <strong>Befehlspalette</strong>.",
                 "shortcut": "Abkürzung",
                 "whatCanDo": "Was kannst du tun?",
                 "li1": "<strong>Navigiere</strong> sofort zu Startseite, Einstellungen oder Hilfe.",
@@ -522,7 +522,7 @@
                 "li4": "<strong>Suche</strong> nach Aktionen (z.B. tippe \"Thema\")."
             },
             "visualDiff": {
-                "desc": "Prompt-Engineering beinhaltet viele kleine Anpassungen. PromptHive ermöglicht es dir, <strong>Visuell zu Vergleichen</strong>, was sich zwischen zwei beliebigen Versionen eines Prompts geändert hat.",
+                "desc": "Prompt-Engineering beinhaltet viele kleinen Anpassungen. MyPromptHive ermöglicht es dir, <strong>Visuell zu Vergleichen</strong>, was sich zwischen zwei beliebigen Versionen eines Prompts geändert hat.",
                 "howToTitle": "Wie man vergleicht",
                 "li1": "Gehe zur Detailseite eines Prompts.",
                 "li2": "Schaue auf die Liste <strong>Versionsverlauf</strong> auf der rechten Seite.",
@@ -536,7 +536,7 @@
                 "tipDesc": "Nutze dies, um zu überprüfen, ob deine letzte \"Anpassung\" den Prompt wirklich verbessert hat oder nur Wörter verschoben hat!"
             },
             "language": {
-                "desc": "PromptHive unterstützt mehrere Sprachen. Du kannst deine bevorzugte Sprache jederzeit ändern.",
+                "desc": "MyPromptHive unterstützt mehrere Sprachen. Du kannst deine bevorzugte Sprache jederzeit ändern.",
                 "li1": "Klicke auf deinen <strong>Benutzer-Avatar</strong> in der unteren linken Ecke.",
                 "li2": "Wähle den Reiter <strong>Einstellungen</strong>.",
                 "li3": "Wähle deine Sprache aus dem Dropdown-Menü (z.B. English, Nederlands, Français).",
@@ -573,7 +573,7 @@
                 "q2": "F: Was passiert, wenn ich eine übergeordnete Sammlung lösche?",
                 "a2": "Du hast zwei Möglichkeiten: <strong>Alles löschen</strong> (was alle Kinder und Prompts darin löscht) oder <strong>Nur Sammlung löschen</strong> (was alle Kinder/Prompts eine Ebene nach oben oder in die Wurzel verschiebt).",
                 "q3": "F: Kann ich meine Prompts teilen?",
-                "a3": "Derzeit ist PromptHive ein lokales Einzelbenutzer-Tool. Du kannst jedoch die <strong>Import/Export</strong>-Funktion in der Seitenleiste verwenden, um JSON-Dateien mit Kollegen zu teilen."
+                "a3": "Derzeit ist MyPromptHive ein lokales Einzelbenutzer-Tool. Du kannst jedoch die <strong>Import/Export</strong>-Funktion in der Seitenleiste verwenden, um JSON-Dateien mit Kollegen zu teilen."
             },
             "technicalIds": {
                 "desc": "Technische IDs bieten eine stabile, lesbare Referenz für Ihre Prompts (z.B. VIBE-123).",

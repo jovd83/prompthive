@@ -124,7 +124,7 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
                             <img src="/logo-light.png" alt="Logo" className="w-8 h-8 object-contain rounded-md dark:hidden" />
                             <img src="/logo-dark.png" alt="Logo" className="w-8 h-8 object-contain rounded-md hidden dark:block" />
                             <h1 className="text-xl font-bold flex items-center gap-2">
-                                <span>PromptHive</span>
+                                <span>MyPromptHive</span>
                             </h1>
                         </div>
                     )}

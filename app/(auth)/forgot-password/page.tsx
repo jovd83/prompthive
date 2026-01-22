@@ -24,8 +24,8 @@ export default function ForgotPasswordPage() {
         <div className="min-h-screen flex items-center justify-center bg-background p-4">
             <div className="card w-full max-w-md space-y-6 animate-in slide-in-from-bottom-4 duration-500 fade-in flex flex-col items-center border border-border/50 shadow-2xl bg-surface/50 backdrop-blur-sm">
                 <div className="flex justify-center mb-2">
-                    <img src="/logo-light.png" alt="PromptHive Logo" className="w-12 h-12 object-contain dark:hidden" />
-                    <img src="/logo-dark.png" alt="PromptHive Logo" className="w-12 h-12 object-contain hidden dark:block" />
+                    <img src="/logo-light.png" alt="MyPromptHive Logo" className="w-12 h-12 object-contain dark:hidden" />
+                    <img src="/logo-dark.png" alt="MyPromptHive Logo" className="w-12 h-12 object-contain hidden dark:block" />
                 </div>
                 <div className="text-center space-y-2">
                     <h1 className="text-2xl font-bold">Reset Password</h1>

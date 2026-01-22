@@ -38,7 +38,7 @@ test.describe('Import / Export', () => {
 
         // Wait for download
         const download = await downloadPromise;
-        expect(download.suggestedFilename()).toMatch(/prompthive-backup-.*\.json/);
+        expect(download.suggestedFilename()).toMatch(/myprompthive-backup-.*\.json/);
 
         // Verify success message appears (optional, depends on speed)
         await expect(page.getByText('Export complete')).toBeVisible({ timeout: 10000 });

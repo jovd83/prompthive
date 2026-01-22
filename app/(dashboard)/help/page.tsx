@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CopyToClipboard } from "@/components/CopyToClipboard";
 
-const SCRAPER_SYSTEM_PROMPT = `**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "PromptHive" application.
+const SCRAPER_SYSTEM_PROMPT = `**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "MyPromptHive" application.
 
 **Task**: 
 1. Access and analyze the content of the following URL: [URL]

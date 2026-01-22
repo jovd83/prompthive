@@ -198,7 +198,7 @@ export async function POST(request: Request) {
     return new NextResponse(JSON.stringify(exportData, null, 2), {
         headers: {
             "Content-Type": "application/json",
-            "Content-Disposition": `attachment; filename="prompthive-backup-${new Date().toISOString().split('T')[0]}.json"`,
+            "Content-Disposition": `attachment; filename="myprompthive-backup-${new Date().toISOString().split('T')[0]}.json"`,
         },
     });
 }

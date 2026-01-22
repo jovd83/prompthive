@@ -11,7 +11,7 @@ export function detectFormat(data: any): 'PROMPTCAT' | 'STANDARD' {
         const first = data[0];
         // PromptCat items often have 'body' instead of 'content' (though mapped later), 
         // or 'categories' instead of 'collections', or 'notes'.
-        // Standard PromptHive items usually have 'versions' array.
+        // Standard MyPromptHive items usually have 'versions' array.
         if ((first.body !== undefined || first.categories !== undefined) && first.versions === undefined) {
             return 'PROMPTCAT';
         }

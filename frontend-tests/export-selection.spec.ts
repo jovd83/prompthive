@@ -80,7 +80,7 @@ test.describe('Export Selection Features', () => {
         const stdDownloadPromise = page.waitForEvent('download');
         await standardHeader.getByRole('button', { name: "Download JSON" }).click();
         const stdDownload = await stdDownloadPromise;
-        expect(stdDownload.suggestedFilename()).toContain('prompthive-backup-');
+        expect(stdDownload.suggestedFilename()).toContain('myprompthive-backup-');
 
         // 2. Test Zero Export
         const zeroSelectAll = zeroHeader.getByRole('button', { name: "Select All" });
@@ -89,8 +89,8 @@ test.describe('Export Selection Features', () => {
 
         const zeroDownloadPromise = page.waitForEvent('download');
         // Button text is now "Export for PromptHive Zero" in English
-        await zeroHeader.getByRole('button', { name: "Export for PromptHive Zero" }).click();
+        await zeroHeader.getByRole('button', { name: "Export for MyPromptHive Zero" }).click();
         const zeroDownload = await zeroDownloadPromise;
-        expect(zeroDownload.suggestedFilename()).toContain('prompthive-zero-export-');
+        expect(zeroDownload.suggestedFilename()).toContain('myprompthive-zero-export-');
     });
 });

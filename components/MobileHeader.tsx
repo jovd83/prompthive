@@ -12,7 +12,7 @@ export const MobileHeader = ({ onMenuClick }: MobileHeaderProps) => {
             <div className="flex items-center gap-2">
                 <img src="/logo-light.png" alt="Logo" className="w-8 h-8 object-contain rounded-md dark:hidden" />
                 <img src="/logo-dark.png" alt="Logo" className="w-8 h-8 object-contain rounded-md hidden dark:block" />
-                <h1 className="text-xl font-bold">PromptHive</h1>
+                <h1 className="text-xl font-bold">MyPromptHive</h1>
             </div>
             <button
                 onClick={onMenuClick}

@@ -1,10 +1,10 @@
 # Technical Reference
 
-This document provides a detailed overview of the PromptHive architecture, data model, and key application logic.
+This document provides a detailed overview of the MyPromptHive architecture, data model, and key application logic.
 
 ## 🏗️ Architecture Overview
 
-PromptHive is built as a monolithic **Next.js** application using the **App Router** for routing. Following a major refactoring (Dec 2025), the backend logic is now decoupled into modular **Server Actions** and a validation-first **Service Layer**.
+MyPromptHive is built as a monolithic **Next.js** application using the **App Router** for routing. Following a major refactoring (Dec 2025), the backend logic is now decoupled into modular **Server Actions** and a validation-first **Service Layer**.
 
 ![Architecture Diagram](../diagrams/img/architecture.png)
 
@@ -236,7 +236,7 @@ To prevent accidental data loss during development, we use strict database isola
 
 ## Technology Stack & Decision Records
 
-This document details the architectural decisions regarding the technology stack chosen for **PromptHive**. It explains the rationale behind each major library and framework, highlighting how they align with the project's core requirements: **Local-First**, **Single-User/Small-Team**, **Privacy-Centric**, and **Rapid Development**.
+This document details the architectural decisions regarding the technology stack chosen for **MyPromptHive**. It explains the rationale behind each major library and framework, highlighting how they align with the project's core requirements: **Local-First**, **Single-User/Small-Team**, **Privacy-Centric**, and **Rapid Development**.
 
 ---
 

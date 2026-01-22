@@ -30,10 +30,10 @@ function LoginForm() {
     return (
         <div className="card w-full max-w-md space-y-6 animate-fade-in flex flex-col items-center">
             <div className="flex justify-center mb-2">
-                <img src="/logo-light.png" alt="PromptHive Logo" className="w-16 h-16 object-contain dark:hidden" />
-                <img src="/logo-dark.png" alt="PromptHive Logo" className="w-16 h-16 object-contain hidden dark:block" />
+                <img src="/logo-light.png" alt="MyPromptHive Logo" className="w-16 h-16 object-contain dark:hidden" />
+                <img src="/logo-dark.png" alt="MyPromptHive Logo" className="w-16 h-16 object-contain hidden dark:block" />
             </div>
-            <h1 className="text-2xl font-bold text-center">PromptHive</h1>
+            <h1 className="text-2xl font-bold text-center">MyPromptHive</h1>
             {registered && (
                 <div className="bg-green-50 text-green-600 p-3 rounded-md text-sm text-center border border-green-200">
                     Account created successfully. Please sign in.

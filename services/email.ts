@@ -13,7 +13,7 @@ export async function sendWelcomeEmail(email: string): Promise<void> {
         await fs.mkdir(logDir, { recursive: true });
         const logFile = path.join(logDir, 'email.log');
         const timestamp = new Date().toISOString();
-        const message = `[${timestamp}] [WELCOME EMAIL] To: ${email} | Subject: Welcome to PromptHive!\n`;
+        const message = `[${timestamp}] [WELCOME EMAIL] To: ${email} | Subject: Welcome to MyPromptHive!\n`;
 
         await fs.appendFile(logFile, message);
         console.log(`[Mock Email] Welcome email sent to ${email}`);

@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.1 (Unreleased)
+
+### Added
+
+### Changed
+
+- **Name Change** Renamed the app from MyPromptHive to MyPrompthive
+
+### Fixed
+
+### Removed
+
 ## 3.0.0 - mobile_view (2026-01-18)
 
 ### Added
@@ -111,12 +123,12 @@
 ### Added
 *   **Import Progress Bar**: Added a progress bar for JSON imports, processing files in batches to prevent the UI from freezing during large uploads.
 *   **Bulk Actions Select All**: Added "Select All" and "Deselect All" buttons to the bulk action header in Collections, allowing users to quickly manage large numbers of prompts.
-*   **Export for PromptHive Zero**: allowing export of specific collections in a lightweight JSON format.
+*   **Export for MyPromptHive Zero**: allowing export of specific collections in a lightweight JSON format.
 *   **Locking Prompts**: Creators can now lock their prompts to prevent accidental edits or modification by other users. Locked prompts show a padlock icon and disable edit features.
 
 
 ### Changed
-*   **Export UI**: Renamed generic JSON export button to "Export for PromptHive Zero" and ensured full internationalization support for the export section across all languages.
+*   **Export UI**: Renamed generic JSON export button to "Export for MyPromptHive Zero" and ensured full internationalization support for the export section across all languages.
 *   **Export Collections Tree**: Replaced flat list selection with a hierarchical **Tree View** for both standard and Zero exports, enabling granular selection of nested collections and their children.
 
 ### Fixed
