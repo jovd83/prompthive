@@ -16,12 +16,12 @@ const config: Config = {
                     foreground: "var(--primary-foreground)",
                 },
                 secondary: {
-                    DEFAULT: "var(--surface)", // Using surface as secondary for now
-                    foreground: "var(--foreground)",
+                    DEFAULT: "hsl(var(--secondary))",
+                    foreground: "hsl(var(--secondary-foreground))",
                 },
                 muted: {
-                    DEFAULT: "var(--surface)",
-                    foreground: "var(--muted-foreground)",
+                    DEFAULT: "hsl(var(--muted))",
+                    foreground: "hsl(var(--muted-foreground))",
                 },
                 border: "var(--border)",
                 surface: "var(--surface)",

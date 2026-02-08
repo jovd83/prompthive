@@ -41,16 +41,23 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
                     orderBy: { versionNumber: "desc" },
                     take: 1,
                     select: { content: true, resultImage: true, attachments: { select: { filePath: true, role: true } } }
-                }
+                },
+                favoritedBy: { where: { userId: session.user.id } }
             },
             orderBy: orderBy
         });
+
+        // Inject isFavorited
+        const promptsWithFav = prompts.map(p => ({
+            ...p,
+            isFavorited: p.favoritedBy.length > 0
+        }));
 
         enhancedCollection = {
             id: 'unassigned',
             title: 'No Collection',
             description: 'Prompts not assigned to any collection (Global)',
-            prompts: prompts,
+            prompts: promptsWithFav,
             children: [],
             parent: null,
             totalPrompts: prompts.length,
@@ -74,7 +81,8 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
                             orderBy: { versionNumber: "desc" },
                             take: 1,
                             select: { content: true, resultImage: true, attachments: { select: { filePath: true, role: true } } }
-                        }
+                        },
+                        favoritedBy: { where: { userId: session.user.id } }
                     },
                     orderBy: orderBy
                 },
@@ -89,6 +97,14 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
         });
 
         if (!collection) notFound();
+
+        (collection as any).prompts = collection.prompts.map(p => {
+            const isFav = p.favoritedBy.length > 0;
+            return {
+                ...p,
+                isFavorited: isFav
+            };
+        });
 
         // Fetch all collections lightweight to compute recursive counts
         // Only fetch related tree (same owner) for recursive counting efficiency, or just fetch all if we want global tree awareness?

@@ -31,7 +31,13 @@
   --background: hsl(var(--bg-light));
   --surface: hsl(var(--surface-light));
   --foreground: hsl(var(--text-light));
+
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+
+  --muted: 240 4.8% 95.9%;
   --muted-foreground: hsl(var(--muted-light));
+
   --primary: hsl(var(--primary-hue), var(--primary-sat), var(--primary-light));
   --primary-foreground: hsl(0, 0%, 100%);
   --border: hsl(var(--border-light));
@@ -45,7 +51,13 @@
     --background: hsl(var(--bg-dark));
     --surface: hsl(var(--surface-dark));
     --foreground: hsl(var(--text-dark));
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
     --muted-foreground: hsl(var(--muted-dark));
+
     --border: hsl(var(--border-dark));
   }
 }
@@ -54,7 +66,13 @@
   --background: hsl(var(--bg-dark));
   --surface: hsl(var(--surface-dark));
   --foreground: hsl(var(--text-dark));
+
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+
+  --muted: 240 3.7% 15.9%;
   --muted-foreground: hsl(var(--muted-dark));
+
   --border: hsl(var(--border-dark));
 }
 

@@ -1,14 +1,19 @@
 # Changelog
 
-## 3.0.1 (Unreleased)
+## 3.0.1 (2026-02-08)
 
 ### Added
+- **Collection Deletion**: Added a progress bar for collection deletion to provide feedback during long-running operations. The deletion process is now batched to prevent timeouts.
 
 ### Changed
 
 - **Name Change** Renamed the app from PromptHive to MyPromptHive
 
 ### Fixed
+- **Collection Grid**: Fixed an issue where tag colors were displayed in the collection grid view even when disabled in user settings.
+- **Scraping Prompt**: Fixed the AI scraping prompt to generate compatible JSON and updated the importer to handle flat file fields correctly.
+- **Favorites**: Fixed an issue with favorite collections.
+
 
 ### Removed
 

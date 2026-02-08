@@ -271,3 +271,13 @@ export async function searchCandidatePrompts(query: string, excludeId: string) {
 
     return PromptsService.searchPromptsForLinkingService(session.user.id, query, excludeId);
 }
+
+export async function bulkDeletePrompts(promptIds: string[]) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+
+    const result = await PromptsService.bulkDeletePromptsService(session.user.id, promptIds);
+    return { success: true, count: result.count };
+}
+

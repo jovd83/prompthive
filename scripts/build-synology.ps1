@@ -3,7 +3,7 @@
 $ErrorActionPreference = "Stop"
 
 $ImageName = "prompthive-prod-debian"
-$TarName = "prompthive-prod-debian.tar"
+$TarName = "synology/prompthive-prod-debian.tar"
 
 Write-Host "Building Docker image: $ImageName..."
 docker build -t $ImageName .

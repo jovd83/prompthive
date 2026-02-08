@@ -1,6 +1,6 @@
-
 import { prisma } from "@/lib/prisma";
 import fs from "fs/promises";
+import { existsSync, readFileSync } from "fs";
 import path from "path";
 
 // Helper for backup (server-side only)
@@ -9,8 +9,8 @@ function getFileAsBase64(urlPath: string | null): { data: string; type: string }
     try {
         const relativePath = urlPath.startsWith('/') ? urlPath.substring(1) : urlPath;
         const fullPath = path.join(process.cwd(), "public", relativePath);
-        if (require('fs').existsSync(fullPath)) {
-            const fileBuffer = require('fs').readFileSync(fullPath);
+        if (existsSync(fullPath)) {
+            const fileBuffer = readFileSync(fullPath);
             const ext = path.extname(fullPath).toLowerCase().substring(1);
             let mimeType = "application/octet-stream";
             if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) mimeType = `image/${ext}`;
@@ -95,6 +95,11 @@ export async function performBackupService(userId: string, backupPath: string) {
 }
 
 export async function dropAllDataService(userId: string) {
+    // 0. Dependent Relations
+    await prisma.favorite.deleteMany({});
+    await prisma.workflowStep.deleteMany({});
+    await prisma.workflow.deleteMany({});
+
     // 1. Attachments/Versions/Prompts
     await prisma.promptVersion.deleteMany({});
     await prisma.prompt.deleteMany({});

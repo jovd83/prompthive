@@ -778,3 +778,40 @@ export async function unlinkPromptsService(userId: string, promptIdA: string, pr
         });
     }
 }
+
+export async function bulkDeletePromptsService(userId: string, promptIds: string[]) {
+    // 1. Verify ownership/permissions for all prompts
+    // Optimization: Check createdById or Admin role in one query
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const isAdmin = user?.role === 'ADMIN';
+
+    const prompts = await prisma.prompt.findMany({
+        where: { id: { in: promptIds } },
+        select: { id: true, createdById: true }
+    });
+
+    // Filter valid prompts
+    const validPrompts = prompts.filter(p => p.createdById === userId || isAdmin);
+    const validIds = validPrompts.map(p => p.id);
+
+    // 2. Cleanup assets for each prompt (must be done before delete)
+    for (const pid of validIds) {
+        await cleanupPromptAssetsService(pid);
+        // Also cleanup relations that might block delete or need explicit cleanup
+        await prisma.favorite.deleteMany({ where: { promptId: pid } });
+        await prisma.workflowStep.deleteMany({ where: { promptId: pid } });
+    }
+
+    // 3. Delete prompts
+    if (validIds.length > 0) {
+        await prisma.prompt.deleteMany({
+            where: { id: { in: validIds } }
+        });
+    }
+
+    // 4. Cleanup tags
+    await deleteUnusedTagsService();
+
+    return { count: validIds.length };
+}
+

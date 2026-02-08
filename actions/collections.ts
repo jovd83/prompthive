@@ -117,3 +117,10 @@ export async function emptyCollection(collectionId: string) {
     revalidatePath(`/collections/${collectionId}`);
     revalidatePath("/collections");
 }
+
+export async function getCollectionDescendantsAction(collectionId: string) {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) throw new Error("Unauthorized");
+    return CollectionsService.getCollectionDescendantsService(session.user.id, collectionId);
+}
+

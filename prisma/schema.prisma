@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
@@ -9,157 +9,154 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  username      String    @unique
-  passwordHash  String
-  role          String    @default("USER") // ADMIN, USER
-  language      String    @default("en") // en, nl, fr
-  avatarUrl     String?
-  resetToken    String?   @unique
+  id                String          @id @default(cuid())
+  email             String          @unique
+  username          String          @unique
+  passwordHash      String
+  role              String          @default("USER")
+  language          String          @default("en")
+  avatarUrl         String?
+  resetToken        String?         @unique
   resetTokenExpires DateTime?
-  createdAt     DateTime  @default(now())
-  prompts       Prompt[]
-  versions      PromptVersion[]
-  collections   Collection[]
-  workflows     Workflow[]
-  favorites     Favorite[]
-  settings      Settings?
-  hiddenInSettings Settings[] @relation("UserVisibility")
+  createdAt         DateTime        @default(now())
+  collections       Collection[]
+  favorites         Favorite[]
+  prompts           Prompt[]
+  versions          PromptVersion[]
+  settings          Settings?
+  workflows         Workflow[]
+  hiddenInSettings  Settings[]      @relation("UserVisibility")
 }
 
 model Settings {
-  id              String    @id @default(cuid())
-  userId          String    @unique
-  user            User      @relation(fields: [userId], references: [id])
-  autoBackupEnabled Boolean   @default(false)
-  backupPath      String?
-  backupFrequency String    @default("DAILY") // DAILY, WEEKLY, MONTHLY
-  lastBackupAt    DateTime?
-  showPrompterTips Boolean   @default(true)
-  tagColorsEnabled Boolean   @default(true)
-  workflowVisible Boolean    @default(false)
-  hiddenUsers     User[]    @relation("UserVisibility")
+  id                String       @id @default(cuid())
+  userId            String       @unique
+  autoBackupEnabled Boolean      @default(false)
+  backupPath        String?
+  backupFrequency   String       @default("DAILY")
+  lastBackupAt      DateTime?
+  showPrompterTips  Boolean      @default(true)
+  tagColorsEnabled  Boolean      @default(true)
+  workflowVisible   Boolean      @default(false)
+  user              User         @relation(fields: [userId], references: [id])
   hiddenCollections Collection[] @relation("CollectionVisibility")
+  hiddenUsers       User[]       @relation("UserVisibility")
 }
 
 model GlobalConfiguration {
-  id                 String  @id @default("GLOBAL")
-  registrationEnabled Boolean @default(true)
+  id                    String  @id @default("GLOBAL")
+  registrationEnabled   Boolean @default(true)
   privatePromptsEnabled Boolean @default(false)
 }
 
 model Prompt {
-  id              String    @id @default(cuid())
-  title           String
-  description     String?
-  resource        String?   // External URL or reference
-  // tags field replaced by relation
+  id               String          @id @default(cuid())
+  title            String
+  description      String?
+  resource         String?
   currentVersionId String?
-  createdById     String
-  createdBy       User      @relation(fields: [createdById], references: [id])
-  viewCount       Int       @default(0)
-  copyCount       Int       @default(0)
-  isLocked        Boolean   @default(false)
-  isPrivate       Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  versions        PromptVersion[]
-  collections     Collection[]
-  tags            Tag[]
-  workflowSteps   WorkflowStep[]
-  favoritedBy     Favorite[]
-  technicalId     String?   @unique // Generated human-readable ID
-  
-  // Many-to-Many Self Relation for Linked Prompts
-  relatedPrompts  Prompt[]  @relation("PromptLinks")
-  relatedToPrompts Prompt[] @relation("PromptLinks")
+  createdById      String
+  viewCount        Int             @default(0)
+  copyCount        Int             @default(0)
+  isLocked         Boolean         @default(false)
+  isPrivate        Boolean         @default(false)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  technicalId      String?         @unique
+  favoritedBy      Favorite[]
+  createdBy        User            @relation(fields: [createdById], references: [id])
+  versions         PromptVersion[]
+  workflowSteps    WorkflowStep[]
+  collections      Collection[]    @relation("CollectionToPrompt")
+  relatedPrompts   Prompt[]        @relation("PromptLinks")
+  relatedToPrompts Prompt[]        @relation("PromptLinks")
+  tags             Tag[]           @relation("PromptToTag")
 }
 
 model TechnicalIdSequence {
-  prefix        String  @id
-  lastValue     Int     @default(0)
+  prefix    String @id
+  lastValue Int    @default(0)
 }
 
 model Tag {
-  id      String   @id @default(cuid())
-  name    String   @unique
-  color   String?
-  prompts Prompt[]
+  id        String   @id @default(cuid())
+  name      String   @unique
+  color     String?
   createdAt DateTime @default(now())
+  prompts   Prompt[] @relation("PromptToTag")
 }
 
 model PromptVersion {
-  id                  String    @id @default(cuid())
+  id                  String       @id @default(cuid())
   promptId            String
-  prompt              Prompt    @relation(fields: [promptId], references: [id], onDelete: Cascade)
   content             String
   shortContent        String?
   usageExample        String?
-  variableDefinitions String?   // JSON string
+  variableDefinitions String?
   model               String?
-  resultImage         String?   // Path to uploaded image result
-  resultText          String?   // Textual result of the prompt
+  resultImage         String?
+  resultText          String?
   versionNumber       Int
   changelog           String?
   createdById         String
-  createdBy           User      @relation(fields: [createdById], references: [id])
-  createdAt           DateTime  @default(now())
+  createdAt           DateTime     @default(now())
   attachments         Attachment[]
+  createdBy           User         @relation(fields: [createdById], references: [id])
+  prompt              Prompt       @relation(fields: [promptId], references: [id], onDelete: Cascade)
 }
 
 model Attachment {
-  id          String        @id @default(cuid())
-  versionId   String
-  version     PromptVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
-  filePath    String
-  fileType    String
+  id           String        @id @default(cuid())
+  versionId    String
+  filePath     String
+  fileType     String
   originalName String?
-  role        String        @default("ATTACHMENT") // ATTACHMENT, RESULT
-  createdAt   DateTime      @default(now())
+  role         String        @default("ATTACHMENT")
+  createdAt    DateTime      @default(now())
+  version      PromptVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
 }
 
 model Collection {
-  id          String       @id @default(cuid())
-  title       String
-  description String?
-  ownerId     String
-  owner       User         @relation(fields: [ownerId], references: [id])
-  prompts     Prompt[]
-  parentId    String?
-  parent      Collection?  @relation("CollectionHierarchy", fields: [parentId], references: [id])
-  children    Collection[] @relation("CollectionHierarchy")
-  createdAt   DateTime     @default(now())
-  hiddenInSettings Settings[] @relation("CollectionVisibility")
+  id               String       @id @default(cuid())
+  title            String
+  description      String?
+  ownerId          String
+  parentId         String?
+  createdAt        DateTime     @default(now())
+  parent           Collection?  @relation("CollectionHierarchy", fields: [parentId], references: [id])
+  children         Collection[] @relation("CollectionHierarchy")
+  owner            User         @relation(fields: [ownerId], references: [id])
+  prompts          Prompt[]     @relation("CollectionToPrompt")
+  hiddenInSettings Settings[]   @relation("CollectionVisibility")
 }
+
 model Workflow {
   id          String         @id @default(cuid())
   title       String
   description String?
   ownerId     String
-  owner       User           @relation(fields: [ownerId], references: [id])
-  steps       WorkflowStep[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+  owner       User           @relation(fields: [ownerId], references: [id])
+  steps       WorkflowStep[]
 }
 
 model WorkflowStep {
   id            String   @id @default(cuid())
   workflowId    String
-  workflow      Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
   promptId      String
-  prompt        Prompt   @relation(fields: [promptId], references: [id])
   order         Int
-  // JSON string: { "variableName": "USER_INPUT" | "stepId" }
   inputMappings String?
+  prompt        Prompt   @relation(fields: [promptId], references: [id])
+  workflow      Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 }
 
 model Favorite {
   userId    String
   promptId  String
-  user      User     @relation(fields: [userId], references: [id])
-  prompt    Prompt   @relation(fields: [promptId], references: [id])
   createdAt DateTime @default(now())
+  prompt    Prompt   @relation(fields: [promptId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 
   @@id([userId, promptId])
 }

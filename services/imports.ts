@@ -34,24 +34,27 @@ async function ensureTags(tagNames: Set<string>): Promise<Map<string, string>> {
         where: { name: { in: names } }
     });
 
-    const existingMap = new Map(existingTags.map(t => [t.name, t.id]));
-    const missingNames = names.filter(n => !existingMap.has(n));
+    // Map keys are lowercased for case-insensitive lookup
+    const existingMap = new Map(existingTags.map(t => [t.name.toLowerCase(), t.id]));
+
+    // Check missing using lowercase comparison
+    const missingNames = names.filter(n => !existingMap.has(n.toLowerCase()));
 
     // Create missing tags
     for (const name of missingNames) {
-        // Prisma createMany doesn't return IDs in SQLite/some adapters, so we loop create (safer but slower)
-        // OR we createMany then refetch. For safety with colors, we loop.
-        // Optimization: This loop is only for NEW tags.
+        // Double check not added in this loop (if duplicates in input with diff case)
+        if (existingMap.has(name.toLowerCase())) continue;
+
         const color = generateColorFromName(name);
         try {
             const newTag = await prisma.tag.create({
                 data: { name, color }
             });
-            existingMap.set(name, newTag.id);
+            existingMap.set(name.toLowerCase(), newTag.id);
         } catch (e) {
             // Race condition fallback
             const existing = await prisma.tag.findUnique({ where: { name } });
-            if (existing) existingMap.set(name, existing.id);
+            if (existing) existingMap.set(name.toLowerCase(), existing.id);
         }
     }
 
@@ -206,7 +209,8 @@ export async function importPromptsService(userId: string, data: ValidatedImport
         const itemTags = Array.isArray(item.tags)
             ? item.tags
             : (item.tags ? String(item.tags).split(',').map(t => t.trim()).filter(Boolean) : []);
-        const tagIds = itemTags.map(t => tagMap.get(t)).filter(Boolean) as string[];
+        // Lookup using lowercase
+        const tagIds = itemTags.map(t => tagMap.get(t.toLowerCase())).filter(Boolean) as string[];
 
         // Collections
         const collectionIds = new Set<string>();
@@ -280,7 +284,11 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                 content: item.content || "",
                 shortContent: "", // Legacy mapping removed for brevity, handled in schema if needed
                 description: item.description, // Often stored in prompt description, but maybe version note?
-                variableDefinitions: "[]", // Simplified for now
+                usageExample: item.usageExample,
+                variableDefinitions: typeof item.variableDefinitions === 'string'
+                    ? item.variableDefinitions
+                    : JSON.stringify(item.variableDefinitions || []),
+                resultText: item.resultText,
                 createdById: userId
             }];
         }

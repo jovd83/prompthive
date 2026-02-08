@@ -132,7 +132,7 @@ export default function CollectionSplitView({ collection, selectedPrompt, prompt
                     // On mobile, if no prompt selected, we show sidebar. So this branch is mostly for Desktop when no prompt selected.
                     // But if isMobile && !selectedPrompt, showDetail is false, so this hidden.
                     // If !isMobile && !selectedPrompt, showDetail is true, CollectionGrid shown. Correct.
-                    <CollectionGrid collection={collection} />
+                    <CollectionGrid collection={collection} tagColorsEnabled={tagColorsEnabled} />
                 )}
             </div>
         </div >

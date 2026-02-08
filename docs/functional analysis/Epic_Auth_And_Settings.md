@@ -121,6 +121,7 @@ Users can choose between a colorful palette for tags (where each tag has a disti
 *   [ ] Verify that toggling "Enable Tag Colors" updates `Settings.tagColorsEnabled`.
 *   [ ] Verify that when enabled, tags display their assigned color.
 *   [ ] Verify that when disabled, tags display the default system color.
+*   [ ] Verify that tags in Collection Grid View respect the setting.
 *   [ ] Verify that new tags get a color assigned (either automatically or manually).
 
 ## User Story: Workflow Visibility

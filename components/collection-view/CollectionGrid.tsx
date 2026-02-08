@@ -4,9 +4,10 @@ import { CollectionWithPrompts } from "@/types/prisma";
 
 interface CollectionGridProps {
     collection: CollectionWithPrompts;
+    tagColorsEnabled?: boolean;
 }
 
-export default function CollectionGrid({ collection }: CollectionGridProps) {
+export default function CollectionGrid({ collection, tagColorsEnabled = true }: CollectionGridProps) {
     if (collection.prompts.length > 0) {
         return (
             <div className="h-full overflow-y-auto">
@@ -17,7 +18,7 @@ export default function CollectionGrid({ collection }: CollectionGridProps) {
                     </div>
                     <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-4">
                         {collection.prompts.map((prompt: any) => (
-                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={false} />
+                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={prompt.isFavorited} tagColorsEnabled={tagColorsEnabled} />
                         ))}
                     </div>
                 </div>

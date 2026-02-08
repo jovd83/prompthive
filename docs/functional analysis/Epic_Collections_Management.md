@@ -122,6 +122,10 @@ When a user selects a collection from the sidebar, the main pane (right side) sh
 *   [ ] Verify that clicking a collection name (without selecting a prompt) shows the grid view.
 *   [ ] Verify that the grid view contains `PromptCard` components.
 *   [ ] Verify that `PromptCard` shows thumbnails and stats correctly (requires data fetch update).
+*   [ ] Verify "Favorite" (Heart) icon reflects the user's current favorite status for each prompt.
+*   [ ] Verify clicking the "Favorite" icon toggles the status ONLY for the specific card clicked, and updates the icon state immediately.
+*   [ ] Verify that opening a collection shows the correct favorite state for all prompts (persistence check).
+*   [ ] Verify clicking the "Favorite" icon toggles the status correctly without affecting other items.
 *   [ ] Verify that selecting a prompt from the sidebar (or clicking a card) opens the `PromptDetail` view.
 
 ### 4. UI Wireframe Specification
@@ -184,6 +188,7 @@ Each collection in the sidebar should have a context menu (accessible via '...' 
     *   **Edit Collection**: Open dialog/navigate to edit name/desc. (Available to Owner/Admin)
     *   **Delete**: Prompt for confirmation. (Available to Owner/Admin)
         *   Option to "Delete everything" must recursively delete all child collections and prompts.
+        *   **Feedback**: For large collections, a progress bar must be displayed during deletion.
         *   Option to "Keep contents" moves all children and prompts to the parent collection.
 
 ### 3. Acceptance Criteria (AC)

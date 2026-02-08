@@ -3,12 +3,12 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Folder, Plus, Check, X, MoreVertical, Edit2, Layers, FileText, Trash2, CheckSquare, Square, Tag as TagIcon, Move } from "lucide-react";
+import { Folder, Plus, Check, X, MoreVertical, Edit2, Layers, FileText, Trash2, CheckSquare, Square, Tag as TagIcon, Move, Loader2 } from "lucide-react";
 import SortControls from "@/components/SortControls";
 import CollectionPromptListItem from "./CollectionPromptListItem";
 import TagSelector from "@/components/TagSelector";
-import { updateCollectionDetails, deleteCollection, emptyCollection, moveCollection } from "@/actions/collections";
-import { bulkAddTags, movePrompt, bulkMovePrompts } from "@/actions/prompts";
+import { updateCollectionDetails, deleteCollection, emptyCollection, moveCollection, getCollectionDescendantsAction } from "@/actions/collections";
+import { bulkAddTags, movePrompt, bulkMovePrompts, bulkDeletePrompts } from "@/actions/prompts";
 import { useLanguage } from "@/components/LanguageProvider"; // Ensure correct path
 import { CollectionWithPrompts, TagWithCount } from "@/types/prisma";
 
@@ -40,6 +40,7 @@ export default function CollectionSidebar({
     const [isDeleting, setIsDeleting] = useState(false);
     const [isEmptying, setIsEmptying] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [progress, setProgress] = useState<{ current: number, total: number, message: string } | null>(null);
 
     // Bulk Actions State
     const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -61,7 +62,15 @@ export default function CollectionSidebar({
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
                 setIsMenuOpen(false);
                 setIsDeleting(false);
+                setIsDeleting(false);
                 setIsEmptying(false);
+                if (progress && progress.total > 0 && progress.current < progress.total) {
+                    // Don't close if progress running? Or allow close?
+                    // Ideally prevent close, but for now let's allow close which might look weird but action continues in background?
+                    // No, action continues but UI is gone. 
+                    // Let's not reset progress on close, but we reset `isMenuOpen` which hides the UI.
+                    // The action is async.
+                }
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -93,12 +102,45 @@ export default function CollectionSidebar({
 
     const handleDelete = async (deletePrompts: boolean = false) => {
         try {
-            await deleteCollection(collection.id, deletePrompts);
+            if (!deletePrompts) {
+                // Simple delete (keep contents)
+                await deleteCollection(collection.id, false);
+                router.replace(`/?deletedCollection=${encodeURIComponent(collection.title)}`);
+                router.refresh();
+                return;
+            }
+
+            // Recursive delete with progress
+            setProgress({ current: 0, total: 100, message: "Analyzing..." });
+
+            // 1. Get IDs
+            const { promptIds } = await getCollectionDescendantsAction(collection.id);
+            const total = promptIds.length;
+
+            // 2. Batch Delete Prompts
+            if (total > 0) {
+                const BATCH_SIZE = 20;
+                let processed = 0;
+                setProgress({ current: 0, total, message: "Deleting prompts..." });
+
+                for (let i = 0; i < total; i += BATCH_SIZE) {
+                    const batch = promptIds.slice(i, i + BATCH_SIZE);
+                    await bulkDeletePrompts(batch);
+                    processed += batch.length;
+                    setProgress({ current: Math.min(processed, total), total, message: `Deleting prompts (${Math.min(processed, total)}/${total})...` });
+                }
+            }
+
+            // 3. Delete Structure
+            setProgress({ current: total, total: total || 1, message: "Cleaning up collections..." });
+            await deleteCollection(collection.id, true);
+
             router.replace(`/?deletedCollection=${encodeURIComponent(collection.title)}`);
             router.refresh();
         } catch (error) {
             console.error("Failed to delete collection:", error);
             setError("Failed to delete collection. Ensure it is empty if deleting safely.");
+            setProgress(null);
         }
     };
 
@@ -223,18 +265,35 @@ export default function CollectionSidebar({
                                                         </div>
                                                     ) : isDeleting ? (
                                                         <div className="p-2 space-y-2">
-                                                            <p className="text-xs font-bold text-red-500 px-1">Delete collection?</p>
-                                                            <div className="space-y-1">
-                                                                <button onClick={() => handleDelete(false)} className="w-full text-left text-[11px] hover:bg-red-50 text-red-600 p-1.5 rounded border border-red-100 dark:border-red-900/30 dark:hover:bg-red-900/20">
-                                                                    <strong>Delete Collection Only</strong>
-                                                                    <div className="text-[9px] opacity-80">Prompts move to parent</div>
-                                                                </button>
-                                                                <button onClick={() => handleDelete(true)} className="w-full text-left text-[11px] bg-red-500 text-white p-1.5 rounded hover:bg-red-600">
-                                                                    <strong>Delete Everything</strong>
-                                                                    <div className="text-[9px] opacity-90">Delete collection & prompts</div>
-                                                                </button>
-                                                            </div>
-                                                            <button onClick={() => setIsDeleting(false)} className="w-full text-xs bg-muted text-foreground py-1 rounded hover:bg-background mt-1">Cancel</button>
+                                                            {progress ? (
+                                                                <div className="space-y-2 py-2">
+                                                                    <div className="flex justify-between text-[10px] text-muted-foreground px-1">
+                                                                        <span>{progress.message}</span>
+                                                                        <span>{progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0}%</span>
+                                                                    </div>
+                                                                    <div className="h-1.5 bg-muted rounded-full overflow-hidden mx-1">
+                                                                        <div
+                                                                            className="h-full bg-red-500 transition-all duration-300 ease-out"
+                                                                            style={{ width: `${progress.total > 0 ? (progress.current / progress.total) * 100 : 0}%` }}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <>
+                                                                    <p className="text-xs font-bold text-red-500 px-1">Delete collection?</p>
+                                                                    <div className="space-y-1">
+                                                                        <button onClick={() => handleDelete(false)} className="w-full text-left text-[11px] hover:bg-red-50 text-red-600 p-1.5 rounded border border-red-100 dark:border-red-900/30 dark:hover:bg-red-900/20">
+                                                                            <strong>Delete Collection Only</strong>
+                                                                            <div className="text-[9px] opacity-80">Prompts move to parent</div>
+                                                                        </button>
+                                                                        <button onClick={() => handleDelete(true)} className="w-full text-left text-[11px] bg-red-500 text-white p-1.5 rounded hover:bg-red-600">
+                                                                            <strong>Delete Everything</strong>
+                                                                            <div className="text-[9px] opacity-90">Delete collection & prompts</div>
+                                                                        </button>
+                                                                    </div>
+                                                                    <button onClick={() => setIsDeleting(false)} className="w-full text-xs bg-muted text-foreground py-1 rounded hover:bg-background mt-1">Cancel</button>
+                                                                </>
+                                                            )}
                                                         </div>
                                                     ) : (
                                                         <div className="p-1">

@@ -35,6 +35,7 @@ Users can import prompts from MyPromptHive backups, PromptCat exports, local fol
 *   [ ] Verify Unified Import accepts valid MyPromptHive JSON (array).
 *   [ ] Verify Unified Import accepts valid PromptCat JSON (object/array).
 *   [ ] **AC_NEW:** Verify Unified Import accepts legacy JSON formats (e.g. string tags, missing optional fields) without error.
+*   [ ] **AC_NEW:** Verify flat import structure correctly maps `variableDefinitions`, `resultText`, and `usageExample` to the created prompt.
 *   [ ] Verify Unified Import reconstructs the nested collection tree structure from `definedCollections`.
 *   [ ] **AC8:** Verify imported prompts are correctly linked to their restored parent collections in the database and visible in the UI.
 *   [ ] Verify proper progress bar is shown during import (identical UI to export).

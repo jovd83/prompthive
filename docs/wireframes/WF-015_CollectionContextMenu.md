@@ -17,8 +17,14 @@ A dropdown/popover menu appears with the following options:
 3.  **Edit Collection** (Edit2 Icon) - *Owner Only*
     *   **Action**: Navigates to Collection Detail with `?action=edit`, triggering the edit mode.
 4.  **Delete** (Trash2 Icon) - *Owner Only*
-    *   **Action**: Navigates to Collection Detail (or opens delete dialog directly if implemented, currently redirects to detail with delete menu available).
-    *   *Note*: To prevent accidental deletions via sidebar, we direct users to the detail view where a more robust delete flow exists, OR we could add a confirmation dialog here. Current implementation routes to detail or edit.
+    *   **Action**: Switches the menu content to a confirmation state.
+    *   **State 1 (Confirmation)**:
+        *   "Delete Collection Only" (Move contents to parent)
+        *   "Delete Everything" (Recursive delete)
+        *   "Cancel"
+    *   **State 2 (Progress)**:
+        *   Displays a **Progress Bar** indicating deletion status (e.g., "Deleting prompts... 45/120").
+        *   Buttons are disabled.
 
 ### 3. Visuals
 *   **Style**: Standard Shadcn/UI Popover or similar.

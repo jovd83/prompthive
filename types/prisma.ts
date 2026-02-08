@@ -28,6 +28,7 @@ export type CollectionWithPrompts = Prisma.CollectionGetPayload<typeof collectio
     _count?: { prompts: number };
     prompts: (Prisma.PromptGetPayload<{ include: { tags: true } }> & {
         _count?: { versions: number }; // sometimes we might need this
+        isFavorited?: boolean;
     })[];
     children: (Prisma.CollectionGetPayload<{ include: { prompts: true } }> & {
         totalPrompts?: number;
@@ -72,6 +73,7 @@ export type PromptWithRelations = Omit<Prisma.PromptGetPayload<typeof promptWith
     relatedPrompts?: { id: string; title: string, technicalId: string | null }[];
     relatedToPrompts?: { id: string; title: string, technicalId: string | null }[];
     tags: { id: string; name: string; color: string | null; createdAt: Date }[];
+    isFavorited?: boolean;
 };
 
 export type TagWithCount = {

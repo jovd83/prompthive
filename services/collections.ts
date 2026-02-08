@@ -279,3 +279,44 @@ export async function emptyCollectionService(userId: string, collectionId: strin
 
     await deleteUnusedTagsService();
 }
+
+export async function getCollectionDescendantsService(userId: string, collectionId: string): Promise<{ promptIds: string[], collectionIds: string[] }> {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const collection = await prisma.collection.findUnique({ where: { id: collectionId } });
+
+    if (!collection) throw new Error("Collection not found");
+    // Permission check
+    if (collection.ownerId !== userId && user?.role !== 'ADMIN') {
+        throw new Error("Access denied");
+    }
+
+    // BFS to find all descendant collections
+    const descendants: string[] = [];
+    const queue = [collectionId];
+
+    while (queue.length > 0) {
+        const currentId = queue.shift()!;
+        const children = await prisma.collection.findMany({
+            where: { parentId: currentId },
+            select: { id: true }
+        });
+        for (const child of children) {
+            descendants.push(child.id);
+            queue.push(child.id);
+        }
+    }
+
+    // Collections to check for prompts: all descendants + root
+    const targetCollectionIds = [...descendants, collectionId];
+
+    const prompts = await prisma.prompt.findMany({
+        where: { collections: { some: { id: { in: targetCollectionIds } } } },
+        select: { id: true }
+    });
+
+    return {
+        promptIds: Array.from(new Set(prompts.map(p => p.id))),
+        collectionIds: descendants
+    };
+}
+

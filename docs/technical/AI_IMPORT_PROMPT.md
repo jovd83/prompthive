@@ -20,7 +20,7 @@ Copy and paste the following prompt into your LLM of choice. Replace `[URL]` wit
             - **description**: Any explanatory text or context provided near the prompt.
             - **tags**: An array of 2-3 relevant topic tags based on the content (e.g., ["writing", "coding"]).
             - **usageExample**: If the page provides a "User Input" example (what the user types), extract it here. Otherwise, null.
-            - **variableDefinitions**: If the prompt uses placeholders (e.g., {{name}}), list them here as a comma-separated string (e.g., "{{name}}, {{date}}"). Otherwise, null.
+            - **variableDefinitions**: If the prompt uses placeholders (e.g., {{name}}), list them here as a JSON array of strings (e.g., ["{{name}}", "{{date}}"]). Otherwise, null.
             - **resultText**: If the page provides an "Output" or "Response" example from the AI, extract it here. Otherwise, null.
             - **resource**: The URL of the page being scraped ([URL]).
 4. **CRITICAL REQUIREMENT**: Add a `collection` field to EVERY prompt object. The value of this field MUST be the current date plus "Scrape" (e.g., "2024-12-08 Scrape"). This ensures all imported prompts are grouped together.
@@ -35,7 +35,7 @@ Copy and paste the following prompt into your LLM of choice. Replace `[URL]` wit
       "description": "Used for general text summarization.",
       "tags": ["writing", "summary"],
       "usageExample": "Here is an article about space...",
-      "variableDefinitions": "{{content}}",
+      "variableDefinitions": ["{{content}}"],
       "resultText": "The article establishes that space is big...",
       "resource": "https://example.com/prompts/123",
       "collection": "YYYY-MM-DD Scrape"
@@ -94,7 +94,7 @@ Fix the grammar in the following text: {{text}}
     "title": "Email Polisher",
     "description": "Use this to fix your grammar.",
     "content": "Fix the grammar in the following text: {{text}}",
-    "variableDefinitions": "{{text}}",
+    "variableDefinitions": ["{{text}}"],
     "resultText": "Your email is now polished.",
     "resource": "https://original-site.com/email-polisher",
     "tags": ["email", "grammar"],
