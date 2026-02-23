@@ -12,7 +12,7 @@ import { updateLanguage } from '@/actions/user';
 
 const dictionaries: Record<string, any> = { en, nl, fr, es, it, de, sv };
 
-type Language = 'en' | 'nl' | 'fr' | 'es' | 'it' | 'de' | 'sv';
+export type Language = 'en' | 'nl' | 'fr' | 'es' | 'it' | 'de' | 'sv';
 
 const LanguageContext = createContext<{
     language: Language;

@@ -1,6 +1,7 @@
 
 import { prisma } from "@/lib/prisma";
-import { cleanupPromptAssetsService, deleteUnusedTagsService } from "./prompts";
+import { TagService } from "./tags";
+import { PromptAttachmentService } from "./attachments";
 
 export async function createCollectionService(userId: string, title: string, description: string, parentId: string | null) {
     const existing = await prisma.collection.findFirst({
@@ -203,10 +204,10 @@ export async function deleteCollectionService(userId: string, collectionId: stri
         const promptIds = Array.from(new Set(allPrompts.map(p => p.id)));
 
         for (const pid of promptIds) {
-            await cleanupPromptAssetsService(pid);
+            await PromptAttachmentService.cleanupPromptAssetsService(pid);
             await prisma.prompt.delete({ where: { id: pid } });
         }
-        await deleteUnusedTagsService();
+        await TagService.deleteUnusedTagsService();
 
         // 2. Delete collections from bottom up (children first)
         for (const cid of allCollectionIdsToDelete) {
@@ -273,11 +274,11 @@ export async function emptyCollectionService(userId: string, collectionId: strin
     });
 
     for (const p of prompts) {
-        await cleanupPromptAssetsService(p.id);
+        await PromptAttachmentService.cleanupPromptAssetsService(p.id);
         await prisma.prompt.delete({ where: { id: p.id } });
     }
 
-    await deleteUnusedTagsService();
+    await TagService.deleteUnusedTagsService();
 }
 
 export async function getCollectionDescendantsService(userId: string, collectionId: string): Promise<{ promptIds: string[], collectionIds: string[] }> {

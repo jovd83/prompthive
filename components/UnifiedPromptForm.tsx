@@ -9,23 +9,17 @@ import ExpandableTextarea from "./ExpandableTextarea";
 import { useLanguage } from "./LanguageProvider";
 import { CollectionWithPrompts, TagWithCount, PromptWithRelations } from "@/types/prisma";
 import { usePromptEditor, Variable, UsePromptEditorProps } from "@/hooks/usePromptEditor";
+import { SafeRender } from "@/components/SafeRender";
 
 // Helper for collection counts
-import { computeRecursiveCounts } from '@/lib/collection-utils';
+import { CollectionWithCount, computeRecursiveCounts } from '@/lib/collection-utils';
 import { getDisplayName } from "@/lib/prompt-utils";
 
 interface UnifiedPromptFormProps {
     // Mode
     mode: 'CREATE' | 'EDIT';
     // Data
-    initialValues?: Partial<PromptWithRelations> & {
-        content?: string;
-        shortContent?: string;
-        usageExample?: string;
-        resultText?: string;
-        changelog?: string;
-        variableDefinitions?: string; // JSON
-    };
+    initialValues?: any;
     collections?: CollectionWithPrompts[];
     tags?: TagWithCount[];
     // Config
@@ -60,7 +54,7 @@ export default function UnifiedPromptForm({
         initialShortContent: initialValues.versions?.[0]?.shortContent || initialValues.shortContent || "",
         initialDescription: initialValues.description || "",
         // Attachments
-        existingAttachments: mode === 'EDIT' ? (initialValues.versions?.[0]?.attachments as any) : [],
+        existingAttachments: mode === 'EDIT' ? (initialValues.versions?.[0]?.attachments?.map((a: any) => ({ id: a.id, filePath: a.filePath, role: a.role })) || []) : [],
         legacyResultImage: mode === 'EDIT' ? (initialValues.versions?.[0]?.resultImage) : null
     };
 
@@ -86,7 +80,7 @@ export default function UnifiedPromptForm({
 
 
     // Dropdown options
-    const collectionsWithCounts = Array.from(computeRecursiveCounts(collections as any).values());
+    const collectionsWithCounts = Array.from(computeRecursiveCounts(collections as unknown as CollectionWithCount[]).values());
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -142,7 +136,7 @@ export default function UnifiedPromptForm({
                         <label htmlFor="collectionId" className="block text-sm font-medium mb-1">{t('form.labels.collection')}</label>
                         <select id="collectionId" name="collectionId" className="input" defaultValue={initialValues.collections?.[0]?.id || ""}>
                             <option value="">{t('form.labels.none')}</option>
-                            {collectionsWithCounts.map((col: any) => (
+                            {collectionsWithCounts.map((col) => (
                                 <option key={col.id} value={col.id}>{col.title} ({col.totalPrompts})</option>
                             ))}
                         </select>
@@ -152,8 +146,8 @@ export default function UnifiedPromptForm({
                         <TagSelector
                             initialTags={tags}
                             tagColorsEnabled={tagColorsEnabled}
-                            initialSelectedTags={initialValues.tags as any || []}
-                            selectedTagIds={initialValues.tags?.map(t => t.id) || []}
+                            initialSelectedTags={initialValues.tags || []}
+                            selectedTagIds={initialValues.tags?.map((t: any) => t.id) || []}
                         />
                     </div>
                     {/* Private Prompt Checkbox */}
@@ -164,7 +158,7 @@ export default function UnifiedPromptForm({
                                 name="isPrivate"
                                 id="isPrivate"
                                 className="checkbox"
-                                defaultChecked={(initialValues as any).isPrivate}
+                                defaultChecked={initialValues.isPrivate}
                             />
                             <label htmlFor="isPrivate" className="text-sm font-medium cursor-pointer flex items-center gap-1">
                                 {t('form.labels.privatePrompt') || "Private Prompt"}
@@ -286,7 +280,7 @@ export default function UnifiedPromptForm({
             {/* --- Variables --- */}
             <CollapsibleSection title={t('form.sections.variables')} defaultOpen={true}>
                 <div className="space-y-3">
-                    <p className="text-sm text-muted-foreground mb-2" dangerouslySetInnerHTML={{ __html: t('form.hints.variables') }}></p>
+                    <p className="text-sm text-muted-foreground mb-2"><SafeRender html={t('form.hints.variables')} /></p>
                     {variables.map((v, i) => (
                         <div key={i} className="flex gap-2 items-start">
                             <input
@@ -335,7 +329,7 @@ export default function UnifiedPromptForm({
                         <label className="block text-sm font-medium mb-1">{t('form.labels.resultFiles')}</label>
                         <div className="space-y-2 mb-2">
                             {/* Kept Results */}
-                            {keptResultImages.map((att: any) => (
+                            {keptResultImages.map((att) => (
                                 <div key={att.id} className="flex items-center justify-between p-2 rounded-md border border-border bg-amber-500/10 border-amber-500/20">
                                     <span className="text-sm truncate max-w-[80%] flex items-center gap-2">
                                         <span className="text-amber-600 font-bold text-xs uppercase">{t('form.labels.keep')}{att.isLegacy ? ` ${t('form.labels.legacy')}` : ''}</span>
@@ -378,7 +372,7 @@ export default function UnifiedPromptForm({
                     <label className="block text-sm font-medium mb-1">{t('form.labels.uploadFiles')}</label>
                     <div className="space-y-2 mb-2">
                         {/* Kept Attachments */}
-                        {keptAttachments.map((att: any) => (
+                        {keptAttachments.map((att) => (
                             <div key={att.id} className="flex items-center justify-between p-2 rounded-md border border-border bg-secondary/10">
                                 <span className="text-sm truncate max-w-[80%] flex items-center gap-2">
                                     <span className="text-muted-foreground text-xs">{t('form.labels.keep')}</span>

@@ -3,29 +3,38 @@ import fs from "fs/promises";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 
+export interface SaveSettingsInput {
+    autoBackupEnabled: boolean;
+    backupPath?: string | null;
+    backupFrequency: string;
+}
+
 // Helper for backup (server-side only)
-function getFileAsBase64(urlPath: string | null): { data: string; type: string } | null {
+async function getFileAsBase64(urlPath: string | null): Promise<{ data: string; type: string } | null> {
     if (!urlPath) return null;
     try {
         const relativePath = urlPath.startsWith('/') ? urlPath.substring(1) : urlPath;
         const fullPath = path.join(process.cwd(), "public", relativePath);
-        if (existsSync(fullPath)) {
-            const fileBuffer = readFileSync(fullPath);
-            const ext = path.extname(fullPath).toLowerCase().substring(1);
-            let mimeType = "application/octet-stream";
-            if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) mimeType = `image/${ext}`;
-            return {
-                data: fileBuffer.toString('base64'),
-                type: mimeType
-            };
+        try {
+            await fs.access(fullPath);
+        } catch {
+            return null; // file does not exist
         }
-    } catch (e) {
-        // Ignore missing files
+        const fileBuffer = await fs.readFile(fullPath);
+        const ext = path.extname(fullPath).toLowerCase().substring(1);
+        let mimeType = "application/octet-stream";
+        if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) mimeType = `image/${ext}`;
+        return {
+            data: fileBuffer.toString('base64'),
+            type: mimeType
+        };
+    } catch (e: unknown) {
+        console.warn(`[BackupService] Warning: Could not read file at ${urlPath}`, e instanceof Error ? e.message : String(e));
     }
     return null;
 }
 
-export async function saveSettingsService(userId: string, data: any) {
+export async function saveSettingsService(userId: string, data: SaveSettingsInput) {
     return prisma.settings.upsert({
         where: { userId: userId },
         update: {
@@ -57,39 +66,62 @@ export async function performBackupService(userId: string, backupPath: string) {
         const tags = await prisma.tag.findMany();
         const settings = await prisma.settings.findUnique({ where: { userId } });
 
-        // Transform prompts to include base64 files
-        const richPrompts = prompts.map(p => ({
-            ...p,
-            versions: p.versions.map(v => ({
-                ...v,
-                resultImageFile: getFileAsBase64(v.resultImage),
-                attachments: v.attachments.map(a => ({
-                    ...a,
-                    file: getFileAsBase64(a.filePath)
-                }))
-            }))
-        }));
-
-        const backupData = {
-            timestamp: new Date().toISOString(),
-            userId,
-            collections,
-            prompts: richPrompts,
-            tags,
-            settings
-        };
-
         const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
-        const filename = `${timestamp}_prompthive_autobackup.json`;
+        const filename = `${timestamp}_TMT_autobackup.json`;
         const fullPath = path.join(backupPath, filename);
 
         await fs.mkdir(backupPath, { recursive: true });
-        await fs.writeFile(fullPath, JSON.stringify(backupData, null, 2));
 
-        console.log(`Backup saved to ${fullPath}`);
+        // Open a file handle for writing
+        const fileHandle = await fs.open(fullPath, 'w');
+
+        // Write header
+        await fileHandle.write(JSON.stringify({
+            timestamp: new Date().toISOString(),
+            userId,
+            collections,
+            tags,
+            settings
+        }).slice(0, -1)); // Removes the closing '}'
+
+        await fileHandle.write(',"prompts":[\n');
+
+        for (let i = 0; i < prompts.length; i++) {
+            const p = prompts[i];
+
+            const richVersions = [];
+            for (const v of p.versions) {
+                const richAttachments = [];
+                for (const a of v.attachments) {
+                    richAttachments.push({
+                        ...a,
+                        file: await getFileAsBase64(a.filePath)
+                    });
+                }
+                richVersions.push({
+                    ...v,
+                    resultImageFile: await getFileAsBase64(v.resultImage),
+                    attachments: richAttachments
+                });
+            }
+
+            const richPrompt = {
+                ...p,
+                versions: richVersions
+            };
+
+            const chunk = JSON.stringify(richPrompt) + (i < prompts.length - 1 ? ",\n" : "\n");
+            await fileHandle.write(chunk);
+        }
+
+        await fileHandle.write(']}');
+        await fileHandle.close();
+
+        console.log(`[BackupService] Backup saved to ${fullPath}`);
         return true;
-    } catch (error) {
-        console.error("Backup failed:", error);
+    } catch (error: unknown) {
+        console.error("[BackupService] Backup failed:", error instanceof Error ? error.message : String(error));
+        // Ensures caller is aware it failed by uniformly returning false
         return false;
     }
 }
@@ -118,12 +150,13 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
     let files;
     try {
         files = await fs.readdir(backupPath);
-    } catch (e) {
+    } catch (e: unknown) {
+        console.error("[BackupService] Directory read error:", e instanceof Error ? e.message : String(e));
         throw new Error("Could not access backup directory.");
     }
 
     const backupFiles = files
-        .filter(f => f.endsWith('_prompthive_autobackup.json'))
+        .filter(f => f.endsWith('_TMT_autobackup.json'))
         .sort()
         .reverse();
 
@@ -138,10 +171,6 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
     if (backupData.userId !== userId) throw new Error("Backup does not belong to this user.");
 
     await dropAllDataService(userId);
-
-    // Reuse logic roughly from importPromptsService but specifically for backup structure
-    // Actually, logic is identical to actions.ts restoreLatestBackup
-    // Since I can't reuse logic across files easily without circular deps or utils, I'll copy-paste logic here.
 
     // Restore Collections
     const collectionIdMap: Record<string, string> = {};
@@ -168,7 +197,7 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
 
     // Restore Prompts
     for (const p of backupData.prompts) {
-        const tagIds = [];
+        const tagIds: string[] = [];
         if (p.tags) {
             for (const tag of p.tags) {
                 let existingTag = await prisma.tag.findUnique({ where: { name: tag.name } });
@@ -188,7 +217,7 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
                 viewCount: p.viewCount,
                 copyCount: p.copyCount,
                 versions: {
-                    create: await Promise.all(p.versions.map(async (v: any) => {
+                    create: await Promise.all(p.versions.map(async (v: Record<string, any>) => {
                         // Restore Image Helper
                         let resultImagePath = v.resultImage;
                         if (v.resultImageFile && v.resultImageFile.data) {
@@ -200,10 +229,12 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
                                 await fs.mkdir(uploadDir, { recursive: true });
                                 await fs.writeFile(path.join(uploadDir, fileName), buffer);
                                 resultImagePath = `/uploads/${fileName}`;
-                            } catch (e) { console.error("Failed to restore image", e); }
+                            } catch (e: unknown) {
+                                console.error("[BackupService] Failed to restore image", e instanceof Error ? e.message : String(e));
+                            }
                         }
 
-                        const restoredAttachments = [];
+                        const restoredAttachments: { filePath: string; fileType: string }[] = [];
                         if (v.attachments && Array.isArray(v.attachments)) {
                             for (const att of v.attachments) {
                                 if (att.file && att.file.data) {
@@ -218,7 +249,9 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
                                             filePath: `/uploads/${fileName}`,
                                             fileType: att.fileType
                                         });
-                                    } catch (e) { console.error("Failed to restore attachment", e); }
+                                    } catch (e: unknown) {
+                                        console.error("[BackupService] Failed to restore attachment", e instanceof Error ? e.message : String(e));
+                                    }
                                 }
                             }
                         }
@@ -226,6 +259,7 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
                         return {
                             content: v.content,
                             longContent: v.longContent,
+                            shortContent: v.shortContent,
                             usageExample: v.usageExample,
                             variableDefinitions: v.variableDefinitions,
                             versionNumber: v.versionNumber,
@@ -242,7 +276,7 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
         });
 
         if (p.currentVersionId) {
-            const originalCurrentVersion = p.versions.find((v: any) => v.id === p.currentVersionId);
+            const originalCurrentVersion = p.versions.find((v: Record<string, any>) => v.id === p.currentVersionId);
             if (originalCurrentVersion) {
                 const newCurrentVersion = newPrompt.versions.find(v => v.versionNumber === originalCurrentVersion.versionNumber);
                 if (newCurrentVersion) {

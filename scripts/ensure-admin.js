@@ -14,7 +14,7 @@ async function main() {
             passwordHash
         },
         create: {
-            email: 'admin@prompthive.example',
+            email: 'admin@TMT.example',
             username: 'admin',
             passwordHash,
             role: 'ADMIN',

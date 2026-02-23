@@ -71,21 +71,21 @@ export const SidebarTags = ({ tags = [] }: { tags?: any[] }) => {
     });
 
     return (
-        <div className="pt-4 mt-4 border-t border-border">
-            <div className="flex items-center justify-between px-2 mb-2 relative">
-                <div className="flex items-center gap-1">
+        <div className="pt-6 mt-4 border-t border-border">
+            <div className="flex items-center justify-between px-4 mb-3 relative group/header">
+                <div className="flex items-center gap-1.5">
                     <button
                         onClick={() => setIsTagsOpen(!isTagsOpen)}
-                        className="text-muted-foreground hover:text-primary transition-colors p-0.5 rounded hover:bg-background"
+                        className="text-muted-foreground hover:text-primary transition-all p-1 rounded-md hover:bg-background shadow-sm border border-transparent hover:border-border"
                         title={isTagsOpen ? "Collapse Tags" : "Expand Tags"}
                     >
-                        {isTagsOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                        {isTagsOpen ? <ChevronDown size={14} className="opacity-70" /> : <ChevronRight size={14} className="opacity-70" />}
                     </button>
-                    <h2 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{t('common.tags')}</h2>
+                    <h2 className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">{t('common.tags')}</h2>
                 </div>
                 <button
                     onClick={() => setShowTagMenu(!showTagMenu)}
-                    className="text-muted-foreground hover:text-primary transition-colors p-0.5 rounded hover:bg-background"
+                    className="text-muted-foreground hover:text-primary transition-all p-1 rounded-md hover:bg-background border border-transparent hover:border-border opacity-0 group-hover/header:opacity-100"
                     title="Sort Tags"
                 >
                     <MoreHorizontal size={14} />
@@ -99,19 +99,19 @@ export const SidebarTags = ({ tags = [] }: { tags?: any[] }) => {
                 )}
             </div>
             {isTagsOpen && (
-                <div className="flex flex-wrap gap-1 px-2">
+                <div className="flex flex-wrap gap-1.5 px-3 animate-fade-in">
                     {sortedTags.map((tag) => (
                         <Link
                             key={tag.id}
                             href={`/?tags=${tag.id}`}
-                            className="inline-block px-2 py-1 text-xs bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground rounded-full transition-colors truncate max-w-full"
+                            className="inline-block px-2.5 py-1 text-[11px] font-medium bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground rounded-md transition-all duration-200 border border-border/50 hover:border-primary hover:scale-105 hover:shadow-sm truncate max-w-full"
                             title={`${tag.name} (${tag._count?.prompts || 0})`}
                         >
-                            #{tag.name}
+                            <span className="opacity-70 font-bold mr-0.5">#</span>{tag.name}
                         </Link>
                     ))}
                     {sortedTags.length === 0 && (
-                        <p className="text-xs text-muted-foreground italic">{t('common.noTags')}</p>
+                        <p className="text-[11px] text-muted-foreground italic px-1">{t('common.noTags')}</p>
                     )}
                 </div>
             )}

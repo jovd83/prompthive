@@ -19,7 +19,7 @@ export type ActionState = {
 export async function createCollection(prevState: ActionState, formData: FormData): Promise<ActionState> {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) return { message: "Unauthorized" };
-    if ((session.user as any).role === 'GUEST') return { message: "Unauthorized: Guest account is read-only." };
+    if (session.user.role === 'GUEST') return { message: "Unauthorized: Guest account is read-only." };
 
     const rawData = {
         title: formData.get("title") ?? undefined,
@@ -31,7 +31,7 @@ export async function createCollection(prevState: ActionState, formData: FormDat
     if (!result.success) {
         return {
             message: "Invalid input",
-            errors: result.error.flatten().fieldErrors as any,
+            errors: result.error.flatten().fieldErrors,
         };
     }
 
@@ -57,7 +57,7 @@ export async function createCollection(prevState: ActionState, formData: FormDat
 export async function moveCollection(collectionId: string, newParentId: string | null) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
-    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+    if (session.user.role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await CollectionsService.moveCollectionService(session.user.id, collectionId, newParentId);
 
@@ -68,7 +68,7 @@ export async function moveCollection(collectionId: string, newParentId: string |
 export async function updateCollectionName(collectionId: string, newName: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
-    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+    if (session.user.role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     // Minimal validation inline or add to schema
     if (!newName.trim()) throw new Error("Name cannot be empty");
@@ -83,7 +83,7 @@ export async function updateCollectionName(collectionId: string, newName: string
 export async function updateCollectionDetails(collectionId: string, title: string, description: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
-    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+    if (session.user.role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     if (!title.trim()) throw new Error("Name cannot be empty");
 
@@ -97,7 +97,7 @@ export async function updateCollectionDetails(collectionId: string, title: strin
 export async function deleteCollection(collectionId: string, deletePrompts: boolean = false) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
-    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+    if (session.user.role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     const parentId = await CollectionsService.deleteCollectionService(session.user.id, collectionId, deletePrompts);
 
@@ -110,7 +110,7 @@ export async function deleteCollection(collectionId: string, deletePrompts: bool
 export async function emptyCollection(collectionId: string) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) throw new Error("Unauthorized");
-    if ((session.user as any).role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
+    if (session.user.role === 'GUEST') throw new Error("Unauthorized: Guest account is read-only.");
 
     await CollectionsService.emptyCollectionService(session.user.id, collectionId);
 

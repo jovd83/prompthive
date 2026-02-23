@@ -38,7 +38,7 @@ describe('sendWelcomeEmail', () => {
         );
         expect(fs.appendFile).toHaveBeenCalledWith(
             expect.stringContaining('email.log'),
-            expect.stringContaining('Welcome to MyPromptHive!')
+            expect.stringContaining('Welcome to TMT!')
         );
     });
 

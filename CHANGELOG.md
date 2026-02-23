@@ -1,14 +1,27 @@
 # Changelog
 
-## 3.0.2 (Unreleased)
+## 3.0.2 (2026-02-23)
 
 ### Added
+- **VisualDiff Component**: Implemented a word/line level comparison tool for prompt versions using `diff` library.
+- **SafeRender Component**: Added a dedicated component for secure HTML rendering to prevent XSS in documentation and translation strings.
+- **Modular Architecture**: Partitioned the monolithic `actions/prompts.ts` and associated services into domain-specific modules (`prompt-crud.ts`, `prompt-bulk.ts`, `prompt-links.ts`, `tags.ts`, etc.) for improved maintainability.
+- **Streaming JSON Exports**: Implemented streaming responses for export endpoints to prevent memory bloat and blocking the main thread during large backups.
+- **DTO Implementation**: Added explicit presentation-layer mappers to prevent over-fetching and accidental data exposure from the database.
+- **Scraper Resilience**: Implemented `AbortSignal` timeouts and retry logic in the AI scraper to prevent hanging requests and socket exhaustion.
+- **Batch Processing**: Refactored bulk imports to use batched operations and transaction chunks, significantly improving performance and reducing SQLite "database is locked" errors.
+- **Dashboard UI Enhancements**: Added default `error.tsx`, `loading.tsx`, and `not-found.tsx` states to the dashboard for a smoother user experience.
 
 ### Changed
+- **Type Safety**: Eliminated `as any` casts across the codebase by properly encapsulating Prisma schema augmentations in `types/prisma.ts`.
+- **Log Management**: Moved all root-level log files to a dedicated `/logs` directory.
+- **Security Hardening**: Performed a security audit and established a multi-phase hardening roadmap.
+- **Blocking IO Removal**: Migrated synchronous file operations to asynchronous `fs.promises` to keep the event loop responsive.
 
 ### Fixed
+- **Favorites Sync**: Fixed a state synchronization issue in the favorites collection view.
+- **US-029**: Completed the "Test Suites & Folders" user story.
 
-### Removed
 
 
 ## 3.0.1 (2026-02-08)
@@ -18,7 +31,7 @@
 
 ### Changed
 
-- **Name Change** Renamed the app from PromptHive to MyPromptHive
+- **Name Change** Renamed the app from TMT to TMT
 
 ### Fixed
 - **Collection Grid**: Fixed an issue where tag colors were displayed in the collection grid view even when disabled in user settings.
@@ -139,12 +152,12 @@
 ### Added
 *   **Import Progress Bar**: Added a progress bar for JSON imports, processing files in batches to prevent the UI from freezing during large uploads.
 *   **Bulk Actions Select All**: Added "Select All" and "Deselect All" buttons to the bulk action header in Collections, allowing users to quickly manage large numbers of prompts.
-*   **Export for MyPromptHive Zero**: allowing export of specific collections in a lightweight JSON format.
+*   **Export for TMT Zero**: allowing export of specific collections in a lightweight JSON format.
 *   **Locking Prompts**: Creators can now lock their prompts to prevent accidental edits or modification by other users. Locked prompts show a padlock icon and disable edit features.
 
 
 ### Changed
-*   **Export UI**: Renamed generic JSON export button to "Export for MyPromptHive Zero" and ensured full internationalization support for the export section across all languages.
+*   **Export UI**: Renamed generic JSON export button to "Export for TMT Zero" and ensured full internationalization support for the export section across all languages.
 *   **Export Collections Tree**: Replaced flat list selection with a hierarchical **Tree View** for both standard and Zero exports, enabling granular selection of nested collections and their children.
 
 ### Fixed

@@ -74,7 +74,7 @@ export default function VisualDiff({
 
                 {/* Diff Content */}
                 <div className="flex-1 overflow-auto p-6 font-mono text-sm leading-relaxed bg-surface whitespace-pre-wrap">
-                    {changes.map((part: any, index: number) => {
+                    {changes.map((part: Diff.Change, index: number) => {
                         const color = part.added
                             ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 border-b-2 border-green-300 dark:border-green-700'
                             : part.removed

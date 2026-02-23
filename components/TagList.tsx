@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Tag } from "@prisma/client";
 
 interface TagListProps {
-    tags: Tag[];
+    tags: { id: string; name: string; color?: string | null }[];
     tagColorsEnabled: boolean;
     t: (key: string) => string;
 }
@@ -97,10 +97,10 @@ export default function TagList({ tags, tagColorsEnabled = true, t }: TagListPro
     return (
         <div ref={containerRef} className={`relative flex gap-2 flex-wrap items-center w-full transition-all duration-200 ${!isExpanded ? 'max-h-[36px] overflow-hidden' : ''}`}>
             {tags.map((tag, i) => {
-                const style = tagColorsEnabled && (tag as any).color ? {
-                    backgroundColor: `${(tag as any).color}20`,
-                    color: (tag as any).color,
-                    borderColor: `${(tag as any).color}40`,
+                const style = tagColorsEnabled && tag.color ? {
+                    backgroundColor: `${tag.color}20`,
+                    color: tag.color,
+                    borderColor: `${tag.color}40`,
                 } : undefined;
 
                 // Hide items beyond visibleCount if not expanded

@@ -75,7 +75,7 @@ export async function updateLanguageService(userId: string, language: string) {
 }
 
 export async function updateUserRoleService(userId: string, role: string) {
-    if (![ROLES.USER, ROLES.ADMIN, ROLES.GUEST].includes(role as any)) {
+    if (!Object.values(ROLES).some(r => r === role)) {
         throw new Error("Invalid role");
     }
 
@@ -87,7 +87,7 @@ export async function updateUserRoleService(userId: string, role: string) {
 
 export async function createUserService(data: { username: string; email: string; passwordHash: string; role: string }) {
     // Validate role
-    if (![ROLES.USER, ROLES.ADMIN, ROLES.GUEST].includes(data.role as any)) {
+    if (!Object.values(ROLES).some(r => r === data.role)) {
         throw new Error("Invalid role");
     }
 

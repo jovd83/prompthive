@@ -49,8 +49,9 @@ export async function exportCollection(collectionId: string, collectionName: str
         document.body.removeChild(a);
 
         return { success: true };
-    } catch (e: any) {
+    } catch (e: unknown) {
         console.error("Export Error:", e);
-        return { success: false, error: e.message || "An unexpected error occurred" };
+        const errorMessage = e instanceof Error ? e.message : String(e);
+        return { success: false, error: errorMessage || "An unexpected error occurred" };
     }
 }

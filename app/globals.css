@@ -111,29 +111,90 @@ body {
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Custom Component Classes */
 @layer components {
   .card {
-    @apply bg-surface border border-border rounded-lg p-6 shadow-sm transition-all duration-200;
+    @apply bg-surface border border-border rounded-[var(--radius)] p-6 shadow-sm transition-all duration-300;
   }
 
   .card:hover {
-    @apply -translate-y-0.5 shadow-md;
+    @apply -translate-y-1 shadow-xl;
+    border-color: color-mix(in srgb, var(--primary), transparent 80%);
   }
 
   .btn {
-    @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-semibold cursor-pointer transition-all duration-200 gap-2 border-none;
+    @apply inline-flex items-center justify-center px-5 py-2.5 rounded-[var(--radius)] font-semibold cursor-pointer transition-all duration-300 gap-2 border border-transparent shadow-sm active:scale-95;
   }
 
   .btn-primary {
-    @apply bg-primary text-primary-foreground hover:brightness-110;
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .btn-primary:hover {
+    @apply brightness-110 shadow-lg;
+    box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--primary), transparent 80%);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground;
+    border-color: color-mix(in srgb, var(--border), transparent 50%);
+  }
+
+  .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--muted-foreground), transparent 90%);
   }
 
   .input {
-    @apply w-full p-3 rounded-lg border border-border bg-surface text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary;
+    @apply w-full p-3 rounded-[var(--radius)] border border-border bg-surface text-foreground transition-all duration-200 focus:outline-none focus:ring-2 focus:border-primary shadow-inner;
   }
+
+  .input:focus {
+    --tw-ring-color: color-mix(in srgb, var(--primary), transparent 80%);
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+  transition: background 0.3s;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
 }

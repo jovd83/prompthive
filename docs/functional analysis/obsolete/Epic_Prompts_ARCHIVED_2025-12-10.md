@@ -1,7 +1,7 @@
 # Epic: Prompts Management
 **Entity:** `Prompts`
 
-This epic covers the core functionality of creating, managing, viewing, and iterating on AI prompts. It is the central entity of the PromptHive application.
+This epic covers the core functionality of creating, managing, viewing, and iterating on AI prompts. It is the central entity of the TMT application.
 
 ## User Stories
 

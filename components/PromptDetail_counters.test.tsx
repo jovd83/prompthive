@@ -102,9 +102,12 @@ vi.mock('@/hooks/usePromptDetails', () => ({
 }));
 
 // Mock actions
-vi.mock('@/actions/prompts', () => ({
+vi.mock('@/actions/prompt-crud', () => ({
     toggleLock: vi.fn(),
     toggleVisibility: vi.fn(),
+    restorePromptVersion: vi.fn(),
+}));
+vi.mock('@/actions/prompt-links', () => ({
     unlinkPrompts: vi.fn(),
 }));
 

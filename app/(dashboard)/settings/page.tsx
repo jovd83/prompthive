@@ -1,8 +1,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { ROLES, CONFIG_ID } from "@/lib/constants";
 import SettingsForm from "@/components/SettingsForm";
 import { redirect } from "next/navigation";
+import { Settings } from "@/types/settings";
 
 export default async function SettingsPage() {
     const session = await getServerSession(authOptions);
@@ -32,7 +34,7 @@ export default async function SettingsPage() {
                 backupFrequency: "DAILY",
                 tagColorsEnabled: true,
                 workflowVisible: false,
-            } as any,
+            },
             include: {
                 hiddenUsers: { select: { id: true } },
                 hiddenCollections: { select: { id: true } }
@@ -41,8 +43,6 @@ export default async function SettingsPage() {
     }
 
     // settings is guaranteed to be populated here or we redirected/created it.
-    // However, if create failed, it could throw (which is fine). 
-    // TypeScript might think it's null because of the conditional logic structure.
     if (!settings) throw new Error("Settings could not be loaded");
 
     const allUsers = await prisma.user.findMany({
@@ -57,24 +57,24 @@ export default async function SettingsPage() {
         select: { id: true, title: true, parentId: true, _count: { select: { prompts: true } } }
     });
 
-    const hiddenUserIds = settings.hiddenUsers ? settings.hiddenUsers.map((u: any) => u.id) : [];
-    const hiddenCollectionIds = settings.hiddenCollections ? settings.hiddenCollections.map((c: any) => c.id) : [];
+    const hiddenUserIds = settings.hiddenUsers ? settings.hiddenUsers.map((u: { id: string }) => u.id) : [];
+    const hiddenCollectionIds = settings.hiddenCollections ? settings.hiddenCollections.map((c: { id: string }) => c.id) : [];
 
-    const isAdmin = session.user.role === 'ADMIN';
+    const isAdmin = session.user.role === ROLES.ADMIN;
 
     let globalSettings = null;
-    let adminUsers: any[] = [];
+    let adminUsers: { id: string; username: string; email: string; role: string; avatarUrl: string | null; createdAt: Date }[] = [];
+
     if (isAdmin) {
-        // Fetch directly from prisma to avoid "Unauthorized" error if generic action called by non-admin logic (though here we know isAdmin)
-        // Or reuse the action logic safely.
-        // Fetch directly using raw query to bypass potentially stale Prisma Client schema in dev environment
-        // standard findUnique would return partial data if the Schema wasn't re-generated/loaded
-        const rawGlobalSettings = await prisma.$queryRaw<any[]>`SELECT * FROM "GlobalConfiguration" WHERE "id" = 'GLOBAL'`;
-        globalSettings = rawGlobalSettings[0] || null;
-        // If not exists, create default (same logic as action but inline for server component safety/performance)
+        // Fetch strictly from Prisma to avoid leaky abstraction and bypass raw SQL vulnerabilities
+        globalSettings = await prisma.globalConfiguration.findUnique({
+            where: { id: CONFIG_ID.GLOBAL }
+        });
+
+        // If not exists, create default strictly
         if (!globalSettings) {
             globalSettings = await prisma.globalConfiguration.create({
-                data: { id: "GLOBAL", registrationEnabled: true }
+                data: { id: CONFIG_ID.GLOBAL, registrationEnabled: true, privatePromptsEnabled: false }
             });
         }
 
@@ -94,14 +94,19 @@ export default async function SettingsPage() {
     return (
         <div className="container mx-auto py-8">
             <SettingsForm
-                initialSettings={settings as any}
+                initialSettings={settings as unknown as Settings}
                 allUsers={allUsers}
                 initialHiddenIds={hiddenUserIds}
                 initialHiddenCollectionIds={hiddenCollectionIds}
                 allCollections={allCollections}
                 currentUserId={session.user.id}
                 isAdmin={isAdmin}
-                initialGlobalSettings={globalSettings ? { registrationEnabled: globalSettings.registrationEnabled, privatePromptsEnabled: (globalSettings as any).privatePromptsEnabled } as any : undefined}
+                initialGlobalSettings={globalSettings
+                    ? {
+                        registrationEnabled: globalSettings.registrationEnabled,
+                        privatePromptsEnabled: globalSettings.privatePromptsEnabled
+                    }
+                    : undefined}
                 initialUsers={adminUsers}
             />
         </div>

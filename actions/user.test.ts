@@ -116,36 +116,4 @@ describe('User Actions', () => {
         });
     });
 
-    describe('promoteToAdmin', () => {
-        it('should fail if file missing', async () => {
-            // Already ensured missing in beforeEach
-            const fd = new FormData();
-            fd.append('code', '123456');
-
-            const res = await UserActions.promoteToAdmin({}, fd);
-            expect(res.error).toContain('Configuration file missing');
-        });
-
-        it('should promote if code matches', async () => {
-            fs.writeFileSync(ADMIN_PROP_PATH, 'admin.code=123456');
-            console.log('Test: Written file');
-
-            const fd = new FormData();
-            fd.append('code', '123456');
-
-            const res = await UserActions.promoteToAdmin({}, fd);
-            expect(res.success).toBeDefined();
-            expect(UserService.updateUserRoleService).toHaveBeenCalledWith(userId, 'ADMIN');
-        });
-
-        it('should fail if code mismatch', async () => {
-            fs.writeFileSync(ADMIN_PROP_PATH, 'admin.code=123456');
-
-            const fd = new FormData();
-            fd.append('code', '000000');
-
-            const res = await UserActions.promoteToAdmin({}, fd);
-            expect(res.error).toContain('Incorrect code');
-        });
-    });
 });

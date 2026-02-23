@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import CollectionsList from "@/components/CollectionsList";
 import { getHiddenCollectionIdsService } from "@/services/settings";
-import { filterHiddenCollections } from "@/lib/collection-utils";
+import { CollectionWithCount, filterHiddenCollections } from "@/lib/collection-utils";
 
 export default async function CollectionsPage() {
     const session = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export default async function CollectionsPage() {
         orderBy: { createdAt: "desc" },
     });
 
-    const filteredCollections = filterHiddenCollections(collections as any[], hiddenCollectionIds);
+    const filteredCollections = filterHiddenCollections(collections as unknown as CollectionWithCount[], hiddenCollectionIds);
 
     return <CollectionsList collections={filteredCollections} />;
 }

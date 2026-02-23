@@ -18,7 +18,7 @@ export async function loginUser(page: Page) {
 
     // Login
     await page.goto('/login');
-    await expect(page.locator('h1:has-text("MyPromptHive")')).toBeVisible();
+    await expect(page.locator('h1:has-text("TMT")')).toBeVisible();
     await page.fill('input[placeholder="username"]', username);
     await page.fill('input[placeholder="••••••••"]', password);
     await page.click('button[type="submit"]');

@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  prompthive-acceptance:
-    image: prompthive-prod-debian:latest
-    container_name: prompthive-acceptance
+  TMT-acceptance:
+    image: TMT-prod-debian:latest
+    container_name: TMT-acceptance
     restart: unless-stopped
     ports:
       - "3101:3000"

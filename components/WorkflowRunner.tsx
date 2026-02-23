@@ -5,11 +5,11 @@ import { ArrowLeft, Check, Copy, Play, ArrowRight, RotateCcw } from "lucide-reac
 import Link from "next/link";
 import { CopyToClipboard } from "@/components/CopyToClipboard";
 
-type Step = {
+export type Step = {
     id: string;
     order: number;
     promptId: string;
-    inputMappings: Record<string, string>; // { "varName": "USER_INPUT" | "step_index:0" }
+    inputMappings: string | null;
     prompt: {
         id: string;
         title: string;
@@ -20,7 +20,7 @@ type Step = {
     }
 };
 
-type Workflow = {
+export type Workflow = {
     id: string;
     title: string;
     description: string | null;
@@ -46,7 +46,7 @@ export default function WorkflowRunner({ workflow }: { workflow: Workflow }) {
         if (!version) return "Error: No version found for prompt.";
 
         let content = version.content;
-        const inputMappings = currentStep.inputMappings ? JSON.parse(currentStep.inputMappings as any) : {};
+        const inputMappings = currentStep.inputMappings ? JSON.parse(currentStep.inputMappings) : {};
 
         // Find variables in content
         // This regex might differ from the one in PromptDetail, assuming standard {{var}}
@@ -74,7 +74,7 @@ export default function WorkflowRunner({ workflow }: { workflow: Workflow }) {
 
         // Parse definitions
         const defs = version.variableDefinitions.split(',').map(s => s.trim());
-        const inputMappings = currentStep.inputMappings ? JSON.parse(currentStep.inputMappings as any) : {};
+        const inputMappings = currentStep.inputMappings ? JSON.parse(currentStep.inputMappings) : {};
 
         return defs.filter(v => {
             const cleanV = v.replace(/{{|}}/g, '').trim();

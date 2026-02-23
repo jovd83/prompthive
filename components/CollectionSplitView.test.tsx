@@ -71,9 +71,14 @@ vi.mock('@/actions/collections', () => ({
     emptyCollection: vi.fn(),
 }));
 
-vi.mock('@/actions/prompts', () => ({
+vi.mock('@/actions/tags', () => ({
     createTag: vi.fn(),
+}));
+
+vi.mock('@/actions/prompt-bulk', () => ({
     bulkAddTags: vi.fn(),
+    movePrompt: vi.fn(),
+    bulkMovePrompts: vi.fn(),
 }));
 
 vi.mock('./LanguageProvider', () => ({

@@ -54,8 +54,9 @@ export default function ImportExportContent({
                 // Select all by default
                 setSelectedIndices(new Set(results.map((_, i) => i)));
             }
-        } catch (err: any) {
-            setScrapeError(err.message || "Failed to scrape URL");
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            setScrapeError(errorMessage || "Failed to scrape URL");
         } finally {
             setIsScraping(false);
         }
@@ -87,8 +88,9 @@ export default function ImportExportContent({
             setImportSuccess(t('prompts.importedCount').replace('{{count}}', String(promptsToImport.length)));
             setScrapedPrompts([]); // Clear results
             setScrapeUrl("");
-        } catch (e: any) {
-            setScrapeError("Import failed: " + e.message);
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            setScrapeError("Import failed: " + errorMessage);
         }
     };
 

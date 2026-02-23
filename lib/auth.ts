@@ -2,6 +2,8 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import { rateLimit } from "./rate-limit";
+import { headers } from "next/headers";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -22,22 +24,25 @@ export const authOptions: NextAuthOptions = {
                     return null;
                 }
 
-                const user = await prisma.user.findUnique({
-                    where: {
-                        username: credentials.username,
-                    },
-                });
+                // --- SECURITY: Rate Limiting & User Enumeration Protection ---
+                const headersList = await headers();
+                const ip = headersList.get("x-forwarded-for") || "unknown";
 
-                if (!user) {
-                    return null;
+                // Limit to 5 attempts per minute
+                if (rateLimit(`auth-${ip}`, 5, 60000)) {
+                    throw new Error("Too many login attempts. Please wait a minute.");
                 }
 
-                const isPasswordValid = await bcrypt.compare(
-                    credentials.password,
-                    user.passwordHash
-                );
+                const user = await prisma.user.findUnique({
+                    where: { username: credentials.username },
+                });
 
-                if (!isPasswordValid) {
+                // Subtle timing protection: always compare hashes even if user not found
+                const dummyHash = "$2a$12$L7p6vV6o4R.G8.zG/vI6U.1g1A2B3C4D5E6F7G8H9I0J1K2L3M4N5"; // Valid structure
+                const hashToVerify = user ? user.passwordHash : dummyHash;
+                const isPasswordValid = await bcrypt.compare(credentials.password, hashToVerify);
+
+                if (!user || !isPasswordValid) {
                     return null;
                 }
 

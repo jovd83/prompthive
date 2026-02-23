@@ -6,8 +6,9 @@ import { prisma } from "@/lib/prisma";
 import { checkAndRunAutoBackup } from "@/actions/backup";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { getHiddenCollectionIdsService, getSettingsService } from "@/services/settings";
-import { filterHiddenCollections } from "@/lib/collection-utils";
+import { CollectionWithCount, filterHiddenCollections } from "@/lib/collection-utils";
 import CommandPalette from "@/components/CommandPalette";
+import { getCachedTags, getCachedCollections, getCachedUnassignedCount } from "@/lib/cache";
 
 export default async function DashboardLayout({
     children,
@@ -23,38 +24,12 @@ export default async function DashboardLayout({
 
     checkAndRunAutoBackup(session.user.id).catch(console.error);
 
-    const uniqueTags = await prisma.tag.findMany({
-        orderBy: { name: "asc" },
-        include: {
-            _count: {
-                select: { prompts: true }
-            }
-        }
-    });
-
+    const uniqueTags = await getCachedTags();
     const hiddenCollectionIds = await getHiddenCollectionIdsService(session.user.id);
+    const rawCollections = await getCachedCollections();
+    const collections = filterHiddenCollections(rawCollections as unknown as CollectionWithCount[], hiddenCollectionIds);
 
-    const rawCollections = await prisma.collection.findMany({
-        where: {
-            id: { notIn: hiddenCollectionIds }
-        },
-        orderBy: { title: "asc" },
-        include: {
-            _count: {
-                select: { prompts: true }
-            }
-        }
-    });
-
-    const collections = filterHiddenCollections(rawCollections as any[], hiddenCollectionIds);
-
-    const unassignedCount = await prisma.prompt.count({
-        where: {
-            collections: {
-                none: {}
-            }
-        }
-    });
+    const unassignedCount = await getCachedUnassignedCount();
 
     const currentUser = await prisma.user.findUnique({
         where: { id: session.user.id },

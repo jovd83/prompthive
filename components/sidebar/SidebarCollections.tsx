@@ -6,7 +6,7 @@ import { Plus, ChevronRight, ChevronDown, MoreHorizontal } from "lucide-react";
 import { SidebarCollectionItem } from "./SidebarCollectionItem";
 import { useLanguage } from "@/components/LanguageProvider";
 import { moveCollection } from "@/actions/collections";
-import { movePrompt, bulkMovePrompts } from "@/actions/prompts";
+import { movePrompt, bulkMovePrompts } from "@/actions/prompt-bulk";
 import { computeRecursiveCounts } from '@/lib/collection-utils';
 
 type SortOption = 'alpha-asc' | 'alpha-desc' | 'date-new' | 'date-old' | 'count-desc';
@@ -123,9 +123,10 @@ export const SidebarCollections = ({
         if (draggedId) {
             try {
                 await moveCollection(draggedId, null);
-            } catch (error) {
-                console.error("Failed to move collection to root:", error);
-                onError(error instanceof Error ? error.message : (t('errors.moveFailed') || "Move failed"));
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to move collection to root:", msg);
+                onError(msg || t('errors.moveFailed') || "Move failed");
             }
         } else if (bulkPromptIds) {
             try {
@@ -133,50 +134,52 @@ export const SidebarCollections = ({
                 if (Array.isArray(ids) && ids.length > 0) {
                     await bulkMovePrompts(ids, null);
                 }
-            } catch (error) {
-                console.error("Failed to bulk move prompts to root:", error);
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to bulk move prompts to root:", msg);
                 onError(t('errors.moveFailed'));
             }
         } else if (draggedPromptId) {
             try {
                 await movePrompt(draggedPromptId, null); // Move to unassigned
-            } catch (error) {
-                console.error("Failed to move prompt to root:", error);
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to move prompt to root:", msg);
                 onError(t('errors.moveFailed'));
             }
         }
     };
 
     return (
-        <div className="pt-4 mt-4 border-t border-border">
+        <div className="pt-6 mt-4 border-t border-border">
             <div
-                className={`flex items-center justify-between px-2 mb-2 rounded transition-colors ${isRootDragOver ? "bg-primary/20" : ""}`}
+                className={`flex items-center justify-between px-4 mb-3 rounded-lg transition-all duration-300 ${isRootDragOver ? "bg-primary/20 scale-[1.02] shadow-sm" : ""}`}
                 onDragOver={(e) => { e.preventDefault(); setIsRootDragOver(true); }}
                 onDragLeave={() => setIsRootDragOver(false)}
                 onDrop={handleRootDrop}
             >
-                <div className="flex-1 flex items-center justify-between relative">
-                    <div className="flex items-center gap-1">
+                <div className="flex-1 flex items-center justify-between relative group/header">
+                    <div className="flex items-center gap-1.5">
                         <button
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsCollectionsOpen(!isCollectionsOpen); }}
-                            className="text-muted-foreground hover:text-primary transition-colors p-0.5 rounded hover:bg-background"
+                            className="text-muted-foreground hover:text-primary transition-all p-1 rounded-md hover:bg-background shadow-sm border border-transparent hover:border-border"
                             title={isCollectionsOpen ? "Collapse Collections" : "Expand Collections"}
                         >
-                            {isCollectionsOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                            {isCollectionsOpen ? <ChevronDown size={14} className="opacity-70" /> : <ChevronRight size={14} className="opacity-70" />}
                         </button>
-                        <Link href="/collections" className="text-xs font-bold text-muted-foreground uppercase tracking-wider hover:text-primary transition-colors">
+                        <Link href="/collections" className="text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] hover:text-primary transition-colors">
                             {t('common.collections')}
                         </Link>
                     </div>
-                    <div className="flex gap-1">
+                    <div className="flex gap-1.5 opacity-0 group-hover/header:opacity-100 transition-opacity duration-200">
                         <button
                             onClick={() => setShowColMenu(!showColMenu)}
-                            className="text-muted-foreground hover:text-primary transition-colors p-0.5 rounded hover:bg-background"
+                            className="text-muted-foreground hover:text-primary transition-all p-1 rounded-md hover:bg-background border border-transparent hover:border-border"
                             title="Sort Collections"
                         >
                             <MoreHorizontal size={14} />
                         </button>
-                        <Link href="/collections/new" className="text-muted-foreground hover:text-primary transition-colors p-0.5 rounded hover:bg-background" title="New Collection">
+                        <Link href="/collections/new" className="text-muted-foreground hover:text-primary transition-all p-1 rounded-md hover:bg-background border border-transparent hover:border-border" title="New Collection">
                             <Plus size={14} />
                         </Link>
                     </div>

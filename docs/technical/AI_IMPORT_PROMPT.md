@@ -1,6 +1,6 @@
 # 🤖 AI Scraping & Import Guide
 
-Use this guide to generate a prompt that you can send to powerful LLMs (like **Google Gemini**, **Claude 3.5 Sonnet**, or **ChatGPT**) to scrape prompts from any website and prepare them for one-click import into MyPromptHive.
+Use this guide to generate a prompt that you can send to powerful LLMs (like **Google Gemini**, **Claude 3.5 Sonnet**, or **ChatGPT**) to scrape prompts from any website and prepare them for one-click import into TMT.
 
 ---
 
@@ -9,7 +9,7 @@ Use this guide to generate a prompt that you can send to powerful LLMs (like **G
 Copy and paste the following prompt into your LLM of choice. Replace `[URL]` with the website implementation you want to scrape.
 
 ```markdown
-**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "MyPromptHive" application.
+**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "TMT" application.
 
 **Task**: 
 1. Access and analyze the content of the following URL: [URL]
@@ -60,7 +60,7 @@ Copy and paste the following prompt into your LLM of choice. Replace `[URL]` wit
 4.  **Run** the prompt.
 5.  **Copy the JSON** output from the AI.
 6.  **Save** it as a file named `import.json`.
-7.  Go to **MyPromptHive > Import/Export**, select **"Import Prompts (Standard)"**, and upload your file.
+7.  Go to **TMT > Import/Export**, select **"Import Prompts (Standard)"**, and upload your file.
 
 ## 🔍 Mapping Logic Explanation
 

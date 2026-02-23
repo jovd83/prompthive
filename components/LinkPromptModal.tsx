@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import { createPortal } from "react-dom";
 import { X, Search, Link as LinkIcon, Loader2 } from "lucide-react";
-import { searchCandidatePrompts, linkPrompts } from "@/actions/prompts";
+import { searchCandidatePrompts, linkPrompts } from "@/actions/prompt-links";
 import { useLanguage } from "./LanguageProvider";
 
 type LinkPromptModalProps = {

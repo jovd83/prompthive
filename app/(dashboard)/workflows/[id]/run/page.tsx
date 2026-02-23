@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { redirect, notFound } from "next/navigation";
 import * as WorkflowService from "@/services/workflows";
-import WorkflowRunner from "@/components/WorkflowRunner";
+import WorkflowRunner, { Workflow } from "@/components/WorkflowRunner";
 
 type Props = {
     params: Promise<{ id: string }>;
@@ -29,5 +29,5 @@ export default async function RunWorkflowPage({ params }: Props) {
     // It usually doesn't include deep relations of Prompt unless asked.
     // I need to update the service to include prompt versions!
 
-    return <WorkflowRunner workflow={workflow as any} />;
+    return <WorkflowRunner workflow={workflow as unknown as Workflow} />;
 }

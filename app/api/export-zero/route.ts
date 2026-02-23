@@ -5,10 +5,16 @@ import { authOptions } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { generateZeroExport } from "@/services/export-service";
 
+import { rateLimit } from "@/lib/rate-limit";
+
 export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
     if (!session) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (rateLimit(session.user.id, 5, 60000)) {
+        return NextResponse.json({ error: "Rate limit exceeded. Please try again later." }, { status: 429 });
     }
 
     try {

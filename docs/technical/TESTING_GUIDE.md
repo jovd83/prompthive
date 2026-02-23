@@ -1,6 +1,6 @@
 # 🧪 Testing Guide & Environment Management
 
-MyPromptHive uses separated environments to ensure that your development/production data (your real prompts) remains safe while you run automated tests.
+TMT uses separated environments to ensure that your development/production data (your real prompts) remains safe while you run automated tests.
 
 ## 🌍 Environments Explained
 

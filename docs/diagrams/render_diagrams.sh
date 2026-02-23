@@ -36,10 +36,10 @@ render_diagram() {
 }
 
 # 1. Architecture Diagram
-render_diagram "docs/diagrams/src/architecture.mmd" "docs/diagrams/img/architecture.png" "PromptHive Architecture"
+render_diagram "docs/diagrams/src/architecture.mmd" "docs/diagrams/img/architecture.png" "TMT Architecture"
 
 # 2. Schema Diagram
-render_diagram "docs/diagrams/src/schema.mmd" "docs/diagrams/img/schema.png" "PromptHive Data Schema"
+render_diagram "docs/diagrams/src/schema.mmd" "docs/diagrams/img/schema.png" "TMT Data Schema"
 
 # 3. Render all Wireframes
 echo "Rendering Wireframes..."

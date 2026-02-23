@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronDown, Folder, FolderOpen } from "lucide-react";
 import { moveCollection } from "@/actions/collections";
-import { movePrompt, bulkMovePrompts } from "@/actions/prompts";
+import { movePrompt, bulkMovePrompts } from "@/actions/prompt-bulk";
 
 type Collection = {
     id: string;
@@ -74,9 +74,10 @@ export const SidebarCollectionItem = ({ collection, level = 0, pathname, onError
             try {
                 await moveCollection(draggedColId, collection.id);
                 onError("");
-            } catch (error) {
-                console.error("Failed to move collection:", error);
-                onError(error instanceof Error ? error.message : "Failed to move collection.");
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to move collection:", msg);
+                onError("Failed to move collection: " + msg);
             }
         } else if (bulkPromptIds) {
             try {
@@ -85,17 +86,19 @@ export const SidebarCollectionItem = ({ collection, level = 0, pathname, onError
                     await bulkMovePrompts(ids, collection.id);
                 }
                 onError("");
-            } catch (error) {
-                console.error("Failed to bulk move prompts:", error);
-                onError("Failed to bulk move prompts.");
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to bulk move prompts:", msg);
+                onError("Failed to bulk move prompts: " + msg);
             }
         } else if (draggedPromptId) {
             try {
                 await movePrompt(draggedPromptId, collection.id);
                 onError("");
-            } catch (error) {
-                console.error("Failed to move prompt:", error);
-                onError("Failed to move prompt.");
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to move prompt:", msg);
+                onError("Failed to move prompt: " + msg);
             }
         }
     };
@@ -109,23 +112,45 @@ export const SidebarCollectionItem = ({ collection, level = 0, pathname, onError
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                className={`group flex items-center gap-1 px-2 py-1.5 rounded-md transition-colors cursor-pointer border border-transparent ${isActive ? "bg-primary/10 text-primary font-medium" : "text-foreground/70 hover:text-primary hover:bg-background"
-                    } ${isDragOver ? "!border-primary bg-primary/5" : ""}`}
-                style={{ paddingLeft: `${level * 12 + 8}px` }}
+                className={`group flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 cursor-pointer border border-transparent mb-0.5 ${isActive
+                    ? "bg-primary text-primary-foreground shadow-sm scale-[1.02]"
+                    : "text-foreground/70 hover:bg-primary/10 hover:text-primary"
+                    } ${isDragOver ? "!border-primary bg-primary/20 scale-[1.05] z-10" : ""}`}
+                style={{ marginLeft: `${level * 12}px` }}
             >
-                {hasChildren ? (
-                    <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsOpen(!isOpen); }} className="p-0.5 hover:bg-black/5 dark:hover:bg-white/10 rounded" aria-label="Toggle children">
-                        {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                    </button>
-                ) : (
-                    <span className="w-4" /> // Spacer
-                )}
-                <Link href={`/collections/${collection.id}`} className="flex-1 truncate text-sm">
-                    {collection.title} <span className="text-muted-foreground text-xs">{collection.totalPrompts !== undefined ? `(${collection.totalPrompts})` : `(${collection._count?.prompts || 0})`}</span>
+                <div className="flex items-center gap-1 min-w-[20px]">
+                    {hasChildren ? (
+                        <button
+                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsOpen(!isOpen); }}
+                            className={`p-0.5 rounded transition-colors ${isActive ? "hover:bg-primary-foreground/20" : "hover:bg-primary/20"}`}
+                            aria-label="Toggle children"
+                        >
+                            {isOpen ? <ChevronDown size={14} className="shrink-0" /> : <ChevronRight size={14} className="shrink-0" />}
+                        </button>
+                    ) : (
+                        <div className="w-4" />
+                    )}
+                </div>
+
+                <div className={`shrink-0 transition-transform duration-200 ${isActive ? "" : "group-hover:scale-110"}`}>
+                    {isOpen ? (
+                        <FolderOpen size={16} className={isActive ? "text-primary-foreground text-white" : "text-primary/70"} />
+                    ) : (
+                        <Folder size={16} className={isActive ? "text-primary-foreground text-white" : "text-primary/70"} />
+                    )}
+                </div>
+
+                <Link href={`/collections/${collection.id}`} className="flex-1 truncate text-sm font-medium">
+                    {collection.title}
                 </Link>
+
+                <span className={`text-[10px] tabular-nums font-bold px-1.5 py-0.5 rounded-full transition-colors ${isActive ? "bg-white/20 text-white" : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
+                    }`}>
+                    {collection.totalPrompts !== undefined ? collection.totalPrompts : (collection._count?.prompts || 0)}
+                </span>
             </div>
             {isOpen && hasChildren && (
-                <div>
+                <div className="animate-in fade-in slide-in-from-left-2 duration-200">
                     {collection.children!.map(child => (
                         <SidebarCollectionItem key={child.id} collection={child} level={level + 1} pathname={pathname} onError={onError} currentUserId={currentUserId} expandedIds={expandedIds} />
                     ))}

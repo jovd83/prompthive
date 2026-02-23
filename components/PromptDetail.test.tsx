@@ -106,10 +106,14 @@ vi.mock('@/hooks/usePromptDetails', () => ({
     usePromptDetails: vi.fn(() => defaultMockUsePromptDetails)
 }));
 
-import * as promptActions from '@/actions/prompts';
-vi.mock('@/actions/prompts', () => ({
+import * as promptCrudActions from '@/actions/prompt-crud';
+import * as promptLinkActions from '@/actions/prompt-links';
+vi.mock('@/actions/prompt-crud', () => ({
     toggleVisibility: vi.fn(),
     toggleLock: vi.fn(),
+    restorePromptVersion: vi.fn(),
+}));
+vi.mock('@/actions/prompt-links', () => ({
     unlinkPrompts: vi.fn(),
 }));
 
@@ -154,7 +158,7 @@ describe('PromptDetail', () => {
         render(<PromptDetail prompt={mockPrompt} privatePromptsEnabled={true} currentUser={{ id: 'user1', role: 'USER' }} />);
         const toggleBtn = screen.getByTitle('Make Private');
         fireEvent.click(toggleBtn);
-        expect(promptActions.toggleVisibility).toHaveBeenCalledWith('p1');
+        expect(promptCrudActions.toggleVisibility).toHaveBeenCalledWith('p1');
     });
 
     it('renders layout elements (Responsive Check)', () => {

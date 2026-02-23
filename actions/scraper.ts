@@ -9,14 +9,29 @@ export async function scrapeUrlForPrompts(url: string): Promise<ScrapedPrompt[]>
     if (!url) throw new ScraperError("URL is required");
 
     try {
-        const response = await fetch(url, {
-            headers: {
-                'User-Agent': 'MyPromptHive-Scraper/1.0',
-            }
-        });
+        let response: Response | null = null;
+        let lastError: any = null;
 
-        if (!response.ok) {
-            throw new ScraperError(`Failed to fetch URL: ${response.statusText}`);
+        for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+                response = await fetch(url, {
+                    headers: { 'User-Agent': 'TMT-Scraper/1.0' },
+                    signal: AbortSignal.timeout(5000)
+                });
+                if (response.ok) {
+                    break;
+                }
+            } catch (err) {
+                lastError = err;
+            }
+            if (attempt < 2) {
+                await new Promise(res => setTimeout(res, 1000 * (attempt + 1)));
+            }
+        }
+
+        if (!response || !response.ok) {
+            const errorMessage = response?.statusText || (lastError instanceof Error ? lastError.message : 'Unknown error');
+            throw new ScraperError(`Failed to fetch URL: ${errorMessage}`);
         }
 
         const html = await response.text();

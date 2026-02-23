@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Check, ChevronsUpDown, X } from "lucide-react";
-import { createTag } from "@/actions/prompts";
+import { createTag } from "@/actions/tags";
 
 import { useLanguage } from "./LanguageProvider";
 
@@ -66,8 +66,9 @@ export default function TagSelector({ initialTags = [], selectedTagIds = [], ini
             setSelectedTags([...selectedTags, newTag]);
             setQuery("");
             setIsOpen(false);
-        } catch (error) {
-            console.error("Failed to create tag:", error);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error("Error creating tag:", msg);
         }
     };
 

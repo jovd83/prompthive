@@ -69,7 +69,7 @@ test.describe('Export Selection Features', () => {
         const standardHeader = page.locator('.card').filter({ hasText: 'Export Prompts' }).first();
         await expect(standardHeader).toBeVisible();
 
-        const zeroHeader = page.locator('.card').filter({ hasText: 'Export for PromptHive Zero' }).first();
+        const zeroHeader = page.locator('.card').filter({ hasText: 'Export for TMT Zero' }).first();
         await expect(zeroHeader).toBeVisible();
 
         // 1. Test Standard Export
@@ -80,7 +80,7 @@ test.describe('Export Selection Features', () => {
         const stdDownloadPromise = page.waitForEvent('download');
         await standardHeader.getByRole('button', { name: "Download JSON" }).click();
         const stdDownload = await stdDownloadPromise;
-        expect(stdDownload.suggestedFilename()).toContain('myprompthive-backup-');
+        expect(stdDownload.suggestedFilename()).toContain('TMT-backup-');
 
         // 2. Test Zero Export
         const zeroSelectAll = zeroHeader.getByRole('button', { name: "Select All" });
@@ -88,9 +88,9 @@ test.describe('Export Selection Features', () => {
         await zeroSelectAll.click();
 
         const zeroDownloadPromise = page.waitForEvent('download');
-        // Button text is now "Export for PromptHive Zero" in English
-        await zeroHeader.getByRole('button', { name: "Export for MyPromptHive Zero" }).click();
+        // Button text is now "Export for TMT Zero" in English
+        await zeroHeader.getByRole('button', { name: "Export for TMT Zero" }).click();
         const zeroDownload = await zeroDownloadPromise;
-        expect(zeroDownload.suggestedFilename()).toContain('myprompthive-zero-export-');
+        expect(zeroDownload.suggestedFilename()).toContain('TMT-zero-export-');
     });
 });

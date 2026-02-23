@@ -65,7 +65,7 @@ export default function BackupSettings({ initialSettings }: { initialSettings: S
                             value={settings.backupPath || ""}
                             onChange={(e) => handleChange("backupPath", e.target.value)}
                             className="input"
-                            placeholder="C:\\Backups\\MyPromptHive"
+                            placeholder="C:\\Backups\\TMT"
                             disabled={!settings.autoBackupEnabled}
                         />
                         <p className="text-xs text-muted-foreground mt-1">

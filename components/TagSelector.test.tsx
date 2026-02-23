@@ -2,10 +2,10 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import TagSelector from './TagSelector';
 import { describe, it, expect, vi } from 'vitest';
-import { createTag } from '@/actions/prompts';
+import { createTag } from '@/actions/tags';
 
 // Mock creating tags
-vi.mock('@/actions/prompts', () => ({
+vi.mock('@/actions/tags', () => ({
     createTag: vi.fn((name) => Promise.resolve({ id: 'new-tag', name }))
 }));
 

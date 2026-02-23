@@ -4,10 +4,11 @@ import { CollectionWithPrompts } from "@/types/prisma";
 
 interface CollectionGridProps {
     collection: CollectionWithPrompts;
+    favoritedPromptIds?: string[];
     tagColorsEnabled?: boolean;
 }
 
-export default function CollectionGrid({ collection, tagColorsEnabled = true }: CollectionGridProps) {
+export default function CollectionGrid({ collection, favoritedPromptIds, tagColorsEnabled = true }: CollectionGridProps) {
     if (collection.prompts.length > 0) {
         return (
             <div className="h-full overflow-y-auto">

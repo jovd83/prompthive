@@ -9,16 +9,18 @@ import { useLanguage } from "./LanguageProvider";
 
 import TipOfTheDay from "@/components/TipOfTheDay";
 
-type Prompt = any;
+import { PromptDTO } from "@/lib/dto-mappers";
 
 interface DashboardContentProps {
     searchParams: { [key: string]: string | string[] | undefined };
     hasFilters: boolean;
-    searchResults: Prompt[];
-    favoritePrompts: Prompt[];
-    recentPrompts: Prompt[];
-    newPrompts: Prompt[];
-    popularPrompts: Prompt[];
+    searchResults: PromptDTO[];
+    searchResultsCount?: number;
+    pageSize?: number;
+    favoritePrompts: PromptDTO[];
+    recentPrompts: PromptDTO[];
+    newPrompts: PromptDTO[];
+    popularPrompts: PromptDTO[];
     favoriteIds: string[];
     user?: { name?: string | null; id?: string; role?: string };
     showPrompterTips?: boolean;
@@ -29,6 +31,8 @@ export default function DashboardContent({
     searchParams,
     hasFilters,
     searchResults,
+    searchResultsCount = 0,
+    pageSize = 12,
     favoritePrompts,
     recentPrompts,
     newPrompts,
@@ -75,11 +79,47 @@ export default function DashboardContent({
                         )}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {searchResults.map((prompt) => (
-                            <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} tagColorsEnabled={tagColorsEnabled} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            {searchResults.map((prompt) => (
+                                <PromptCard key={prompt.id} prompt={prompt} isFavorited={favSet.has(prompt.id)} tagColorsEnabled={tagColorsEnabled} />
+                            ))}
+                        </div>
+
+                        {searchResultsCount > pageSize && (
+                            <div className="flex justify-center flex-wrap gap-2 mt-12 py-6 border-t border-border/40">
+                                {Array.from({ length: Math.min(10, Math.ceil(searchResultsCount / pageSize)) }).map((_, i) => {
+                                    const pageNum = i + 1;
+                                    const isCurrent = (parseInt(searchParams.page as string || "1", 10)) === pageNum;
+
+                                    const newParams = new URLSearchParams();
+                                    Object.entries(searchParams).forEach(([k, v]) => {
+                                        if (v !== undefined) {
+                                            if (Array.isArray(v)) v.forEach(val => newParams.append(k, val));
+                                            else newParams.set(k, v);
+                                        }
+                                    });
+                                    newParams.set("page", String(pageNum));
+
+                                    return (
+                                        <Link
+                                            key={pageNum}
+                                            href={`/?${newParams.toString()}`}
+                                            className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-all duration-200 ${isCurrent
+                                                ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20 scale-110 z-10 font-bold"
+                                                : "bg-surface text-muted-foreground border-border hover:bg-muted hover:text-foreground hover:border-muted-foreground/30"
+                                                }`}
+                                        >
+                                            {pageNum}
+                                        </Link>
+                                    );
+                                })}
+                                {Math.ceil(searchResultsCount / pageSize) > 10 && (
+                                    <span className="flex items-end px-2 text-muted-foreground">...</span>
+                                )}
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         );

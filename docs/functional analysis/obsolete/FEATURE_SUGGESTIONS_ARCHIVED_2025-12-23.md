@@ -1,6 +1,6 @@
-# Feature Suggestions for PromptHive
+# Feature Suggestions for TMT
 
-Here are several proposals to elevate PromptHive from a "Library" to a full-fledged "Prompt Engineering IDE", focusing on workflow automation, analysis, and local-first power.
+Here are several proposals to elevate TMT from a "Library" to a full-fledged "Prompt Engineering IDE", focusing on workflow automation, analysis, and local-first power.
 
 ## 1. Live AI Playground (The "IDE" Evolution)
 Currently, users must Copy -> Paste into ChatGPT -> Copy Result -> Paste back.
@@ -53,7 +53,7 @@ Managing a large library can be tedious one-by-one.
 Sharing a JSON file is friction.
 **Proposal:** Generating a read-only web link.
 *   **Action**: "Share via Link".
-*   **Mechanism**: Encrypts the prompt client-side and uploads to a simple key-value store (or even a URL fragment for small prompts), generating a link like `prompthive.app/share#...`.
+*   **Mechanism**: Encrypts the prompt client-side and uploads to a simple key-value store (or even a URL fragment for small prompts), generating a link like `TMT.app/share#...`.
 *   **Recipient**: Sees a beautiful read-only view of the prompt and can copy it or import it.
 
 ## 9. Local-First "Sync" (P2P)

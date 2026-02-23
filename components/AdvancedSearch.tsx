@@ -22,6 +22,7 @@ export default function AdvancedSearch({ basePath = "/", testId }: { basePath?: 
         if (search) params.set("q", search); else params.delete("q");
         if (tags) params.set("tags", tags); else params.delete("tags");
         if (creator) params.set("creator", creator); else params.delete("creator");
+        params.delete("page");
 
         // When searching, we might want to keep the current sort order if possible, 
         // but typically a new search resets things or just appends.

@@ -2,12 +2,12 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { VariableDef, extractUniqueVariables } from "@/lib/prompt-utils";
-import { PromptWithRelations } from "@/types/prisma";
+import { PromptDTO } from "@/lib/dto-mappers";
 import { usePromptAnalytics } from "./usePromptAnalytics";
 import { usePromptActions } from "./usePromptActions";
 
 export type UsePromptDetailsProps = {
-    prompt: PromptWithRelations;
+    prompt: PromptDTO;
     initialIsFavorited?: boolean;
     parsedVariableDefs?: VariableDef[];
 };
@@ -34,7 +34,7 @@ export function usePromptDetails({ prompt, initialIsFavorited = false, parsedVar
 
     // 3. Version & Variable State
     const [selectedVersionId, setSelectedVersionId] = useState<string>(
-        prompt.currentVersionId || prompt.versions[0]?.id || ""
+        prompt.currentVersionId || prompt.versions?.[0]?.id || ""
     );
     const [variables, setVariables] = useState<Record<string, string>>({});
     const [diffConfig, setDiffConfig] = useState<{ oldVersion: any, newVersion: any } | null>(null);
@@ -47,7 +47,7 @@ export function usePromptDetails({ prompt, initialIsFavorited = false, parsedVar
     }, [prompt.currentVersionId]);
 
     const selectedVersion = useMemo(() =>
-        prompt.versions.find((v) => v.id === selectedVersionId) || prompt.versions[0],
+        (prompt.versions || []).find((v) => v.id === selectedVersionId) || prompt.versions?.[0],
         [prompt.versions, selectedVersionId]);
 
     // Variable Extraction Logic

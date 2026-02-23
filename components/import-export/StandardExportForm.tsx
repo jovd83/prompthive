@@ -5,8 +5,10 @@ import { useLanguage } from "../LanguageProvider";
 import { getExportMeta, getExportBatch } from "@/actions/export";
 import CollectionTree from "../CollectionTree";
 import { Loader2, Check } from "lucide-react";
+import { EXPORT_FILENAME_PREFIX } from "@/lib/constants";
+import { CollectionWithCount } from "@/lib/collection-utils";
 
-export default function StandardExportForm({ collections }: { collections: any[] }) {
+export default function StandardExportForm({ collections }: { collections: CollectionWithCount[] }) {
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set(collections.map(c => c.id)));
     const [isExporting, setIsExporting] = useState(false);
     const [progress, setProgress] = useState<{ current: number, total: number } | null>(null);
@@ -77,7 +79,7 @@ export default function StandardExportForm({ collections }: { collections: any[]
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `myprompthive-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `${EXPORT_FILENAME_PREFIX}-${new Date().toISOString().split('T')[0]}.json`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
@@ -86,9 +88,10 @@ export default function StandardExportForm({ collections }: { collections: any[]
             setResult({ count: total });
             setProgress(null);
 
-        } catch (error) {
-            console.error(error);
-            alert("Failed to export");
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error("Export Error:", msg);
+            alert(msg || "An unexpected error occurred during export.");
             setProgress(null);
         } finally {
             setIsExporting(false);

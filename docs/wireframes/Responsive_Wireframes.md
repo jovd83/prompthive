@@ -9,7 +9,7 @@
 ### Mobile (< 768px)
 *   **Header (New)**: Fixed top bar containing:
     *   [Hamburger Icon] (Left)
-    *   [Logo/Title: MyPromptHive] (Center/Left)
+    *   [Logo/Title: TMT] (Center/Left)
 *   **Sidebar**: Hidden by default.
     *   **State: Open**: Slides in from the left (Overlay), covering 80% of the screen. Dark backdrop overlay on content.
 *   **Main Content**: Full width below the header.

@@ -36,8 +36,9 @@ export default function AdminSettings({ initialGlobalSettings, initialUsers }: A
             await updateGlobalSettings({ registrationEnabled, privatePromptsEnabled });
             setMessage(t('admin.success'));
             setMessageType('success');
-        } catch (error) {
-            console.error(error);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error(msg);
             setMessage(t('admin.error'));
             setMessageType('error');
         } finally {

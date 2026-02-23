@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ImportExportContent from "@/components/ImportExportContent";
 import { redirect } from "next/navigation";
+import { Collection } from "@prisma/client";
 
 export default async function ImportExportPage() {
     const session = await getServerSession(authOptions);
@@ -49,12 +50,12 @@ export default async function ImportExportPage() {
     // Ensure settings matches the expected type locally if DB schema lags behind types
     const safeSettings = {
         ...settings,
-        tagColorsEnabled: (settings as any).tagColorsEnabled ?? false
+        tagColorsEnabled: settings.tagColorsEnabled ?? false
     };
 
     return (
         <ImportExportContent
-            collections={collections as any}
+            collections={collections as unknown as Collection[]}
             initialSettings={safeSettings}
             isAdmin={isAdmin}
         />

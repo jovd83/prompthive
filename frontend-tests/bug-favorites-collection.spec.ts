@@ -31,7 +31,7 @@ test.describe('Favorites in Collection View Bug', () => {
         // But let's try just /collections/new for root
 
         // Wait for form
-        await expect(page.locator('h1')).toContainText(/New Collection/i);
+        await expect(page.locator('h1').filter({ hasText: /New Collection/i })).toBeVisible();
         await page.fill('input[name="title"]', collectionTitle);
         await page.click('button[type="submit"]');
 
@@ -68,7 +68,7 @@ test.describe('Favorites in Collection View Bug', () => {
         // Ensure we see the grid
         await expect(page.locator('h2', { hasText: collectionTitle })).toBeVisible();
 
-        // 5. Verify Favorite Status of A (BUG EXPECTATION: Fails here)
+        // 5. Verify Favorite Status of A
         const cardA = page.locator('.card', { hasText: promptTitleA });
         await expect(cardA).toBeVisible();
 
@@ -77,7 +77,10 @@ test.describe('Favorites in Collection View Bug', () => {
         // Also text-red-500 class.
         // We expect it to be favorited.
         const heartA = cardA.locator('button[title="Remove from favorites"]');
-
+        if (!(await heartA.isVisible())) {
+            const currentTitle = await cardA.locator('button').filter({ has: page.locator('svg.lucide-heart') }).getAttribute('title');
+            console.log(`DEBUG: Heart button title is "${currentTitle}"`);
+        }
         // This assertion is expected to FAIL if the bug exists
         await expect(heartA, 'Prompt A should be favorited in collection view').toBeVisible();
 

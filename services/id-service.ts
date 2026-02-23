@@ -6,9 +6,10 @@ import { prisma } from "@/lib/prisma";
  * Format: PREFIX-NUMBER (e.g., VIBE-123)
  * 
  * @param collectionName The name of the collection to derive the prefix from.
+ * @param tx Optional prisma transaction context
  * @returns The generated Technical ID string.
  */
-export async function generateTechnicalId(collectionName: string): Promise<string> {
+export async function generateTechnicalId(collectionName: string, tx: any = prisma): Promise<string> {
     // 1. Derive Prefix
     // Take first 4 letters, uppercase, remove non-alphanumeric.
     // Fallback to "GEN" (General) if empty or invalid.
@@ -25,7 +26,7 @@ export async function generateTechnicalId(collectionName: string): Promise<strin
 
     // 2. Get Next Sequence Value atomically
     // We use an upsert to ensure the sequence exists
-    const sequence = await prisma.technicalIdSequence.upsert({
+    const sequence = await tx.technicalIdSequence.upsert({
         where: { prefix },
         update: { lastValue: { increment: 1 } },
         create: { prefix, lastValue: 1 },

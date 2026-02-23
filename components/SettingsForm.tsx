@@ -20,6 +20,7 @@ interface SettingsFormProps {
     isAdmin?: boolean;
     initialGlobalSettings?: {
         registrationEnabled: boolean;
+        privatePromptsEnabled: boolean;
     };
     initialUsers?: any[];
     initialHiddenCollectionIds?: string[];

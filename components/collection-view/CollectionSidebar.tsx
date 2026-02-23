@@ -7,10 +7,11 @@ import { Folder, Plus, Check, X, MoreVertical, Edit2, Layers, FileText, Trash2, 
 import SortControls from "@/components/SortControls";
 import CollectionPromptListItem from "./CollectionPromptListItem";
 import TagSelector from "@/components/TagSelector";
-import { updateCollectionDetails, deleteCollection, emptyCollection, moveCollection, getCollectionDescendantsAction } from "@/actions/collections";
-import { bulkAddTags, movePrompt, bulkMovePrompts, bulkDeletePrompts } from "@/actions/prompts";
-import { useLanguage } from "@/components/LanguageProvider"; // Ensure correct path
+import { moveCollection } from "@/actions/collections";
+import { bulkAddTags, movePrompt, bulkMovePrompts } from "@/actions/prompt-bulk";
+import { useLanguage } from "@/components/LanguageProvider";
 import { CollectionWithPrompts, TagWithCount } from "@/types/prisma";
+import { useCollectionSidebar } from "./useCollectionSidebar";
 
 interface CollectionSidebarProps {
     collection: CollectionWithPrompts;
@@ -29,163 +30,35 @@ export default function CollectionSidebar({
     tagColorsEnabled = true,
     tags = []
 }: CollectionSidebarProps) {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-
-    // Local State
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editName, setEditName] = useState(collection.title);
-    const [editDescription, setEditDescription] = useState(collection.description || "");
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [isEmptying, setIsEmptying] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [progress, setProgress] = useState<{ current: number, total: number, message: string } | null>(null);
-
-    // Bulk Actions State
-    const [isSelectionMode, setIsSelectionMode] = useState(false);
-    const [selectedPromptIds, setSelectedPromptIds] = useState<Set<string>>(new Set());
-    const [isTagModalOpen, setIsTagModalOpen] = useState(false);
-
-    const menuRef = useRef<HTMLDivElement>(null);
     const isOwner = collection.ownerId === currentUserId;
+    const router = useRouter();
 
-    // Effects
-    useEffect(() => {
-        if (searchParams.get("action") === "edit") {
-            setIsEditing(true);
-        }
-    }, [searchParams]);
-
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setIsMenuOpen(false);
-                setIsDeleting(false);
-                setIsDeleting(false);
-                setIsEmptying(false);
-                if (progress && progress.total > 0 && progress.current < progress.total) {
-                    // Don't close if progress running? Or allow close?
-                    // Ideally prevent close, but for now let's allow close which might look weird but action continues in background?
-                    // No, action continues but UI is gone. 
-                    // Let's not reset progress on close, but we reset `isMenuOpen` which hides the UI.
-                    // The action is async.
-                }
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
-
-    useEffect(() => {
-        setEditName(collection.title);
-        setEditDescription(collection.description || "");
-    }, [collection.title, collection.description]);
-
-    useEffect(() => {
-        setError(null);
-    }, [collection.id, promptId]);
-
-    // Handlers
-    const handleSaveDetails = async () => {
-        if (!editName.trim()) return;
-        try {
-            await updateCollectionDetails(collection.id, editName, editDescription);
-            setIsEditing(false);
-            setIsMenuOpen(false);
-            setError(null);
-        } catch (error) {
-            console.error("Failed to update details:", error);
-            setError("Failed to update details.");
-        }
-    };
-
-    const handleDelete = async (deletePrompts: boolean = false) => {
-        try {
-            if (!deletePrompts) {
-                // Simple delete (keep contents)
-                await deleteCollection(collection.id, false);
-                router.replace(`/?deletedCollection=${encodeURIComponent(collection.title)}`);
-                router.refresh();
-                return;
-            }
-
-            // Recursive delete with progress
-            setProgress({ current: 0, total: 100, message: "Analyzing..." });
-
-            // 1. Get IDs
-            const { promptIds } = await getCollectionDescendantsAction(collection.id);
-            const total = promptIds.length;
-
-            // 2. Batch Delete Prompts
-            if (total > 0) {
-                const BATCH_SIZE = 20;
-                let processed = 0;
-                setProgress({ current: 0, total, message: "Deleting prompts..." });
-
-                for (let i = 0; i < total; i += BATCH_SIZE) {
-                    const batch = promptIds.slice(i, i + BATCH_SIZE);
-                    await bulkDeletePrompts(batch);
-                    processed += batch.length;
-                    setProgress({ current: Math.min(processed, total), total, message: `Deleting prompts (${Math.min(processed, total)}/${total})...` });
-                }
-            }
-
-            // 3. Delete Structure
-            setProgress({ current: total, total: total || 1, message: "Cleaning up collections..." });
-            await deleteCollection(collection.id, true);
-
-            router.replace(`/?deletedCollection=${encodeURIComponent(collection.title)}`);
-            router.refresh();
-        } catch (error) {
-            console.error("Failed to delete collection:", error);
-            setError("Failed to delete collection. Ensure it is empty if deleting safely.");
-            setProgress(null);
-        }
-    };
-
-    const handleEmpty = async () => {
-        try {
-            await emptyCollection(collection.id);
-            setIsEmptying(false);
-            setIsMenuOpen(false);
-            setError(null);
-        } catch (error) {
-            console.error("Failed to empty collection:", error);
-            setError("Failed to empty collection.");
-        }
-    };
-
-    // Bulk Handlers
-    const toggleSelectionMode = () => {
-        setIsSelectionMode(!isSelectionMode);
-        setSelectedPromptIds(new Set());
-        setIsMenuOpen(false);
-    };
-
-    const togglePromptSelection = (id: string) => {
-        const newSet = new Set(selectedPromptIds);
-        if (newSet.has(id)) newSet.delete(id);
-        else newSet.add(id);
-        setSelectedPromptIds(newSet);
-    };
-
-    const handleBulkDragStart = (e: React.DragEvent, pId: string) => {
-        if (selectedPromptIds.has(pId)) {
-            e.dataTransfer.setData("bulkPromptIds", JSON.stringify(Array.from(selectedPromptIds)));
-            e.dataTransfer.setData("text/plain", `${selectedPromptIds.size} prompts`);
-        } else {
-            e.dataTransfer.setData("promptId", pId);
-        }
-    };
+    const {
+        isMenuOpen, setIsMenuOpen,
+        isEditing, setIsEditing,
+        editName, setEditName,
+        editDescription, setEditDescription,
+        isDeleting, setIsDeleting,
+        isEmptying, setIsEmptying,
+        error, setError,
+        progress,
+        isSelectionMode, setIsSelectionMode,
+        selectedPromptIds, setSelectedPromptIds,
+        isTagModalOpen, setIsTagModalOpen,
+        menuRef,
+        handleSaveDetails,
+        handleDelete,
+        handleEmpty,
+        toggleSelectionMode,
+        togglePromptSelection,
+        handleSelectAll: _handleSelectAll,
+        handleDeselectAll,
+        handleBulkDragStart
+    } = useCollectionSidebar(collection);
 
     const handleSelectAll = () => {
         const allIds = collection.prompts.map((p: any) => p.id);
-        setSelectedPromptIds(new Set(allIds));
-    };
-
-    const handleDeselectAll = () => {
-        setSelectedPromptIds(new Set());
+        _handleSelectAll(allIds);
     };
 
     return (
@@ -527,9 +400,10 @@ function SubCollectionDropTarget({ collection, onError }: { collection: any, onE
                 // Wait, moveCollection is MISSING from imports in CollectionSidebar.tsx I read earlier?
                 // Let's check imports.
                 await moveCollection(draggedColId, collection.id);
-            } catch (error) {
-                console.error("Failed to move collection:", error);
-                onError("Failed to move collection.");
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to move collection:", msg);
+                onError("Failed to move collection: " + msg);
             }
         } else if (bulkPromptIds) {
             try {
@@ -537,17 +411,19 @@ function SubCollectionDropTarget({ collection, onError }: { collection: any, onE
                 if (Array.isArray(ids) && ids.length > 0) {
                     await bulkMovePrompts(ids, collection.id);
                 }
-            } catch (error) {
-                console.error("Failed to bulk move prompts:", error);
-                onError("Failed to bulk move prompts.");
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to bulk move prompts:", msg);
+                onError("Failed to bulk move prompts: " + msg);
             }
         } else if (draggedPromptId) {
             try {
                 // movePrompt imported?
                 await movePrompt(draggedPromptId, collection.id);
-            } catch (error) {
-                console.error("Failed to move prompt:", error);
-                onError("Failed to move prompt.");
+            } catch (error: unknown) {
+                const msg = error instanceof Error ? error.message : String(error);
+                console.error("Failed to move prompt:", msg);
+                onError("Failed to move prompt: " + msg);
             }
         }
     };

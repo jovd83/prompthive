@@ -60,16 +60,16 @@ export async function generateZeroExport(userId: string, collectionIds: string[]
             relatedPrompts: {
                 select: { technicalId: true }
             }
-        } as any // Cast to any to bypass stale Prisma types
+        }
     });
 
-    const exportPrompts = (prompts as any[]).map(p => {
+    const exportPrompts = prompts.map(p => {
         const latestVersion = p.versions[0];
         // Find a collectionId for this prompt that is in the exported set
-        const relevantCollection = p.collections.find((c: any) => collectionIds.includes(c.id));
+        const relevantCollection = p.collections.find((c) => collectionIds.includes(c.id));
         const collectionId = relevantCollection ? relevantCollection.id : p.collections[0]?.id;
 
-        const relatedPrompts = (p as any).relatedPrompts?.map((rp: any) => rp.technicalId).filter((id: any): id is string => !!id);
+        const relatedPrompts = p.relatedPrompts?.map((rp) => rp.technicalId).filter((id): id is string => !!id);
 
         return {
             id: p.id,

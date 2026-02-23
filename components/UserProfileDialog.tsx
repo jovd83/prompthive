@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useActionState } from "react";
 import { createPortal } from "react-dom";
 import { useFormStatus } from "react-dom";
-import { updateAvatar, changePassword, promoteToAdmin, type ActionState } from "@/actions/user";
+import { updateAvatar, changePassword, type ActionState } from "@/actions/user";
 import { X, Camera, Lock, User, Upload, LogOut, Globe, Shield } from "lucide-react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
@@ -48,13 +48,7 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
 
     const [passwordState, passwordAction] = useActionState(changePassword, initialState);
 
-    const [adminState, adminAction] = useActionState(async (prev: ActionState, formData: FormData): Promise<ActionState> => {
-        const res = await promoteToAdmin(prev, formData);
-        if (res.success) {
-            setShowAdminModal(false);
-        }
-        return res;
-    }, initialState);
+
 
     const modalRef = useRef<HTMLDivElement>(null);
     const [mounted, setMounted] = useState(false);
@@ -125,9 +119,15 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
                         <div className="space-y-6" data-testid="content-avatar">
                             <div className="flex flex-col items-center gap-4">
                                 <div className="relative group">
-                                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-surface shadow-inner bg-secondary/20 flex items-center justify-center">
+                                    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-surface shadow-inner bg-secondary/20 flex items-center justify-center relative">
                                         {user.image ? (
-                                            <img src={user.image} alt="Avatar" className="object-cover w-full h-full" />
+                                            <Image
+                                                src={user.image}
+                                                alt="Avatar"
+                                                fill
+                                                className="object-cover"
+                                                sizes="96px"
+                                            />
                                         ) : (
                                             <User size={48} className="text-muted-foreground" />
                                         )}
@@ -214,23 +214,7 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
                 </div>
             </div>
 
-            {showAdminModal && (
-                <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-surface border border-border rounded-lg shadow-xl p-6 w-full max-w-sm">
-                        <h3 className="text-lg font-bold mb-4">{t('common.enterAdminCode')}</h3>
-                        <form action={adminAction} className="space-y-4">
-                            <input type="text" name="code" className="input w-full text-center tracking-widest text-2xl uppercase" maxLength={6} placeholder="######" autoFocus />
 
-                            {adminState?.error && <p className="text-red-500 text-sm text-center">{adminState.error}</p>}
-
-                            <div className="flex gap-2">
-                                <button type="button" onClick={() => setShowAdminModal(false)} className="btn btn-secondary flex-1">{t('common.cancel')}</button>
-                                <SubmitButton label={t('common.verify')} />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
         </div>,
         document.body
     );

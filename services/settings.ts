@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { CONFIG_ID } from "../lib/constants";
 
 export async function getSettingsService(userId: string) {
     let settings = await prisma.settings.findUnique({
@@ -13,7 +14,6 @@ export async function getSettingsService(userId: string) {
                     userId,
                     // defaults
                     autoBackupEnabled: false,
-                    backupFrequency: "DAILY",
                     backupFrequency: "DAILY",
                     showPrompterTips: true,
                     tagColorsEnabled: true,
@@ -100,13 +100,13 @@ export async function getHiddenCollectionIdsService(userId: string): Promise<str
 
 export async function updateGlobalSettingsService(data: { registrationEnabled: boolean; privatePromptsEnabled?: boolean }) {
     return prisma.globalConfiguration.upsert({
-        where: { id: "GLOBAL" },
+        where: { id: CONFIG_ID.GLOBAL },
         update: {
             registrationEnabled: data.registrationEnabled,
             privatePromptsEnabled: data.privatePromptsEnabled
         },
         create: {
-            id: "GLOBAL",
+            id: CONFIG_ID.GLOBAL,
             registrationEnabled: data.registrationEnabled,
             privatePromptsEnabled: data.privatePromptsEnabled ?? false
         }

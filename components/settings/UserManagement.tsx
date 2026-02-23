@@ -20,7 +20,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
     // ... existing imports ...
 
     // New User Form State
-    const [newUserState, setNewUserState] = useState({ username: "", email: "", password: "", role: ROLES.USER });
+    const [newUserState, setNewUserState] = useState({ username: "", email: "", password: "", role: ROLES.USER as string });
     const [createError, setCreateError] = useState("");
     const [userToDelete, setUserToDelete] = useState<AdminUser | null>(null);
     const [successMessage, setSuccessMessage] = useState("");
@@ -59,7 +59,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
 
         // Optimistic update
         const previousUsers = [...users];
-        setUsers(users.map(u => u.id === userId ? { ...u, role: newRole as any } : u));
+        setUsers(users.map(u => u.id === userId ? { ...u, role: newRole as AdminUser['role'] } : u));
 
         try {
             await updateUserRole(userId, newRole);
@@ -237,7 +237,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
                                     id="new-user-role"
                                     className="input"
                                     value={newUserState.role}
-                                    onChange={e => setNewUserState({ ...newUserState, role: e.target.value as any })}
+                                    onChange={e => setNewUserState({ ...newUserState, role: e.target.value as AdminUser['role'] })}
                                 >
                                     <option value={ROLES.USER}>User</option>
                                     <option value={ROLES.ADMIN}>Admin</option>

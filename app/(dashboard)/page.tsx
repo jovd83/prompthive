@@ -1,8 +1,11 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import DashboardContent from "@/components/DashboardContent";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getHiddenUserIdsService, getSettingsService } from "@/services/settings";
+import { mapPromptToDTO } from "@/lib/dto-mappers";
+import { PromptWithRelations } from "@/types/prisma";
 
 export default async function DashboardPage({
     searchParams,
@@ -20,6 +23,8 @@ export default async function DashboardPage({
     const search = (params.q as string) || "";
     const tags = (params.tags as string) || "";
     const creator = (params.creator as string) || "";
+    const page = parseInt((params.page as string) || "1", 10);
+    const PAGE_SIZE = 12;
 
     const hasFilters = Boolean(search || tags || creator);
 
@@ -31,19 +36,19 @@ export default async function DashboardPage({
     if (session?.user?.id) {
         const settings = await getSettingsService(session.user.id);
         hiddenIds = settings.hiddenUsers.map(u => u.id);
-        // Cast to any because Prisma Client is not yet regenerated in this environment
-        showPrompterTips = (settings as any).showPrompterTips ?? true;
-        tagColorsEnabled = (settings as any).tagColorsEnabled ?? true;
+        showPrompterTips = settings.showPrompterTips ?? true;
+        tagColorsEnabled = settings.tagColorsEnabled ?? true;
     }
 
     // Common WHERE clause for visibility
     const visibleWhere = hiddenIds.length > 0 ? { createdById: { notIn: hiddenIds } } : {};
 
-    let prompts: any[] = [];
+    let prompts: PromptWithRelations[] = [];
+    let searchResultsCount = 0;
 
     if (hasFilters) {
         // --- SEARCH RESULTS VIEW ---
-        const where: any = {
+        const where: Prisma.PromptWhereInput = {
             ...visibleWhere
         };
 
@@ -143,23 +148,31 @@ export default async function DashboardPage({
             // Prisma allows both if they don't conflict fields. `createdBy` vs `createdById` are separate in where input usually.
         }
 
-        const orderBy: any = {};
-        if (sort === "date") orderBy.createdAt = order;
-        else if (sort === "alpha") orderBy.title = order;
-        else if (sort === "usage") orderBy.copyCount = order;
+        const orderBy: Prisma.PromptOrderByWithRelationInput = {};
+        if (sort === "date") orderBy.createdAt = order as Prisma.SortOrder;
+        else if (sort === "alpha") orderBy.title = order as Prisma.SortOrder;
+        else if (sort === "usage") orderBy.copyCount = order as Prisma.SortOrder;
 
-        prompts = await prisma.prompt.findMany({
-            where,
-            orderBy,
-            include: {
-                createdBy: { select: { email: true, username: true } },
-                tags: true,
-                versions: {
-                    orderBy: { versionNumber: "desc" },
-                    take: 1
-                }
-            },
-        });
+        const [totalCount, searchPrompts] = await Promise.all([
+            prisma.prompt.count({ where }),
+            prisma.prompt.findMany({
+                where,
+                orderBy,
+                take: PAGE_SIZE,
+                skip: (page - 1) * PAGE_SIZE,
+                include: {
+                    createdBy: { select: { email: true, username: true } },
+                    tags: true,
+                    versions: {
+                        orderBy: { versionNumber: "desc" },
+                        take: 1,
+                        include: { attachments: true }
+                    }
+                },
+            }) as unknown as Promise<PromptWithRelations[]>
+        ]);
+        prompts = searchPrompts;
+        searchResultsCount = totalCount;
     }
 
     // --- DASHBOARD VIEW (No filters) ---
@@ -183,7 +196,8 @@ export default async function DashboardPage({
                         tags: true,
                         versions: {
                             orderBy: { versionNumber: "desc" },
-                            take: 1
+                            take: 1,
+                            include: { attachments: true }
                         }
                     }
                 }
@@ -207,7 +221,8 @@ export default async function DashboardPage({
                 tags: true,
                 versions: {
                     orderBy: { versionNumber: "desc" },
-                    take: 1
+                    take: 1,
+                    include: { attachments: true }
                 }
             },
         });
@@ -223,7 +238,8 @@ export default async function DashboardPage({
             tags: true,
             versions: {
                 orderBy: { versionNumber: "desc" },
-                take: 1
+                take: 1,
+                include: { attachments: true }
             }
         },
     });
@@ -238,7 +254,8 @@ export default async function DashboardPage({
             tags: true,
             versions: {
                 orderBy: { versionNumber: "desc" },
-                take: 1
+                take: 1,
+                include: { attachments: true }
             }
         },
     });
@@ -247,13 +264,15 @@ export default async function DashboardPage({
         <DashboardContent
             searchParams={params}
             hasFilters={hasFilters}
-            searchResults={prompts}
-            favoritePrompts={favoritePrompts}
-            recentPrompts={myRecentPrompts}
-            newPrompts={newPrompts}
-            popularPrompts={mostViewedPrompts}
+            searchResults={prompts.map(mapPromptToDTO)}
+            searchResultsCount={searchResultsCount}
+            pageSize={PAGE_SIZE}
+            favoritePrompts={(favoritePrompts as unknown as PromptWithRelations[]).map(mapPromptToDTO)}
+            recentPrompts={(myRecentPrompts as unknown as PromptWithRelations[]).map(mapPromptToDTO)}
+            newPrompts={(newPrompts as unknown as PromptWithRelations[]).map(mapPromptToDTO)}
+            popularPrompts={(mostViewedPrompts as unknown as PromptWithRelations[]).map(mapPromptToDTO)}
             favoriteIds={Array.from(favoriteIds)}
-            user={session?.user ? { name: session.user.name || "", id: session.user.id, role: (session.user as any).role } : undefined}
+            user={session?.user ? { name: session.user.name || "", id: session.user.id, role: session.user.role as string } : undefined}
             showPrompterTips={showPrompterTips}
             tagColorsEnabled={tagColorsEnabled}
         />

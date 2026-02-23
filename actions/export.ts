@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
+import { rateLimit } from "@/lib/rate-limit";
 
 // Helper for file encoding
 function getFileAsBase64(urlPath: string | null): { data: string; type: string } | null {
@@ -68,6 +69,11 @@ export async function getExportMeta(collectionIds?: string[], recursive: boolean
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) return { success: false, error: "Unauthorized" };
     const userId = session.user.id;
+
+    // Rate limit normal exports to 5 per minute per user to prevent DOS via heavy processing
+    if (rateLimit(userId, 5, 60000)) {
+        return { success: false, error: "Rate limit exceeded. Please try again later." };
+    }
 
     // 1. Determine Prompt IDs
     const where: any = { createdById: userId };

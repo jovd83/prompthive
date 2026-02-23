@@ -39,6 +39,7 @@ export const CreateVersionSchema = z.object({
     description: z.string().optional(),
     tagIds: z.array(z.string()).optional(),
     keepAttachmentIds: z.array(z.string()).optional(),
+    keepResultImageIds: z.array(z.string()).optional(),
     existingResultImagePath: z.string().optional(),
     resource: z.string().optional(),
     isPrivate: z.boolean().optional(),

@@ -137,7 +137,7 @@ describe('Backup Service', () => {
     describe('restoreLatestBackupService', () => {
         it('should restore data from latest backup', async () => {
             // Mock file listing
-            (fsPromises.readdir as any).mockResolvedValue(['2023-01-01_prompthive_autobackup.json']);
+            (fsPromises.readdir as any).mockResolvedValue(['2023-01-01_TMT_autobackup.json']);
 
             // Mock file content
             const backupData = {

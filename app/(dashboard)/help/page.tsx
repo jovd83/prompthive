@@ -6,8 +6,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CopyToClipboard } from "@/components/CopyToClipboard";
+import { SafeRender } from "@/components/SafeRender";
 
-const SCRAPER_SYSTEM_PROMPT = `**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "MyPromptHive" application.
+const SCRAPER_SYSTEM_PROMPT = `**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "TMT" application.
 
 **Task**: 
 1. Access and analyze the content of the following URL: [URL]
@@ -60,8 +61,8 @@ export default function HelpPage() {
             icon: Book,
             content: (
                 <div className="space-y-4">
-                    <p className="lead text-lg text-muted-foreground" dangerouslySetInnerHTML={{ __html: t('help.content.intro.welcome') }} />
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.intro.desc') }} />
+                    <p className="lead text-lg text-muted-foreground"><SafeRender html={t('help.content.intro.welcome')} /></p>
+                    <p><SafeRender html={t('help.content.intro.desc')} /></p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                         <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
                             <Folder className="mb-2 text-primary" />
@@ -76,7 +77,7 @@ export default function HelpPage() {
                         <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
                             <Code className="mb-2 text-primary" />
                             <h3 className="font-bold">{t('help.content.intro.templatizeTitle')}</h3>
-                            <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: t('help.content.intro.templatizeDesc') }} />
+                            <p className="text-sm text-muted-foreground"><SafeRender html={t('help.content.intro.templatizeDesc')} /></p>
                         </div>
                     </div>
                 </div>
@@ -99,11 +100,11 @@ export default function HelpPage() {
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.gettingStarted.step1Title')}</h3>
                         <ol className="list-decimal list-inside space-y-2 ml-2">
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.gettingStarted.step1Li1') }} />
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.gettingStarted.step1Li2') }} />
+                            <li><SafeRender html={t('help.content.gettingStarted.step1Li1')} /></li>
+                            <li><SafeRender html={t('help.content.gettingStarted.step1Li2')} /></li>
                             <li>{t('help.content.gettingStarted.step1Li3')}</li>
                             <li>{t('help.content.gettingStarted.step1Li4')}</li>
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.gettingStarted.step1Li5') }} />
+                            <li><SafeRender html={t('help.content.gettingStarted.step1Li5')} /></li>
                         </ol>
                     </div>
 
@@ -113,9 +114,9 @@ export default function HelpPage() {
                         <ul className="list-disc list-inside ml-2">
                             <li>{t('help.content.gettingStarted.step2Li1')}</li>
                             <li>{t('help.content.gettingStarted.step2Li2')}</li>
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.gettingStarted.step2Li3') }} />
+                            <li><SafeRender html={t('help.content.gettingStarted.step2Li3')} /></li>
                             <li>{t('help.content.gettingStarted.step2Li4')}</li>
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.gettingStarted.step2Li5') }} />
+                            <li><SafeRender html={t('help.content.gettingStarted.step2Li5')} /></li>
                         </ul>
                     </div>
                 </div>
@@ -127,13 +128,13 @@ export default function HelpPage() {
             icon: Code,
             content: (
                 <div className="space-y-6">
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.variables.desc') }} />
+                    <p><SafeRender html={t('help.content.variables.desc')} /></p>
 
                     <h3 className="text-lg font-bold">{t('help.content.variables.syntaxTitle')}</h3>
                     <div className="bg-muted p-4 rounded-md font-mono text-sm border border-border">
                         <span className="text-green-600 dark:text-green-400">{t('help.content.variables.good')}</span><br />
-                        <span dangerouslySetInnerHTML={{ __html: t('help.content.variables.goodEx1') }} /><br />
-                        <span dangerouslySetInnerHTML={{ __html: t('help.content.variables.goodEx2') }} /><br />
+                        <span><SafeRender html={t('help.content.variables.goodEx1')} /></span><br />
+                        <span><SafeRender html={t('help.content.variables.goodEx2')} /></span><br />
                         <span>Write a blog about <span className="text-blue-600 font-bold">[[topic]]</span>.</span><br /><br />
                         <span className="text-red-500 dark:text-red-400">{t('help.content.variables.bad')}</span><br />
                         {t('help.content.variables.badEx')}
@@ -143,7 +144,7 @@ export default function HelpPage() {
                         <div className="flex items-center gap-2 font-bold text-yellow-700 dark:text-yellow-400 mb-1">
                             <Shield size={18} /> {t('help.content.variables.autoDetectTitle')}
                         </div>
-                        <p className="text-sm" dangerouslySetInnerHTML={{ __html: t('help.content.variables.autoDetectDesc') }} />
+                        <p className="text-sm"><SafeRender html={t('help.content.variables.autoDetectDesc')} /></p>
                     </div>
                 </div>
             )
@@ -154,19 +155,19 @@ export default function HelpPage() {
             icon: Folder,
             content: (
                 <div className="space-y-4">
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.collections.desc') }} />
+                    <p><SafeRender html={t('help.content.collections.desc')} /></p>
                     <ul className="list-disc list-inside space-y-2 ml-2">
-                        <li dangerouslySetInnerHTML={{ __html: t('help.content.collections.li1') }} />
-                        <li dangerouslySetInnerHTML={{ __html: t('help.content.collections.li2') }} />
+                        <li><SafeRender html={t('help.content.collections.li1')} /></li>
+                        <li><SafeRender html={t('help.content.collections.li2')} /></li>
                         <li>{t('help.content.collections.li3')}</li>
                     </ul>
                     <h3 className="text-lg font-bold mt-4">{t('help.content.collections.dragDropTitle')}</h3>
                     <p>{t('help.content.collections.dragDropDesc')}</p>
                     <h3 className="text-lg font-bold mt-4">{t('help.content.collections.sortingTitle')}</h3>
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.collections.sortingDesc') }} />
-                    <p className="mt-2" dangerouslySetInnerHTML={{ __html: t('help.content.collections.collapseDesc') }} />
+                    <p><SafeRender html={t('help.content.collections.sortingDesc')} /></p>
+                    <p className="mt-2 text-sm"><SafeRender html={t('help.content.collections.collapseDesc')} /></p>
                     <h3 className="text-lg font-bold mt-4">{t('help.content.collections.visibilityTitle')}</h3>
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.collections.visibilityDesc') }} />
+                    <p><SafeRender html={t('help.content.collections.visibilityDesc')} /></p>
                 </div>
             )
         },
@@ -177,7 +178,7 @@ export default function HelpPage() {
             content: (
                 <div className="space-y-6">
                     <p>{t('help.content.aiScraping.desc1')}</p>
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.aiScraping.desc2') }} />
+                    <p><SafeRender html={t('help.content.aiScraping.desc2')} /></p>
 
                     <div className="bg-muted p-4 rounded-lg border border-border">
                         <h4 className="font-bold mb-2 flex items-center gap-2">
@@ -200,7 +201,7 @@ export default function HelpPage() {
             icon: Search,
             content: (
                 <div className="space-y-6">
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.commandPalette.desc') }} />
+                    <p><SafeRender html={t('help.content.commandPalette.desc')} /></p>
 
                     <div className="flex items-center gap-4 bg-muted p-6 rounded-lg border border-border">
                         <div className="flex flex-col items-center gap-1 min-w-[100px]">
@@ -214,10 +215,10 @@ export default function HelpPage() {
                         <div>
                             <h4 className="font-bold mb-1">{t('help.content.commandPalette.whatCanDo')}</h4>
                             <ul className="text-sm list-disc list-inside text-muted-foreground space-y-1">
-                                <li dangerouslySetInnerHTML={{ __html: t('help.content.commandPalette.li1') }} />
-                                <li dangerouslySetInnerHTML={{ __html: t('help.content.commandPalette.li2') }} />
-                                <li dangerouslySetInnerHTML={{ __html: t('help.content.commandPalette.li3') }} />
-                                <li dangerouslySetInnerHTML={{ __html: t('help.content.commandPalette.li4') }} />
+                                <li><SafeRender html={t('help.content.commandPalette.li1')} /></li>
+                                <li><SafeRender html={t('help.content.commandPalette.li2')} /></li>
+                                <li><SafeRender html={t('help.content.commandPalette.li3')} /></li>
+                                <li><SafeRender html={t('help.content.commandPalette.li4')} /></li>
                             </ul>
                         </div>
                     </div>
@@ -230,15 +231,15 @@ export default function HelpPage() {
             icon: GitBranch,
             content: (
                 <div className="space-y-6">
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.visualDiff.desc') }} />
+                    <p><SafeRender html={t('help.content.visualDiff.desc')} /></p>
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.visualDiff.howToTitle')}</h3>
                         <ol className="list-decimal list-inside space-y-2 ml-2">
                             <li>{t('help.content.visualDiff.li1')}</li>
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.visualDiff.li2') }} />
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.visualDiff.li3') }} />
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.visualDiff.li4') }} />
+                            <li><SafeRender html={t('help.content.visualDiff.li2')} /></li>
+                            <li><SafeRender html={t('help.content.visualDiff.li3')} /></li>
+                            <li><SafeRender html={t('help.content.visualDiff.li4')} /></li>
                         </ol>
 
                         <div className="mt-4 p-4 bg-primary/5 border border-primary/20 rounded-md">
@@ -254,11 +255,11 @@ export default function HelpPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
                             <span className="text-green-600 dark:text-green-400 font-bold block mb-1">{t('help.content.visualDiff.greenTitle')}</span>
-                            <p className="text-sm" dangerouslySetInnerHTML={{ __html: t('help.content.visualDiff.greenDesc') }} />
+                            <p className="text-sm"><SafeRender html={t('help.content.visualDiff.greenDesc')} /></p>
                         </div>
                         <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
                             <span className="text-red-600 dark:text-red-400 font-bold block mb-1">{t('help.content.visualDiff.redTitle')}</span>
-                            <p className="text-sm" dangerouslySetInnerHTML={{ __html: t('help.content.visualDiff.redDesc') }} />
+                            <p className="text-sm"><SafeRender html={t('help.content.visualDiff.redDesc')} /></p>
                         </div>
                     </div>
 
@@ -279,8 +280,8 @@ export default function HelpPage() {
                 <div className="space-y-4">
                     <p>{t('help.content.language.desc')}</p>
                     <ol className="list-decimal list-inside space-y-2 ml-2">
-                        <li dangerouslySetInnerHTML={{ __html: t('help.content.language.li1') }} />
-                        <li dangerouslySetInnerHTML={{ __html: t('help.content.language.li2') }} />
+                        <li><SafeRender html={t('help.content.language.li1')} /></li>
+                        <li><SafeRender html={t('help.content.language.li2')} /></li>
                         <li>{t('help.content.language.li3')}</li>
                     </ol>
                     <div className="border border-l-4 border-l-blue-500 bg-blue-50 dark:bg-blue-900/10 p-4 rounded-r shadow-sm mt-4">
@@ -301,10 +302,10 @@ export default function HelpPage() {
                     <p>{t('help.content.userProfile.desc')}</p>
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.userProfile.accessTitle')}</h3>
-                        <p dangerouslySetInnerHTML={{ __html: t('help.content.userProfile.accessDesc') }} />
+                        <p><SafeRender html={t('help.content.userProfile.accessDesc')} /></p>
                         <ul className="list-disc list-inside ml-2 space-y-2">
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.userProfile.li1') }} />
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.userProfile.li2') }} />
+                            <li><SafeRender html={t('help.content.userProfile.li1')} /></li>
+                            <li><SafeRender html={t('help.content.userProfile.li2')} /></li>
                         </ul>
                     </div>
 
@@ -312,7 +313,7 @@ export default function HelpPage() {
                         <h4 className="font-bold flex items-center gap-2 mb-2">
                             <Lock size={16} /> {t('help.content.userProfile.forgotTitle')}
                         </h4>
-                        <p className="text-sm" dangerouslySetInnerHTML={{ __html: t('help.content.userProfile.forgotDesc') }} />
+                        <p className="text-sm"><SafeRender html={t('help.content.userProfile.forgotDesc')} /></p>
                     </div>
                 </div>
             )
@@ -323,14 +324,14 @@ export default function HelpPage() {
             icon: Lock,
             content: (
                 <div className="space-y-6">
-                    <p dangerouslySetInnerHTML={{ __html: t('help.content.locking.desc') }} />
+                    <p><SafeRender html={t('help.content.locking.desc')} /></p>
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.locking.howToTitle')}</h3>
                         <ol className="list-decimal list-inside space-y-2 ml-2">
                             <li>{t('help.content.locking.li1')}</li>
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.locking.li2') }} />
-                            <li dangerouslySetInnerHTML={{ __html: t('help.content.locking.li3') }} />
+                            <li><SafeRender html={t('help.content.locking.li2')} /></li>
+                            <li><SafeRender html={t('help.content.locking.li3')} /></li>
                         </ol>
                     </div>
 
@@ -357,19 +358,19 @@ export default function HelpPage() {
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.admin.usersTitle')}</h3>
-                        <p dangerouslySetInnerHTML={{ __html: t('help.content.admin.usersDesc') }} />
+                        <p><SafeRender html={t('help.content.admin.usersDesc')} /></p>
                     </div>
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.admin.registrationTitle')}</h3>
                         <div className="border border-l-4 border-l-red-500 bg-red-50 dark:bg-red-900/10 p-4 rounded-r shadow-sm">
-                            <p dangerouslySetInnerHTML={{ __html: t('help.content.admin.registrationDesc') }} />
+                            <p><SafeRender html={t('help.content.admin.registrationDesc')} /></p>
                         </div>
                     </div>
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.admin.visibilityTitle')}</h3>
-                        <p dangerouslySetInnerHTML={{ __html: t('help.content.admin.visibilityDesc') }} />
+                        <p><SafeRender html={t('help.content.admin.visibilityDesc')} /></p>
                     </div>
                 </div>
             )
@@ -384,12 +385,12 @@ export default function HelpPage() {
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.exporting.markdownTitle')}</h3>
-                        <p dangerouslySetInnerHTML={{ __html: t('help.content.exporting.markdownDesc') }} />
+                        <p><SafeRender html={t('help.content.exporting.markdownDesc')} /></p>
                     </div>
 
                     <div className="space-y-4">
                         <h3 className="text-xl font-bold">{t('help.content.exporting.jsonTitle')}</h3>
-                        <p dangerouslySetInnerHTML={{ __html: t('help.content.exporting.jsonDesc') }} />
+                        <p><SafeRender html={t('help.content.exporting.jsonDesc')} /></p>
                     </div>
                 </div>
             )
@@ -406,7 +407,7 @@ export default function HelpPage() {
                     </div>
                     <div className="pt-4">
                         <h4 className="font-bold mb-2">{t('help.content.faq.q2')}</h4>
-                        <p className="text-sm text-muted-foreground" dangerouslySetInnerHTML={{ __html: t('help.content.faq.a2') }} />
+                        <p className="text-sm text-muted-foreground"><SafeRender html={t('help.content.faq.a2')} /></p>
                     </div>
 
                 </div>
@@ -428,27 +429,27 @@ export default function HelpPage() {
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.changed_1') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.changed_2') }} />
+                                    <li><SafeRender html={t('help.content.changelog.changed_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.changed_2')} /></li>
                                 </ul>
                             </div>
 
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_1') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_2') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.added_3') }} />
+                                    <li><SafeRender html={t('help.content.changelog.added_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.added_2')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.added_3')} /></li>
                                 </ul>
                             </div>
 
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_1') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_2') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_3') }} />
-                                    <li dangerouslySetInnerHTML={{ __html: t('help.content.changelog.fixed_4') }} />
+                                    <li><SafeRender html={t('help.content.changelog.fixed_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.fixed_2')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.fixed_3')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.fixed_4')} /></li>
                                 </ul>
                             </div>
                         </div>
@@ -456,7 +457,7 @@ export default function HelpPage() {
 
                     <div className="flex items-center gap-2 text-muted-foreground bg-muted/50 p-3 rounded-md">
                         <Github className="h-4 w-4" />
-                        <p className="text-sm" dangerouslySetInnerHTML={{ __html: t('help.content.changelog.desc') }} />
+                        <p className="text-sm"><SafeRender html={t('help.content.changelog.desc')} /></p>
                     </div>
                 </div>
             )
@@ -528,7 +529,7 @@ export default function HelpPage() {
                     <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">{t('help.externalLinks')}</h3>
                     <div className="space-y-2">
                         <a
-                            href="https://github.com/jovd83/prompthive/"
+                            href="https://github.com/jovd83/TMT/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-full flex items-center gap-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors"
@@ -537,7 +538,7 @@ export default function HelpPage() {
                             GitHub Repo
                         </a>
                         <a
-                            href="https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md"
+                            href="https://github.com/jovd83/TMT/blob/main/CHANGELOG.md"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-full flex items-center gap-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors"
@@ -574,7 +575,7 @@ export default function HelpPage() {
                 <div className="mt-20 p-8 bg-surface rounded-xl border border-border text-center">
                     <h3 className="text-lg font-bold mb-2">{t('help.stillQuestions')}</h3>
                     <p className="text-muted-foreground mb-4">{t('help.checkRepo')}</p>
-                    <a href="https://github.com/jovd83/prompthive" target="_blank" className="btn btn-outline inline-flex gap-2">
+                    <a href="https://github.com/jovd83/TMT" target="_blank" className="btn btn-outline inline-flex gap-2">
                         <Anchor size={16} /> {t('help.visitRepo')}
                     </a>
                 </div>

@@ -11,6 +11,7 @@ import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash
 import CollapsibleSection from "./CollapsibleSection";
 import ExpandableTextarea from "./ExpandableTextarea";
 import Link from "next/link";
+import NextImage from "next/image";
 import { useRouter } from "next/navigation";
 import CodeEditor from "./CodeEditor";
 import VisualDiff from "./VisualDiff";
@@ -22,21 +23,24 @@ import { PromptWithRelations } from "@/types/prisma";
 import { VariableDef, replaceVariables, getDisplayName } from "@/lib/prompt-utils";
 import { copyToClipboard } from "@/lib/clipboard";
 import { generateMarkdown, downloadStringAsFile } from "@/lib/markdown";
-import { restorePromptVersion, toggleLock, toggleVisibility, unlinkPrompts } from "@/actions/prompts";
+import { restorePromptVersion, toggleLock, toggleVisibility } from "@/actions/prompt-crud";
+import { unlinkPrompts } from "@/actions/prompt-links";
 import LinkPromptDialog from "./LinkPromptDialog";
 import TagList from "./TagList";
 import { Link as LinkIcon } from "lucide-react";
 import { isGuest } from "@/lib/permissions";
 
+import { PromptDTO } from "@/lib/dto-mappers";
+
 type PromptDetailProps = {
-    prompt: PromptWithRelations;
+    prompt: PromptDTO;
     isFavorited?: boolean;
     serverParsedVariables?: VariableDef[];
     collectionPaths?: { id: string, title: string }[][];
     privatePromptsEnabled?: boolean;
     tagColorsEnabled?: boolean;
-    relatedPrompts?: any[];
-    currentUser?: { id: string; role: string;[key: string]: any };
+    relatedPrompts?: PromptDTO[];
+    currentUser?: { id: string; role: string; name?: string | null; email?: string | null };
 };
 
 const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
@@ -89,8 +93,9 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
         try {
             await unlinkPrompts(prompt.id, targetId);
             router.refresh();
-        } catch (error) {
-            console.error("Failed to unlink", error);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error("Failed to unlink: ", msg);
             setError("Failed to unlink prompt");
         } finally {
             setUnlinkingId(null);
@@ -99,7 +104,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
 
     const isCreator = user?.id === prompt.createdById;
     // Cast prompt to any to access isLocked if types are stale
-    const isLocked = (prompt as any).isLocked;
+    const isLocked = prompt.isLocked;
     const canEdit = !isLocked && !isGuest(user);
 
     // Derived UI State
@@ -169,8 +174,9 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
         setIsLocking(true);
         try {
             await toggleLock(prompt.id);
-        } catch (err) {
-            console.error("Failed to toggle lock:", err);
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            console.error("Failed to toggle lock:", msg);
             setError("Failed to toggle lock status.");
         } finally {
             setIsLocking(false);
@@ -182,8 +188,9 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
         setIsVisibilityLoading(true);
         try {
             await toggleVisibility(prompt.id);
-        } catch (err) {
-            console.error("Failed to toggle visibility:", err);
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : String(err);
+            console.error("Failed to toggle visibility:", msg);
             setError("Failed to toggle visibility.");
         } finally {
             setIsVisibilityLoading(false);
@@ -196,7 +203,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
             {/* Breadcrumbs */}
             {/* Breadcrumbs */}
             <div className="mb-4 flex flex-col gap-1">
-                {(collectionPaths && collectionPaths.length > 0 ? collectionPaths : (prompt.collections || []).map((col: any) => [{ id: col.id, title: col.title }])).map((path, idx) => (
+                {(collectionPaths && collectionPaths.length > 0 ? collectionPaths : (prompt.collections || []).map((col) => [{ id: col.id, title: col.title }])).map((path, idx) => (
                     <div key={idx} className="flex items-center text-sm text-muted-foreground">
                         <Link href="/collections" className="hover:text-primary transition-colors">{t('detail.breadcrumbs.collections')}</Link>
                         {path.map((crumb) => (
@@ -278,12 +285,12 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             <button
                                 onClick={handleToggleVisibility}
                                 disabled={isVisibilityLoading}
-                                className={`btn border border-border hover:bg-background flex-shrink-0 ${(prompt as any).isPrivate ? "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400" : "bg-surface"}`}
-                                title={(prompt as any).isPrivate ? "Make Public" : "Make Private"}
+                                className={`btn border border-border hover:bg-background flex-shrink-0 ${prompt.isPrivate ? "bg-purple-50 text-purple-600 border-purple-200 dark:bg-purple-950/20 dark:text-purple-400" : "bg-surface"}`}
+                                title={prompt.isPrivate ? "Make Public" : "Make Private"}
                             >
                                 {isVisibilityLoading ? (
                                     <Loader2 size={20} className="animate-spin" />
-                                ) : (prompt as any).isPrivate ? (
+                                ) : prompt.isPrivate ? (
                                     <EyeOff size={20} />
                                 ) : (
                                     <Eye size={20} />
@@ -437,7 +444,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         <div className="card">
                             <h3 className="font-bold mb-2 text-sm text-muted-foreground">{t('detail.labels.collections')}</h3>
                             <div className="flex flex-wrap gap-2">
-                                {prompt.collections.map((col: any) => (
+                                {prompt.collections.map((col) => (
                                     <Link key={col.id} href={`/collections/${col.id}`} className="text-sm text-primary hover:underline bg-primary/10 px-2 py-1 rounded-md">
                                         {col.title}
                                     </Link>
@@ -485,17 +492,23 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                     <h4 className="text-sm font-medium mb-2 text-muted-foreground">{t('detail.labels.imageResult')}</h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         {resultAttachments.map((att) => (
-                                            <div key={att.id}>
+                                            <div key={att.id} className="relative aspect-video w-full">
                                                 {['.jpg', '.jpeg', '.png', '.gif', '.svg'].some(ext => att.filePath.toLowerCase().endsWith(ext)) ? (
-                                                    <a href={att.filePath} target="_blank" rel="noopener noreferrer">
-                                                        <img src={att.filePath} alt="Result" className="w-full rounded-lg border border-border hover:shadow-md transition-shadow" />
+                                                    <a href={att.filePath} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                                                        <NextImage
+                                                            src={att.filePath}
+                                                            alt="Result"
+                                                            fill
+                                                            className="object-cover rounded-lg border border-border hover:shadow-md transition-shadow"
+                                                            sizes="(max-width: 768px) 100vw, 50vw"
+                                                        />
                                                     </a>
                                                 ) : (
                                                     <a
                                                         href={att.filePath}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-background transition-colors"
+                                                        className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-background transition-colors w-full h-full"
                                                     >
                                                         <div className="bg-primary/10 p-2 rounded-md text-primary">
                                                             <FileText size={20} />
@@ -510,9 +523,15 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                             </div>
                                         ))}
                                         {showLegacyResultImage && selectedVersion.resultImage && (
-                                            <div>
-                                                <a href={selectedVersion.resultImage} target="_blank" rel="noopener noreferrer">
-                                                    <img src={selectedVersion.resultImage} alt="Result" className="w-full rounded-lg border border-border hover:shadow-md transition-shadow" />
+                                            <div className="relative aspect-video w-full">
+                                                <a href={selectedVersion.resultImage} target="_blank" rel="noopener noreferrer" className="block w-full h-full relative">
+                                                    <NextImage
+                                                        src={selectedVersion.resultImage}
+                                                        alt="Result"
+                                                        fill
+                                                        className="object-cover rounded-lg border border-border hover:shadow-md transition-shadow"
+                                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                                    />
                                                 </a>
                                             </div>
                                         )}
@@ -607,7 +626,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             <History size={18} /> {t('detail.labels.history')}
                         </h3>
                         <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                            {prompt.versions.map((v) => (
+                            {(prompt.versions || []).map((v) => (
                                 <div
                                     key={v.id}
                                     className={`w-full p-2 rounded-md text-sm flex justify-between items-center transition-colors group border ${selectedVersionId === v.id ? "bg-primary/10 text-primary border-primary/20" : "hover:bg-background border-transparent"
@@ -663,7 +682,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         <LinkIcon size={16} /> {t('detail.labels.relatedPrompts') || "Related Prompts"}
                     </h3>
                     <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
-                        {relatedPrompts.map((rp: any) => (
+                        {relatedPrompts.map((rp) => (
                             <div key={rp.id} className="relative group h-full min-w-[280px] max-w-[320px] flex-shrink-0">
                                 <div className="h-full">
                                     <PromptCard prompt={rp} tagColorsEnabled={tagColorsEnabled} />

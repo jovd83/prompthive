@@ -13,7 +13,8 @@ log "--- Container Starting at $(date) ---"
 log "Database URL: $DATABASE_URL"
 
 # Ensure permissions
-chmod 777 /app/data >> $LOGFILE 2>&1
+# Ensure permissions (only root should do this, but chown was handled in Dockerfile)
+# chmod 755 /app/data >> $LOGFILE 2>&1
 
 # Define Prisma command
 # Use local binary to ensure version match (v5.22.0). 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSession, signIn } from "next-auth/react";
 import { toggleFavorite } from "@/actions/favorites";
-import { deletePrompt } from "@/actions/prompts";
+import { deletePrompt } from "@/actions/prompt-crud";
 import { useLanguage } from "@/components/LanguageProvider";
 
 interface UsePromptActionsProps {

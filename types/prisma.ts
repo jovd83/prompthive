@@ -22,14 +22,13 @@ const collectionWithPrompts = Prisma.validator<Prisma.CollectionDefaultArgs>()({
     }
 });
 
+import { PromptDTO } from "@/lib/dto-mappers";
+
 export type CollectionWithPrompts = Prisma.CollectionGetPayload<typeof collectionWithPrompts> & {
     breadcrumbs?: { id: string; title: string }[];
     totalPrompts?: number;
     _count?: { prompts: number };
-    prompts: (Prisma.PromptGetPayload<{ include: { tags: true } }> & {
-        _count?: { versions: number }; // sometimes we might need this
-        isFavorited?: boolean;
-    })[];
+    prompts: PromptDTO[];
     children: (Prisma.CollectionGetPayload<{ include: { prompts: true } }> & {
         totalPrompts?: number;
         _count?: { prompts: number };
@@ -67,13 +66,32 @@ const promptWithRelations = Prisma.validator<Prisma.PromptDefaultArgs>()({
     }
 });
 
-export type PromptWithRelations = Omit<Prisma.PromptGetPayload<typeof promptWithRelations>, 'tags'> & {
+export type PromptVersionWithRelations = Prisma.PromptVersionGetPayload<{
+    include: {
+        attachments: true,
+        createdBy: {
+            select: {
+                id: true,
+                username: true,
+                email: true
+            }
+        }
+    }
+}>;
+
+export type PromptWithRelations = Prisma.PromptGetPayload<typeof promptWithRelations> & {
     technicalId?: string | null;
     isLocked?: boolean;
+    isPrivate?: boolean;
+    resource?: string | null;
+    currentVersionId?: string | null;
+    viewCount?: number;
+    copyCount?: number;
     relatedPrompts?: { id: string; title: string, technicalId: string | null }[];
     relatedToPrompts?: { id: string; title: string, technicalId: string | null }[];
     tags: { id: string; name: string; color: string | null; createdAt: Date }[];
     isFavorited?: boolean;
+    favoritedBy?: { userId: string }[];
 };
 
 export type TagWithCount = {

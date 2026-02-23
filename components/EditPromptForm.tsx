@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { createVersion } from "@/actions/prompts";
-import { CollectionWithPrompts, PromptWithRelations, TagWithCount } from "@/types/prisma";
+import { createVersion } from "@/actions/prompt-crud";
+import { CollectionWithPrompts, PromptWithRelations, TagWithCount, PromptVersionWithRelations } from "@/types/prisma";
 import UnifiedPromptForm from "@/components/UnifiedPromptForm";
 import { useLanguage } from "./LanguageProvider";
 
 interface EditPromptFormProps {
     prompt: PromptWithRelations;
-    latestVersion: any; // Ideally this should be PromptVersion
+    latestVersion: PromptVersionWithRelations;
     collections?: CollectionWithPrompts[];
     tags?: TagWithCount[];
     tagColorsEnabled?: boolean;
@@ -26,12 +26,13 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
         startTransition(async () => {
             try {
                 await createVersion(formData);
-            } catch (error: any) {
-                if (error.message === "NEXT_REDIRECT") {
+            } catch (error: unknown) {
+                if (error instanceof Error && error.message === "NEXT_REDIRECT") {
                     throw error;
                 }
-                console.error("Submission failed:", error);
-                setError(error.message || "Failed to create version. Please try again.");
+                const message = error instanceof Error ? error.message : "Failed to create version. Please try again.";
+                console.error("Submission failed:", message);
+                setError(message);
             }
         });
     };
@@ -50,7 +51,7 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
     return (
         <UnifiedPromptForm
             mode="EDIT"
-            initialValues={initialValues as any}
+            initialValues={initialValues}
             collections={collections}
             tags={tags}
             tagColorsEnabled={tagColorsEnabled}

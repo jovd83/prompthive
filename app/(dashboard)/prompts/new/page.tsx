@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { CONFIG_ID } from "@/lib/constants";
 import NewPromptContent from "@/components/NewPromptContent";
 import { getSettingsService } from "@/services/settings";
 
@@ -20,7 +21,7 @@ export default async function NewPromptPage({ searchParams }: { searchParams: Pr
     });
 
     const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
-    const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: "GLOBAL" } });
+    const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: CONFIG_ID.GLOBAL } });
 
     return (
         <NewPromptContent

@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { dropAllData, restoreLatestBackup } from "@/actions/backup";
-import { deleteUnusedTags } from "@/actions/prompts";
+import { deleteUnusedTags } from "@/actions/tags";
 import { Trash2, RotateCcw, Tag as TagIcon } from "lucide-react";
 import { useLanguage } from "../LanguageProvider";
 

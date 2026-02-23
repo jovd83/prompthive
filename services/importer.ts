@@ -103,7 +103,7 @@ async function processDirectory(dirPath: string, parentCollectionId: string | nu
                     filePath: relativePath,
                     fileType: mimeType,
                     originalName: file.name
-                } as any // Cast to any to handle potential schema mismatch dev-time, assuming runtime schema is correct.
+                }
             });
         }
         importedCount++;

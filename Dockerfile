@@ -67,7 +67,7 @@ RUN mkdir -p /app/public/uploads && chown nextjs:nodejs /app/public/uploads
 COPY --from=builder /app/start.sh ./start.sh
 RUN chmod +x ./start.sh
 
-# USER nextjs
+USER nextjs
 
 EXPOSE 3000
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { createPrompt } from "@/actions/prompts";
-import { Collection, Tag } from "@prisma/client";
+import { createPrompt } from "@/actions/prompt-crud";
+import { CollectionWithPrompts, TagWithCount } from "@/types/prisma";
 import UnifiedPromptForm from "@/components/UnifiedPromptForm";
 import { useLanguage } from "./LanguageProvider";
 
@@ -13,8 +13,8 @@ export default function CreatePromptForm({
     tagColorsEnabled = true,
     privatePromptsEnabled = false
 }: {
-    collections: (Collection & { _count?: { prompts: number } })[],
-    tags: Tag[],
+    collections: CollectionWithPrompts[],
+    tags: TagWithCount[],
     initialCollectionId?: string,
     tagColorsEnabled?: boolean;
     privatePromptsEnabled?: boolean;
@@ -28,12 +28,13 @@ export default function CreatePromptForm({
         startTransition(async () => {
             try {
                 await createPrompt(formData);
-            } catch (err: any) {
-                if (err.message === 'NEXT_REDIRECT' || err.message?.includes('NEXT_REDIRECT') || err.digest?.includes('NEXT_REDIRECT')) {
+            } catch (err: unknown) {
+                if (err instanceof Error && (err.message === 'NEXT_REDIRECT' || err.message?.includes('NEXT_REDIRECT'))) {
                     throw err;
                 }
-                console.error("CreatePrompt Error:", err);
-                setError(err.message || "An unexpected error occurred.");
+                const message = err instanceof Error ? err.message : "An unexpected error occurred.";
+                console.error("CreatePrompt Error:", message);
+                setError(message);
             }
         });
     };
@@ -46,15 +47,15 @@ export default function CreatePromptForm({
 
     // Construct initial values object
     const initialValues = {
-        collections: initialCollectionId ? [{ id: initialCollectionId } as any] : []
+        collections: initialCollectionId ? [{ id: initialCollectionId, title: "Initial" }] : []
     };
 
     return (
         <UnifiedPromptForm
             mode="CREATE"
             initialValues={initialValues}
-            collections={collections as any}
-            tags={tags as any}
+            collections={collections}
+            tags={tags}
             tagColorsEnabled={tagColorsEnabled}
             privatePromptsEnabled={privatePromptsEnabled}
             onSubmit={handleSubmit}

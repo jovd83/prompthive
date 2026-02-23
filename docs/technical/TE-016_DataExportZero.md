@@ -1,7 +1,7 @@
-# TE-016 Export for MyPromptHive Zero
+# TE-016 Export for TMT Zero
 
 ## 1. Overview
-This feature allows users to export a subset of their prompt library specifically formatted for "MyPromptHive Zero". Users can select which collections to include in the export.
+This feature allows users to export a subset of their prompt library specifically formatted for "TMT Zero". Users can select which collections to include in the export.
 
 ## 2. Architecture
 

@@ -8,8 +8,15 @@ export async function uploadFile(file: File, prefix: string = ""): Promise<{ fil
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     await fs.mkdir(uploadDir, { recursive: true });
 
+    // 1. Security: Enforce size limit (10MB)
+    const MAX_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_SIZE) throw new Error("File size exceeds 10MB limit.");
+
     validateFileExtension(file.name);
-    const fileName = `${prefix}${Date.now()}-${file.name}`;
+
+    // 2. Security: Sanitize filename to prevent path traversal and special char issues
+    const safeName = file.name.replace(/[^a-z0-9.-]/gi, '_').toLowerCase();
+    const fileName = `${prefix}${Date.now()}-${safeName}`;
     const filePath = path.join(uploadDir, fileName);
     const buffer = Buffer.from(await file.arrayBuffer());
     await fs.writeFile(filePath, buffer);
@@ -22,8 +29,8 @@ export async function uploadFile(file: File, prefix: string = ""): Promise<{ fil
             await sharp(buffer)
                 .resize({ width: 400, withoutEnlargement: true })
                 .toFile(thumbPath);
-        } catch (error) {
-            console.error("Error generating thumbnail:", error);
+        } catch (error: unknown) {
+            console.error("[FileService] Error generating thumbnail:", error instanceof Error ? error.message : String(error));
         }
     }
 
@@ -38,7 +45,7 @@ export async function deleteFile(filePath: string): Promise<void> {
     try {
         const fullPath = path.join(process.cwd(), "public", filePath);
         await fs.unlink(fullPath);
-    } catch (e) {
-        // Ignore if file doesn't exist
+    } catch (e: unknown) {
+        console.warn(`[FileService] Could not delete file ${filePath}:`, e instanceof Error ? e.message : String(e));
     }
 }

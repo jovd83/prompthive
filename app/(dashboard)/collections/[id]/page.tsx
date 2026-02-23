@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import CollectionSplitView from "@/components/CollectionSplitView";
@@ -5,85 +6,75 @@ import { computeRecursiveCounts } from "@/lib/collection-utils";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getHiddenUserIdsService, getSettingsService } from "@/services/settings";
+import { CollectionWithPrompts, PromptWithRelations } from "@/types/prisma";
+import { mapPromptToDTO } from "@/lib/dto-mappers";
 
 export default async function CollectionDetailPage({ params, searchParams }: { params: Promise<{ id: string }>, searchParams: Promise<{ promptId?: string, sort?: string, order?: string }> }) {
     const { id } = await params;
     const { promptId, sort, order } = await searchParams;
 
-    // Define sort order
-    let orderBy: any = { createdAt: 'desc' };
+    let orderBy: Prisma.PromptOrderByWithRelationInput = { createdAt: 'desc' };
     if (sort === 'alpha') {
-        orderBy = { title: order === 'asc' ? 'asc' : 'desc' };
+        orderBy = { title: (order === 'asc' ? 'asc' : 'desc') as Prisma.SortOrder };
     } else if (sort === 'date') {
-        orderBy = { createdAt: order === 'asc' ? 'asc' : 'desc' };
-    } else if (sort === 'oldest') { // Handle specific "Oldest first" generic term if used, but SortControls uses 'date' + 'asc/desc'
-        // sort=date&order=asc is handled above
+        orderBy = { createdAt: (order === 'asc' ? 'asc' : 'desc') as Prisma.SortOrder };
     }
 
     const session = await getServerSession(authOptions);
-    if (!session || !session.user) notFound(); // Should be handled by layout but good check
+    if (!session || !session.user) notFound();
 
     const hiddenIds = await getHiddenUserIdsService(session.user.id);
     const visibleWhere = hiddenIds.length > 0 ? { createdById: { notIn: hiddenIds } } : {};
 
     let enhancedCollection;
+
+    const promptInclude = {
+        createdBy: { select: { email: true, username: true } },
+        tags: true,
+        favoritedBy: { where: { userId: session.user.id }, select: { userId: true } },
+        versions: {
+            orderBy: { versionNumber: "desc" as Prisma.SortOrder },
+            take: 1,
+            select: { content: true, resultImage: true, attachments: { select: { filePath: true, role: true } } }
+        },
+    };
+
     if (id === 'unassigned') {
-        // Fetch global unassigned prompts
         const prompts = await prisma.prompt.findMany({
             where: {
                 collections: { none: {} },
                 ...visibleWhere
             },
-            include: {
-                createdBy: { select: { email: true, username: true } },
-                tags: true,
-                versions: {
-                    orderBy: { versionNumber: "desc" },
-                    take: 1,
-                    select: { content: true, resultImage: true, attachments: { select: { filePath: true, role: true } } }
-                },
-                favoritedBy: { where: { userId: session.user.id } }
-            },
+            include: promptInclude,
             orderBy: orderBy
         });
 
-        // Inject isFavorited
-        const promptsWithFav = prompts.map(p => ({
-            ...p,
-            isFavorited: p.favoritedBy.length > 0
+        const mappedPrompts = prompts.map(p => ({
+            ...mapPromptToDTO(p as unknown as PromptWithRelations),
+            isFavorited: (p as any).favoritedBy && (p as any).favoritedBy.length > 0
         }));
 
         enhancedCollection = {
             id: 'unassigned',
             title: 'No Collection',
             description: 'Prompts not assigned to any collection (Global)',
-            prompts: promptsWithFav,
+            prompts: mappedPrompts,
             children: [],
             parent: null,
             totalPrompts: prompts.length,
-            ownerId: "", // Global (empty string for type compatibility)
+            ownerId: "",
             parentId: null,
-            createdAt: new Date(0), // Epoch
+            createdAt: new Date(0),
             _count: { prompts: prompts.length }
         };
 
     } else {
-        // Fetch the main full collection detail
         const collection = await prisma.collection.findUnique({
             where: { id },
             include: {
                 prompts: {
                     where: visibleWhere,
-                    include: {
-                        createdBy: { select: { email: true, username: true } },
-                        tags: true,
-                        versions: {
-                            orderBy: { versionNumber: "desc" },
-                            take: 1,
-                            select: { content: true, resultImage: true, attachments: { select: { filePath: true, role: true } } }
-                        },
-                        favoritedBy: { where: { userId: session.user.id } }
-                    },
+                    include: promptInclude,
                     orderBy: orderBy
                 },
                 children: {
@@ -98,17 +89,11 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
 
         if (!collection) notFound();
 
-        (collection as any).prompts = collection.prompts.map(p => {
-            const isFav = p.favoritedBy.length > 0;
-            return {
-                ...p,
-                isFavorited: isFav
-            };
-        });
+        const mappedPrompts = collection.prompts.map(p => ({
+            ...mapPromptToDTO(p as unknown as PromptWithRelations),
+            isFavorited: (p as any).favoritedBy && (p as any).favoritedBy.length > 0
+        }));
 
-        // Fetch all collections lightweight to compute recursive counts
-        // Only fetch related tree (same owner) for recursive counting efficiency, or just fetch all if we want global tree awareness?
-        // Recursive counts usually only matter within the same tree. Distinct trees (users) don't intersect.
         const allCollections = await prisma.collection.findMany({
             where: { ownerId: collection.ownerId },
             select: { id: true, parentId: true, title: true, createdAt: true, _count: { select: { prompts: true } } }
@@ -116,12 +101,8 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
 
         const countMap = computeRecursiveCounts(allCollections);
 
-        // Initialize breadcrumbs with current parent if available
         const breadcrumbs = [];
         let currentParentId = collection.parentId;
-
-        // Iteratively fetch ancestors to build full breadcrumbs
-        // Limit to 10 levels to prevent infinite loops
         let depth = 0;
         while (currentParentId && depth < 10) {
             const parent = await prisma.collection.findUnique({
@@ -138,49 +119,99 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
             depth++;
         }
 
-        // Inject recursive counts
         enhancedCollection = {
             ...collection,
+            prompts: mappedPrompts,
             breadcrumbs: breadcrumbs,
             totalPrompts: countMap.get(collection.id)?.totalPrompts || collection._count?.prompts || 0,
             children: collection.children.map(child => ({
-                ...child,
+                id: child.id,
+                title: child.title,
+                parentId: child.parentId,
                 totalPrompts: countMap.get(child.id)?.totalPrompts || child._count?.prompts || 0
             })),
             parent: collection.parent ? {
-                ...collection.parent,
+                id: collection.parent.id,
+                title: collection.parent.title,
+                parentId: collection.parent.parentId,
                 totalPrompts: countMap.get(collection.parent.id)?.totalPrompts || collection.parent._count?.prompts || 0
             } : null
-        };
+        } as unknown as CollectionWithPrompts;
     }
 
     let selectedPrompt = null;
     if (promptId) {
-        selectedPrompt = await prisma.prompt.findUnique({
+        const rawPrompt = await prisma.prompt.findUnique({
             where: { id: promptId },
             include: {
+                createdBy: { select: { email: true, username: true } },
+                tags: true,
+                favoritedBy: { where: { userId: session.user.id }, select: { userId: true } },
                 versions: {
-                    orderBy: { versionNumber: "desc" },
-                    include: {
-                        createdBy: true,
-                        attachments: true,
+                    orderBy: { versionNumber: "desc" as Prisma.SortOrder },
+                    select: {
+                        content: true,
+                        resultImage: true,
+                        attachments: { select: { filePath: true, role: true } }
                     },
                 },
-                createdBy: true,
-                collections: true,
-                tags: true,
-                favoritedBy: { where: { userId: session.user.id } }
+                collections: { select: { id: true, title: true } },
+                relatedPrompts: {
+                    select: {
+                        id: true,
+                        title: true,
+                        technicalId: true,
+                        createdBy: { select: { username: true } }
+                    }
+                },
+                relatedToPrompts: {
+                    select: {
+                        id: true,
+                        title: true,
+                        technicalId: true,
+                        createdBy: { select: { username: true } }
+                    }
+                }
             },
         });
+        if (rawPrompt) {
+            const promptDTO = mapPromptToDTO(rawPrompt as unknown as PromptWithRelations);
+            selectedPrompt = {
+                ...promptDTO,
+                isFavorited: rawPrompt.favoritedBy.length > 0,
+                // Merge related
+                relatedPrompts: [
+                    ...rawPrompt.relatedPrompts,
+                    ...rawPrompt.relatedToPrompts
+                ].map(rp => mapPromptToDTO(rp as unknown as PromptWithRelations))
+                    .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i)
+            };
+        }
     }
 
-    const isFavorited = selectedPrompt ? selectedPrompt.favoritedBy.length > 0 : false;
-
+    const isFavorited = selectedPrompt ? selectedPrompt.isFavorited : false;
     const collectionPath = enhancedCollection ? [...(enhancedCollection.breadcrumbs || []), { id: enhancedCollection.id, title: enhancedCollection.title }] : [];
-
     const tags = await prisma.tag.findMany({ orderBy: { name: 'asc' } });
-
     const settings = await getSettingsService(session.user.id);
 
-    return <CollectionSplitView collection={enhancedCollection as any} selectedPrompt={selectedPrompt} promptId={promptId} currentUserId={session.user.id} collectionPath={collectionPath} isFavorited={isFavorited} tags={tags as any} tagColorsEnabled={(settings as any)?.tagColorsEnabled ?? true} />;
+    let favoritedPromptIds: string[] = [];
+    if (enhancedCollection && enhancedCollection.prompts) {
+        favoritedPromptIds = (enhancedCollection.prompts as any[])
+            .filter((p: any) => p.isFavorited)
+            .map((p: any) => p.id);
+    }
+
+    return (
+        <CollectionSplitView
+            collection={enhancedCollection as any}
+            selectedPrompt={selectedPrompt}
+            promptId={promptId}
+            currentUserId={session.user.id}
+            collectionPath={collectionPath}
+            isFavorited={isFavorited}
+            tags={tags as any}
+            tagColorsEnabled={(settings as any)?.tagColorsEnabled ?? true}
+            favoritedPromptIds={favoritedPromptIds}
+        />
+    );
 }

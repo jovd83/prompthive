@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useLanguage } from "../LanguageProvider";
 import CollectionTree from "../CollectionTree";
 import { Loader2, Check } from "lucide-react";
+import { ZERO_EXPORT_FILENAME_PREFIX } from "@/lib/constants";
+import { CollectionWithCount } from "@/lib/collection-utils";
 
-export default function ExportZeroForm({ collections }: { collections: any[] }) {
+export default function ExportZeroForm({ collections }: { collections: CollectionWithCount[] }) {
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
     const [isExporting, setIsExporting] = useState(false);
     const { t } = useLanguage();
@@ -44,14 +46,15 @@ export default function ExportZeroForm({ collections }: { collections: any[] }) 
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `prompthive-zero-export-${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `${ZERO_EXPORT_FILENAME_PREFIX}-${new Date().toISOString().split('T')[0]}.json`;
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
-        } catch (error) {
-            console.error(error);
-            alert("Failed to export");
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error(msg);
+            alert(msg || "Failed to download export file. Please check console for details.");
         } finally {
             setIsExporting(false);
         }

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import NextImage from "next/image";
 import { Copy, Eye, Clock, Heart, Check, Terminal } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
@@ -11,24 +12,10 @@ import { useSession, signIn } from "next-auth/react";
 import { useLanguage } from "./LanguageProvider";
 import { copyToClipboard } from "@/lib/clipboard";
 
+import { PromptDTO } from "@/lib/dto-mappers";
+
 interface PromptCardProps {
-    prompt: {
-        id: string;
-        technicalId?: string | null;
-        title: string;
-        description: string | null;
-        tags: { id: string; name: string; color?: string | null }[];
-        viewCount: number;
-        copyCount: number;
-        createdAt: Date;
-        updatedAt: Date;
-        createdBy: { email: string; username?: string | null };
-        versions?: {
-            content: string;
-            resultImage: string | null;
-            attachments?: { filePath: string; role: string }[];
-        }[];
-    };
+    prompt: PromptDTO;
     isFavorited?: boolean;
     tagColorsEnabled?: boolean;
 }
@@ -69,6 +56,20 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
         return url;
     };
 
+    const [imgSrc, setImgSrc] = useState(resultImage ? getThumbnailUrl(resultImage) : "");
+
+    useEffect(() => {
+        if (resultImage) {
+            setImgSrc(getThumbnailUrl(resultImage));
+        }
+    }, [resultImage]);
+
+    const handleImageError = () => {
+        if (resultImage && imgSrc !== resultImage) {
+            setImgSrc(resultImage);
+        }
+    };
+
 
     const { data: session, status } = useSession();
 
@@ -91,8 +92,9 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
 
         try {
             await toggleFavorite(prompt.id);
-        } catch (error) {
-            console.error("Failed to toggle favorite:", error);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error("Failed to toggle favorite:", msg);
             setIsFavorited(!newState);
         } finally {
             setIsLoading(false);
@@ -174,17 +176,14 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
             {/* 2. Result Image Thumbnail */}
             {resultImage && (
                 <div className="mb-3 rounded-md overflow-hidden bg-muted aspect-video relative border border-border/50">
-                    <img
-                        src={getThumbnailUrl(resultImage)}
-                        onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            if (target.src.includes('thumb_')) {
-                                target.src = resultImage!;
-                            }
-                        }}
+                    <NextImage
+                        src={imgSrc}
+                        onError={handleImageError}
                         alt={t('prompts.resultImage')}
-                        className="object-cover w-full h-full absolute inset-0"
-                        loading="lazy"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        priority={false}
                     />
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
                 </div>
@@ -238,10 +237,10 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
             <div className="mt-auto pt-3 border-t border-border/50 flex flex-col gap-2">
                 <div className="flex gap-1 flex-wrap w-full">
                     {prompt.tags && prompt.tags.slice(0, 3).map((tag) => {
-                        const style = tagColorsEnabled && (tag as any).color ? {
-                            backgroundColor: `${(tag as any).color}20`,
-                            color: (tag as any).color,
-                            borderColor: `${(tag as any).color}40`,
+                        const style = tagColorsEnabled && tag.color ? {
+                            backgroundColor: `${tag.color}20`,
+                            color: tag.color,
+                            borderColor: `${tag.color}40`,
                         } : undefined;
 
                         return (

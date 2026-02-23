@@ -1,11 +1,11 @@
-import { PromptWithRelations } from "@/types/prisma";
+import { PromptDTO } from "./dto-mappers";
 import { format } from "date-fns";
 
 /**
  * Generates a markdown string for a prompt version.
  */
-export function generateMarkdown(prompt: PromptWithRelations, versionId: string): string {
-    const version = prompt.versions.find(v => v.id === versionId);
+export function generateMarkdown(prompt: PromptDTO, versionId: string): string {
+    const version = (prompt.versions || []).find(v => v.id === versionId);
     if (!version) return "";
 
     const date = format(new Date(version.createdAt), "yyyy-MM-dd");
@@ -19,11 +19,12 @@ export function generateMarkdown(prompt: PromptWithRelations, versionId: string)
     const legacyResult = version.resultImage ? [version.resultImage.split('/').pop()] : [];
     const allFileNames = [...resultFiles, ...otherFiles, ...legacyResult].filter(Boolean);
 
+    const author = version.createdBy?.username || "Unknown";
     let md = `# ${prompt.title}
 
 > ${prompt.description || "No description provided."}
 
-**Version:** ${version.versionNumber} | **Date:** ${date} | **Author:** ${version.createdBy.username}
+**Version:** ${version.versionNumber} | **Date:** ${date} | **Author:** ${author}
 **Tags:** ${tags}
 
 ---
