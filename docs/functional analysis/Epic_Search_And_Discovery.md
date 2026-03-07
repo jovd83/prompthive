@@ -40,6 +40,13 @@ Users can search for prompts using keywords and advanced filters like Tags and C
 
 ---
 
+## User Story: Dashboard View All Navigation
+- As a user, when I click "View all" on dashboard categories like "Most viewed", I should be navigated to the paginated search results layout.
+- As a user, when the list is sorted by "Usage" (Most Viewed), the cards should be correctly ordered by their actual `viewCount`, not `copyCount`.
+- As a user, when clicking "View all" on "Newly created", the list should render the paginated search grid and sort results by 'date' in descending order (most recent to oldest).
+
+---
+
 ## User Story: Command Palette
 **As a** Power User
 **I want to** navigate via keyboard

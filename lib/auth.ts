@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
                 const ip = headersList.get("x-forwarded-for") || "unknown";
 
                 // Limit to 5 attempts per minute
-                if (rateLimit(`auth-${ip}`, 5, 60000)) {
+                if (process.env.APP_ENV !== 'test' && rateLimit(`auth-${ip}`, 5, 60000)) {
                     throw new Error("Too many login attempts. Please wait a minute.");
                 }
 

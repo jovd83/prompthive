@@ -124,6 +124,7 @@ export const SidebarCollectionItem = ({ collection, level = 0, pathname, onError
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsOpen(!isOpen); }}
                             className={`p-0.5 rounded transition-colors ${isActive ? "hover:bg-primary-foreground/20" : "hover:bg-primary/20"}`}
                             aria-label="Toggle children"
+                            data-testid="collection-toggle"
                         >
                             {isOpen ? <ChevronDown size={14} className="shrink-0" /> : <ChevronRight size={14} className="shrink-0" />}
                         </button>

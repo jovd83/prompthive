@@ -19,17 +19,28 @@ vi.mock('@/lib/prisma', () => ({
             findMany: vi.fn(),
             update: vi.fn(),
             delete: vi.fn(),
+            findUnique: vi.fn(),
         },
         user: {
             findUnique: vi.fn(),
+        },
+        tag: {
+            findMany: vi.fn(),
+            deleteMany: vi.fn(),
         }
     }
 }));
 
 // Mock Dependencies
-vi.mock('./prompts', () => ({
-    cleanupPromptAssetsService: vi.fn(),
-    deleteUnusedTagsService: vi.fn(),
+vi.mock('./attachments', () => ({
+    PromptAttachmentService: {
+        cleanupPromptAssetsService: vi.fn(),
+    }
+}));
+vi.mock('./tags', () => ({
+    TagService: {
+        deleteUnusedTagsService: vi.fn(),
+    }
 }));
 
 describe('Collections Service', () => {

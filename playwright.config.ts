@@ -1,10 +1,15 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load the test environment variables for the test runner's Prisma client
+dotenv.config({ path: path.resolve(__dirname, '.env.test') });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    testDir: './frontend-tests',
+    testDir: './tests/e2e/regression',
     /* Run tests in files in parallel */
     fullyParallel: false, // Changed to false for stability with SQLite
     /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -26,13 +31,13 @@ export default defineConfig({
         baseURL: process.env.BASE_URL || 'http://localhost:3001',
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-        trace: 'on-first-retry',
+        trace: 'on',
 
         /* Capture screenshot on failure */
-        screenshot: 'only-on-failure',
+        screenshot: 'on',
 
         /* Record video on failure */
-        video: 'retain-on-failure',
+        video: 'on',
 
         /* Increase action timeout for slower environments */
         actionTimeout: 60000,

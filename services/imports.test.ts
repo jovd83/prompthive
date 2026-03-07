@@ -4,12 +4,17 @@ import { prisma } from '@/lib/prisma';
 import fs from 'fs/promises';
 
 // Mocks
-vi.mock('@/lib/prisma', () => ({
-    prisma: {
+const { mockPrisma } = vi.hoisted(() => ({
+    mockPrisma: {
         tag: { findMany: vi.fn(), create: vi.fn(), findUnique: vi.fn() },
         collection: { findMany: vi.fn(), create: vi.fn(), findFirst: vi.fn(), upsert: vi.fn(), findUnique: vi.fn() },
         prompt: { findFirst: vi.fn(), create: vi.fn(), update: vi.fn(), findUnique: vi.fn() },
+        $transaction: vi.fn((fn) => fn(mockPrisma)),
     }
+}));
+
+vi.mock('@/lib/prisma', () => ({
+    prisma: mockPrisma
 }));
 
 vi.mock('fs/promises', () => ({
@@ -45,8 +50,13 @@ describe('Imports Service', () => {
                 { id: '2', title: 'Child', parentId: '1' }
             ];
 
-            // Upsert mocks
-            (prisma.collection.upsert as any)
+            // findFirst mocks
+            (prisma.collection.findFirst as any)
+                .mockResolvedValueOnce(null) // Root not found
+                .mockResolvedValueOnce(null); // Child not found
+
+            // create mocks
+            (prisma.collection.create as any)
                 .mockResolvedValueOnce({ id: 'db-1', title: 'Root' })
                 .mockResolvedValueOnce({ id: 'db-2', title: 'Child' });
 
@@ -56,14 +66,14 @@ describe('Imports Service', () => {
             expect(idMap).toEqual({ '1': 'db-1', '2': 'db-2' });
 
             // Check calls
-            expect(prisma.collection.upsert).toHaveBeenCalledTimes(2);
+            expect(prisma.collection.create).toHaveBeenCalledTimes(2);
             // First call (Root)
-            expect(prisma.collection.upsert).toHaveBeenNthCalledWith(1, expect.objectContaining({
-                create: expect.objectContaining({ title: 'Root', parentId: null })
+            expect(prisma.collection.create).toHaveBeenNthCalledWith(1, expect.objectContaining({
+                data: expect.objectContaining({ title: 'Root', parentId: null })
             }));
             // Second call (Child) should use db-1 as parent
-            expect(prisma.collection.upsert).toHaveBeenNthCalledWith(2, expect.objectContaining({
-                create: expect.objectContaining({ title: 'Child', parentId: 'db-1' })
+            expect(prisma.collection.create).toHaveBeenNthCalledWith(2, expect.objectContaining({
+                data: expect.objectContaining({ title: 'Child', parentId: 'db-1' })
             }));
         });
     });

@@ -18,7 +18,7 @@ export async function loginUser(page: Page) {
 
     // Login
     await page.goto('/login');
-    await expect(page.locator('h1:has-text("TMT")')).toBeVisible();
+    await expect(page.locator('input[placeholder="username"]')).toBeVisible();
     await page.fill('input[placeholder="username"]', username);
     await page.fill('input[placeholder="••••••••"]', password);
     await page.click('button[type="submit"]');

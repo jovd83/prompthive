@@ -1,0 +1,192 @@
+﻿[dotenv@17.2.3] injecting env (1) from .env.test -- tip: ÔÜÖ´©Å  load multiple .env files with { path: ['.env.local', '.env'] }
+node.exe : [2m[WebServer] [22m[baseline-browser-mapping] 
+The data in this module is over two months old.  To ensure 
+accurate Baseline data, please update: `npm i baseline-brow
+ser-mapping@latest -D`
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\no
+dejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([2m[WebServe 
+   r]...ping@latest -D`:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2m[WebServer] [22m [33m[1mÔÜá[22m[39m The "middlewar
+e" file convention is deprecated. Please use "proxy" instea
+d. Learn more: https://nextjs.org/docs/messages/middleware-
+to-proxy
+
+Running 7 tests using 1 worker
+
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒöæ add access controls to secrets: https://dotenvx.com/ops
+[2m[WebServer] [22mC:\projects\antigravity_prj\prompthive
+\.next-test\dev\server\chunks\ssr\[root-of-the-server]__036
+bd1d1._.js: Invalid source map. Only conformant source maps
+ can be used to find the original code. Cause: Error: sourc
+eMapURL could not be parsed
+[2m[WebServer] [22m [31m[1mÔ¿»[22m[39m Error [PrismaC
+lientKnownRequestError]: 
+[2m[WebServer] [22mInvalid `{imported module ./lib/prisma
+.ts}["prisma"].settings.create()` invocation in
+[2m[WebServer] [22mC:\projects\antigravity_prj\prompthive
+\.next-test\dev\server\chunks\ssr\[root-of-the-server]__036
+bd1d1._.js:809:159
+[2m[WebServer] [22m
+[2m[WebServer] [22m  806 });
+[2m[WebServer] [22m  807 if (!settings) {
+[2m[WebServer] [22m  808     try {
+[2m[WebServer] [22mÔåÆ 809         settings = await {impo
+rted module ./lib/prisma.ts}["prisma"].settings.create(
+[2m[WebServer] [22mUnique constraint failed on the fields
+: (`userId`)
+[2m[WebServer] [22m    at <unknown> [90m(C:\projects\ant
+igravity_prj\prompthive\[39m.next-test\dev\server\chunks\s
+sr\[root-of-the-server]__036bd1d1._.js:809:159[90m)[39m
+[2m[WebServer] [22m    at async getSettingsService [90m(
+C:\projects\antigravity_prj\prompthive\[39m.next-test\dev\
+server\chunks\ssr\[root-of-the-server]__036bd1d1._.js:809:2
+4[90m)[39m
+[2m[WebServer] [22m    at async DashboardLayout [90m(C:\
+projects\antigravity_prj\prompthive\[39m.next-test\dev\ser
+ver\chunks\ssr\[root-of-the-server]__036bd1d1._.js:1177:22
+[90m)[39m {
+[2m[WebServer] [22m  code: [32m'P2002'[39m,
+[2m[WebServer] [22m  clientVersion: [32m'5.22.0'[39m,
+[2m[WebServer] [22m  meta: [36m[Object][39m,
+[2m[WebServer] [22m  digest: [32m'371042963'[39m
+[2m[WebServer] [22m}
+  Ô£ô  1 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:16:9 ÔÇ║ Prompt Management ÔÇ║ Create Prompt: Require Content (9.1s)
+[2m[WebServer] [22mC:\projects\antigravity_prj\prompthive
+\.next-test\dev\server\chunks\ssr\[root-of-the-server]__036
+bd1d1._.js: Invalid source map. Only conformant source maps
+ can be used to find the original code. Cause: Error: sourc
+eMapURL could not be parsed
+[2m[WebServer] [22m [31m[1mÔ¿»[22m[39m Error [PrismaC
+lientKnownRequestError]: 
+[2m[WebServer] [22mInvalid `{imported module ./lib/prisma
+.ts}["prisma"].settings.create()` invocation in
+[2m[WebServer] [22mC:\projects\antigravity_prj\prompthive
+\.next-test\dev\server\chunks\ssr\[root-of-the-server]__036
+bd1d1._.js:809:159
+[2m[WebServer] [22m
+[2m[WebServer] [22m  806 });
+[2m[WebServer] [22m  807 if (!settings) {
+[2m[WebServer] [22m  808     try {
+[2m[WebServer] [22mÔåÆ 809         settings = await {impo
+rted module ./lib/prisma.ts}["prisma"].settings.create(
+[2m[WebServer] [22mUnique constraint failed on the fields
+: (`userId`)
+[2m[WebServer] [22m    at <unknown> [90m(C:\projects\ant
+igravity_prj\prompthive\[39m.next-test\dev\server\chunks\s
+sr\[root-of-the-server]__036bd1d1._.js:809:159[90m)[39m
+[2m[WebServer] [22m    at async getSettingsService [90m(
+C:\projects\antigravity_prj\prompthive\[39m.next-test\dev\
+server\chunks\ssr\[root-of-the-server]__036bd1d1._.js:809:2
+4[90m)[39m
+[2m[WebServer] [22m    at async DashboardLayout [90m(C:\
+projects\antigravity_prj\prompthive\[39m.next-test\dev\ser
+ver\chunks\ssr\[root-of-the-server]__036bd1d1._.js:1177:22
+[90m)[39m {
+[2m[WebServer] [22m  code: [32m'P2002'[39m,
+[2m[WebServer] [22m  clientVersion: [32m'5.22.0'[39m,
+[2m[WebServer] [22m  meta: [36m[Object][39m,
+[2m[WebServer] [22m  digest: [32m'371042963'[39m
+[2m[WebServer] [22m}
+  Ô£ô  2 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:27:9 ÔÇ║ Prompt Management ÔÇ║ Create Prompt: Auto-Add Variables Detects Syntaxes (2.6s)
+  Ô£ô  3 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:44:9 ÔÇ║ Prompt Management ÔÇ║ Create Prompt: Attachments File Upload (4.1s)
+  Ô£ô  4 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:94:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Metadata and Variable Interaction (2.6s)
+  Ô£ô  5 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:112:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Versioning and Restore (5.7s)
+  Ô£ÿ  6 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:136:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Lock/Unlock Toggle (32.7s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒùé´©Å backup and recover secrets: https://dotenvx.com/ops
+  Ô£ÿ  7 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:136:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Lock/Unlock Toggle (retry #1) (32.1s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒöÉ prevent building .env in docker: https://dotenvx.com/prebuild
+  Ô£ô  8 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:136:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Lock/Unlock Toggle (retry #2) (3.6s)
+  Ô£ô  9 [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:151:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Private Prompt Restriction (5.4s)
+
+
+  1) [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:136:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Lock/Unlock Toggle 
+
+    [31mTest timeout of 30000ms exceeded while running "beforeEach" hook.[39m
+
+      58 |     let testPromptId: string;
+      59 |
+    > 60 |     test.beforeEach(async ({ page, seedUser }) => {
+         |          ^
+      61 |         // Seed a prompt for interactions
+      62 |         const prompt = await prisma.prompt.create({
+      63 |             data: {
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\prompts.spec.ts:60:10
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/" until "load"
+    ============================================================
+
+      89 |         await loginPage.goto();
+      90 |         await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
+    > 91 |         await page.waitForURL('**/');
+         |                    ^
+      92 |     });
+      93 |
+      94 |     test('Metadata and Variable Interaction', async ({ page }) => {
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\prompts.spec.ts:91:20
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium\error-context.md
+
+    Retry #1 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    [31mTest timeout of 30000ms exceeded while running "beforeEach" hook.[39m
+
+      58 |     let testPromptId: string;
+      59 |
+    > 60 |     test.beforeEach(async ({ page, seedUser }) => {
+         |          ^
+      61 |         // Seed a prompt for interactions
+      62 |         const prompt = await prisma.prompt.create({
+      63 |             data: {
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\prompts.spec.ts:60:10
+
+    Error: page.waitForURL: Test timeout of 30000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/" until "load"
+    ============================================================
+
+      89 |         await loginPage.goto();
+      90 |         await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
+    > 91 |         await page.waitForURL('**/');
+         |                    ^
+      92 |     });
+      93 |
+      94 |     test('Metadata and Variable Interaction', async ({ page }) => {
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\prompts.spec.ts:91:20
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium-retry1\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium-retry1\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium-retry1\error-context.md
+
+    attachment #4: trace (application/zip) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e-prompts-Prompt-Views-and-Interactions-Lock-Unlock-Toggle-chromium-retry1\trace.zip
+
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  1 flaky
+    [chromium] ÔÇ║ skills-frontend-tests\e2e\prompts.spec.ts:136:9 ÔÇ║ Prompt Views and Interactions ÔÇ║ Lock/Unlock Toggle 
+  6 passed (2.1m)

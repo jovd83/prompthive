@@ -26,7 +26,7 @@ export default async function DashboardPage({
     const page = parseInt((params.page as string) || "1", 10);
     const PAGE_SIZE = 12;
 
-    const hasFilters = Boolean(search || tags || creator);
+    const hasFilters = Boolean(search || tags || creator || params.sort || params.page);
 
     // Fetch settings
     let hiddenIds: string[] = [];
@@ -151,7 +151,7 @@ export default async function DashboardPage({
         const orderBy: Prisma.PromptOrderByWithRelationInput = {};
         if (sort === "date") orderBy.createdAt = order as Prisma.SortOrder;
         else if (sort === "alpha") orderBy.title = order as Prisma.SortOrder;
-        else if (sort === "usage") orderBy.copyCount = order as Prisma.SortOrder;
+        else if (sort === "usage") orderBy.viewCount = order as Prisma.SortOrder;
 
         const [totalCount, searchPrompts] = await Promise.all([
             prisma.prompt.count({ where }),

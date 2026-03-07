@@ -70,6 +70,8 @@ export default function SortControls() {
                         <SortOption sort="alpha" order="desc" label={t('list.sort.za')} />
                         <SortOption sort="date" order="desc" label={t('list.sort.newest')} />
                         <SortOption sort="date" order="asc" label={t('list.sort.oldest')} />
+                        <SortOption sort="usage" order="desc" label={t('list.sort.mostViewed')} />
+                        <SortOption sort="usage" order="asc" label={t('list.sort.leastViewed')} />
                     </div>
                 </div>
             )}

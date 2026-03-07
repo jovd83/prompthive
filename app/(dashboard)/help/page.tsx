@@ -8,7 +8,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { CopyToClipboard } from "@/components/CopyToClipboard";
 import { SafeRender } from "@/components/SafeRender";
 
-const SCRAPER_SYSTEM_PROMPT = `**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "TMT" application.
+const SCRAPER_SYSTEM_PROMPT = `**Role**: You are an expert data scraper and JSON formatter specialized in generating import files for the "MyPromptHive" application.
 
 **Task**: 
 1. Access and analyze the content of the following URL: [URL]
@@ -529,7 +529,7 @@ export default function HelpPage() {
                     <h3 className="text-xs font-bold text-muted-foreground uppercase mb-4">{t('help.externalLinks')}</h3>
                     <div className="space-y-2">
                         <a
-                            href="https://github.com/jovd83/TMT/"
+                            href="https://github.com/jovd83/prompthive/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-full flex items-center gap-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors"
@@ -538,7 +538,7 @@ export default function HelpPage() {
                             GitHub Repo
                         </a>
                         <a
-                            href="https://github.com/jovd83/TMT/blob/main/CHANGELOG.md"
+                            href="https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="w-full flex items-center gap-2 text-sm text-muted-foreground rounded-md hover:bg-muted hover:text-foreground transition-colors"
@@ -575,7 +575,7 @@ export default function HelpPage() {
                 <div className="mt-20 p-8 bg-surface rounded-xl border border-border text-center">
                     <h3 className="text-lg font-bold mb-2">{t('help.stillQuestions')}</h3>
                     <p className="text-muted-foreground mb-4">{t('help.checkRepo')}</p>
-                    <a href="https://github.com/jovd83/TMT" target="_blank" className="btn btn-outline inline-flex gap-2">
+                    <a href="https://github.com/jovd83/prompthive" target="_blank" className="btn btn-outline inline-flex gap-2">
                         <Anchor size={16} /> {t('help.visitRepo')}
                     </a>
                 </div>

@@ -3,14 +3,19 @@ import { importStructureService } from './imports';
 import { prisma } from '@/lib/prisma';
 
 // Mock Prisma
-vi.mock('@/lib/prisma', () => ({
-    prisma: {
+const { mockPrisma } = vi.hoisted(() => ({
+    mockPrisma: {
         collection: {
             findFirst: vi.fn(),
             create: vi.fn(),
             upsert: vi.fn().mockRejectedValue(new Error("Not implemented")),
-        }
+        },
+        $transaction: vi.fn((fn) => fn(mockPrisma)),
     }
+}));
+
+vi.mock('@/lib/prisma', () => ({
+    prisma: mockPrisma
 }));
 
 describe("importStructureService", () => {

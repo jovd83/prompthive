@@ -89,10 +89,17 @@ export const SidebarCollections = ({
         const processedItems = Array.from(countMap.values());
         const rootItems: any[] = [];
         const lookup: Record<string, any> = {};
-        processedItems.forEach(item => lookup[item.id] = { ...item, children: [] });
+
         processedItems.forEach(item => {
-            if (item.parentId && lookup[item.parentId]) lookup[item.parentId].children!.push(lookup[item.id]);
-            else rootItems.push(lookup[item.id]);
+            lookup[item.id] = { ...item, children: [] };
+        });
+
+        processedItems.forEach(item => {
+            if (item.parentId && lookup[item.parentId]) {
+                lookup[item.parentId].children!.push(lookup[item.id]);
+            } else {
+                rootItems.push(lookup[item.id]);
+            }
         });
         return rootItems;
     };

@@ -4,12 +4,17 @@ import { importPromptsService } from './imports';
 import { prisma } from '@/lib/prisma';
 
 // Mocks
-vi.mock('@/lib/prisma', () => ({
-    prisma: {
+const { mockPrisma } = vi.hoisted(() => ({
+    mockPrisma: {
         tag: { findMany: vi.fn(), create: vi.fn(), findUnique: vi.fn() },
         collection: { findMany: vi.fn(), create: vi.fn(), findFirst: vi.fn(), upsert: vi.fn(), findUnique: vi.fn() },
         prompt: { findFirst: vi.fn(), create: vi.fn(), update: vi.fn(), findUnique: vi.fn() },
+        $transaction: vi.fn((fn) => fn(mockPrisma)),
     }
+}));
+
+vi.mock('@/lib/prisma', () => ({
+    prisma: mockPrisma
 }));
 
 vi.mock('fs/promises', () => ({

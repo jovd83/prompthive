@@ -125,8 +125,11 @@ describe('Prompts Service', () => {
 
             (prisma.prompt.findUnique as any).mockResolvedValue({
                 id: 'p-1',
+                createdById: userId,
                 versions: [{ versionNumber: 1 }]
             });
+
+            (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
 
             (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
 
@@ -239,8 +242,11 @@ describe('Prompts Service', () => {
         // Mock prompt
         (prisma.prompt.findUnique as any).mockResolvedValue({
             id: 'p-1',
+            createdById: userId,
             versions: [{ versionNumber: 1 }]
         });
+
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
 
         // Mock existing attachments lookup
         (prisma.attachment.findMany as any).mockResolvedValue([
@@ -285,7 +291,12 @@ describe('Prompts Service', () => {
             existingResultImagePath: '/legacy.jpg'
         };
 
-        (prisma.prompt.findUnique as any).mockResolvedValue({ id: 'p-1', versions: [{ versionNumber: 1 }] });
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            createdById: userId,
+            versions: [{ versionNumber: 1 }]
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
         (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
 
         const { uploadFile } = await import('./files');
@@ -310,7 +321,12 @@ describe('Prompts Service', () => {
             keepAttachmentIds: [],
             keepResultImageIds: []
         } as any;
-        (prisma.prompt.findUnique as any).mockResolvedValue({ id: 'p-1', versions: [] });
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            createdById: userId,
+            versions: []
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
         (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
 
         await createVersionService(userId, input, [], []);
@@ -476,13 +492,14 @@ describe('movePromptService', () => {
         }));
     });
 
-    it('should throw "Prompt is locked" if locked and not owner', async () => {
+    it('should throw "Prompt is locked" if locked (even for owner)', async () => {
         const { movePromptService } = await import('./prompts');
         (prisma.prompt.findUnique as any).mockResolvedValue({
             id: promptId,
-            createdById: 'other-user',
+            createdById: userId,
             isLocked: true
         });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
 
         await expect(movePromptService(userId, promptId, 'col-2')).rejects.toThrow("Prompt is locked by the creator.");
     });
@@ -501,7 +518,14 @@ describe('restoreVersionService', () => {
         const { restoreVersionService } = await import('./prompts');
 
         // 1. Prompt lookup
-        (prisma.prompt.findUnique as any).mockResolvedValueOnce({ id: promptId, title: 'Title', createdById: userId, versions: [{ id: versionId }] });
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+            id: promptId,
+            title: 'Title',
+            createdById: userId,
+            versions: [{ id: versionId }]
+        });
+
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
 
         // 2. Source version lookup
         (prisma.promptVersion.findUnique as any).mockResolvedValueOnce({
@@ -515,7 +539,11 @@ describe('restoreVersionService', () => {
         });
 
         // 3. createVersionService internal calls (prompt lookup for version number)
-        (prisma.prompt.findUnique as any).mockResolvedValueOnce({ id: promptId, versions: [{ versionNumber: 5 }] }); // current head is v5
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+            id: promptId,
+            createdById: userId,
+            versions: [{ versionNumber: 5 }]
+        }); // current head is v5
 
         // 4. Create response
         (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-6', versionNumber: 6 });
@@ -609,10 +637,11 @@ describe('bulkMovePromptsService', () => {
         const { bulkMovePromptsService } = await import('./prompts');
         const userId = 'u-1';
         (prisma.prompt.findMany as any).mockResolvedValue([
-            { id: 'p-1', createdById: 'other', isLocked: true }
+            { id: 'p-1', createdById: userId, isLocked: true }
         ]);
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
 
-        await expect(bulkMovePromptsService(userId, ['p-1'], 'c-1')).rejects.toThrow('locked by its creator');
+        await expect(bulkMovePromptsService(userId, ['p-1'], 'c-1')).rejects.toThrow('Prompt p-1 is locked by its creator.');
     });
 });
 

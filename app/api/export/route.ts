@@ -60,7 +60,7 @@ export async function GET() {
     return new NextResponse(stream, {
         headers: {
             "Content-Type": "application/json",
-            "Content-Disposition": `attachment; filename="TMT-backup-${new Date().toISOString().split('T')[0]}.json"`,
+            "Content-Disposition": `attachment; filename="MyPromptHive-backup-${new Date().toISOString().split('T')[0]}.json"`,
         },
     });
 }
@@ -98,7 +98,7 @@ export async function POST(request: Request) {
     return new NextResponse(stream, {
         headers: {
             "Content-Type": "application/json",
-            "Content-Disposition": `attachment; filename="TMT-backup-${new Date().toISOString().split('T')[0]}.json"`,
+            "Content-Disposition": `attachment; filename="MyPromptHive-backup-${new Date().toISOString().split('T')[0]}.json"`,
         },
     });
 }

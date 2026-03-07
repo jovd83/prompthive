@@ -34,3 +34,10 @@ export async function registerUser(username: string, email: string, password: st
     // Fire and forget email
     sendWelcomeEmail(email).catch(err => console.error("Failed to send welcome email:", err));
 }
+
+export async function getRegistrationStatus() {
+    const config = await prisma.globalConfiguration.findUnique({
+        where: { id: "GLOBAL" }
+    });
+    return config?.registrationEnabled ?? true;
+}

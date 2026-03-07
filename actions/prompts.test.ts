@@ -15,11 +15,24 @@ vi.mock('next/cache', () => ({
 vi.mock('@/lib/prisma', () => ({
     prisma: {
         user: { findUnique: vi.fn() },
-        prompt: { findUnique: vi.fn() }
+        prompt: { findUnique: vi.fn() },
+        tag: { create: vi.fn(), deleteMany: vi.fn(), findMany: vi.fn() }
+    }
+}));
+vi.mock('@/services/tags', () => ({
+    TagService: {
+        createTagService: vi.fn(),
+        deleteUnusedTagsService: vi.fn(),
+        cleanupTagsForPromptDelete: vi.fn(),
+    }
+}));
+vi.mock('@/services/attachments', () => ({
+    PromptAttachmentService: {
+        cleanupPromptAssetsService: vi.fn(),
+        processAttachments: vi.fn(),
     }
 }));
 vi.mock('@/services/prompts', () => ({
-    createTagService: vi.fn(),
     createPromptService: vi.fn(),
     createVersionService: vi.fn(),
     restoreVersionService: vi.fn(),
@@ -35,6 +48,9 @@ vi.mock('@/services/prompts', () => ({
     searchPromptsForLinkingService: vi.fn(),
 }));
 
+import { TagService } from '@/services/tags';
+import { PromptAttachmentService } from '@/services/attachments';
+
 describe('Prompts Actions', () => {
     const userId = 'u-1';
     const mockSession = { user: { id: userId, role: 'USER' } };
@@ -47,9 +63,9 @@ describe('Prompts Actions', () => {
 
     describe('createTag', () => {
         it('should call service', async () => {
-            (PromptsService.createTagService as any).mockResolvedValue({ id: 't-1' });
+            (TagService.createTagService as any).mockResolvedValue({ id: 't-1' });
             await PromptsActions.createTag('new-tag');
-            expect(PromptsService.createTagService).toHaveBeenCalledWith('new-tag');
+            expect(TagService.createTagService).toHaveBeenCalledWith('new-tag');
         });
     });
 
@@ -118,7 +134,7 @@ describe('Prompts Actions', () => {
 
         it('deleteUnusedTags', async () => {
             await PromptsActions.deleteUnusedTags();
-            expect(PromptsService.deleteUnusedTagsService).toHaveBeenCalled();
+            expect(TagService.deleteUnusedTagsService).toHaveBeenCalled();
         });
 
         it('cleanupPromptAssets', async () => {

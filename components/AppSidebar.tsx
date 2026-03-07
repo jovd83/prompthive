@@ -42,7 +42,6 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ tags = [], collections = [], unassignedCount = 0, user, showWorkflows = false, isOpen = false, onClose }: SidebarProps) {
-    console.log('[Sidebar] render showWorkflows:', showWorkflows);
     const { t } = useLanguage();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -56,22 +55,35 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
 
     useEffect(() => {
         const expandedColId = searchParams.get('expandedCollectionId');
-        if (expandedColId && collections) {
+
+        // Find ID from pathname if it's a collection page
+        let activeColId = "";
+        const match = pathname.match(/\/collections\/([^\/\?]+)/);
+        if (match) activeColId = match[1];
+
+        if ((expandedColId || activeColId) && collections) {
             const newExpanded = new Set<string>();
-            let currentId = expandedColId;
-            const colMap = new Map(collections.map(c => [c.id, c]));
-            while (currentId) {
-                newExpanded.add(currentId);
-                const col = colMap.get(currentId);
-                currentId = col?.parentId || "";
-            }
+            const colMap = new Map((collections as any[]).map(c => [c.id, c]));
+
+            const addParents = (id: string) => {
+                let currentId = id;
+                while (currentId) {
+                    newExpanded.add(currentId);
+                    const col = colMap.get(currentId);
+                    currentId = col?.parentId || "";
+                }
+            };
+
+            if (expandedColId) addParents(expandedColId);
+            if (activeColId) addParents(activeColId);
+
             setExpandedIds(prev => {
                 const next = new Set(prev);
                 newExpanded.forEach(id => next.add(id));
                 return next;
             });
         }
-    }, [searchParams, collections]);
+    }, [searchParams, collections, pathname]);
 
     const [error, setError] = useState<string | null>(null);
     const [isProfileOpen, setIsProfileOpen] = useState(false);

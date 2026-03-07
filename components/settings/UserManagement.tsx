@@ -13,7 +13,7 @@ type AdminUser = Pick<User, "id" | "username" | "email" | "role" | "avatarUrl" |
 export default function UserManagement({ initialUsers }: { initialUsers: AdminUser[] }) {
     const { t } = useLanguage();
     const [users, setUsers] = useState<AdminUser[]>(initialUsers);
-    const [isAddingString, setIsAdding] = useState(false); // Controls modal visibility
+    const [isAdding, setIsAdding] = useState(false); // Controls modal visibility
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
@@ -98,7 +98,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
     };
 
     return (
-        <div className="mt-8 border-t border-border pt-6">
+        <div id="users" className="mt-8 border-t border-border pt-6">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg flex items-center gap-2">
                     <UserIcon size={18} />
@@ -188,7 +188,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
             </div>
 
             {/* Add User Modal */}
-            {isAddingString && (
+            {isAdding && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-in fade-in">
                     <div className="bg-background border border-border rounded-lg shadow-xl w-full max-w-md p-6 animate-in zoom-in-95">
                         <h2 className="text-xl font-bold mb-4">{t('admin.users.add.title')}</h2>

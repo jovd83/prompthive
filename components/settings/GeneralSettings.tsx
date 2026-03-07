@@ -60,6 +60,7 @@ export default function GeneralSettings({ initialSettings }: GeneralSettingsProp
                         checked={showPrompterTips}
                         onChange={(e) => setShowPrompterTips(e.target.checked)}
                         className="checkbox"
+                        data-testid="tips-toggle"
                     />
                 </label>
 
@@ -73,6 +74,7 @@ export default function GeneralSettings({ initialSettings }: GeneralSettingsProp
                         checked={tagColorsEnabled}
                         onChange={(e) => setTagColorsEnabled(e.target.checked)}
                         className="checkbox"
+                        data-testid="tag-colors-toggle"
                     />
                 </label>
 
@@ -100,6 +102,7 @@ export default function GeneralSettings({ initialSettings }: GeneralSettingsProp
                     onClick={handleSave}
                     className="btn btn-primary"
                     disabled={isSaving}
+                    data-testid="general-save-button"
                 >
                     <Save size={18} />
                     {isSaving ? (t('settings.saving') || "Saving...") : (t('settings.saveGeneral') || "Save General Settings")}

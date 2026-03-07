@@ -1,16 +1,22 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getRegistrationStatus } from "@/actions/auth";
 
 function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [regEnabled, setRegEnabled] = useState(true);
     const router = useRouter();
     const searchParams = useSearchParams();
     const registered = searchParams.get("registered");
+
+    useEffect(() => {
+        getRegistrationStatus().then(setRegEnabled).catch(console.error);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -30,10 +36,10 @@ function LoginForm() {
     return (
         <div className="card w-full max-w-md space-y-6 animate-fade-in flex flex-col items-center">
             <div className="flex justify-center mb-2">
-                <img src="/logo-light.png" alt="TMT Logo" className="w-16 h-16 object-contain dark:hidden" />
-                <img src="/logo-dark.png" alt="TMT Logo" className="w-16 h-16 object-contain hidden dark:block" />
+                <img src="/logo-light.png" alt="MyPromptHive Logo" className="w-16 h-16 object-contain dark:hidden" />
+                <img src="/logo-dark.png" alt="MyPromptHive Logo" className="w-16 h-16 object-contain hidden dark:block" />
             </div>
-            <h1 className="text-2xl font-bold text-center">TMT</h1>
+            <h1 className="text-2xl font-bold text-center">MyPromptHive</h1>
             {registered && (
                 <div className="bg-green-50 text-green-600 p-3 rounded-md text-sm text-center border border-green-200">
                     Account created successfully. Please sign in.
@@ -75,11 +81,13 @@ function LoginForm() {
                 <button type="submit" className="btn btn-primary w-full">
                     Sign In
                 </button>
-                <div className="text-center text-sm">
-                    <a href="/register" className="text-primary hover:underline">
-                        Create New User
-                    </a>
-                </div>
+                {regEnabled && (
+                    <div className="text-center text-sm">
+                        <a href="/register" className="text-primary hover:underline">
+                            Create New User
+                        </a>
+                    </div>
+                )}
             </form>
         </div>
     );

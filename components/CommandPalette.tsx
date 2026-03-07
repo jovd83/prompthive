@@ -1,16 +1,28 @@
 "use client";
 
-import { KBarProvider, KBarPortal, KBarPositioner, KBarAnimator, KBarSearch, useMatches, KBarResults } from "kbar";
+import { useSession, signOut } from "next-auth/react";
+import { Search, Home, FileText, Settings, Moon, Sun, Plus, LogOut, Terminal, Folder, Shield, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Search, Home, FileText, Settings, Moon, Sun, Plus, LogOut, Terminal, Folder } from "lucide-react";
+import {
+    KBarProvider,
+    KBarPortal,
+    KBarPositioner,
+    KBarAnimator,
+    KBarSearch,
+    KBarResults,
+    useMatches
+} from "kbar";
 
 import { useLanguage } from "./LanguageProvider";
 
-export default function CommandPalette({ children }: { children: React.ReactNode }) {
+export default function CommandPalette({ children, isAdmin: propIsAdmin }: { children: React.ReactNode, isAdmin?: boolean }) {
     const router = useRouter();
     const { setTheme, theme } = useTheme();
     const { t } = useLanguage();
+    const { data: session } = useSession();
+
+    const isAdmin = propIsAdmin || session?.user?.role === "ADMIN";
 
     const actions = [
         // Navigation
@@ -27,7 +39,7 @@ export default function CommandPalette({ children }: { children: React.ReactNode
             id: "settings",
             name: t('commandPalette.actions.settings'),
             shortcut: ["s"],
-            keywords: "config preferences",
+            keywords: "config preferences account",
             section: t('commandPalette.sections.navigation'),
             perform: () => router.push("/settings"),
             icon: <Settings size={18} />,
@@ -40,6 +52,25 @@ export default function CommandPalette({ children }: { children: React.ReactNode
             perform: () => router.push("/help"),
             icon: <Terminal size={18} />,
         },
+        // Admin Actions (Conditional)
+        ...(isAdmin ? [
+            {
+                id: "admin-settings",
+                name: t('commandPalette.actions.adminSettings') || "Global Settings",
+                keywords: "admin registration private global",
+                section: t('commandPalette.sections.admin') || "Administration",
+                perform: () => router.push("/settings#admin"),
+                icon: <Shield size={18} className="text-red-500" />,
+            },
+            {
+                id: "user-management",
+                name: t('commandPalette.actions.userManagement') || "User Management",
+                keywords: "admin users role delete create",
+                section: t('commandPalette.sections.admin') || "Administration",
+                perform: () => router.push("/settings#users"),
+                icon: <Users size={18} className="text-red-500" />,
+            }
+        ] : []),
         // Quick Actions
         {
             id: "create-prompt",
@@ -47,10 +78,9 @@ export default function CommandPalette({ children }: { children: React.ReactNode
             shortcut: ["c", "p"],
             keywords: "new add prompt",
             section: t('commandPalette.sections.actions'),
-            perform: () => router.push("/prompts/new"), // Assuming this route exists or uses a modal
+            perform: () => router.push("/prompts/new"),
             icon: <Plus size={18} />,
         },
-        // Collections - In a real app these would be dynamic
         {
             id: "create-collection",
             name: t('commandPalette.actions.createCollection'),
@@ -69,6 +99,15 @@ export default function CommandPalette({ children }: { children: React.ReactNode
             section: t('commandPalette.sections.preferences'),
             perform: () => setTheme(theme === "dark" ? "light" : "dark"),
             icon: theme === "dark" ? <Sun size={18} /> : <Moon size={18} />,
+        },
+        // Profile
+        {
+            id: "sign-out",
+            name: t('common.signOut') || "Sign Out",
+            keywords: "logout exit desk",
+            section: t('commandPalette.sections.account') || "Account",
+            perform: () => signOut(),
+            icon: <LogOut size={18} className="text-red-500" />,
         },
     ];
 

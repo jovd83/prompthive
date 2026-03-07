@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { registerUser } from "@/actions/auth";
+import { registerUser, getRegistrationStatus } from "@/actions/auth";
 import Link from "next/link";
 
 export default function RegisterPage() {
@@ -12,6 +12,14 @@ export default function RegisterPage() {
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        getRegistrationStatus().then((enabled) => {
+            if (!enabled) {
+                router.push("/login");
+            }
+        }).catch(console.error);
+    }, [router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

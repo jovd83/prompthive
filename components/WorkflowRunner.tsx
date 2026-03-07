@@ -54,10 +54,11 @@ export default function WorkflowRunner({ workflow }: { workflow: Workflow }) {
 
         return content.replace(variableRegex, (match, varName) => {
             const cleanVar = varName.trim();
+            // Try to find the source in mappings, fallback to USER_INPUT
             const source = inputMappings[cleanVar] || "USER_INPUT";
 
             if (source === "USER_INPUT") {
-                return userInputs[`${currentStepIdx}-${cleanVar}`] || `{{${cleanVar}}}`;
+                return userInputs[`${currentStepIdx}-${cleanVar}`] || match;
             } else if (source.startsWith("step_index:")) {
                 const sourceStepIdx = source.split(":")[1];
                 return stepOutputs[sourceStepIdx] || `[WAITING FOR STEP ${parseInt(sourceStepIdx) + 1}]`;

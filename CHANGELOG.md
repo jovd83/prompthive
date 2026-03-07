@@ -1,18 +1,24 @@
 # Changelog
 
-## 3.1.0 (Unreleased)
+## 3.1.0 (2026-03-07)
 
 ### Added
-- 
+- **Playwright Test Suite**: Generated and integrated a comprehensive new Playwright E2E test set using the [jovd83/Playwright-skill](https://github.com/jovd83/Playwright-skill) agent framework.
+
 
 ### Changed
-- 
+- **Settings UI**: Refined Settings controls with `data-testid` attributes to support robust E2E testing.
+- **Documentation**: Restructured TDD documentation into feature-based folders for better traceability.
+- **Archive**: Moved legacy Playwright tests to a dedicated `/archive` folder.
 
 ### Fixed
-- 
+- **Dashboard Sorting Links**: Fixed an issue where clicking "View all" on dashboard sections like "Most viewed" and "Newly created" defaulted to the dashboard view instead of showing the correctly sorted and paginated list.
+- **Most Viewed Sort Engine**: Fixed the "Most viewed" (Usage) dashboard parameter passing `copyCount` rather than `viewCount` during ordering.
+- **User Management**: Fixed a UI bug in `UserManagement` where a string instead of a boolean was used for modal visibility state.
+- **Auth Flow**: Corrected password reset and login field consistency.
 
 ### Removed
-- 
+
 
 ## 3.0.2 (2026-02-23)
 
@@ -34,7 +40,6 @@
 
 ### Fixed
 - **Favorites Sync**: Fixed a state synchronization issue in the favorites collection view.
-- **US-029**: Completed the "Test Suites & Folders" user story.
 
 
 
@@ -45,7 +50,7 @@
 
 ### Changed
 
-- **Name Change** Renamed the app from TMT to TMT
+- **Name Change** Renamed the app from Prompthive to MyPrompthive
 
 ### Fixed
 - **Collection Grid**: Fixed an issue where tag colors were displayed in the collection grid view even when disabled in user settings.

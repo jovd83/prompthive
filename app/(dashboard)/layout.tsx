@@ -26,7 +26,17 @@ export default async function DashboardLayout({
 
     const uniqueTags = await getCachedTags();
     const hiddenCollectionIds = await getHiddenCollectionIdsService(session.user.id);
-    const rawCollections = await getCachedCollections();
+    // Use direct prisma for collections to avoid cache staleness in E2E tests
+    const rawCollections = await prisma.collection.findMany({
+        where: { ownerId: session.user.id },
+        orderBy: { title: "asc" },
+        include: {
+            _count: {
+                select: { prompts: true }
+            }
+        }
+    });
+
     const collections = filterHiddenCollections(rawCollections as unknown as CollectionWithCount[], hiddenCollectionIds);
 
     const unassignedCount = await getCachedUnassignedCount();
@@ -38,11 +48,12 @@ export default async function DashboardLayout({
 
     const settings = await getSettingsService(session.user.id);
     const workflowVisible = settings.workflowVisible;
-    console.log(`[DEBUG] DashboardLayout: User ${currentUser?.email} - workflowVisible:`, workflowVisible);
+
+    const isAdmin = currentUser?.role === "ADMIN";
 
     return (
         <LanguageProvider initialLanguage={currentUser?.language || 'en'} user={currentUser}>
-            <CommandPalette>
+            <CommandPalette isAdmin={isAdmin}>
                 <DashboardLayoutClient
                     sidebarProps={{
                         tags: uniqueTags,
@@ -55,7 +66,7 @@ export default async function DashboardLayout({
                             image: currentUser?.avatarUrl,
                             role: currentUser?.role,
                         },
-                        showWorkflows: settings?.workflowVisible ?? false
+                        showWorkflows: workflowVisible
                     }}
                 >
                     {children}

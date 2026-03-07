@@ -62,12 +62,20 @@ vi.mock('fs', () => {
     };
 });
 
+const { mockFileHandle } = vi.hoisted(() => ({
+    mockFileHandle: {
+        write: vi.fn(),
+        close: vi.fn(),
+    }
+}));
+
 vi.mock('fs/promises', () => ({
     default: {
         readdir: vi.fn(),
         readFile: vi.fn(),
         writeFile: vi.fn(),
         mkdir: vi.fn(),
+        open: vi.fn(() => Promise.resolve(mockFileHandle)),
     }
 }));
 
@@ -116,7 +124,7 @@ describe('Backup Service', () => {
             const result = await performBackupService(userId, '/tmp/backups');
 
             expect(result).toBe(true);
-            expect(fsPromises.writeFile).toHaveBeenCalled();
+            expect(mockFileHandle.write).toHaveBeenCalled();
             // assertions related to exact file content commented out due to fragility
         });
 

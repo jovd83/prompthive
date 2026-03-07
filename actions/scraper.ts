@@ -15,7 +15,7 @@ export async function scrapeUrlForPrompts(url: string): Promise<ScrapedPrompt[]>
         for (let attempt = 0; attempt < 3; attempt++) {
             try {
                 response = await fetch(url, {
-                    headers: { 'User-Agent': 'TMT-Scraper/1.0' },
+                    headers: { 'User-Agent': 'MyPromptHive-Scraper/1.0' },
                     signal: AbortSignal.timeout(5000)
                 });
                 if (response.ok) {

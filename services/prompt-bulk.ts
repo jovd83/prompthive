@@ -71,7 +71,7 @@ export async function bulkMovePromptsService(userId: string, promptIds: string[]
         throw new Error("Access denied or no prompts selected.");
     }
 
-    const lockedInfo = prompts.find(p => p.isLocked && p.createdById !== userId && !isAdmin);
+    const lockedInfo = prompts.find(p => p.isLocked && !isAdmin);
     if (lockedInfo) {
         throw new Error(`Prompt ${lockedInfo.id} is locked by its creator.`);
     }
@@ -127,7 +127,7 @@ export async function bulkAddTagsService(userId: string, promptIds: string[], ta
         throw new Error("Access denied or no prompts selected.");
     }
 
-    const lockedInfo = prompts.find(p => p.isLocked && p.createdById !== userId && !isAdmin);
+    const lockedInfo = prompts.find(p => p.isLocked && !isAdmin);
     if (lockedInfo) {
         throw new Error(`Prompt ${lockedInfo.id} is locked by its creator.`);
     }

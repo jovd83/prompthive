@@ -37,21 +37,21 @@ export async function createCollection(prevState: ActionState, formData: FormDat
 
     const { title, description, parentId } = result.data;
 
+    let newCollection;
     try {
-        await CollectionsService.createCollectionService(session.user.id, title, description || "", parentId || null);
+        newCollection = await CollectionsService.createCollectionService(session.user.id, title, description || "", parentId || null);
     } catch (e: any) {
         return { message: e.message };
     }
 
     revalidatePath("/collections");
-    revalidatePath("/collections");
     revalidatePath("/", "layout");
     revalidatePath("/prompts/new");
     if (parentId) {
         revalidatePath(`/collections/${parentId}`);
-        redirect(`/collections/${parentId}`);
     }
-    redirect("/collections");
+
+    redirect(`/collections/${newCollection.id}`);
 }
 
 export async function moveCollection(collectionId: string, newParentId: string | null) {
@@ -102,6 +102,7 @@ export async function deleteCollection(collectionId: string, deletePrompts: bool
     const parentId = await CollectionsService.deleteCollectionService(session.user.id, collectionId, deletePrompts);
 
     revalidatePath("/collections");
+    revalidatePath("/", "layout");
     if (parentId) {
         revalidatePath(`/collections/${parentId}`);
     }

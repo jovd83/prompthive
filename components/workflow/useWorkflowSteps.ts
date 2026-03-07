@@ -34,7 +34,10 @@ export function useWorkflowSteps(initialSteps: any[], allPrompts: SimplePrompt[]
     // Add Step
     const addStep = (promptId: string) => {
         const p = allPrompts.find(ap => ap.id === promptId);
-        if (!p) return;
+        if (!p) {
+            console.error("WorkflowEditor: Could not find prompt with ID", promptId);
+            return;
+        }
 
         const newStep: WorkflowStep = {
             id: `temp-${Date.now()}-${Math.random()}`,
@@ -44,41 +47,49 @@ export function useWorkflowSteps(initialSteps: any[], allPrompts: SimplePrompt[]
             promptTitle: p.title,
             promptVars: parseVariables(p.variableDefinitions)
         };
-        setSteps([...steps, newStep]);
+        setSteps(prev => [...prev, newStep]);
     };
 
     // Remove Step
     const removeStep = (index: number) => {
-        const newSteps = [...steps];
-        newSteps.splice(index, 1);
-        newSteps.forEach((s, i) => s.order = i); // Re-index order
-        setSteps(newSteps);
+        setSteps(prev => {
+            const newSteps = [...prev];
+            newSteps.splice(index, 1);
+            newSteps.forEach((s, i) => s.order = i); // Re-index order
+            return newSteps;
+        });
     };
 
     // Move Step
     const moveStep = (index: number, direction: 'up' | 'down') => {
-        if (direction === 'up' && index === 0) return;
-        if (direction === 'down' && index === steps.length - 1) return;
+        setSteps(prev => {
+            if (direction === 'up' && index === 0) return prev;
+            if (direction === 'down' && index === prev.length - 1) return prev;
 
-        const newSteps = [...steps];
-        const targetIndex = direction === 'up' ? index - 1 : index + 1;
+            const newSteps = [...prev];
+            const targetIndex = direction === 'up' ? index - 1 : index + 1;
 
-        // Swap
-        [newSteps[index], newSteps[targetIndex]] = [newSteps[targetIndex], newSteps[index]];
+            // Swap
+            [newSteps[index], newSteps[targetIndex]] = [newSteps[targetIndex], newSteps[index]];
 
-        // Re-index
-        newSteps.forEach((s, i) => s.order = i);
-        setSteps(newSteps);
+            // Re-index
+            newSteps.forEach((s, i) => s.order = i);
+            return newSteps;
+        });
     };
 
     // Update Mapping
     const updateMapping = (stepIndex: number, varName: string, value: string) => {
-        const newSteps = [...steps];
-        newSteps[stepIndex].inputMappings = {
-            ...newSteps[stepIndex].inputMappings,
-            [varName]: value
-        };
-        setSteps(newSteps);
+        setSteps(prev => {
+            console.log(`useWorkflowSteps: Updating mapping for Step ${stepIndex}, var "${varName}" to "${value}"`);
+            const newSteps = [...prev];
+            if (!newSteps[stepIndex]) return prev;
+            newSteps[stepIndex].inputMappings = {
+                ...newSteps[stepIndex].inputMappings,
+                [varName]: value
+            };
+            return newSteps;
+        });
     };
 
     return {

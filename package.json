@@ -13,9 +13,10 @@
     "db:push:prod": "cross-env DATABASE_URL=file:./prod.db npx prisma db push --accept-data-loss",
     "db:reset:prod": "cross-env DATABASE_URL=file:./prod.db npx prisma db push --force-reset",
     "db:migrate": "npx prisma migrate dev",
-    "e2e:dev": "dotenv -e .env.test -- next dev",
+    "e2e:dev": "cross-env APP_ENV=test dotenv -e .env.test -- next dev",
     "test": "vitest run --coverage",
-    "test:load": "npx playwright test -c playwright.load.config.ts"
+    "test:load": "npx playwright test -c playwright.load.config.ts",
+    "test:skills:e2e": "npx playwright test -c playwright.skills.config.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",

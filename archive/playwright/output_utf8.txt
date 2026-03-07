@@ -1,0 +1,489 @@
+﻿[dotenv@17.2.3] injecting env (1) from .env.test -- tip: ­ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+node.exe : [2m[WebServer] [22m[baseline-browser-mapping
+] The data in this module is over two months old.  To ens
+ure accurate Baseline data, please update: `npm i baselin
+e-browser-mapping@latest -D`
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\
+nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([2m[WebSer 
+   ver]...ping@latest -D`:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[2m[WebServer] [22m [33m[1mÔÜá[22m[39m The "middlew
+are" file convention is deprecated. Please use "proxy" in
+stead. Learn more: https://nextjs.org/docs/messages/middl
+eware-to-proxy
+
+Running 4 tests using 1 worker
+
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒæÑ sync secrets across teammates & machines: https://dotenvx.com/ops
+  Ô£ÿ  1 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:15:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Application Language (6.3s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: Ô£à audit secrets and track compliance: https://dotenvx.com/ops
+  Ô£ÿ  2 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:15:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Application Language (retry #1) (6.2s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ÔÜÖ´©Å  write to custom object with { processEnv: myObject }
+  Ô£ÿ  3 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:15:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Application Language (retry #2) (3.4s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒöÉ prevent committing .env to code: https://dotenvx.com/precommit
+  Ô£ÿ  4 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:29:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Sidebar Workflows Visibility (3.1s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ÔÜÖ´©Å  load multiple .env files with { path: ['.env.local', '.env'] }
+  Ô£ÿ  5 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:29:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Sidebar Workflows Visibility (retry #1) (3.8s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+  Ô£ÿ  6 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:29:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Sidebar Workflows Visibility (retry #2) (1.1m)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒöÉ encrypt with Dotenvx: https://dotenvx.com
+  Ô£ÿ  7 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:64:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Registration Setting (6.7s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ÔÜÖ´©Å  override existing env vars with { override: true }
+  Ô£ÿ  8 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:64:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Registration Setting (retry #1) (5.4s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ­ƒöæ add access controls to secrets: https://dotenvx.com/ops
+  Ô£ÿ  9 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:64:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Registration Setting (retry #2) (10.1s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ÔÜÖ´©Å  write to custom object with { processEnv: myObject }
+  Ô£ÿ  10 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:103:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Private Prompts Setting (4.7s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ÔÜÖ´©Å  override existing env vars with { override: true }
+  Ô£ÿ  11 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:103:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Private Prompts Setting (retry #1) (4.9s)
+[dotenv@17.2.3] injecting env (0) from .env.test -- tip: ÔÜÖ´©Å  specify custom .env file path with { path: '/custom/path/.env' }
+  Ô£ÿ  12 [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:103:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Private Prompts Setting (retry #2) (1.1m)
+
+
+  1) [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:15:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Application Language 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: /Param├¿tres|Settings/i })
+    Expected: visible
+    Error: strict mode violation: getByRole('heading', { name: /Param├¿tres|Settings/i }) resolved to 3 elements:
+        1) <h1 class="text-3xl font-bold">Param├¿tres</h1> aka getByRole('heading', { name: 'Param├¿tres', exact: true })
+        2) <h2 class="text-xl font-bold mb-4 flex items-center gap-2">ÔÇª</h2> aka getByRole('heading', { name: 'Param├¿tres G├®n├®raux' })
+        3) <h2 class="text-xl font-bold mb-4 flex items-center gap-2">ÔÇª</h2> aka getByRole('heading', { name: 'Language Settings' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('heading', { name: /Param├¿tres|Settings/i })[22m
+
+
+      21 |
+      22 |         // Verify the UI translates immediately (checking for a known translation like "Settings" -> "Param├¿tres")
+    > 23 |         await expect(page.getByRole('heading', { name: /Param├¿tres|Settings/i })).toBeVisible();
+         |                                                                                   ^
+      24 |
+      25 |         // Revert to English for safety
+      26 |         await settingsPage.languageSelect.selectOption('en');
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:23:83
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium\error-context.md
+
+    Retry #1 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: /Param├¿tres|Settings/i })
+    Expected: visible
+    Error: strict mode violation: getByRole('heading', { name: /Param├¿tres|Settings/i }) resolved to 3 elements:
+        1) <h1 class="text-3xl font-bold">Param├¿tres</h1> aka getByRole('heading', { name: 'Param├¿tres', exact: true })
+        2) <h2 class="text-xl font-bold mb-4 flex items-center gap-2">ÔÇª</h2> aka getByRole('heading', { name: 'Param├¿tres G├®n├®raux' })
+        3) <h2 class="text-xl font-bold mb-4 flex items-center gap-2">ÔÇª</h2> aka getByRole('heading', { name: 'Language Settings' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('heading', { name: /Param├¿tres|Settings/i })[22m
+
+
+      21 |
+      22 |         // Verify the UI translates immediately (checking for a known translation like "Settings" -> "Param├¿tres")
+    > 23 |         await expect(page.getByRole('heading', { name: /Param├¿tres|Settings/i })).toBeVisible();
+         |                                                                                   ^
+      24 |
+      25 |         // Revert to English for safety
+      26 |         await settingsPage.languageSelect.selectOption('en');
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:23:83
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry1\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry1\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry1\error-context.md
+
+    attachment #4: trace (application/zip) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry1\trace.zip
+
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Retry #2 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: /Param├¿tres|Settings/i })
+    Expected: visible
+    Error: strict mode violation: getByRole('heading', { name: /Param├¿tres|Settings/i }) resolved to 3 elements:
+        1) <h1 class="text-3xl font-bold">Param├¿tres</h1> aka getByRole('heading', { name: 'Param├¿tres', exact: true })
+        2) <h2 class="text-xl font-bold mb-4 flex items-center gap-2">ÔÇª</h2> aka getByRole('heading', { name: 'Param├¿tres G├®n├®raux' })
+        3) <h2 class="text-xl font-bold mb-4 flex items-center gap-2">ÔÇª</h2> aka getByRole('heading', { name: 'Language Settings' })
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByRole('heading', { name: /Param├¿tres|Settings/i })[22m
+
+
+      21 |
+      22 |         // Verify the UI translates immediately (checking for a known translation like "Settings" -> "Param├¿tres")
+    > 23 |         await expect(page.getByRole('heading', { name: /Param├¿tres|Settings/i })).toBeVisible();
+         |                                                                                   ^
+      24 |
+      25 |         // Revert to English for safety
+      26 |         await settingsPage.languageSelect.selectOption('en');
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:23:83
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry2\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry2\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-General-Setti-be723-Toggle-Application-Language-chromium-retry2\error-context.md
+
+  2) [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:29:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Sidebar Workflows Visibility 
+
+    Error: locator.click: Error: strict mode violation: getByRole('button', { name: /Save|Enregistrer/i }) resolved to 3 elements:
+        1) <button type="button" class="btn btn-primary">ÔÇª</button> aka getByRole('button', { name: 'Save General Settings' })
+        2) <button type="button" class="btn btn-primary">ÔÇª</button> aka getByRole('button', { name: 'Save Visibility Settings' }).first()
+        3) <button class="btn btn-primary flex items-center gap-2">ÔÇª</button> aka getByRole('button', { name: 'Save Visibility Settings' }).nth(1)
+
+    Call log:
+    [2m  - waiting for getByRole('button', { name: /Save|Enregistrer/i })[22m
+
+
+      39 |         // Click the toggle (force because it's visually hidden via 'sr-only')
+      40 |         await settingsPage.showWorkflowsToggle.click({ force: true });
+    > 41 |         await page.getByRole('button', { name: /Save|Enregistrer/i }).click();
+         |                                                                       ^
+      42 |
+      43 |         // Verify it appears in sidebar
+      44 |         await expect(page.locator('a[href="/workflows"]')).toBeVisible();
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:41:71
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium\error-context.md
+
+    Retry #1 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error: locator.click: Error: strict mode violation: getByRole('button', { name: /Save|Enregistrer/i }) resolved to 3 elements:
+        1) <button type="button" class="btn btn-primary">ÔÇª</button> aka getByRole('button', { name: 'Save General Settings' })
+        2) <button type="button" class="btn btn-primary">ÔÇª</button> aka getByRole('button', { name: 'Save Visibility Settings' }).first()
+        3) <button class="btn btn-primary flex items-center gap-2">ÔÇª</button> aka getByRole('button', { name: 'Save Visibility Settings' }).nth(1)
+
+    Call log:
+    [2m  - waiting for getByRole('button', { name: /Save|Enregistrer/i })[22m
+
+
+      39 |         // Click the toggle (force because it's visually hidden via 'sr-only')
+      40 |         await settingsPage.showWorkflowsToggle.click({ force: true });
+    > 41 |         await page.getByRole('button', { name: /Save|Enregistrer/i }).click();
+         |                                                                       ^
+      42 |
+      43 |         // Verify it appears in sidebar
+      44 |         await expect(page.locator('a[href="/workflows"]')).toBeVisible();
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:41:71
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry1\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry1\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry1\error-context.md
+
+    attachment #4: trace (application/zip) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry1\trace.zip
+
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Retry #2 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m
+
+       5 |
+       6 | test.describe('General Settings Tests (USER role)', () => {
+    >  7 |     test.beforeEach(async ({ page, seedUser }) => {
+         |          ^
+       8 |         test.setTimeout(60000);
+       9 |         const loginPage = new LoginPage(page);
+      10 |         await loginPage.goto();
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:7:10
+
+    Error: page.waitForURL: Test timeout of 60000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/" until "load"
+    ============================================================
+
+      10 |         await loginPage.goto();
+      11 |         await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
+    > 12 |         await page.waitForURL('**/');
+         |                    ^
+      13 |     });
+      14 |
+      15 |     test('Toggle Application Language', async ({ page }) => {
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:12:20
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry2\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry2\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-General-Setti-c2a75-idebar-Workflows-Visibility-chromium-retry2\error-context.md
+
+  3) [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:64:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Registration Setting 
+
+    Error: page.goto: net::ERR_ABORTED at http://localhost:3002/register
+    Call log:
+    [2m  - navigating to "http://localhost:3002/register", waiting until "load"[22m
+
+
+      88 |
+      89 |         // Try to access register page
+    > 90 |         await page.goto('/register');
+         |                    ^
+      91 |
+      92 |         // Verify disabled message is shown
+      93 |         const disabledMessage = page.getByText('Registration is currently disabled', { exact: false });
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:90:20
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Retry #1 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+
+      81 |         // Verify Db updated
+      82 |         let config = await prisma.globalConfiguration.findUnique({ where: { id: 'GLOBAL' } });
+    > 83 |         expect(config?.registrationEnabled).toBe(false);
+         |                                             ^
+      84 |
+      85 |         // Sign out to test registration page
+      86 |         await page.getByTestId('user-profile-trigger').click();
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:83:45
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry1\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry1\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry1\error-context.md
+
+    attachment #4: trace (application/zip) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry1\trace.zip
+
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Retry #2 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Registration is currently disabled')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('Registration is currently disabled')[22m
+
+
+      92 |         // Verify disabled message is shown
+      93 |         const disabledMessage = page.getByText('Registration is currently disabled', { exact: false });
+    > 94 |         await expect(disabledMessage).toBeVisible();
+         |                                       ^
+      95 |
+      96 |         // Re-enable for other tests (Direct DB call since we are signed out)
+      97 |         await prisma.globalConfiguration.update({
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:94:39
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry2\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry2\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-Admin-Setting-32ca9-Global-Registration-Setting-chromium-retry2\error-context.md
+
+  4) [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:103:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Private Prompts Setting 
+
+    Error: locator.isChecked: Error: strict mode violation: locator('div.flex').filter({ has: locator('h3').filter({ hasText: /Private Prompts/i }) }).locator('input[type="checkbox"]') resolved to 446 elements:
+        1) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox', { name: 'Show Prompting Tips Display a' })
+        2) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox', { name: 'Enable Tag Colors Show tags' })
+        3) <input type="checkbox" class="checkbox" data-testid="workflow-toggle"/> aka getByTestId('workflow-toggle')
+        4) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox').nth(3)
+        5) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox').nth(4)
+        6) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox').nth(5)
+        7) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(4) > .checkbox')
+        8) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(5) > .checkbox')
+        9) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(6) > .checkbox')
+        10) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(7) > .checkbox')
+        ...
+
+    Call log:
+    [2m  - waiting for locator('div.flex').filter({ has: locator('h3').filter({ hasText: /Private Prompts/i }) }).locator('input[type="checkbox"]')[22m
+
+
+       at pom\SettingsPage.ts:70
+
+      68 |
+      69 |     async togglePrivatePrompts(enable: boolean) {
+    > 70 |         const isChecked = await this.enablePrivatePromptsToggle.isChecked();
+         |                                                                 ^
+      71 |         if ((enable && !isChecked) || (!enable && isChecked)) {
+      72 |             await this.enablePrivatePromptsToggle.click({ force: true });
+      73 |             if (!enable) {
+        at SettingsPage.togglePrivatePrompts (C:\projects\antigravity_prj\prompthive\skills-frontend-tests\pom\SettingsPage.ts:70:65)
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:113:28
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium\error-context.md
+
+    Retry #1 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error: locator.isChecked: Error: strict mode violation: locator('div.flex').filter({ has: locator('h3').filter({ hasText: /Private Prompts/i }) }).locator('input[type="checkbox"]') resolved to 447 elements:
+        1) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox', { name: 'Show Prompting Tips Display a' })
+        2) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox', { name: 'Enable Tag Colors Show tags' })
+        3) <input type="checkbox" class="checkbox" data-testid="workflow-toggle"/> aka getByTestId('workflow-toggle')
+        4) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox').nth(3)
+        5) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox').nth(4)
+        6) <input checked type="checkbox" class="checkbox"/> aka getByRole('checkbox').nth(5)
+        7) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(4) > .checkbox')
+        8) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(5) > .checkbox')
+        9) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(6) > .checkbox')
+        10) <input checked type="checkbox" class="checkbox"/> aka locator('div:nth-child(7) > .checkbox')
+        ...
+
+    Call log:
+    [2m  - waiting for locator('div.flex').filter({ has: locator('h3').filter({ hasText: /Private Prompts/i }) }).locator('input[type="checkbox"]')[22m
+
+
+       at pom\SettingsPage.ts:70
+
+      68 |
+      69 |     async togglePrivatePrompts(enable: boolean) {
+    > 70 |         const isChecked = await this.enablePrivatePromptsToggle.isChecked();
+         |                                                                 ^
+      71 |         if ((enable && !isChecked) || (!enable && isChecked)) {
+      72 |             await this.enablePrivatePromptsToggle.click({ force: true });
+      73 |             if (!enable) {
+        at SettingsPage.togglePrivatePrompts (C:\projects\antigravity_prj\prompthive\skills-frontend-tests\pom\SettingsPage.ts:70:65)
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:113:28
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry1\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry1\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry1\error-context.md
+
+    attachment #4: trace (application/zip) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry1\trace.zip
+
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Retry #2 ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    [31mTest timeout of 60000ms exceeded while running "beforeEach" hook.[39m
+
+      54 |
+      55 | test.describe('Admin Settings Tests (ADMIN role)', () => {
+    > 56 |     test.beforeEach(async ({ page, seedAdmin }) => {
+         |          ^
+      57 |         test.setTimeout(60000);
+      58 |         const loginPage = new LoginPage(page);
+      59 |         await loginPage.goto();
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:56:10
+
+    Error: page.waitForURL: Test timeout of 60000ms exceeded.
+    =========================== logs ===========================
+    waiting for navigation to "**/" until "load"
+    ============================================================
+
+      59 |         await loginPage.goto();
+      60 |         await loginPage.login(seedAdmin.username, seedAdmin.plainTextPassword!);
+    > 61 |         await page.waitForURL('**/');
+         |                    ^
+      62 |     });
+      63 |
+      64 |     test('Toggle Global Registration Setting', async ({ page }) => {
+        at C:\projects\antigravity_prj\prompthive\skills-frontend-tests\e2e\settings.spec.ts:61:20
+
+    attachment #1: screenshot (image/png) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry2\test-failed-1.png
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    attachment #2: video (video/webm) ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry2\video.webm
+    ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+    Error Context: test-results\e2e-settings-Admin-Setting-3fdde-bal-Private-Prompts-Setting-chromium-retry2\error-context.md
+
+  4 failed
+    [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:15:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Application Language 
+    [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:29:9 ÔÇ║ General Settings Tests (USER role) ÔÇ║ Toggle Sidebar Workflows Visibility 
+    [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:64:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Registration Setting 
+    [chromium] ÔÇ║ skills-frontend-tests\e2e\settings.spec.ts:103:9 ÔÇ║ Admin Settings Tests (ADMIN role) ÔÇ║ Toggle Global Private Prompts Setting 
+
