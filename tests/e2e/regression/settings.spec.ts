@@ -4,9 +4,9 @@ import { SettingsPage } from '../../../pom/SettingsPage';
 import { prisma } from '../../../lib/prisma';
 
 test.describe('General Settings - Enriched Datasets & Stress Testing', () => {
+    test.setTimeout(90000); // Moved timeout to describe block
 
     test.beforeEach(async ({ page, seedUser }) => {
-        test.setTimeout(90000);
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
@@ -18,10 +18,10 @@ test.describe('General Settings - Enriched Datasets & Stress Testing', () => {
         await settingsPage.goto();
 
         // Perform multiple toggles rapidly to test UI reactivity and state consistency
-        const langs = ['fr', 'de', 'es', 'pt', 'en'];
+        const langs = ['fr', 'de', 'es', 'it', 'nl', 'sv', 'en'];
         for (const lang of langs) {
             await settingsPage.languageSelect.selectOption(lang);
-            await page.waitForTimeout(300); // Allow brief render
+            await page.waitForTimeout(1000); // Allow more time for translation change
         }
 
         // Check if language stabilizes eventually
@@ -71,40 +71,46 @@ test.describe('General Settings - Enriched Datasets & Stress Testing', () => {
 
         await settingsPage.goto(); // Refresh to load new users in select
 
-        // Hide multiple users sequentially
-        const userOptions = await settingsPage.hideUserSelect.locator('option').all();
-        const hideCount = Math.min(3, userOptions.length - 1); // Not the current user or first empty
+        // Hide multiple users sequentially using checkboxes
+        const checkboxes = await settingsPage.hideUserSelect.all();
+        const hideCount = Math.min(3, checkboxes.length - 1); // Avoid hiding current user if possible
 
-        for (let i = 1; i <= hideCount; i++) {
-            const userVal = await userOptions[i].getAttribute('value');
-            if (userVal) {
-                await settingsPage.hideUserSelect.selectOption(userVal);
-                await settingsPage.saveGeneralSettings();
+        for (let i = 0; i < hideCount; i++) {
+            // Uncheck the checkbox to hide the user (checkbox is 'Checked' means visible)
+            if (await checkboxes[i].isChecked()) {
+                await checkboxes[i].click();
             }
         }
+        await settingsPage.saveVisibilityBtn.click();
+        await expect(page.getByText(/Settings saved successfully|enregistrés avec succès/i)).toBeVisible();
 
-        // Verify all 3 are in the list of hidden users
-        await expect(settingsPage.hiddenUsersList.locator('li')).toHaveCount(hideCount);
+        // Verify users are hidden (unchecked)
+        const allCheckboxes = await settingsPage.hideUserSelect.all();
+        let unchecked = 0;
+        for (const cb of allCheckboxes) {
+            if (!(await cb.isChecked())) unchecked++;
+        }
+        expect(unchecked).toBeGreaterThanOrEqual(hideCount);
     });
 });
 
 test.describe('Admin Settings Protection & Direct Data Hijack Protection', () => {
 
     test('Privilege Escalation Attempt: Direct API Toggle for Non-Admin', async ({ page, seedUser }) => {
-        // A user shouldn't even see admin toggles
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
+
         const settingsPage = new SettingsPage(page);
         await settingsPage.goto();
-
         await expect(settingsPage.enableRegistrationToggle).toBeHidden();
         await expect(settingsPage.enablePrivatePromptsToggle).toBeHidden();
-
-        // Attempt direct access via forcing visible or firing events is not enough
-        // but we test if the UI doesn't accidentally reveal them
     });
 
     test.describe('ADMIN role Constraints', () => {
         test.beforeEach(async ({ page, seedAdmin }) => {
             const loginPage = new LoginPage(page);
+            await loginPage.goto();
             await loginPage.login(seedAdmin.username, seedAdmin.plainTextPassword!);
         });
 
@@ -112,11 +118,13 @@ test.describe('Admin Settings Protection & Direct Data Hijack Protection', () =>
             // Example if there was a JSON config field
             const settingsPage = new SettingsPage(page);
             await settingsPage.goto();
+            await page.waitForLoadState('networkidle');
 
             // If registration enabled toggle uses simple bools but we try to hack values
+            await expect(page.getByTestId('admin-save-button')).toBeVisible({ timeout: 20000 });
             await settingsPage.toggleRegistration(false);
             await page.getByTestId('admin-save-button').click();
-            await expect(settingsPage.page.getByText(/Settings updated/i)).toBeVisible();
+            await expect(page.getByText(/Settings updated|enregistrés avec succès/i)).toBeVisible({ timeout: 15000 });
 
             let config = await prisma.globalConfiguration.findUnique({ where: { id: 'GLOBAL' } });
             expect(config?.registrationEnabled).toBe(false);

@@ -19,6 +19,7 @@ export default function LanguageSelector() {
             <label className="text-sm font-medium">{t('common.language')}</label>
             <select
                 value={language}
+                data-testid="language-select"
                 onChange={(e) => {
                     console.log(`LanguageSelector onChange: ${e.target.value}`);
                     setLanguage(e.target.value as Language);

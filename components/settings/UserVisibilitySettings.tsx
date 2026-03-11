@@ -113,6 +113,7 @@ export default function UserVisibilitySettings({ allUsers, initialHiddenIds, cur
                     type="button"
                     onClick={handleSaveVisibility}
                     className="btn btn-primary"
+                    data-testid="visibility-save-button"
                     disabled={isSaving}
                 >
                     <Save size={18} />

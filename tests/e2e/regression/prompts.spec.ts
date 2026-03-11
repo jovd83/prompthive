@@ -12,7 +12,91 @@ test.describe('Prompt Management - Enriched Datasets & Edge Cases', () => {
         await page.waitForURL('**/');
     });
 
-    // 1. Core requirement Tests
+    // 0. Basic Happy Path (MSS) Tests
+    test('MSS: Create basic prompt', async ({ page }) => {
+        const promptPage = new PromptPage(page);
+        const title = `Basic Prompt ${Date.now()}`;
+        const content = 'This is a basic prompt content.';
+
+        await promptPage.gotoCreate();
+        await promptPage.createPrompt(title, content);
+
+        await page.waitForURL('**/prompts/*');
+        await expect(promptPage.promptTitleDisplay).toHaveText(title);
+
+        // Check on dashboard
+        await page.goto('/');
+        await expect(page.getByText(title).first()).toBeVisible();
+    });
+
+    test('MSS: List and view prompts', async ({ page, seedUser }) => {
+        const title = `View Test ${Date.now()}`;
+        await prisma.prompt.create({
+            data: {
+                title,
+                description: 'To be viewed',
+                createdById: seedUser.id,
+                versions: { create: { content: 'View me', versionNumber: 1, createdById: seedUser.id } }
+            }
+        });
+
+        await page.goto('/');
+        const card = page.getByText(title).first();
+        await expect(card).toBeVisible();
+        await card.click();
+
+        await page.waitForURL('**/prompts/*');
+        const promptPage = new PromptPage(page);
+        await expect(promptPage.promptTitleDisplay).toContainText(title);
+    });
+
+    test('MSS: Edit existing prompt', async ({ page, seedUser }) => {
+        const promptPage = new PromptPage(page);
+        const title = `To Edit ${Date.now()}`;
+        const prompt = await prisma.prompt.create({
+            data: {
+                title,
+                description: 'Before edit',
+                createdById: seedUser.id,
+                versions: { create: { content: 'Before edit', versionNumber: 1, createdById: seedUser.id } }
+            }
+        });
+
+        await promptPage.gotoView(prompt.id);
+        await promptPage.editButton.click();
+
+        const newTitle = `Edited ${title}`;
+        await promptPage.titleInput.fill(newTitle);
+        await promptPage.changelogInput.fill('Test revision');
+        await promptPage.submitButton.click();
+
+        await page.waitForURL(`/prompts/${prompt.id}`);
+        await expect(promptPage.promptTitleDisplay).toHaveText(newTitle);
+    });
+
+    test('MSS: Delete prompt', async ({ page, seedUser }) => {
+        const promptPage = new PromptPage(page);
+        const title = `To Delete ${Date.now()}`;
+        const prompt = await prisma.prompt.create({
+            data: {
+                title,
+                description: 'To be deleted',
+                createdById: seedUser.id,
+                versions: { create: { content: 'Delete me', versionNumber: 1, createdById: seedUser.id } }
+            }
+        });
+
+        await promptPage.gotoView(prompt.id);
+        await promptPage.deleteButton.click();
+
+        // The prompt uses inline confirmation, not a separate dialog component
+        await expect(promptPage.confirmDeleteButton).toBeVisible();
+        await promptPage.confirmDeleteButton.click();
+
+        await page.waitForURL(url => url.pathname === '/');
+        // Check dashboard grid/list, avoid success toast which contains the title
+        await expect(page.getByRole('heading', { name: title })).not.toBeVisible();
+    });
     test('Create Prompt: Require Content', async ({ page }) => {
         const promptPage = new PromptPage(page);
         await promptPage.gotoCreate();

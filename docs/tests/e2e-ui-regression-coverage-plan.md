@@ -61,3 +61,14 @@
 | Workflows | Access Control | Private WF | ERR: Accessing Private Workflow of Another User | UI | [workflows.spec.ts](../../tests/e2e/regression/workflows.spec.ts)#Access Control: Accessing Private Workflow of Another User | Ready |
 | Admin | User Mgmt | Unicode | EXT: Admin creation of Unicode Usernames | UI | [admin.spec.ts](../../tests/e2e/regression/admin.spec.ts)#User Lifecycle: Unicode, Emojis, and RTL Usernames | Ready |
 | Admin | Security | Privilege Esc | ERR: Regular User Admin Access Re-verification | UI | [admin.spec.ts](../../tests/e2e/regression/admin.spec.ts)#Security: Privilege Escalation Prevention Re-verification | Ready |
+| Prompt Management | Create Prompt | Basic Creation | MSS: Create basic prompt | UI | [prompts.spec.ts](../../tests/e2e/regression/prompts.spec.ts)#MSS: Create basic prompt | Ready |
+| Prompt Management | Edit Prompt | Basic Editing | MSS: Edit existing prompt | UI | [prompts.spec.ts](../../tests/e2e/regression/prompts.spec.ts)#MSS: Edit existing prompt | Ready |
+| Prompt Management | Delete Prompt | Basic Deletion | MSS: Delete prompt | UI | [prompts.spec.ts](../../tests/e2e/regression/prompts.spec.ts)#MSS: Delete prompt | Ready |
+| Prompt Management | List Prompts | Dashboard View | MSS: List and view prompts | UI | [prompts.spec.ts](../../tests/e2e/regression/prompts.spec.ts)#MSS: List and view prompts | Ready |
+| Collections & Tags | Create Collection | Basic Creation | MSS: Create basic collection | UI | [collections.spec.ts](../../tests/e2e/regression/collections.spec.ts)#MSS: Create basic collection | Ready |
+| Collections & Tags | Edit Collection | Basic Editing | MSS: Edit collection | UI | [collections.spec.ts](../../tests/e2e/regression/collections.spec.ts)#MSS: Edit collection | Ready |
+| Collections & Tags | Delete Collection | Basic Deletion | MSS: Delete collection | UI | [collections.spec.ts](../../tests/e2e/regression/collections.spec.ts)#MSS: Delete collection | Ready |
+| Advanced Workflows | Create Workflow | Basic Creation | MSS: Create basic workflow | UI | [workflows.spec.ts](../../tests/e2e/regression/workflows.spec.ts)#MSS: Create basic workflow | Ready |
+| Advanced Workflows | Edit Workflow | Basic Editing | MSS: Edit workflow | UI | [workflows.spec.ts](../../tests/e2e/regression/workflows.spec.ts)#MSS: Edit workflow | Ready |
+| Advanced Workflows | Delete Workflow | Basic Deletion | MSS: Delete workflow | UI | [workflows.spec.ts](../../tests/e2e/regression/workflows.spec.ts)#MSS: Delete workflow | Ready |
+| Auth & Settings | User Session | Logout | MSS: Logout successfully | UI | [auth.spec.ts](../../tests/e2e/regression/auth.spec.ts)#MSS: Logout successfully | Ready |

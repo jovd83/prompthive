@@ -74,7 +74,9 @@ export const SidebarSystemMenu = ({ isCollapsed, user }: { isCollapsed: boolean,
                     <ThemeToggle />
 
                     <div className="mt-2 px-1 pb-2">
-                        <div className="flex items-center justify-between px-3 py-2 bg-muted/40 rounded-lg border border-border/50 text-[11px] text-muted-foreground group cursor-pointer hover:bg-muted/60 hover:border-primary/30 transition-all mx-0 shadow-sm"
+                        <div
+                            data-testid="command-palette-search-trigger"
+                            className="flex items-center justify-between px-3 py-2 bg-muted/40 rounded-lg border border-border/50 text-[11px] text-muted-foreground group cursor-pointer hover:bg-muted/60 hover:border-primary/30 transition-all mx-0 shadow-sm"
                             onClick={() => document.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, metaKey: true }))}
                         >
                             <span className="flex items-center gap-2">

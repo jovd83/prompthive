@@ -18,9 +18,14 @@ vi.mock('@/lib/prisma', () => ({
             findMany: vi.fn(),
             update: vi.fn(),
             delete: vi.fn(),
+            findUnique: vi.fn(),
         },
         user: {
             findUnique: vi.fn(),
+        },
+        tag: {
+            findMany: vi.fn(),
+            deleteMany: vi.fn(),
         }
     }
 }));
@@ -88,14 +93,8 @@ describe('Reproduction: Recursive Collection Deletion', () => {
 
         // Mock prompts lookup
         (prisma.prompt.findMany as any).mockImplementation(({ where }: any) => {
-            // Logic for recursive prompts lookup
-            // The service calls findMany with { where: { collections: { some: { id: { in: [...] } } } } }
-
-            // Check if looking for prompts in specific collections via 'in' or single collection
-            // The new code implementation uses `id: { in: targetCollectionIds }`
+            // ... logic ...
             const idsObj = where.collections?.some?.id;
-
-            // If checking 'in'
             if (idsObj && idsObj.in) {
                 const ids = idsObj.in as string[];
                 const results = [];
@@ -104,11 +103,21 @@ describe('Reproduction: Recursive Collection Deletion', () => {
                 if (ids.includes('grandchild-1')) results.push({ id: 'p-grandchild' });
                 return Promise.resolve(results);
             }
-
-            // Fallback (if any other query)
             if (where.collections?.some?.id === 'parent-1') return Promise.resolve([{ id: 'p-parent' }]);
             return Promise.resolve([]);
         });
+
+        // Mock for cleanupPromptAssetsService
+        (prisma.prompt.findUnique as any).mockImplementation(({ where }: any) => {
+            return Promise.resolve({
+                id: where.id,
+                versions: []
+            });
+        });
+
+        // Mock for TagService.deleteUnusedTagsService
+        (prisma.tag as any).findMany = vi.fn().mockResolvedValue([]);
+        (prisma.tag as any).deleteMany = vi.fn().mockResolvedValue({ count: 0 });
 
         await deleteCollectionService(userId, 'parent-1', true);
 

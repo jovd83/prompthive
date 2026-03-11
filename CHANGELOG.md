@@ -3,12 +3,14 @@
 ## 3.1.1 (Unreleased)
 
 ### Added
-
-### Changed
+- **Frontend Playwright Tests**: Expanded E2E test coverage using the [jovd83/Playwright-skill](https://github.com/jovd83/Playwright-skill) agent framework, covering workflows, data management, and authentication edge cases.
 
 ### Fixed
-
-### Removed
+- **Test Stability**: Resolved failures in Playwright E2E suite related to Next.js page transitions and element visibility.
+- **Environment Configuration**: Corrected `NEXTAUTH_URL` in `.env.test` to match the test server port.
+- **Access Control Regex**: Updated unauthorized navigation regex to support Next.js 404 pages ("could not be found").
+- **Workflow constraints**: Fixed navigation timing in "Maximal Character Description" test to handle redirects to the editor.
+- **Data Export Resilience**: Fixed Unicode export test by ensuring the test collection is populated before export.
 
 ## 3.1.0 (2026-03-07)
 

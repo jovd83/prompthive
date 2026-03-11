@@ -70,7 +70,7 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
 
     } else {
         const collection = await prisma.collection.findUnique({
-            where: { id },
+            where: { id, ownerId: session.user.id },
             include: {
                 prompts: {
                     where: visibleWhere,

@@ -12,6 +12,21 @@ test.describe('Authentication Flows - Enriched Datasets & Edge Cases', () => {
         await page.waitForURL('**/');
     });
 
+    test('MSS: Successful User Logout', async ({ page, seedUser }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.goto();
+        await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
+        await page.waitForURL('**/');
+
+        // Click user profile to open dialog
+        await page.locator('[data-testid="user-profile-trigger"]').click();
+
+        // Click Sign Out
+        await page.getByRole('button', { name: /Sign Out/i }).click();
+
+        await expect(page.getByRole('button', { name: /Sign In/i })).toBeVisible({ timeout: 15000 });
+    });
+
     test('Error on Invalid Credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.goto();
@@ -108,7 +123,6 @@ test.describe('Authentication Flows - Enriched Datasets & Edge Cases', () => {
 
         // Some systems might have separate admin pages
         await page.goto('/admin');
-        const bodyContent = await page.locator('body').innerText();
-        expect(bodyContent).toMatch(/403|Unauthorized|Access Denied|Not Found/i);
+        await expect(page.locator('body')).toContainText(/403|404|Unauthorized|Access Denied|Not Found|could not be found/i, { timeout: 15000 });
     });
 });

@@ -112,13 +112,14 @@ export default function CollectionSidebar({
                                         <h1 className="text-xl font-bold truncate" title={collection.title}>
                                             {collection.title} <span className="text-muted-foreground font-normal text-base">({collection.totalPrompts !== undefined ? collection.totalPrompts : (collection._count?.prompts || 0)})</span>
                                         </h1>
-                                        {collection.description && <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2" title={collection.description}>{collection.description}</p>}
+                                        {collection.description && <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2" title={collection.description} data-testid="collection-description">{collection.description}</p>}
                                     </div>
 
                                     {collection.id !== 'unassigned' && !isGuest && (
                                         <div className="relative" ref={menuRef}>
                                             <button
                                                 aria-label="Collection actions"
+                                                data-testid="collection-actions-button"
                                                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                                                 className={`p-1 text-muted-foreground hover:text-foreground hover:bg-background rounded transition-colors ${isMenuOpen ? 'text-foreground bg-background' : ''}`}
                                             >

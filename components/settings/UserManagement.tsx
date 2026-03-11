@@ -98,7 +98,7 @@ export default function UserManagement({ initialUsers }: { initialUsers: AdminUs
     };
 
     return (
-        <div id="users" className="mt-8 border-t border-border pt-6">
+        <div data-testid="admin-users-section" className="mt-8 border-t border-border pt-6">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="font-semibold text-lg flex items-center gap-2">
                     <UserIcon size={18} />

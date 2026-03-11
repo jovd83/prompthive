@@ -111,6 +111,14 @@ test.describe('Data Management - Enriched Datasets & Error Handling', () => {
         const unicodeCol = await prisma.collection.create({
             data: { id: uuidv4(), title: "Unicode Export 🌍", ownerId: seedUser.id }
         });
+        await prisma.prompt.create({
+            data: {
+                title: "Unicode Prompt",
+                createdById: seedUser.id,
+                collections: { connect: { id: unicodeCol.id } },
+                versions: { create: { content: "Content", versionNumber: 1, createdById: seedUser.id } }
+            }
+        });
 
         const dataPage = new DataManagementPage(page);
         await dataPage.goto();

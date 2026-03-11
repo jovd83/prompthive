@@ -116,12 +116,14 @@ export default function CommandPalette({ children, isAdmin: propIsAdmin }: { chi
             <KBarPortal>
                 <KBarPositioner className="backdrop-blur-sm bg-black/50 z-50 fixed inset-0">
                     <KBarAnimator className="w-full max-w-xl bg-background border border-border rounded-xl shadow-2xl overflow-hidden p-2 text-foreground">
-                        <div className="flex items-center gap-3 px-3 py-4 border-b border-border/50">
-                            <Search size={20} className="text-muted-foreground" />
-                            <KBarSearch className="flex-1 bg-transparent border-none outline-none text-lg text-foreground placeholder:text-muted-foreground/70" placeholder={t('commandPalette.placeholder')} />
-                            <span className="text-xs font-mono text-muted-foreground border border-border px-1.5 py-0.5 rounded">ESC</span>
+                        <div data-testid="kbar-animator">
+                            <div className="flex items-center gap-3 px-3 py-4 border-b border-border/50">
+                                <Search size={20} className="text-muted-foreground" />
+                                <KBarSearch className="flex-1 bg-transparent border-none outline-none text-lg text-foreground placeholder:text-muted-foreground/70" placeholder={t('commandPalette.placeholder')} />
+                                <span className="text-xs font-mono text-muted-foreground border border-border px-1.5 py-0.5 rounded">ESC</span>
+                            </div>
+                            <RenderResults />
                         </div>
-                        <RenderResults />
                     </KBarAnimator>
                 </KBarPositioner>
             </KBarPortal>
@@ -143,6 +145,7 @@ function RenderResults() {
                     </div>
                 ) : (
                     <div
+                        data-testid={`kbar-action-${item.id}`}
                         className={`px-4 py-3 flex items-center justify-between cursor-pointer transition-colors ${active ? "bg-primary/10 border-l-4 border-primary" : "border-l-4 border-transparent hover:bg-muted/50"
                             }`}
                     >

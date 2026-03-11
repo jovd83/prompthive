@@ -84,7 +84,8 @@
                 "role": "Rôle",
                 "cancel": "Annuler",
                 "create": "Créer un utilisateur",
-                "error": "Échec de la création de l'utilisateur"
+                "error": "Échec de la création de l'utilisateur",
+                "success": "Utilisateur créé avec succès"
             },
             "roleToggleTitle": "Cliquez pour changer le rôle",
             "deleteConfirmTitle": "Supprimer l'utilisateur",

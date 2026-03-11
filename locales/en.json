@@ -90,7 +90,8 @@
                 "role": "Role",
                 "cancel": "Cancel",
                 "create": "Create User",
-                "error": "Failed to create user"
+                "error": "Failed to create user",
+                "success": "User created successfully"
             },
             "roleToggleTitle": "Click to toggle role",
             "deleteConfirmTitle": "Delete User",
