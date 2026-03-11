@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.1 (Unreleased)
+## 3.1.1 (2026-03-11)
 
 ### Added
 - **Frontend Playwright Tests**: Expanded E2E test coverage using the [jovd83/Playwright-skill](https://github.com/jovd83/Playwright-skill) agent framework, covering workflows, data management, and authentication edge cases.
