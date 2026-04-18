@@ -9,6 +9,11 @@ test.describe('Collections Management - Enriched Datasets & Edge Cases', () => {
         test.setTimeout(90000);
         const loginPage = new LoginPage(page);
         await loginPage.goto();
+        await page.addInitScript(() => {
+            const style = document.createElement('style');
+            style.innerHTML = '.cursor-col-resize { pointer-events: none !important; }';
+            document.head.appendChild(style);
+        });
         await loginPage.login(seedUser.username, seedUser.plainTextPassword!);
         await page.waitForURL('**/');
     });

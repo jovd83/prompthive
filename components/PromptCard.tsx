@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import NextImage from "next/image";
-import { Copy, Eye, Clock, Heart, Check, Terminal } from "lucide-react";
+import { Copy, Eye, Clock, Heart, Check, Terminal, Package } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
 import { useRouter } from "next/navigation";
@@ -143,13 +143,22 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
                 e.dataTransfer.setData("promptId", prompt.id);
                 // Optional: set ghost image or effect
             }}
-            onClick={() => router.push(`/prompts/${prompt.id}`)}
+            onClick={() => router.push(prompt.itemType === 'AGENT_SKILL' ? `/skills/${prompt.id}` : `/prompts/${prompt.id}`)}
             className="card group h-full flex flex-col cursor-pointer relative hover:ring-2 hover:ring-primary/20 transition-all overflow-hidden border-border/60"
         >
             {/* 1. Header: Title, Fav, Stats */}
             <div className="flex justify-between items-start mb-3 gap-2">
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-1">
+                        {prompt.itemType === 'AGENT_SKILL' ? (
+                            <span className="shrink-0 text-base leading-none" title="Agent Skill">
+                                🤖
+                            </span>
+                        ) : (
+                            <span className="shrink-0 text-base leading-none" title="Prompt">
+                                📝
+                            </span>
+                        )}
                         <h3 className="font-bold text-lg group-hover:text-primary transition-colors truncate" title={prompt.title}>
                             {prompt.title}
                         </h3>
@@ -199,7 +208,11 @@ export default function PromptCard({ prompt, isFavorited: initialIsFavorited = f
             {/* 4. Prompt Preview & Copy */}
             <div className={`bg-muted/50 rounded-md border border-border/50 p-2 mb-3 relative group/code flex flex-col ${!resultImage ? "flex-1" : ""}`}>
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1.5 select-none shrink-0">
-                    <Terminal size={12} /> {t('list.promptPreview')}
+                    {prompt.itemType === 'AGENT_SKILL' ? (
+                        <><Package size={12} /> {t('detail.labels.usageExample') || "Usage"}</>
+                    ) : (
+                        <><Terminal size={12} /> {t('list.promptPreview')}</>
+                    )}
                 </div>
 
                 <div className="relative flex-1 min-h-[3rem]">

@@ -10,6 +10,7 @@ prod.db
 dev.db
 *.db
 *.db-journal
+*.bak
 test-results/
 playwright-report/
 blob-report/
@@ -19,3 +20,5 @@ public/uploads
 
 public/TMTBanner.xcf
 public/restored-1769713956954-50.png
+archive/
+tests/

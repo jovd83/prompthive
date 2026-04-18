@@ -169,6 +169,9 @@
         "createTitle": "Create New Prompt",
         "editTitle": "Edit Prompt: {{title}}",
         "newPrompt": "New Prompt",
+        "skill": "Skill",
+        "prompt": "Prompt",
+        "installation": "Installation",
         "searchResults": "Search Results",
         "searchTitle": "Search: \"{{query}}\"",
         "noResults": "No prompts found matching your criteria.",
@@ -217,6 +220,16 @@
         "date": "Date",
         "name": "Name",
         "usage": "Usage"
+    },
+    "skills": {
+        "createTitle": "Create New Agent Skill",
+        "repositoryUrl": "GitHub Repository URL",
+        "fetchInfo": "Fetch Info",
+        "installCommand": "Install Command",
+        "fetching": "Fetching...",
+        "saveChanges": "Save Skill",
+        "create": "Create Skill",
+        "newSkill": "New Skill"
     },
     "form": {
         "sections": {
@@ -451,11 +464,13 @@
         "exportComplete": "Export complete: {{count}} prompts exported.",
         "exportZeroTitle": "Export for MyPromptHive Zero",
         "exportZeroDesc": "Select collections to export for the lightweight version.",
-        "exportZeroButton": "Export for MyPromptHive Zero"
+        "exportZeroButton": "Export for MyPromptHive Zero",
+        "includeAttachments": "Include Attachments",
+        "includeResultFiles": "Include Result Files / Images"
     },
     "help": {
         "title": "Help Center",
-        "subtitle": "Documentation v3.0",
+        "subtitle": "Documentation v4.0",
         "externalLinks": "External Links",
         "stillQuestions": "Still have questions?",
         "checkRepo": "Check the GitHub repository for issues or feature requests.",
@@ -481,20 +496,37 @@
         },
         "content": {
             "changelog": {
-                "version": "v3.0.0 (2026-01-18)",
-                "improvements": "Improvements & Changes",
-                "fixes": "Fixed (v3.0.0 & v2.3.5)",
-                "added": "New Features",
                 "desc": "For older versions, please see the <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>full changelog on GitHub</a>.",
-                "added_1": "<strong>Responsive Design</strong>: Complete overhaul of the layout for mobile and tablet devices.",
-                "added_2": "<strong>Mobile Navigation</strong>: Added Hamburger Menu and Drawer for easier navigation on small screens.",
-                "added_3": "<strong>Mobile Header</strong>: Dedicated header component for mobile coherence.",
-                "changed_1": "<strong>Dashboard Grid</strong>: Updated Dashboard to use a responsive grid (adapts to 1 column on mobile).",
-                "changed_2": "<strong>Prompt Detail</strong>: Refactored view for better readability and usability on mobile devices.",
-                "fixed_1": "<strong>Collection Deletion</strong>: Fixed an issue where \"Delete everything\" moved children to root instead of deleting them.",
-                "fixed_2": "<strong>Command Palette</strong>: Fixed translation bugs where keys were shown instead of text.",
-                "fixed_3": "<strong>Attachments</strong>: Fixed display of system prefixes in filenames; now shows original user filenames.",
-                "fixed_4": "<strong>Prompt Detail</strong>: Added 'viewed' and 'copied' counters to header for consistency."
+                "improvements": "Improvements & Changes",
+                "fixes": "Bug Fixes",
+                "added": "New Features",
+                "v311": {
+                    "version": "v4.0.0 (2026-04-18)",
+                    "added_1": "<strong>Frontend Playwright Tests</strong>: Expanded E2E test coverage using the Playwright-skill agent framework.",
+                    "fixed_1": "<strong>Test Stability</strong>: Resolved failures in Playwright E2E suite related to page transitions.",
+                    "fixed_2": "<strong>Environment Configuration</strong>: Corrected NEXTAUTH_URL in .env.test to match test server port.",
+                    "fixed_3": "<strong>Data Export</strong>: Fixed Unicode export test by ensuring collection is populated before export."
+                },
+                "v310": {
+                    "version": "v3.1.0 (2026-03-07)",
+                    "added_1": "<strong>Playwright Test Suite</strong>: Generated and integrated a comprehensive new Playwright E2E test set.",
+                    "changed_1": "<strong>Settings UI</strong>: Refined Settings controls with data-testid attributes for robust E2E testing.",
+                    "changed_2": "<strong>Documentation</strong>: Restructured TDD documentation into feature-based folders.",
+                    "fixed_1": "<strong>Dashboard Sorting Links</strong>: Fixed \"View all\" defaulting to dashboard instead of sorted list.",
+                    "fixed_2": "<strong>Most Viewed Sort</strong>: Fixed Usage sort using copyCount rather than viewCount.",
+                    "fixed_3": "<strong>User Management</strong>: Fixed string/boolean modal visibility state bug.",
+                    "fixed_4": "<strong>Auth Flow</strong>: Corrected password reset and login field consistency."
+                },
+                "v302": {
+                    "version": "v3.0.2 (2026-02-23)",
+                    "added_1": "<strong>VisualDiff Component</strong>: Word/line level comparison tool for prompt versions.",
+                    "added_2": "<strong>Modular Architecture</strong>: Partitioned monolithic files into domain-specific modules.",
+                    "added_3": "<strong>Streaming Exports</strong>: Streaming JSON responses to prevent memory bloat during large backups.",
+                    "added_4": "<strong>Batch Processing</strong>: Refactored bulk imports to use batched operations, reducing SQLite lock errors.",
+                    "changed_1": "<strong>Type Safety</strong>: Eliminated as-any casts with properly encapsulated Prisma types.",
+                    "changed_2": "<strong>Security Hardening</strong>: Performed audit and established multi-phase hardening roadmap.",
+                    "fixed_1": "<strong>Favorites Sync</strong>: Fixed state synchronization issue in favorites collection view."
+                }
             },
             "intro": {
                 "welcome": "Welcome to <strong>MyPromptHive</strong>, your local-first sanctuary for managing, testing, and organizing LLM prompts.",

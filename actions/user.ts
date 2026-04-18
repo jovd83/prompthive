@@ -85,3 +85,26 @@ export async function updateLanguage(prevState: any, formData: FormData): Promis
         return { error: e.message };
     }
 }
+
+export async function toggleAdminRole(prevState: any, formData: FormData): Promise<ActionState> {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) return { error: "Unauthorized" };
+
+    const code = formData.get("code") as string;
+    const targetRole = formData.get("targetRole") as string;
+
+    // Optional: Only allow elevating to ADMIN if code matches.
+    const ADMIN_SECRET = process.env.ADMIN_SECRET || "prompthive123";
+
+    if (targetRole === "ADMIN" && code !== ADMIN_SECRET) {
+        return { error: "Invalid Admin Secret Code" };
+    }
+
+    try {
+        await UserService.updateUserRoleService(session.user.id, targetRole);
+        revalidatePath("/");
+        return { success: `Successfully updated role to ${targetRole}` };
+    } catch (e: any) {
+        return { error: e.message };
+    }
+}

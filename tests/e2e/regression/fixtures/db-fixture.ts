@@ -1,6 +1,6 @@
 import { test as base } from '@playwright/test';
 import { prisma } from '../../../../lib/prisma';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 
 type DbFixtures = {

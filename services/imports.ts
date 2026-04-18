@@ -179,6 +179,21 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                         resultImage: resultImagePath,
                         changelog: v.changelog,
                         createdById: userId,
+                        attachments: (v.attachments && Array.isArray(v.attachments)) ? {
+                            create: (await Promise.all(v.attachments.map(async (a: any) => {
+                                if (a.file?.data) {
+                                    const restoredPath = await restoreImage(a.file.data, a.filePath);
+                                    if (restoredPath) {
+                                        return {
+                                            filePath: restoredPath,
+                                            fileType: a.fileType || 'application/octet-stream',
+                                            originalName: a.filePath ? path.basename(a.filePath) : 'attachment'
+                                        };
+                                    }
+                                }
+                                return null;
+                            }))).filter(Boolean) as any[]
+                        } : undefined
                     };
                 }));
             } else {
@@ -203,6 +218,9 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                     description: item.description || "",
                     createdById: userId,
                     technicalId,
+                    itemType: item.itemType === 'AGENT_SKILL' ? 'AGENT_SKILL' : 'PROMPT',
+                    repoUrl: item.repoUrl || null,
+                    installCommand: item.installCommand || null,
                     tags: tagIds.length > 0 ? { connect: tagIds.map(id => ({ id })) } : undefined,
                     collections: collectionIds.size > 0 ? { connect: Array.from(collectionIds).map(id => ({ id })) } : undefined,
                     versions: { create: versionsToCreate }
@@ -277,8 +295,15 @@ export async function importUnifiedService(userId: string, data: any, collection
         const prompts = Array.isArray(promptCatData) ? promptCatData : (promptCatData.prompts || []);
         return importPromptsService(userId, prompts, collectionIdMap);
     } else {
-        const prompts = Array.isArray(validatedData) ? validatedData : ((validatedData as { prompts?: ValidatedImportData[] }).prompts || []);
-        return importPromptsService(userId, prompts, collectionIdMap);
+        const prompts = Array.isArray(validatedData) ? validatedData : ((validatedData as any).prompts || []);
+        const definedCollections = (validatedData as any).definedCollections;
+
+        let idMap = collectionIdMap;
+        if (definedCollections && !idMap) {
+            idMap = await importStructureService(userId, definedCollections);
+        }
+
+        return importPromptsService(userId, prompts, idMap);
     }
 }
 

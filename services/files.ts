@@ -14,9 +14,10 @@ export async function uploadFile(file: File, prefix: string = ""): Promise<{ fil
 
     validateFileExtension(file.name);
 
-    // 2. Security: Sanitize filename to prevent path traversal and special char issues
+    // 2. Security: Sanitize filename and prefix to prevent path traversal and special char issues
+    const safePrefix = prefix.replace(/[^a-z0-9._-]/gi, '_');
     const safeName = file.name.replace(/[^a-z0-9.-]/gi, '_').toLowerCase();
-    const fileName = `${prefix}${Date.now()}-${safeName}`;
+    const fileName = `${safePrefix}${Date.now()}-${safeName}`;
     const filePath = path.join(uploadDir, fileName);
     const buffer = Buffer.from(await file.arrayBuffer());
     await fs.writeFile(filePath, buffer);
@@ -43,7 +44,15 @@ export async function uploadFile(file: File, prefix: string = ""): Promise<{ fil
 
 export async function deleteFile(filePath: string): Promise<void> {
     try {
-        const fullPath = path.join(process.cwd(), "public", filePath);
+        const publicDir = path.join(process.cwd(), "public");
+        const fullPath = path.resolve(publicDir, filePath.startsWith("/") ? filePath.slice(1) : filePath);
+
+        // Security: Ensure the path is within the public directory
+        if (!fullPath.startsWith(publicDir)) {
+            console.warn(`[FileService] Prevented path traversal attempt: ${filePath}`);
+            return;
+        }
+
         await fs.unlink(fullPath);
     } catch (e: unknown) {
         console.warn(`[FileService] Could not delete file ${filePath}:`, e instanceof Error ? e.message : String(e));

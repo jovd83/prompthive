@@ -34,7 +34,9 @@ export default function CollectionPromptListItem({
         e.preventDefault();
 
         let content = "";
-        if (prompt.versions && prompt.versions.length > 0) {
+        if (prompt.itemType === 'AGENT_SKILL') {
+            content = prompt.installCommand || "";
+        } else if (prompt.versions && prompt.versions.length > 0) {
             content = prompt.versions[0].content;
         }
 
@@ -78,7 +80,10 @@ export default function CollectionPromptListItem({
                             )}
                         </div>
                     )}
-                    <h4 className={`font-medium text-sm mb-1 truncate ${isSelected ? "text-primary" : "text-foreground"}`}>
+                    <h4 className={`font-medium text-sm mb-1 truncate flex items-center gap-1.5 ${isSelected ? "text-primary" : "text-foreground"}`}>
+                        <span title={prompt.itemType === 'AGENT_SKILL' ? "Agent Skill" : "Prompt"} className="opacity-70 text-xs">
+                            {prompt.itemType === 'AGENT_SKILL' ? "🤖" : "📝"}
+                        </span>
                         {prompt.title}
                     </h4>
                 </div>
@@ -91,7 +96,7 @@ export default function CollectionPromptListItem({
                             ? "text-green-500 bg-green-500/10 opacity-100"
                             : "text-muted-foreground hover:text-foreground hover:bg-muted opacity-0 group-hover/item:opacity-100"
                             }`}
-                        title="Copy prompt content"
+                        title={prompt.itemType === "AGENT_SKILL" ? "Copy install command" : "Copy prompt content"}
                     >
                         {isCopied ? <Check size={14} /> : <Copy size={14} />}
                     </button>

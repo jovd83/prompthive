@@ -1,6 +1,5 @@
-"use client"
-
 import React, { useEffect, useState } from 'react';
+import DOMPurify from 'dompurify';
 
 interface SafeRenderProps {
     html: string;
@@ -8,8 +7,8 @@ interface SafeRenderProps {
 
 /**
  * A safe alternative to dangerouslySetInnerHTML.
- * Parses a subset of HTML tags (strong, em, code, br, span, a) into React components.
- * This prevents XSS while allowing styling in translation strings.
+ * Uses DOMPurify to sanitize HTML and then parses a subset of safe tags
+ * into React components.
  */
 export const SafeRender: React.FC<SafeRenderProps> = ({ html }) => {
     const [nodes, setNodes] = useState<React.ReactNode[]>([]);
@@ -20,9 +19,14 @@ export const SafeRender: React.FC<SafeRenderProps> = ({ html }) => {
             return;
         }
 
+        // 1. Sanitize with DOMPurify first
+        const cleanHtml = DOMPurify.sanitize(html, {
+            ALLOWED_TAGS: ['strong', 'em', 'code', 'br', 'span', 'a', 'b', 'i'],
+            ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
+        });
+
         const parser = new DOMParser();
-        // Wrap in a body to ensure we get a valid document structure
-        const doc = parser.parseFromString(`<body>${html}</body>`, 'text/html');
+        const doc = parser.parseFromString(`<body>${cleanHtml}</body>`, 'text/html');
 
         const mapNode = (node: Node, index: number): React.ReactNode => {
             const key = `node-${index}`;

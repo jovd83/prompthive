@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { authOptions } from './auth';
 import { prisma } from '@/lib/prisma';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 // Mocks
 vi.mock('@/lib/prisma', () => ({
@@ -13,7 +13,7 @@ const { compareMock } = vi.hoisted(() => ({
     compareMock: vi.fn()
 }));
 
-vi.mock('bcryptjs', () => {
+vi.mock('bcrypt', () => {
     return {
         compare: compareMock,
         default: {

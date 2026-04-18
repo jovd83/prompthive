@@ -151,6 +151,9 @@
         "createTitle": "Neuen Prompt erstellen",
         "editTitle": "Prompt bearbeiten: {{title}}",
         "newPrompt": "Neuer Prompt",
+        "skill": "Skill",
+        "prompt": "Prompt",
+        "installation": "Installation",
         "searchResults": "Suchergebnisse",
         "searchTitle": "Suche: \"{{query}}\"",
         "noResults": "Keine Prompts gefunden, die deinen Kriterien entsprechen.",
@@ -192,6 +195,16 @@
         "creator": "Ersteller-E-Mail",
         "clear": "Zurücksetzen",
         "apply": "Filter anwenden"
+    },
+    "skills": {
+        "createTitle": "Neue Agent Skill erstellen",
+        "repositoryUrl": "GitHub-Repository-URL",
+        "fetchInfo": "Infos abrufen",
+        "installCommand": "Installationsbefehl",
+        "fetching": "Abrufen...",
+        "saveChanges": "Skill speichern",
+        "create": "Skill erstellen",
+        "newSkill": "Neue Skill"
     },
     "sortControls": {
         "date": "Datum",
@@ -422,7 +435,7 @@
     },
     "help": {
         "title": "Hilfe-Center",
-        "subtitle": "Dokumentation v3.0",
+        "subtitle": "Dokumentation v3.1",
         "externalLinks": "Externe Links",
         "stillQuestions": "Noch Fragen?",
         "checkRepo": "Überprüfe das GitHub-Repository auf Probleme oder Funktionsanfragen.",
@@ -443,19 +456,37 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.3 (Unveröffentlicht)",
+                "desc": "Für ältere Versionen, siehe das <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>vollständige Änderungsprotokoll auf GitHub</a>.",
                 "improvements": "Geändert",
                 "fixes": "Behoben",
                 "added": "Hinzugefügt",
-                "desc": "Für ältere Versionen, siehe das <a href='https://github.com/jovd83/TMT/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>vollständige Änderungsprotokoll auf GitHub</a>.",
-                "added_1": "<strong>Tag-Farben</strong>: Visuelle Unterscheidung für Tags mit eindeutigen Farben hinzugefügt. Benutzer können diese Funktion in den Allgemeinen Einstellungen aktivieren/deaktivieren.",
-                "added_2": "<strong>Gastkonto</strong>: Neue GUEST-Rolle mit Lesezugriff hinzugefügt. Beinhaltet eingeschränkte Navigation und UI-Elemente.",
-                "added_3": "<strong>Benutzerverwaltung</strong>: Möglichkeit für Administratoren hinzugefügt, Benutzer über die Admin-Einstellungsseite zu löschen. Inhalte bleiben erhalten und werden dem Administrator zugewiesen.",
-                "added_4": "<strong>Tag-Einstellungen</strong>: Einstellung 'Tag-Farben aktivieren' zu den Allgemeinen Einstellungen hinzugefügt.",
-                "added_5": "<strong>Technische IDs</strong>: Unterstützt die Suche nach Technischer ID (z.B. VIBE-123) und direkten URL-Zugriff (/prompts/[id]).",
-                "added_6": "<strong>Verknüpfte Prompts</strong>: Möglichkeit, verwandte Prompts miteinander zu verknüpfen (bidirektional) mit Export/Import-Unterstützung.",
-                "changed_1": "<strong>Einstellungen verschoben</strong>: Auto-Backup und Danger Zone an das Ende der Import/Export-Seite verschoben.",
-                "changed_2": "<strong>Verbessert</strong>: Das Löschen eines Prompts aus einer Sammlung leitet nicht mehr zum Dashboard um."
+                "v311": {
+                    "version": "v4.0.0 (2026-04-18)",
+                    "added_1": "<strong>Frontend Playwright Tests</strong>: Erweiterte E2E-Testabdeckung mit dem Playwright-skill Agent Framework.",
+                    "fixed_1": "<strong>Test-Stabilität</strong>: Fehler in der Playwright E2E-Suite bei Seitenübergängen behoben.",
+                    "fixed_2": "<strong>Umgebungskonfiguration</strong>: NEXTAUTH_URL in .env.test korrigiert.",
+                    "fixed_3": "<strong>Datenexport</strong>: Unicode-Export-Test behoben."
+                },
+                "v310": {
+                    "version": "v3.1.0 (2026-03-07)",
+                    "added_1": "<strong>Playwright Test Suite</strong>: Neue umfassende Playwright E2E-Testsuite generiert und integriert.",
+                    "changed_1": "<strong>Einstellungen UI</strong>: Settings-Controls mit data-testid Attributen verfeinert.",
+                    "changed_2": "<strong>Dokumentation</strong>: TDD-Dokumentation in feature-basierte Ordner umstrukturiert.",
+                    "fixed_1": "<strong>Dashboard Sortierlinks</strong>: \"Alle anzeigen\" leitete auf Dashboard statt sortierter Liste.",
+                    "fixed_2": "<strong>Meistgesehen-Sortierung</strong>: Usage-Sort verwendete copyCount statt viewCount.",
+                    "fixed_3": "<strong>Benutzerverwaltung</strong>: String/Boolean Modal-Sichtbarkeitsbug behoben.",
+                    "fixed_4": "<strong>Auth Flow</strong>: Passwort-Reset und Login-Feldkonsistenz korrigiert."
+                },
+                "v302": {
+                    "version": "v3.0.2 (2026-02-23)",
+                    "added_1": "<strong>VisualDiff Component</strong>: Wort-/Zeilenvergleichstool für Prompt-Versionen.",
+                    "added_2": "<strong>Modulare Architektur</strong>: Monolithische Dateien in domänenspezifische Module aufgeteilt.",
+                    "added_3": "<strong>Streaming Exports</strong>: Streaming JSON-Antworten zur Vermeidung von Speicherüberlauf.",
+                    "added_4": "<strong>Batch-Verarbeitung</strong>: Bulk-Imports auf Batch-Operationen umgestellt, SQLite-Sperr-Fehler reduziert.",
+                    "changed_1": "<strong>Type Safety</strong>: as-any Casts durch korrekt gekapselte Prisma-Typen eliminiert.",
+                    "changed_2": "<strong>Sicherheit</strong>: Audit durchgeführt und Mehrphasen-Sicherheits-Roadmap erstellt.",
+                    "fixed_1": "<strong>Favoriten-Sync</strong>: State-Synchronisierungsproblem in der Favoritenansicht behoben."
+                }
             },
             "intro": {
                 "welcome": "Willkommen bei <strong>TMT</strong>, deinem lokalen Zufluchtsort zum Verwalten, Testen und Organisieren von LLM-Prompts.",

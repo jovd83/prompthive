@@ -49,8 +49,13 @@ export async function importPrompts(formData: FormData) {
 
     const validation = ImportSchema.safeParse(data);
     if (!validation.success) {
-        console.error("Validation Error:", validation.error);
-        return { success: false, error: "Invalid data format: The JSON does not match the expected schema." };
+        console.error("Validation Error:", validation.error.format());
+        const firstError = validation.error.errors[0];
+        const path = firstError.path.join(".");
+        return { 
+            success: false, 
+            error: `Invalid data format at "${path}": ${firstError.message}. The JSON does not match the expected schema.` 
+        };
     }
 
     try {

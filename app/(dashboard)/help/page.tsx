@@ -419,37 +419,90 @@ export default function HelpPage() {
             title: t("help.sections.changelog"),
             content: (
                 <div className="space-y-6">
+                    {/* v3.1.1 */}
                     <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
                         <div className="flex items-center gap-2 mb-4">
                             <History className="h-5 w-5 text-primary" />
-                            <h3 className="font-semibold text-lg">{t('help.content.changelog.version')}</h3>
+                            <h3 className="font-semibold text-lg">{t('help.content.changelog.v311.version')}</h3>
+                            <span className="ml-auto text-xs font-medium bg-primary/10 text-primary px-2 py-0.5 rounded-full">Latest</span>
                         </div>
-
                         <div className="space-y-4">
-                            <div>
-                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
-                                <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li><SafeRender html={t('help.content.changelog.changed_1')} /></li>
-                                    <li><SafeRender html={t('help.content.changelog.changed_2')} /></li>
-                                </ul>
-                            </div>
-
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li><SafeRender html={t('help.content.changelog.added_1')} /></li>
-                                    <li><SafeRender html={t('help.content.changelog.added_2')} /></li>
-                                    <li><SafeRender html={t('help.content.changelog.added_3')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v311.added_1')} /></li>
                                 </ul>
                             </div>
-
                             <div>
                                 <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
                                 <ul className="list-disc pl-5 space-y-1 text-sm">
-                                    <li><SafeRender html={t('help.content.changelog.fixed_1')} /></li>
-                                    <li><SafeRender html={t('help.content.changelog.fixed_2')} /></li>
-                                    <li><SafeRender html={t('help.content.changelog.fixed_3')} /></li>
-                                    <li><SafeRender html={t('help.content.changelog.fixed_4')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v311.fixed_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v311.fixed_2')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v311.fixed_3')} /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* v3.1.0 */}
+                    <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+                        <div className="flex items-center gap-2 mb-4">
+                            <History className="h-5 w-5 text-muted-foreground" />
+                            <h3 className="font-semibold text-lg">{t('help.content.changelog.v310.version')}</h3>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li><SafeRender html={t('help.content.changelog.v310.added_1')} /></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li><SafeRender html={t('help.content.changelog.v310.changed_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v310.changed_2')} /></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li><SafeRender html={t('help.content.changelog.v310.fixed_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v310.fixed_2')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v310.fixed_3')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v310.fixed_4')} /></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* v3.0.2 */}
+                    <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+                        <div className="flex items-center gap-2 mb-4">
+                            <History className="h-5 w-5 text-muted-foreground" />
+                            <h3 className="font-semibold text-lg">{t('help.content.changelog.v302.version')}</h3>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.added')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li><SafeRender html={t('help.content.changelog.v302.added_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v302.added_2')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v302.added_3')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v302.added_4')} /></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.improvements')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li><SafeRender html={t('help.content.changelog.v302.changed_1')} /></li>
+                                    <li><SafeRender html={t('help.content.changelog.v302.changed_2')} /></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-medium text-sm text-muted-foreground mb-2 uppercase tracking-wide">{t('help.content.changelog.fixes')}</h4>
+                                <ul className="list-disc pl-5 space-y-1 text-sm">
+                                    <li><SafeRender html={t('help.content.changelog.v302.fixed_1')} /></li>
                                 </ul>
                             </div>
                         </div>

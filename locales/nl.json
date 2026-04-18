@@ -151,6 +151,9 @@
         "createTitle": "Nieuwe Prompt Maken",
         "editTitle": "Prompt Bewerken: {{title}}",
         "newPrompt": "Nieuwe Prompt",
+        "skill": "Skill",
+        "prompt": "Prompt",
+        "installation": "Installatie",
         "searchResults": "Zoekresultaten",
         "searchTitle": "Zoeken: \"{{query}}\"",
         "noResults": "Geen prompts gevonden die aan je criteria voldoen.",
@@ -180,6 +183,16 @@
         "date": "Datum",
         "name": "Naam",
         "usage": "Gebruik"
+    },
+    "skills": {
+        "createTitle": "Maak Nieuwe Agent Skill",
+        "repositoryUrl": "GitHub Repository URL",
+        "fetchInfo": "Info Ophalen",
+        "installCommand": "Installatie Commando",
+        "fetching": "Ophalen...",
+        "saveChanges": "Skill Opslaan",
+        "create": "Maak Skill",
+        "newSkill": "Nieuwe Skill"
     },
     "form": {
         "sections": {
@@ -423,11 +436,13 @@
         "exportComplete": "Export voltooid: {{count}} prompts geëxporteerd.",
         "exportZeroTitle": "Exporteer voor TMT Zero",
         "exportZeroDesc": "Selecteer collecties om te exporteren voor de lichtgewicht versie.",
-        "exportZeroButton": "Exporteer voor TMT Zero"
+        "exportZeroButton": "Exporteer voor TMT Zero",
+        "includeAttachments": "Bijlagen toevoegen",
+        "includeResultFiles": "Resultaatbestanden / Afbeeldingen toevoegen"
     },
     "help": {
         "title": "Helpcentrum",
-        "subtitle": "Documentatie v3.0",
+        "subtitle": "Documentatie v3.1",
         "externalLinks": "Externe Links",
         "stillQuestions": "Nog vragen?",
         "checkRepo": "Bekijk de GitHub repository voor problemen of functieverzoeken.",
@@ -448,19 +463,37 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.3 (Unreleased)",
+                "desc": "Voor oudere versies, zie de <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>volledige changelog op GitHub</a>.",
                 "improvements": "Gewijzigd",
                 "fixes": "Opgelost",
                 "added": "Toegevoegd",
-                "desc": "Voor oudere versies, zie de <a href='https://github.com/jovd83/TMT/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>volledige changelog op GitHub</a>.",
-                "added_1": "<strong>Tag Kleuren</strong>: Visueel onderscheid toegevoegd voor tags met unieke kleuren. Gebruikers kunnen deze functie in- of uitschakelen in Algemene Instellingen.",
-                "added_2": "<strong>Gast Account</strong>: Nieuwe GUEST-rol met alleen-lezen toegang toegevoegd. Bevat beperkte navigatie en UI-elementen.",
-                "added_3": "<strong>Gebruikersbeheer</strong>: Mogelijkheid toegevoegd voor beheerders om gebruikers te verwijderen via de Admin Instellingen pagina. Inhoud wordt bewaard en toegewezen aan de beheerder.",
-                "added_4": "<strong>Tag Instellingen</strong>: Voorkeur 'Tag Kleuren Inschakelen' toegevoegd aan Algemene Instellingen.",
-                "added_5": "<strong>Technische IDs</strong>: Ondersteunt zoeken op Technische ID (bijv. VIBE-123) en directe URL-toegang (/prompts/[id]).",
-                "added_6": "<strong>Gekoppelde Prompts</strong>: Mogelijkheid om gerelateerde prompts aan elkaar te koppelen (bidirectioneel) met export/import ondersteuning.",
-                "changed_1": "<strong>Instellingen Verplaatsing</strong>: Auto-backup en Danger Zone verplaatst naar de onderkant van de Import/Export pagina.",
-                "changed_2": "<strong>Verbeterd</strong>: Het verwijderen van een prompt vanuit een Collectie leidt niet langer om naar het Dashboard."
+                "v311": {
+                    "version": "v4.0.0 (2026-04-18)",
+                    "added_1": "<strong>Frontend Playwright Tests</strong>: Uitgebreide E2E testdekking met het Playwright-skill agent framework.",
+                    "fixed_1": "<strong>Test Stabiliteit</strong>: Fouten in Playwright E2E suite opgelost m.b.t. pagina-overgangen.",
+                    "fixed_2": "<strong>Omgevingsconfiguratie</strong>: NEXTAUTH_URL in .env.test gecorrigeerd.",
+                    "fixed_3": "<strong>Data Export</strong>: Unicode export test opgelost."
+                },
+                "v310": {
+                    "version": "v3.1.0 (2026-03-07)",
+                    "added_1": "<strong>Playwright Test Suite</strong>: Nieuwe uitgebreide Playwright E2E test set gegenereerd en geïntegreerd.",
+                    "changed_1": "<strong>Instellingen UI</strong>: Settings controls verfijnd met data-testid attributen.",
+                    "changed_2": "<strong>Documentatie</strong>: TDD documentatie herstructureerd in feature-gebaseerde mappen.",
+                    "fixed_1": "<strong>Dashboard Sorteerlinks</strong>: \"Bekijk alles\" leidde standaard naar dashboard i.p.v. gesorteerde lijst.",
+                    "fixed_2": "<strong>Meest Bekeken Sortering</strong>: Usage sort gebruikte copyCount i.p.v. viewCount.",
+                    "fixed_3": "<strong>Gebruikersbeheer</strong>: String/boolean modal zichtbaarheid bug opgelost.",
+                    "fixed_4": "<strong>Auth Flow</strong>: Wachtwoord reset en login veld consistentie gecorrigeerd."
+                },
+                "v302": {
+                    "version": "v3.0.2 (2026-02-23)",
+                    "added_1": "<strong>VisualDiff Component</strong>: Woord/regel niveau vergelijkingstool voor prompt versies.",
+                    "added_2": "<strong>Modulaire Architectuur</strong>: Monolithische bestanden opgesplitst in domein-specifieke modules.",
+                    "added_3": "<strong>Streaming Exports</strong>: Streaming JSON responses om geheugenoverloop te voorkomen.",
+                    "added_4": "<strong>Batch Verwerking</strong>: Bulk imports herwerkt met batched operaties, SQLite lock fouten verminderd.",
+                    "changed_1": "<strong>Type Safety</strong>: as-any casts geëlimineerd met correct ingekapselde Prisma types.",
+                    "changed_2": "<strong>Beveiliging</strong>: Audit uitgevoerd en meerfasen beveiligingsroutekaart opgesteld.",
+                    "fixed_1": "<strong>Favorieten Sync</strong>: State synchronisatie probleem in favorieten collectie weergave opgelost."
+                }
             },
             "intro": {
                 "welcome": "Welkom bij <strong>TMT</strong>, je lokale toevluchtsoord voor het beheren, testen en organiseren van LLM-prompts.",

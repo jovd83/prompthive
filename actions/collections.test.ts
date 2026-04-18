@@ -30,6 +30,7 @@ describe('Collections Actions', () => {
         it('creates collection and redirects', async () => {
             const formData = new FormData();
             formData.append('title', 'New Col');
+            (CollectionsService as any).createCollectionService.mockResolvedValue({ id: 'new-id' });
 
             await createCollection({}, formData);
 

@@ -1,4 +1,4 @@
-FROM node:20-slim AS base
+FROM node:22-slim AS base
 RUN apt-get update && apt-get install -y openssl ca-certificates
 
 # Install dependencies only when needed
@@ -64,7 +64,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/tsconfig.json ./tsconfig.json
 # Ensure uploads directory exists
 RUN mkdir -p /app/public/uploads && chown nextjs:nodejs /app/public/uploads
 
-COPY --from=builder /app/start.sh ./start.sh
+COPY --from=builder --chown=nextjs:nodejs /app/start.sh ./start.sh
 RUN chmod +x ./start.sh
 
 USER nextjs

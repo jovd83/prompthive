@@ -1,0 +1,1480 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "url": "http://localhost:3000/settings",
+    "tool": "axe-browser",
+    "standard": "wcag22aa",
+    "waitMs": 0,
+    "generatedAt": "2026-03-24T12:26:57.194Z",
+    "runId": null,
+    "runLabel": null,
+    "mode": "browser",
+    "session": {
+      "used": true,
+      "sessionConfigPath": null,
+      "storageStatePath": "sandbox/auth/state-light.json",
+      "screenshotsCaptured": false,
+      "routeProfile": null
+    }
+  },
+  "summary": {
+    "total": 77,
+    "byImpact": {
+      "critical": 29,
+      "serious": 48,
+      "moderate": 0,
+      "minor": 0
+    },
+    "byStatus": {
+      "violation": 32,
+      "needs-review": 45,
+      "pass": 0
+    }
+  },
+  "findings": [
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".opacity-50 > .gap-3.items-center.flex > .bg-secondary.justify-center.overflow-hidden > .text-xs.font-bold",
+      "html": "<span class=\"text-xs font-bold\">A1</span>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element has insufficient color contrast of 3.25 (foreground color: #8b8b8e, background color: #fafafa, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".opacity-50 > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">a11ytest1774353202077<!-- --> <!-- -->(You)</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element has insufficient color contrast of 3.39 (foreground color: #8b8b8e, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".opacity-50 > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">a11ytest1774353202077@test.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element has insufficient color contrast of 3.39 (foreground color: #8b8b8e, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".opacity-50 > input",
+      "html": "<input type=\"checkbox\" disabled=\"\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".max-h-60 > .hover\\:bg-muted\\/50.p-2.rounded:nth-child(2) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".max-h-60 > .hover\\:bg-muted\\/50.p-2.rounded:nth-child(3) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".max-h-60 > .hover\\:bg-muted\\/50.p-2.rounded:nth-child(4) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(5) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(6) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(7) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(8) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(9) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(10) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(11) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(12) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(13) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(14) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(15) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(16) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(17) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(18) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(19) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(20) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(21) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(22) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(23) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(24) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(25) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(26) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(27) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "label",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(28) > input",
+      "html": "<input type=\"checkbox\" class=\"checkbox\" checked=\"\">",
+      "summary": "Form elements must have labels",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "select-name",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": "select",
+      "html": "<select data-testid=\"language-select\" class=\"flex h-10 w-full rou...\">",
+      "summary": "Select element must have an accessible name",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": "kbd:nth-child(1)",
+      "html": "<kbd class=\"font-sans bg-background/50 border border-border/50 px-1.5 py-0.5 rounded text-[10px] shadow-sm font-bold opacity-80 group-hover:opacity-100 group-hover:border-primary/20 transition-all\">⌘</kbd>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element content contains only non-text characters",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(7) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_0eb0bbeda1a0ed3a9761-25908aaaf663c11f676e_1772455713961<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(7) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_0eb0bbeda1a0ed3a9761-25908aaaf663c11f676e_1772455713961@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(8) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_0eb0bbeda1a0ed3a9761-5b539afb7159261bcf24_1772455712961<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(8) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_0eb0bbeda1a0ed3a9761-5b539afb7159261bcf24_1772455712961@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(9) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_0eb0bbeda1a0ed3a9761-94bbb22a196af5c5edd2_1772455710228<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(9) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_0eb0bbeda1a0ed3a9761-94bbb22a196af5c5edd2_1772455710228@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(10) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_0eb0bbeda1a0ed3a9761-f5cf737cb43d61473e0f_1772455711829<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(10) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_0eb0bbeda1a0ed3a9761-f5cf737cb43d61473e0f_1772455711829@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(11) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_300cb229b0c37b80df2f-0c964389defc2895f186_1772455708197<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(11) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_300cb229b0c37b80df2f-0c964389defc2895f186_1772455708197@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(12) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_300cb229b0c37b80df2f-62ee438a5c946569f4c1_1772455710071<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(12) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_300cb229b0c37b80df2f-62ee438a5c946569f4c1_1772455710071@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(13) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_300cb229b0c37b80df2f-ac3384f2ec132a617d39_1772455711748<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(13) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_300cb229b0c37b80df2f-ac3384f2ec132a617d39_1772455711748@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(14) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_379fd65078d68dfb068b-49805cf0f3e40ca7c61d_1772455708169<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(14) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_379fd65078d68dfb068b-49805cf0f3e40ca7c61d_1772455708169@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(15) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_379fd65078d68dfb068b-a1eff7a25cb6db12ef45_1772455711797<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(15) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_379fd65078d68dfb068b-a1eff7a25cb6db12ef45_1772455711797@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(16) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_379fd65078d68dfb068b-c36554d8e4d5a9725cd3_1772455710115<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(16) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_379fd65078d68dfb068b-c36554d8e4d5a9725cd3_1772455710115@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(17) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_87418b536bb3b16b9965-8b7e6d7706cd3ef2e184_1772455708148<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(17) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_87418b536bb3b16b9965-8b7e6d7706cd3ef2e184_1772455708148@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(18) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_87418b536bb3b16b9965-c370471649d87e2835c3_1772455709881<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(18) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_87418b536bb3b16b9965-c370471649d87e2835c3_1772455709881@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(19) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_936d1e7a0a4f7b551bdc-1fe1483b8d532835d689_1772455711743<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(19) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_936d1e7a0a4f7b551bdc-1fe1483b8d532835d689_1772455711743@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(20) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_936d1e7a0a4f7b551bdc-a2f2ea6be8cd6ff9a617_1772455708237<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(20) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_936d1e7a0a4f7b551bdc-a2f2ea6be8cd6ff9a617_1772455708237@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(21) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_936d1e7a0a4f7b551bdc-b137dec706f2b71551db_1772455709958<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(21) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_936d1e7a0a4f7b551bdc-b137dec706f2b71551db_1772455709958@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(22) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_9563bb343517399bdb94-3140bbac14895b2b69dc_1772455708312<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(22) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_9563bb343517399bdb94-3140bbac14895b2b69dc_1772455708312@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(23) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_a0c418b9a9767d51dfaa-9593941de66ff50accba_1772455708165<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(23) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_a0c418b9a9767d51dfaa-9593941de66ff50accba_1772455708165@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(24) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_ff252041e10f57d215cd-05cdf207a954149f736d_1772455710174<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(24) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_ff252041e10f57d215cd-05cdf207a954149f736d_1772455710174@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(25) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_ff252041e10f57d215cd-3933aadfe67235ffdd02_1772455711802<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(25) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_ff252041e10f57d215cd-3933aadfe67235ffdd02_1772455711802@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(26) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_ff252041e10f57d215cd-98a01e6ef939424455c6_1772455708214<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(26) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_ff252041e10f57d215cd-98a01e6ef939424455c6_1772455708214@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(27) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_ff252041e10f57d215cd-98f7276ba58472dd79cc_1772455713981<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(27) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_ff252041e10f57d215cd-98f7276ba58472dd79cc_1772455713981@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(28) > .gap-3.items-center.flex > div:nth-child(2) > .text-sm.font-medium",
+      "html": "<div class=\"font-medium text-sm\">testuser_ff252041e10f57d215cd-ccf8968089d710bbc8ea_1772455712989<!-- --> </div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/settings",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:bg-muted\\/50.p-2.rounded:nth-child(28) > .gap-3.items-center.flex > div:nth-child(2) > .text-muted-foreground.text-xs",
+      "html": "<div class=\"text-xs text-muted-foreground\">testuser_ff252041e10f57d215cd-ccf8968089d710bbc8ea_1772455712989@example.com</div>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    }
+  ]
+}

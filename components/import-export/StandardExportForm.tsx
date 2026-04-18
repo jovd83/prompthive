@@ -12,6 +12,8 @@ export default function StandardExportForm({ collections }: { collections: Colle
     const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set(collections.map(c => c.id)));
     const [isExporting, setIsExporting] = useState(false);
     const [progress, setProgress] = useState<{ current: number, total: number } | null>(null);
+    const [includeAttachments, setIncludeAttachments] = useState(true);
+    const [includeResults, setIncludeResults] = useState(true);
     const [result, setResult] = useState<{ count?: number } | null>(null);
     const { t } = useLanguage();
 
@@ -56,7 +58,7 @@ export default function StandardExportForm({ collections }: { collections: Colle
             const BATCH_SIZE = 20;
             for (let i = 0; i < total; i += BATCH_SIZE) {
                 const batchIds = promptIds.slice(i, i + BATCH_SIZE);
-                const batchRes = await getExportBatch(batchIds);
+                const batchRes = await getExportBatch(batchIds, { includeAttachments, includeResults });
 
                 if (!batchRes.success || !batchRes.prompts) throw new Error(batchRes.error || "Batch export failed");
 
@@ -117,6 +119,31 @@ export default function StandardExportForm({ collections }: { collections: Colle
                     checkedIds={selectedIds}
                     onToggle={toggleSelection}
                 />
+            </div>
+
+            <div className="flex flex-col gap-3 p-4 border border-border rounded-[var(--radius)] bg-muted/10">
+                <label className="flex items-center gap-3 text-sm cursor-pointer group transition-colors">
+                    <input
+                        type="checkbox"
+                        checked={includeAttachments}
+                        onChange={(e) => setIncludeAttachments(e.target.checked)}
+                        className="w-5 h-5 accent-primary cursor-pointer"
+                    />
+                    <span className="font-medium group-hover:text-primary transition-colors">
+                        {t('importExport.includeAttachments') || "Include Attachments"}
+                    </span>
+                </label>
+                <label className="flex items-center gap-3 text-sm cursor-pointer group transition-colors">
+                    <input
+                        type="checkbox"
+                        checked={includeResults}
+                        onChange={(e) => setIncludeResults(e.target.checked)}
+                        className="w-5 h-5 accent-primary cursor-pointer"
+                    />
+                    <span className="font-medium group-hover:text-primary transition-colors">
+                        {t('importExport.includeResultFiles') || "Include Result Files / Images"}
+                    </span>
+                </label>
             </div>
 
             {progress && (

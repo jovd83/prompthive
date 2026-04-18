@@ -2,7 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { updateAvatarService, changePasswordService, generateResetTokenService, resetPasswordService, updateLanguageService, updateUserRoleService, createUserService } from './user';
 import { prisma } from '@/lib/prisma';
-import { hash, compare } from 'bcryptjs';
+import { hash, compare } from 'bcrypt';
 
 // Mock Prisma
 vi.mock('@/lib/prisma', () => ({
@@ -16,8 +16,8 @@ vi.mock('@/lib/prisma', () => ({
     }
 }));
 
-// Mock bcryptjs
-vi.mock('bcryptjs', () => ({
+// Mock bcrypt
+vi.mock('bcrypt', () => ({
     hash: vi.fn(),
     compare: vi.fn(),
 }));

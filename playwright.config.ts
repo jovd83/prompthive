@@ -17,7 +17,7 @@ export default defineConfig({
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
     /* Opt out of parallel tests on CI. */
-    workers: 1, // Changed to 1 worker for stability
+    workers: process.env.CI ? 1 : undefined, // Expanded to multi-worker locally
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
         ['html'],
@@ -50,6 +50,19 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] },
         },
+        {
+            name: 'webkit',
+            use: { ...devices['Desktop Safari'] },
+        },
+        /* Test against mobile viewports. */
+        {
+            name: 'Mobile Chrome',
+            use: { ...devices['Pixel 5'] },
+        },
+        {
+            name: 'Mobile Safari',
+            use: { ...devices['iPhone 12'] },
+        },
     ],
 
     /* Run your local dev server before starting the tests */
@@ -57,5 +70,6 @@ export default defineConfig({
         command: 'cross-env APP_ENV=test npm run db:test:push && cross-env APP_ENV=test npm run e2e:dev -- -p 3001',
         url: process.env.BASE_URL || 'http://localhost:3001',
         reuseExistingServer: !process.env.CI,
+        timeout: 120000,
     },
 });

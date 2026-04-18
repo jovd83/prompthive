@@ -43,7 +43,7 @@ export class CollectionsPage {
         // View / Sidebar
         this.sidebar = page.getByTestId('sidebar').first();
         this.collectionHeader = page.locator('h1.truncate');
-        this.actionsMenuButton = page.getByTestId('collection-actions-button');
+        this.actionsMenuButton = page.getByTestId('collection-actions-button').first();
 
         // Actions Menu Items
         this.editDetailsMenuItem = page.getByText('Edit Details');

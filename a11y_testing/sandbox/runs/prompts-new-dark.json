@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "url": "http://localhost:3000/prompts/new",
+    "tool": "axe-browser",
+    "standard": "wcag22aa",
+    "waitMs": 0,
+    "generatedAt": "2026-03-24T12:26:44.750Z",
+    "runId": null,
+    "runLabel": null,
+    "mode": "browser",
+    "session": {
+      "used": true,
+      "sessionConfigPath": null,
+      "storageStatePath": "sandbox/auth/state-dark.json",
+      "screenshotsCaptured": false,
+      "routeProfile": null
+    }
+  },
+  "summary": {
+    "total": 5,
+    "byImpact": {
+      "critical": 0,
+      "serious": 5,
+      "moderate": 0,
+      "minor": 0
+    },
+    "byStatus": {
+      "violation": 2,
+      "needs-review": 3,
+      "pass": 0
+    }
+  },
+  "findings": [
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/prompts/new",
+      "ruleId": "target-size",
+      "wcag": [
+        "wcag22aa",
+        "wcag258"
+      ],
+      "selector": ".col-span-2:nth-child(5) > .relative > .top-2.right-2.hover\\:bg-muted",
+      "html": "<button type=\"button\" class=\"absolute top-2 right-2 text-muted-foreground hover:text-primary transition-colors p-1 rounded hover:bg-muted\" title=\"Maximize\">",
+      "summary": "All touch targets must be 24px large, or leave sufficient space",
+      "evidence": "Fix any of the following:\n  Target has insufficient size (22px by 22px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px.",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/target-size?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/target-size?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/prompts/new",
+      "ruleId": "target-size",
+      "wcag": [
+        "wcag22aa",
+        "wcag258"
+      ],
+      "selector": ".card.space-y-4.relative > div:nth-child(2) > .relative > .top-2.right-2.hover\\:bg-muted",
+      "html": "<button type=\"button\" class=\"absolute top-2 right-2 text-muted-foreground hover:text-primary transition-colors p-1 rounded hover:bg-muted\" title=\"Maximize\">",
+      "summary": "All touch targets must be 24px large, or leave sufficient space",
+      "evidence": "Fix any of the following:\n  Target has insufficient size (22px by 22px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 22px instead of at least 24px.",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/target-size?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/target-size?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/prompts/new",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": "kbd:nth-child(1)",
+      "html": "<kbd class=\"font-sans bg-background/50 border border-border/50 px-1.5 py-0.5 rounded text-[10px] shadow-sm font-bold opacity-80 group-hover:opacity-100 group-hover:border-primary/20 transition-all\">⌘</kbd>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element content contains only non-text characters",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/prompts/new",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".text-primary",
+      "html": "<span class=\"text-xs font-bold text-primary\">A</span>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/prompts/new",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".hover\\:text-foreground",
+      "html": "<a class=\"flex items-center justify-center text-muted-foreground hover:text-foreground hover:underline px-4 transition-colors\" href=\"/\">Cancel</a>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    }
+  ]
+}

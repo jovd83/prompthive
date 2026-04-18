@@ -23,10 +23,11 @@ export default async function DashboardPage({
     const search = (params.q as string) || "";
     const tags = (params.tags as string) || "";
     const creator = (params.creator as string) || "";
+    const mine = (params.mine as string) === "true";
     const page = parseInt((params.page as string) || "1", 10);
     const PAGE_SIZE = 12;
 
-    const hasFilters = Boolean(search || tags || creator || params.sort || params.page);
+    const hasFilters = Boolean(search || tags || creator || mine || params.sort || params.page);
 
     // Fetch settings
     let hiddenIds: string[] = [];
@@ -138,6 +139,13 @@ export default async function DashboardPage({
             };
         }
 
+        if (mine && session?.user?.id) {
+            where.OR = [
+                { createdById: session.user.id },
+                { interactions: { some: { userId: session.user.id } } }
+            ];
+        }
+
         // Merge visibility
         if (hiddenIds.length > 0) {
             where.createdById = { notIn: hiddenIds };
@@ -152,6 +160,7 @@ export default async function DashboardPage({
         if (sort === "date") orderBy.createdAt = order as Prisma.SortOrder;
         else if (sort === "alpha") orderBy.title = order as Prisma.SortOrder;
         else if (sort === "usage") orderBy.viewCount = order as Prisma.SortOrder;
+        else if (sort === "recent") orderBy.updatedAt = order as Prisma.SortOrder;
 
         const [totalCount, searchPrompts] = await Promise.all([
             prisma.prompt.count({ where }),
@@ -209,23 +218,55 @@ export default async function DashboardPage({
         favoriteIds = new Set(favs.map(f => f.promptId));
     }
 
-    // 1. Recently Used (My own prompts - always visible)
+    // 1. Recently Used (Prompts I viewed or copied)
     let myRecentPrompts: any[] = [];
     if (session?.user?.id) {
-        myRecentPrompts = await prisma.prompt.findMany({
-            where: { createdById: session.user.id },
+        // Fetch interactions sorted by most recent
+        const recentInteractions = await prisma.userPromptInteraction.findMany({
+            where: { userId: session.user.id },
             orderBy: { updatedAt: 'desc' },
             take: 4,
             include: {
-                createdBy: { select: { email: true, username: true } },
-                tags: true,
-                versions: {
-                    orderBy: { versionNumber: "desc" },
-                    take: 1,
-                    include: { attachments: true }
+                prompt: {
+                    include: {
+                        createdBy: { select: { email: true, username: true } },
+                        tags: true,
+                        versions: {
+                            orderBy: { versionNumber: "desc" },
+                            take: 1,
+                            include: { attachments: true }
+                        }
+                    }
                 }
-            },
+            }
         });
+        
+        let recentPromptsFromInteractions = recentInteractions.map((i: any) => i.prompt);
+
+        // Fallback: If no interactions yet, show prompts created by the user
+        if (recentPromptsFromInteractions.length < 4) {
+             const excludedIds = new Set<string>(recentPromptsFromInteractions.map((p: any) => p.id as string));
+             const fallbackPrompts = await prisma.prompt.findMany({
+                 where: { 
+                     createdById: session.user.id,
+                     id: { notIn: Array.from(excludedIds) }
+                 },
+                 orderBy: { updatedAt: 'desc' },
+                 take: 4 - recentPromptsFromInteractions.length,
+                 include: {
+                     createdBy: { select: { email: true, username: true } },
+                     tags: true,
+                     versions: {
+                         orderBy: { versionNumber: "desc" },
+                         take: 1,
+                         include: { attachments: true }
+                     }
+                 },
+             });
+             myRecentPrompts = [...recentPromptsFromInteractions, ...fallbackPrompts];
+        } else {
+             myRecentPrompts = recentPromptsFromInteractions;
+        }
     }
 
     // 2. Newly Created (Global)

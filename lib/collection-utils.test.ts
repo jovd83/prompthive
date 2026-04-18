@@ -3,7 +3,7 @@ import { computeRecursiveCounts, CollectionWithCount } from './collection-utils'
 
 describe('computeRecursiveCounts', () => {
     it('should correctly count prompts in a single collection', () => {
-        const collections: CollectionWithCount[] = [
+        const collections: any[] = [
             { id: '1', title: 'Root', parentId: null, _count: { prompts: 5 }, children: [] }
         ];
 
@@ -12,7 +12,7 @@ describe('computeRecursiveCounts', () => {
     });
 
     it('should sum prompts from children to parent', () => {
-        const collections: CollectionWithCount[] = [
+        const collections: any[] = [
             { id: '1', title: 'Root', parentId: null, _count: { prompts: 2 }, children: [] },
             { id: '2', title: 'Child', parentId: '1', _count: { prompts: 3 }, children: [] }
         ];
@@ -23,7 +23,7 @@ describe('computeRecursiveCounts', () => {
     });
 
     it('should handle deep nesting', () => {
-        const collections: CollectionWithCount[] = [
+        const collections: any[] = [
             { id: '1', title: 'Root', parentId: null, _count: { prompts: 1 }, children: [] },
             { id: '2', title: 'L1', parentId: '1', _count: { prompts: 1 }, children: [] },
             { id: '3', title: 'L2', parentId: '2', _count: { prompts: 1 }, children: [] }
@@ -36,7 +36,7 @@ describe('computeRecursiveCounts', () => {
     });
 
     it('should handle multiple branches', () => {
-        const collections: CollectionWithCount[] = [
+        const collections: any[] = [
             { id: '1', title: 'Root', parentId: null, _count: { prompts: 10 }, children: [] },
             { id: '2', title: 'A', parentId: '1', _count: { prompts: 5 }, children: [] },
             { id: '3', title: 'B', parentId: '1', _count: { prompts: 5 }, children: [] }
@@ -47,7 +47,7 @@ describe('computeRecursiveCounts', () => {
     });
 
     it('should safely ignore missing parents', () => {
-        const collections: CollectionWithCount[] = [
+        const collections: any[] = [
             { id: '2', title: 'Orphan', parentId: '99', _count: { prompts: 1 }, children: [] }
         ];
 

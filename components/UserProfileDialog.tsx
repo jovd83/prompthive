@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useActionState } from "react";
 import { createPortal } from "react-dom";
 import { useFormStatus } from "react-dom";
-import { updateAvatar, changePassword, type ActionState } from "@/actions/user";
+import { updateAvatar, changePassword, toggleAdminRole, type ActionState } from "@/actions/user";
 import { X, Camera, Lock, User, Upload, LogOut, Globe, Shield } from "lucide-react";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
@@ -47,6 +47,13 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
     }, initialState);
 
     const [passwordState, passwordAction] = useActionState(changePassword, initialState);
+    const [adminState, adminAction] = useActionState(toggleAdminRole, initialState);
+
+    useEffect(() => {
+        if (adminState?.success) {
+            setShowAdminModal(false);
+        }
+    }, [adminState]);
 
 
 
@@ -190,14 +197,26 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
                                             <p className="text-xs text-muted-foreground">{isAdmin ? t('common.adminUser') : t('common.adminDesc')}</p>
                                         </div>
                                     </div>
-                                    {!isAdmin && (
-                                        <label className="relative inline-flex items-center cursor-pointer">
-                                            <input type="checkbox" className="sr-only peer" checked={false} onChange={() => setShowAdminModal(true)} />
-                                            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                                        </label>
-                                    )}
-                                    {isAdmin && <span className="text-green-600 font-bold text-sm">{t('common.adminActive')}</span>}
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            className="sr-only peer"
+                                            checked={isAdmin}
+                                            onChange={() => {
+                                                if (isAdmin) {
+                                                    const formData = new FormData();
+                                                    formData.append("targetRole", ROLES.USER);
+                                                    adminAction(formData);
+                                                } else {
+                                                    setShowAdminModal(true);
+                                                }
+                                            }}
+                                        />
+                                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
                                 </div>
+                                {adminState?.error && !showAdminModal && <p className="text-red-500 text-xs mt-2 text-center">{adminState.error}</p>}
+                                {adminState?.success && <p className="text-green-500 text-xs mt-2 text-center">{adminState.success}</p>}
                             </div>
                         </div>
                     )}
@@ -212,6 +231,42 @@ export default function UserProfileDialog({ user, isOpen, onClose }: UserProfile
                         {t('common.signOut')}
                     </button>
                 </div>
+
+                {showAdminModal && (
+                    <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200 p-4">
+                        <div className="bg-surface border border-border rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4 animate-in zoom-in-95 duration-200">
+                            <h3 className="text-lg font-bold flex items-center gap-2">
+                                <Shield className="text-primary" /> {t('common.enterAdminCode')}
+                            </h3>
+                            <form action={adminAction} className="space-y-4">
+                                <input type="hidden" name="targetRole" value={ROLES.ADMIN} />
+                                <div className="space-y-2">
+                                    <input
+                                        type="password"
+                                        name="code"
+                                        placeholder="••••••••"
+                                        className="input w-full text-center tracking-widest"
+                                        autoFocus
+                                        required
+                                    />
+                                </div>
+                                {adminState?.error && <p className="text-red-500 text-sm text-center">{adminState.error}</p>}
+                                <div className="flex gap-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowAdminModal(false)}
+                                        className="btn btn-secondary flex-1"
+                                    >
+                                        {t('common.cancel')}
+                                    </button>
+                                    <button type="submit" className="btn btn-primary flex-1">
+                                        {t('common.verify')}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                )}
             </div>
 
 

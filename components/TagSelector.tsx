@@ -92,13 +92,14 @@ export default function TagSelector({ initialTags = [], selectedTagIds = [], ini
     };
 
     return (
-        <div className="space-y-2" ref={setWrapperRef}>
+        <div ref={setWrapperRef}>
             {/* Hidden inputs for form submission */}
             {selectedTags.map(tag => (
                 <input key={tag.id} type="hidden" name="tagIds" value={tag.id} />
             ))}
 
             {/* Selected Tags Display */}
+            {selectedTags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
                 {selectedTags.map(tag => {
                     const style = tagColorsEnabled && tag.color ? {
@@ -124,6 +125,7 @@ export default function TagSelector({ initialTags = [], selectedTagIds = [], ini
                     );
                 })}
             </div>
+            )}
 
             <div className="relative">
                 <input

@@ -22,7 +22,7 @@ test.describe('Admin Management - Enriched Datasets & Security Resilience', () =
     test('User Lifecycle: Unicode, Emojis, and RTL Usernames', async ({ page }) => {
         const settingsPage = new SettingsPage(page);
         await page.goto('/settings#users');
-        await expect(page.locator('[data-testid="admin-users-section"]')).toBeVisible({ timeout: 10000 });
+        await expect(page.locator('[data-testid="admin-users-section"]').first()).toBeVisible({ timeout: 10000 });
 
         const unicodeUser = 'مستخدم_🌍_' + Date.now();
         const testEmail = `unicode_${Date.now()}@test.com`;
@@ -70,7 +70,7 @@ test.describe('Admin Management - Enriched Datasets & Security Resilience', () =
 
         // Attempt to access admin sections
         await page.goto('/settings#users');
-        await expect(page.locator('[data-testid="admin-users-section"]')).toBeHidden();
+        await expect(page.locator('[data-testid="admin-users-section"]').first()).toBeHidden();
 
         // Attempt to trigger admin-only API (simulated via URL if possible, or just checking UI absence)
         const addUserBtn = page.getByRole('button', { name: /Add User/i });

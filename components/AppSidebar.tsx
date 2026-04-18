@@ -100,7 +100,10 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
         { href: "/", label: t('common.dashboard'), icon: LayoutDashboard },
         { href: "/favorites", label: t('common.favorites'), icon: Heart },
         // Hide New Prompt for Guests
-        ...(canCreatePrompt ? [{ href: "/prompts/new", label: t('common.newPrompt'), icon: Plus }] : []),
+        ...(canCreatePrompt ? [
+            { href: "/prompts/new", label: t('prompts.prompt') || 'Prompt', icon: Plus },
+            { href: "/skills/new", label: t('prompts.skill') || 'Skill', icon: Plus }
+        ] : []),
         ...(showWorkflows ? [{ href: "/workflows", label: t('common.workflows'), icon: GitMerge }] : []),
     ];
 
@@ -132,13 +135,13 @@ export default function Sidebar({ tags = [], collections = [], unassignedCount =
 
                 <div className="p-4 border-b border-border flex items-center justify-between h-[73px] relative">
                     {!isCollapsed && (
-                        <div className="flex items-center gap-2 truncate">
+                        <Link href="/" onClick={onClose} className="flex items-center gap-2 truncate hover:opacity-80 transition-opacity">
                             <img src="/logo-light.png" alt="Logo" className="w-8 h-8 object-contain rounded-md dark:hidden" />
                             <img src="/logo-dark.png" alt="Logo" className="w-8 h-8 object-contain rounded-md hidden dark:block" />
                             <h1 className="text-xl font-bold flex items-center gap-2">
                                 <span>MyPromptHive</span>
                             </h1>
-                        </div>
+                        </Link>
                     )}
 
                     {/* Desktop Collapse Button */}

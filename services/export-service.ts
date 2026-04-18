@@ -20,6 +20,9 @@ export interface ZeroExportData {
         collectionId: string | undefined;
         createdAt: Date;
         updatedAt: Date;
+        itemType: string;
+        repoUrl: string | null;
+        installCommand: string | null;
         relatedPrompts?: string[]; // List of Technical IDs
     }[];
 }
@@ -84,6 +87,9 @@ export async function generateZeroExport(userId: string, collectionIds: string[]
             collectionId: collectionId,
             createdAt: p.createdAt,
             updatedAt: p.updatedAt,
+            itemType: p.itemType,
+            repoUrl: p.repoUrl,
+            installCommand: p.installCommand,
             relatedPrompts
         };
     });

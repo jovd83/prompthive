@@ -14,12 +14,12 @@ export default defineConfig({
         },
         setupFiles: ['./vitest.setup.ts'],
         include: ['**/*.test.ts', '**/*.test.tsx'],
-        exclude: ['**/node_modules/**', '**/frontend-tests/**', '**/playwright-tests/**', '**/imports-linking.test.ts', '**/imports-technical-id.test.ts', '**/app/**'],
+        exclude: ['**/node_modules/**', '**/frontend-tests/**', '**/playwright-tests/**', '**/imports-linking.test.ts', '**/imports-technical-id.test.ts'],
         coverage: {
             provider: 'v8',
             reporter: ['text', 'json-summary', 'json'],
-            include: ['lib/**/*.ts', 'services/**/*.ts', 'actions/**/*.ts', 'components/**/*.tsx'],
-            exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', 'vitest.config.ts', '.next/**', 'coverage/**', 'app/**']
+            include: ['lib/**/*.ts', 'services/**/*.ts', 'actions/**/*.ts', 'components/**/*.tsx', 'app/api/**/*.ts'],
+            exclude: ['**/*.test.ts', '**/*.test.tsx', '**/*.spec.ts', 'vitest.config.ts', '.next/**', 'coverage/**']
         },
     },
 })

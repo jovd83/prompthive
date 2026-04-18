@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
+import { hash } from "bcrypt";
 import { sendWelcomeEmail } from "@/services/email";
 
 export async function registerUser(username: string, email: string, password: string) {

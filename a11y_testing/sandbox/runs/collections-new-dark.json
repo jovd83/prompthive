@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "url": "http://localhost:3000/collections/new",
+    "tool": "axe-browser",
+    "standard": "wcag22aa",
+    "waitMs": 0,
+    "generatedAt": "2026-03-24T12:26:37.212Z",
+    "runId": null,
+    "runLabel": null,
+    "mode": "browser",
+    "session": {
+      "used": true,
+      "sessionConfigPath": null,
+      "storageStatePath": "sandbox/auth/state-dark.json",
+      "screenshotsCaptured": false,
+      "routeProfile": null
+    }
+  },
+  "summary": {
+    "total": 3,
+    "byImpact": {
+      "critical": 1,
+      "serious": 2,
+      "moderate": 0,
+      "minor": 0
+    },
+    "byStatus": {
+      "violation": 1,
+      "needs-review": 2,
+      "pass": 0
+    }
+  },
+  "findings": [
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "violation",
+      "impact": "critical",
+      "pageUrl": "http://localhost:3000/collections/new",
+      "ruleId": "select-name",
+      "wcag": [
+        "wcag2a",
+        "wcag412",
+        "section508",
+        "section508.22.n"
+      ],
+      "selector": "select",
+      "html": "<select name=\"parentId\" class=\"input\"><option value=\"\" selected=\"\">Root (No Parent)</option></select>",
+      "summary": "Select element must have an accessible name",
+      "evidence": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+      "remediation": "https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/collections/new",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": "kbd:nth-child(1)",
+      "html": "<kbd class=\"font-sans bg-background/50 border border-border/50 px-1.5 py-0.5 rounded text-[10px] shadow-sm font-bold opacity-80 group-hover:opacity-100 group-hover:border-primary/20 transition-all\">⌘</kbd>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element content contains only non-text characters",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    },
+    {
+      "source": "automated",
+      "tool": "axe-core-playwright",
+      "status": "needs-review",
+      "impact": "serious",
+      "pageUrl": "http://localhost:3000/collections/new",
+      "ruleId": "color-contrast",
+      "wcag": [
+        "wcag2aa",
+        "wcag143"
+      ],
+      "selector": ".text-primary",
+      "html": "<span class=\"text-xs font-bold text-primary\">A</span>",
+      "summary": "Elements must meet minimum color contrast ratio thresholds",
+      "evidence": "Fix any of the following:\n  Element content is too short to determine if it is actual text content",
+      "remediation": "Manually verify this condition before treating it as a confirmed defect.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI"
+    }
+  ]
+}

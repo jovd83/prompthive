@@ -151,6 +151,9 @@
         "createTitle": "Skapa Ny Prompt",
         "editTitle": "Redigera Prompt: {{title}}",
         "newPrompt": "Ny Prompt",
+        "skill": "Skill",
+        "prompt": "Prompt",
+        "installation": "Installation",
         "searchResults": "Sökresultat",
         "searchTitle": "Sök: \"{{query}}\"",
         "noResults": "Inga prompts hittades som matchar dina kriterier.",
@@ -192,6 +195,16 @@
         "creator": "Skaparens E-post",
         "clear": "Rensa",
         "apply": "Tillämpa Filter"
+    },
+    "skills": {
+        "createTitle": "Skapa nytt Agent Skill",
+        "repositoryUrl": "URL till GitHub-arkiv",
+        "fetchInfo": "Hämta info",
+        "installCommand": "Installationskommando",
+        "fetching": "Hämtar...",
+        "saveChanges": "Spara Skill",
+        "create": "Skapa Skill",
+        "newSkill": "Nytt Skill"
     },
     "sortControls": {
         "date": "Datum",
@@ -422,7 +435,7 @@
     },
     "help": {
         "title": "Hjälpcenter",
-        "subtitle": "Dokumentation v3.0",
+        "subtitle": "Dokumentation v3.1",
         "externalLinks": "Externa Länkar",
         "stillQuestions": "Har du fortfarande frågor?",
         "checkRepo": "Kolla GitHub-repot för problem eller funktionsförfrågningar.",
@@ -443,19 +456,37 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.3 (Opublicerad)",
+                "desc": "För äldre versioner, se den <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>fullständiga ändringsloggen på GitHub</a>.",
                 "improvements": "Ändrad",
                 "fixes": "Fixad",
                 "added": "Tillagd",
-                "desc": "För äldre versioner, se den <a href='https://github.com/jovd83/TMT/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>fullständiga ändringsloggen på GitHub</a>.",
-                "added_1": "<strong>Taggfärger</strong>: Lade till visuell skillnad för taggar med unika färger. Användare kan aktivera/inaktivera denna funktion i Allmänna inställningar.",
-                "added_2": "<strong>Gästkonto</strong>: Lade till en ny GUEST-roll med skrivskyddad åtkomst. Inkluderar begränsad navigering och UI-element.",
-                "added_3": "<strong>Användarhantering</strong>: Lade till möjlighet för administratörer att ta bort användare via sidan Admininställningar. Innehåll bevaras och tilldelas administratören.",
-                "added_4": "<strong>Tagginställningar</strong>: Lade till preferensen 'Aktivera Taggfärger' i Allmänna inställningar.",
-                "added_5": "<strong>Tekniska ID:n</strong>: Stöder sökning efter tekniskt ID (t.ex. VIBE-123) och direkt URL-åtkomst (/prompts/[id]).",
-                "added_6": "<strong>Länkade Prompts</strong>: Möjlighet att länka relaterade prompts tillsammans (dubbelriktad) med export/import-stöd.",
-                "changed_1": "<strong>Inställningsflytt</strong>: Flyttade Auto-backup och Danger Zone till botten av Import/Export-sidan.",
-                "changed_2": "<strong>Förbättrat</strong>: Att radera en prompt inifrån en Samling omdirigerar inte längre till Instrumentpanelen."
+                "v311": {
+                    "version": "v4.0.0 (2026-04-18)",
+                    "added_1": "<strong>Frontend Playwright Tests</strong>: Expanded E2E test coverage using the Playwright-skill agent framework.",
+                    "fixed_1": "<strong>Test Stability</strong>: Resolved failures in Playwright E2E suite related to page transitions.",
+                    "fixed_2": "<strong>Environment Configuration</strong>: Corrected NEXTAUTH_URL in .env.test to match test server port.",
+                    "fixed_3": "<strong>Data Export</strong>: Fixed Unicode export test by ensuring collection is populated before export."
+                },
+                "v310": {
+                    "version": "v3.1.0 (2026-03-07)",
+                    "added_1": "<strong>Playwright Test Suite</strong>: Generated and integrated a comprehensive new Playwright E2E test set.",
+                    "changed_1": "<strong>Settings UI</strong>: Refined Settings controls with data-testid attributes for robust E2E testing.",
+                    "changed_2": "<strong>Documentation</strong>: Restructured TDD documentation into feature-based folders.",
+                    "fixed_1": "<strong>Dashboard Sorting Links</strong>: Fixed \"View all\" defaulting to dashboard instead of sorted list.",
+                    "fixed_2": "<strong>Most Viewed Sort</strong>: Fixed Usage sort using copyCount rather than viewCount.",
+                    "fixed_3": "<strong>User Management</strong>: Fixed string/boolean modal visibility state bug.",
+                    "fixed_4": "<strong>Auth Flow</strong>: Corrected password reset and login field consistency."
+                },
+                "v302": {
+                    "version": "v3.0.2 (2026-02-23)",
+                    "added_1": "<strong>VisualDiff Component</strong>: Word/line level comparison tool for prompt versions.",
+                    "added_2": "<strong>Modular Architecture</strong>: Partitioned monolithic files into domain-specific modules.",
+                    "added_3": "<strong>Streaming Exports</strong>: Streaming JSON responses to prevent memory bloat during large backups.",
+                    "added_4": "<strong>Batch Processing</strong>: Refactored bulk imports to use batched operations, reducing SQLite lock errors.",
+                    "changed_1": "<strong>Type Safety</strong>: Eliminated as-any casts with properly encapsulated Prisma types.",
+                    "changed_2": "<strong>Security Hardening</strong>: Performed audit and established multi-phase hardening roadmap.",
+                    "fixed_1": "<strong>Favorites Sync</strong>: Fixed state synchronization issue in favorites collection view."
+                }
             },
             "intro": {
                 "welcome": "Välkommen till <strong>TMT</strong>, din local-first fristad för att hantera, testa och organisera LLM-prompts.",

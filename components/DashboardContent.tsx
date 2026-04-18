@@ -56,9 +56,14 @@ export default function DashboardContent({
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold truncate" title={pageTitle}>{pageTitle}</h1>
                     {user?.role !== 'GUEST' && (
-                        <Link href="/prompts/new" className="btn btn-primary">
-                            <Plus size={18} /> {t('prompts.newPrompt')}
-                        </Link>
+                        <div className="flex gap-2">
+                            <Link href="/prompts/new" className="btn btn-primary">
+                                <Plus size={18} /> {t('prompts.newPrompt')}
+                            </Link>
+                            <Link href="/skills/new" className="btn btn-primary">
+                                <Plus size={18} /> {t('skills.newSkill') || 'New Skill'}
+                            </Link>
+                        </div>
                     )}
                 </div>
 
@@ -131,9 +136,14 @@ export default function DashboardContent({
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold">{t('prompts.dashboard')}</h1>
                 {user?.role !== 'GUEST' && (
-                    <Link href="/prompts/new" className="btn btn-primary">
-                        <Plus size={18} /> {t('prompts.newPrompt')}
-                    </Link>
+                    <div className="flex gap-2">
+                        <Link href="/prompts/new" className="btn btn-primary">
+                            <Plus size={18} /> {t('prompts.newPrompt')}
+                        </Link>
+                        <Link href="/skills/new" className="btn btn-primary">
+                            <Plus size={18} /> {t('skills.newSkill') || 'New Skill'}
+                        </Link>
+                    </div>
                 )}
             </div>
 
@@ -190,7 +200,7 @@ export default function DashboardContent({
                                 <span className="w-1 h-6 bg-primary rounded-full"></span>
                                 {t('prompts.recentlyUsed')}
                             </h2>
-                            <Link href={`/?creator=${user.name}`} className="text-sm text-primary hover:underline">{t('prompts.viewAll')}</Link>
+                            <Link href="/?mine=true&sort=recent&order=desc" className="text-sm text-primary hover:underline">{t('prompts.viewAll')}</Link>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             {recentPrompts.map((prompt) => (

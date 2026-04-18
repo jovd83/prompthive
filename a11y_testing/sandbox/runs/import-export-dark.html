@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessibility Audit Report</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --panel: #fffdf8;
+      --ink: #1f2933;
+      --muted: #5b6470;
+      --border: #d8d2c3;
+      --critical: #b42318;
+      --serious: #dd6b20;
+      --moderate: #b98900;
+      --minor: #1d6fa5;
+      --review: #6b46c1;
+      --pass: #287d3c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(180, 35, 24, 0.08), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(29, 111, 165, 0.08), transparent 30%),
+        var(--bg);
+      color: var(--ink);
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+    .hero, .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 14px 30px rgba(31, 41, 51, 0.06);
+      margin-bottom: 24px;
+    }
+    h1, h2 {
+      margin: 0 0 12px;
+      line-height: 1.1;
+    }
+    p { color: var(--muted); }
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    }
+    .stat {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+    }
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border-top: 1px solid var(--border);
+      padding: 12px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #fff;
+    }
+    .impact-critical { background: var(--critical); }
+    .impact-serious { background: var(--serious); }
+    .impact-moderate { background: var(--moderate); }
+    .impact-minor { background: var(--minor); }
+    .status-violation { background: var(--critical); }
+    .status-needs-review { background: var(--review); }
+    .status-pass { background: var(--pass); }
+    .meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    .code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      color: #3e4c59;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    a { color: #0f5f8c; }
+    @media (max-width: 720px) {
+      table, thead, tbody, tr, th, td { display: block; }
+      th { border-top: none; padding-bottom: 0; }
+      td { padding-top: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Accessibility Audit Report</h1>
+      <p>http://localhost:3000/import-export</p>
+      <p>Tool: axe-browser | Standard: wcag22aa | Generated: 2026-03-24T12:27:04.265Z</p>
+    </section>
+
+    <section class="panel">
+      <h2>Summary</h2>
+      <div class="grid">
+        <div class="stat"><strong>14</strong><span>Total findings</span></div>
+        <div class="stat"><strong>3</strong><span>Violations</span></div>
+        <div class="stat"><strong>11</strong><span>Needs review</span></div>
+        <div class="stat"><strong>2</strong><span>Critical</span></div>
+        <div class="stat"><strong>12</strong><span>Serious</span></div>
+        <div class="stat"><strong>0</strong><span>Moderate</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Method</h2>
+      <p>This report separates machine-detected findings from items that still need human verification. Treat the results as an audit artifact, not as a certification statement.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Findings</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Impact</th>
+            <th>Rule</th>
+            <th>Location</th>
+            <th>Evidence</th>
+            <th>Remediation</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+    <tr>
+      <td><span class="pill status-violation">violation</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.bg-green-600</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element has insufficient color contrast of 3.29 (foreground color: #ffffff, background color: #16a34a, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1</div>
+        <div class="code">&lt;button type=&quot;submit&quot; class=&quot;btn btn-primary bg-green-600 hover:bg-green-700 text-white border-green-600&quot;&gt;Start Local Import&lt;/button&gt;</div>
+      </td>
+      <td>
+        <div>https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-violation">violation</span></td>
+      <td><span class="pill impact-critical">critical</span></td>
+      <td>
+        <strong>Form elements must have labels</strong>
+        <div class="meta">label</div>
+        <div class="meta">wcag2a, wcag412, section508, section508.22.n</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">input[type=&quot;file&quot;]</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element does not have an implicit (wrapped) &lt;label&gt;
+  Element does not have an explicit &lt;label&gt;
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute
+  Element has no placeholder attribute
+  Element&#39;s default semantics were not overridden with role=&quot;none&quot; or role=&quot;presentation&quot;</div>
+        <div class="code">&lt;input type=&quot;file&quot; accept=&quot;.json&quot; required=&quot;&quot; class=&quot;input&quot; name=&quot;file&quot;&gt;</div>
+      </td>
+      <td>
+        <div>https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/label?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-violation">violation</span></td>
+      <td><span class="pill impact-critical">critical</span></td>
+      <td>
+        <strong>Select element must have an accessible name</strong>
+        <div class="meta">select-name</div>
+        <div class="meta">wcag2a, wcag412, section508, section508.22.n</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">select</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element does not have an implicit (wrapped) &lt;label&gt;
+  Element does not have an explicit &lt;label&gt;
+  aria-label attribute does not exist or is empty
+  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty
+  Element has no title attribute
+  Element&#39;s default semantics were not overridden with role=&quot;none&quot; or role=&quot;presentation&quot;</div>
+        <div class="code">&lt;select class=&quot;input&quot;&gt;&lt;option value=&quot;&quot; selected=&quot;&quot;&gt;Root (Create new Root Collection)&lt;/option&gt;&lt;/select&gt;</div>
+      </td>
+      <td>
+        <div>https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/select-name?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">kbd:nth-child(1)</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element content contains only non-text characters</div>
+        <div class="code">&lt;kbd class=&quot;font-sans bg-background/50 border border-border/50 px-1.5 py-0.5 rounded text-[10px] shadow-sm font-bold opacity-80 group-hover:opacity-100 group-hover:border-primary/20 transition-all&quot;&gt;⌘&lt;/kbd&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.text-primary</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element content is too short to determine if it is actual text content</div>
+        <div class="code">&lt;span class=&quot;text-xs font-bold text-primary&quot;&gt;A&lt;/span&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.text-green-700</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;h2 class=&quot;text-xl font-bold mb-4 flex items-center gap-2 text-green-700 dark:text-green-400&quot;&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.border-green-500\/20 &gt; p</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;p class=&quot;text-muted-foreground mb-4&quot;&gt;Recursively import prompts from a folder on your server/computer hard drive. Subfolders will become Collections. Text/Markdown files will become Prompts.&lt;/p&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.border-green-500\/20 &gt; form &gt; div:nth-child(1) &gt; .mb-1</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;label class=&quot;block text-sm font-medium mb-1&quot;&gt;Absolute Folder Path&lt;/label&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">div:nth-child(1) &gt; .mt-1</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;p class=&quot;text-xs text-muted-foreground mt-1&quot;&gt;The application must have read permissions for this folder.&lt;/p&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">div:nth-child(2) &gt; .mb-1</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;label class=&quot;block text-sm font-medium mb-1&quot;&gt;Target Collection (Optional)&lt;/label&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">div:nth-child(2) &gt; .mt-1</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;p class=&quot;text-xs text-muted-foreground mt-1&quot;&gt;Select a collection to import into. If &quot;Root&quot;, a new root collection will be created with the folder name.&lt;/p&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.text-orange-700</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;h2 class=&quot;text-xl font-bold mb-4 flex items-center gap-2 text-orange-700 dark:text-orange-400&quot;&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.border-orange-500\/20 &gt; p</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;p class=&quot;text-muted-foreground mb-4&quot;&gt;Import multiple Agent Skills simultaneously by pasting their GitHub repository URLs. They will be placed into a new collection with today&#39;s date prefix.&lt;/p&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+    <tr>
+      <td><span class="pill status-needs-review">needs-review</span></td>
+      <td><span class="pill impact-serious">serious</span></td>
+      <td>
+        <strong>Elements must meet minimum color contrast ratio thresholds</strong>
+        <div class="meta">color-contrast</div>
+        <div class="meta">wcag2aa, wcag143</div>
+      </td>
+      <td>
+        <div>http://localhost:3000/import-export</div>
+        <div class="code">.border-orange-500\/20 &gt; form &gt; div &gt; label</div>
+      </td>
+      <td>
+        <div>Fix any of the following:
+  Element&#39;s background color could not be determined because it&#39;s partially obscured by another element</div>
+        <div class="code">&lt;label class=&quot;block text-sm font-medium mb-2&quot;&gt;GitHub Repository URLs (one per line or comma-separated)&lt;/label&gt;</div>
+      </td>
+      <td>
+        <div>Manually verify this condition before treating it as a confirmed defect.</div>
+        <div><a href="https://dequeuniversity.com/rules/axe/4.11/color-contrast?application=axeAPI">Reference</a></div>
+      </td>
+    </tr>
+  
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,13 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
-import { hash } from "bcryptjs";
+import { hash } from "bcrypt";
 
 // Helper to generate unique strings
 const unique = (prefix: string) => `${prefix}_${uuidv4().slice(0, 8)}`;
 
 export const UserFactory = {
-    create: async (overrides: Prisma.UserCreateInput = {}) => {
+    create: async (overrides: Partial<Prisma.UserCreateInput> = {}) => {
         const username = overrides.username || unique("user");
         const email = overrides.email || `${username}@example.com`;
         const passwordHash = await hash("password123", 10);

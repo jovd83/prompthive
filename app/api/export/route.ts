@@ -41,21 +41,7 @@ export async function GET() {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const prompts = await prisma.prompt.findMany({
-        where: { createdById: session.user.id },
-        include: {
-            tags: true,
-            versions: {
-                include: {
-                    attachments: true
-                },
-                orderBy: { versionNumber: "desc" }
-            },
-            collections: true,
-        },
-    });
-
-    const stream = iteratorToStream(generateExportStream(prompts));
+    const stream = iteratorToStream(generateExportStream(session.user.id));
 
     return new NextResponse(stream, {
         headers: {
@@ -74,26 +60,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { collectionIds } = body;
 
-    const where: any = { createdById: session.user.id };
-    if (collectionIds && Array.isArray(collectionIds) && collectionIds.length > 0) {
-        where.collections = { some: { id: { in: collectionIds } } };
-    }
-
-    const prompts = await prisma.prompt.findMany({
-        where,
-        include: {
-            tags: true,
-            versions: {
-                include: {
-                    attachments: true
-                },
-                orderBy: { versionNumber: "desc" }
-            },
-            collections: true,
-        },
-    });
-
-    const stream = iteratorToStream(generateExportStream(prompts));
+    const stream = iteratorToStream(generateExportStream(session.user.id, collectionIds));
 
     return new NextResponse(stream, {
         headers: {
@@ -103,57 +70,96 @@ export async function POST(request: Request) {
     });
 }
 
-async function* generateExportStream(prompts: any[]) {
+async function* generateExportStream(userId: string, collectionIds?: string[]) {
     const encoder = new TextEncoder();
     yield encoder.encode("[\n");
-    for (let i = 0; i < prompts.length; i++) {
-        const prompt = prompts[i];
-        const versions = [];
-        for (const v of prompt.versions) {
-            const attachments = [];
-            for (const a of v.attachments) {
-                attachments.push({
-                    filePath: a.filePath,
-                    fileType: a.fileType,
-                    file: await getFileAsBase64(a.filePath)
+
+    const batchSize = 100;
+    let cursor: string | undefined = undefined;
+    let isFirst = true;
+
+    const where: any = { createdById: userId };
+    if (collectionIds && Array.isArray(collectionIds) && collectionIds.length > 0) {
+        where.collections = { some: { id: { in: collectionIds } } };
+    }
+
+    while (true) {
+        const prompts: any[] = await prisma.prompt.findMany({
+            take: batchSize,
+            skip: cursor ? 1 : 0,
+            cursor: cursor ? { id: cursor } : undefined,
+            where,
+            include: {
+                tags: true,
+                versions: {
+                    include: {
+                        attachments: true
+                    },
+                    orderBy: { versionNumber: "desc" }
+                },
+                collections: true,
+            },
+            orderBy: { id: 'asc' }
+        });
+
+        if (prompts.length === 0) break;
+
+        for (let i = 0; i < prompts.length; i++) {
+            const prompt = prompts[i];
+            const versions = [];
+            for (const v of prompt.versions) {
+                const attachments = [];
+                for (const a of v.attachments) {
+                    attachments.push({
+                        filePath: a.filePath,
+                        fileType: a.fileType,
+                        file: await getFileAsBase64(a.filePath)
+                    });
+                }
+
+                versions.push({
+                    versionNumber: v.versionNumber,
+                    content: v.content,
+                    shortContent: v.shortContent,
+                    usageExample: v.usageExample,
+                    variableDefinitions: v.variableDefinitions,
+                    model: v.model,
+                    changelog: v.changelog,
+                    resultText: v.resultText,
+                    resultImage: v.resultImage ? {
+                        path: v.resultImage,
+                        file: await getFileAsBase64(v.resultImage)
+                    } : null,
+                    attachments,
+                    createdAt: v.createdAt
                 });
             }
 
-            versions.push({
-                versionNumber: v.versionNumber,
-                content: v.content,
-                shortContent: v.shortContent,
-                usageExample: v.usageExample,
-                variableDefinitions: v.variableDefinitions,
-                model: v.model,
-                changelog: v.changelog,
-                resultText: v.resultText,
-                resultImage: v.resultImage ? {
-                    path: v.resultImage,
-                    file: await getFileAsBase64(v.resultImage)
-                } : null,
-                attachments,
-                createdAt: v.createdAt
-            });
+            const exportItem = {
+                id: prompt.id,
+                title: prompt.title,
+                description: prompt.description,
+                tags: prompt.tags.map((t: any) => t.name),
+                collections: prompt.collections.map((c: any) => c.title),
+                itemType: prompt.itemType,
+                repoUrl: prompt.repoUrl,
+                installCommand: prompt.installCommand,
+                viewCount: prompt.viewCount,
+                copyCount: prompt.copyCount,
+                createdAt: prompt.createdAt,
+                updatedAt: prompt.updatedAt,
+                versions
+            };
+
+            const chunk = (isFirst ? "" : ",\n") + JSON.stringify(exportItem);
+            yield encoder.encode(chunk);
+            isFirst = false;
         }
 
-        const exportItem = {
-            id: prompt.id,
-            title: prompt.title,
-            description: prompt.description,
-            tags: prompt.tags.map((t: any) => t.name),
-            collections: prompt.collections.map((c: any) => c.title),
-            viewCount: prompt.viewCount,
-            copyCount: prompt.copyCount,
-            createdAt: prompt.createdAt,
-            updatedAt: prompt.updatedAt,
-            versions
-        };
-
-        const chunk = JSON.stringify(exportItem) + (i < prompts.length - 1 ? ",\n" : "\n");
-        yield encoder.encode(chunk);
+        cursor = prompts[prompts.length - 1].id;
     }
-    yield encoder.encode("]\n");
+
+    yield encoder.encode("\n]\n");
 }
 
 function iteratorToStream(iterator: AsyncGenerator<Uint8Array, void, unknown>) {

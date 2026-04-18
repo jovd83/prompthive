@@ -20,9 +20,14 @@ export default function NewPromptContent({
     const { t } = useLanguage();
     return (
         <div className="max-w-3xl mx-auto pb-12">
-            <h1 className="text-3xl font-bold mb-8">{t('prompts.createTitle')}</h1>
+            <h1 className="text-3xl font-bold mb-8 flex items-center gap-2">
+                <span className="shrink-0 text-xl leading-none" title="Prompt">
+                    📝
+                </span>
+                {t('prompts.createTitle')}
+            </h1>
             <CreatePromptForm
-                collections={collections}
+                collections={collections as any}
                 tags={tags}
                 initialCollectionId={initialCollectionId}
                 tagColorsEnabled={tagColorsEnabled}

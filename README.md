@@ -2,7 +2,7 @@
 
 ---
 title: MyPromptHive - Project README
-version: 3.1.1
+version: 4.0.0
 last_updated: 2026-03-11
 ---
 

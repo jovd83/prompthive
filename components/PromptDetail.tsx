@@ -5,7 +5,7 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock, Loader2, Eye, EyeOff } from "lucide-react";
+import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock, Loader2, Eye, EyeOff, Package, Terminal } from "lucide-react";
 // ... (skip down to insertion)
 
 import CollapsibleSection from "./CollapsibleSection";
@@ -114,7 +114,13 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
     const resultAttachments = allAttachments.filter((a) => a.role === 'RESULT');
     const generalAttachments = allAttachments.filter((a) => a.role !== 'RESULT');
     const showLegacyResultImage = resultAttachments.length === 0 && selectedVersion.resultImage;
-    const timeAgo = formatDistanceToNow(new Date(prompt.createdAt), { addSuffix: false, locale: localeMap[language] || enUS });
+    const safeFormatDistance = (dateInput: string | Date | number | undefined | null) => {
+        const d = dateInput ? new Date(dateInput) : new Date();
+        const safeDate = isNaN(d.getTime()) ? new Date() : d;
+        return formatDistanceToNow(safeDate, { addSuffix: false, locale: localeMap[language] || enUS });
+    };
+
+    const timeAgo = safeFormatDistance(prompt.createdAt);
 
 
 
@@ -249,7 +255,18 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
             <div className="mb-6">
                 {/* Top Row: Title + Actions */}
                 <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-4">
-                    <h1 className="text-2xl md:text-3xl font-bold break-words w-full">{prompt.title}</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold break-words w-full flex items-center gap-2">
+                        {prompt.itemType === 'AGENT_SKILL' ? (
+                            <span className="shrink-0 text-xl leading-none" title="Agent Skill">
+                                🤖
+                            </span>
+                        ) : (
+                            <span className="shrink-0 text-xl leading-none" title="Prompt">
+                                📝
+                            </span>
+                        )}
+                        {prompt.title}
+                    </h1>
 
                     <div className="flex gap-2 items-center flex-shrink-0 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
                         <button
@@ -325,7 +342,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                         ) : (
                             <>
                                 <Link
-                                    href={canEdit ? `/prompts/${prompt.id}/edit` : "#"}
+                                    href={canEdit ? (prompt.itemType === 'AGENT_SKILL' ? `/skills/${prompt.id}/edit` : `/prompts/${prompt.id}/edit`) : "#"}
                                     className={`btn bg-surface border border-border hover:bg-background flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
                                     title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
                                 >
@@ -384,6 +401,42 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                     </div>
 
 
+
+                    {prompt.itemType === 'AGENT_SKILL' && (
+                        <div className="card mb-6 bg-muted/20">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-bold flex items-center gap-2">
+                                    <Package size={20} /> {prompt.repoUrl ? prompt.repoUrl.split('/').pop()?.replace(/\.git$/, '') : prompt.title}
+                                </h2>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                    <Terminal size={14} /> {t('prompts.installation') || "Installation"}
+                                </label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        readOnly 
+                                        value={prompt.installCommand || "No installation command available."} 
+                                        className="input flex-1 font-mono text-sm bg-background border border-border" 
+                                    />
+                                    <button 
+                                        onClick={async () => {
+                                            const success = await copyToClipboard(prompt.installCommand || "");
+                                            if (success) {
+                                                setCopied(true);
+                                                setTimeout(() => setCopied(false), 2000);
+                                            }
+                                        }} 
+                                        className="btn btn-primary"
+                                        title={t('detail.actions.copy')}
+                                    >
+                                        <Copy size={16} />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <div className="card">
                         <div className="flex justify-between items-center mb-4">
@@ -640,7 +693,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                             <span className="font-medium">{t('detail.meta.version')} {v.versionNumber}</span>
                                             <span className="text-xs text-muted-foreground">{t('detail.meta.by')} {v.createdBy?.username || t('detail.meta.unknown')}</span>
                                         </div>
-                                        <span className="text-xs text-muted-foreground mr-2">{formatDistanceToNow(new Date(v.createdAt), { addSuffix: false, locale: localeMap[language] || enUS })}</span>
+                                        <span className="text-xs text-muted-foreground mr-2">{safeFormatDistance(v.createdAt)}</span>
                                     </button>
 
                                     <div className="flex items-center gap-1">

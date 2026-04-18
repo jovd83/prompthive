@@ -7,6 +7,8 @@ export class DataManagementPage {
     readonly importFormBtn: Locator;
     readonly selectJsonInput: Locator;
     readonly zeroSelectAllBtn: Locator;
+    readonly includeAttachmentsCheckbox: Locator;
+    readonly includeResultsCheckbox: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -15,6 +17,8 @@ export class DataManagementPage {
         this.importFormBtn = page.getByRole('button', { name: /Import Prompts|Importer des Prompts/i }).first();
         this.selectJsonInput = page.locator('input[type="file"][accept=".json"]');
         this.zeroSelectAllBtn = page.locator('.card').filter({ hasText: /Zero/i }).getByRole('button', { name: /Select All|Tout sélectionner/i }).first();
+        this.includeAttachmentsCheckbox = page.locator('label').filter({ hasText: /Include Attachments|Bijlagen toevoegen/i }).locator('input[type="checkbox"]');
+        this.includeResultsCheckbox = page.locator('label').filter({ hasText: /Include Result Files|Resultaatbestanden/i }).locator('input[type="checkbox"]');
     }
 
     async goto() {
@@ -37,5 +41,17 @@ export class DataManagementPage {
     async importJson(filePath: string) {
         await this.selectJsonInput.setInputFiles(filePath);
         await this.importFormBtn.click();
+    }
+
+    async toggleExportOptions(includeAttachments: boolean, includeResults: boolean) {
+        const currentAttachments = await this.includeAttachmentsCheckbox.isChecked();
+        if (currentAttachments !== includeAttachments) {
+            await this.includeAttachmentsCheckbox.click();
+        }
+
+        const currentResults = await this.includeResultsCheckbox.isChecked();
+        if (currentResults !== includeResults) {
+            await this.includeResultsCheckbox.click();
+        }
     }
 }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accessibility Trend Report</title>
+  <style>
+    body { font-family: Georgia, serif; margin: 0; background: #f6f4ef; color: #1f2933; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .panel { background: #fffdfa; border: 1px solid #d9d2c3; border-radius: 18px; padding: 20px; margin-bottom: 20px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-top: 1px solid #e6dfd1; padding: 10px; text-align: left; }
+    th { font-size: 0.8rem; text-transform: uppercase; color: #5b6470; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Accessibility Trend Report</h1>
+      <p>Runs analyzed: 24</p>
+    </div>
+    <div class="panel">
+      <h2>Runs</h2>
+      <table>
+        <thead><tr><th>Run</th><th>Generated</th><th>Pages</th><th>Violations</th><th>Needs Review</th></tr></thead>
+        <tbody>
+          <tr><td>dashboard-light</td><td>2026-03-24T12:26:22.344Z</td><td>1</td><td>0</td><td>0</td></tr><tr><td>dashboard-dark</td><td>2026-03-24T12:26:23.977Z</td><td>1</td><td>0</td><td>0</td></tr><tr><td>collections-light</td><td>2026-03-24T12:26:26.320Z</td><td>1</td><td>0</td><td>1</td></tr><tr><td>collections-dark</td><td>2026-03-24T12:26:28.298Z</td><td>1</td><td>0</td><td>2</td></tr><tr><td>collections-1-light</td><td>2026-03-24T12:26:30.502Z</td><td>1</td><td>0</td><td>1</td></tr><tr><td>collections-1-dark</td><td>2026-03-24T12:26:32.686Z</td><td>1</td><td>0</td><td>2</td></tr><tr><td>collections-new-light</td><td>2026-03-24T12:26:34.968Z</td><td>1</td><td>1</td><td>1</td></tr><tr><td>collections-new-dark</td><td>2026-03-24T12:26:37.212Z</td><td>1</td><td>1</td><td>2</td></tr><tr><td>collections-1-edit-light</td><td>2026-03-24T12:26:38.849Z</td><td>1</td><td>0</td><td>0</td></tr><tr><td>collections-1-edit-dark</td><td>2026-03-24T12:26:40.484Z</td><td>1</td><td>0</td><td>0</td></tr><tr><td>prompts-new-light</td><td>2026-03-24T12:26:42.596Z</td><td>1</td><td>2</td><td>2</td></tr><tr><td>prompts-new-dark</td><td>2026-03-24T12:26:44.750Z</td><td>1</td><td>2</td><td>3</td></tr><tr><td>prompts-1-edit-light</td><td>2026-03-24T12:26:47.523Z</td><td>1</td><td>0</td><td>1</td></tr><tr><td>prompts-1-edit-dark</td><td>2026-03-24T12:26:49.595Z</td><td>1</td><td>0</td><td>2</td></tr><tr><td>prompts-1-light</td><td>2026-03-24T12:26:52.501Z</td><td>1</td><td>0</td><td>1</td></tr><tr><td>prompts-1-dark</td><td>2026-03-24T12:26:54.580Z</td><td>1</td><td>0</td><td>2</td></tr><tr><td>settings-light</td><td>2026-03-24T12:26:57.194Z</td><td>1</td><td>32</td><td>45</td></tr><tr><td>settings-dark</td><td>2026-03-24T12:26:59.382Z</td><td>1</td><td>30</td><td>46</td></tr><tr><td>import-export-light</td><td>2026-03-24T12:27:02.188Z</td><td>1</td><td>3</td><td>10</td></tr><tr><td>import-export-dark</td><td>2026-03-24T12:27:04.265Z</td><td>1</td><td>3</td><td>11</td></tr><tr><td>help-light</td><td>2026-03-24T12:27:07.008Z</td><td>1</td><td>4</td><td>2</td></tr><tr><td>help-dark</td><td>2026-03-24T12:27:09.366Z</td><td>1</td><td>5</td><td>3</td></tr><tr><td>dashboard-search-light</td><td>2026-03-24T12:27:11.069Z</td><td>1</td><td>0</td><td>0</td></tr><tr><td>dashboard-search-dark</td><td>2026-03-24T12:27:12.712Z</td><td>1</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h2>Baseline Comparison</h2>
+      <p>Baseline: dashboard-light | Latest: dashboard-search-dark</p>
+      <table>
+        <thead><tr><th>Page</th><th>Baseline Violations</th><th>Latest Violations</th><th>Delta</th></tr></thead>
+        <tbody>
+          <tr><td>http://localhost:3000/dashboard</td><td>0</td><td>0</td><td>0</td></tr><tr><td>http://localhost:3000/dashboard?search=test</td><td>0</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

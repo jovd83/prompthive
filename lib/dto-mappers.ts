@@ -13,6 +13,9 @@ export type PromptDTO = {
     currentVersionId: string | null;
     viewCount: number;
     copyCount: number;
+    itemType: string;
+    repoUrl: string | null;
+    installCommand: string | null;
     createdAt: Date;
     updatedAt: Date;
     tags: TagDTO[];
@@ -69,6 +72,9 @@ export function mapPromptToDTO(prompt: PromptWithRelations): PromptDTO {
         currentVersionId: prompt.currentVersionId || null,
         viewCount: prompt.viewCount || 0,
         copyCount: prompt.copyCount || 0,
+        itemType: (prompt as any).itemType || "PROMPT",
+        repoUrl: (prompt as any).repoUrl || null,
+        installCommand: (prompt as any).installCommand || null,
         createdAt: prompt.createdAt,
         updatedAt: prompt.updatedAt,
         isFavorited: prompt.isFavorited,

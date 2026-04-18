@@ -1,0 +1,1039 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-03-24T12:27:12.963Z",
+  "runCount": 24,
+  "runs": [
+    {
+      "runId": "dashboard-light",
+      "runLabel": "dashboard-light",
+      "generatedAt": "2026-03-24T12:26:22.344Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 0,
+        "byImpact": {
+          "critical": 0,
+          "serious": 0,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 0,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/dashboard",
+          "summary": {
+            "total": 0,
+            "byImpact": {
+              "critical": 0,
+              "serious": 0,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 0,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\dashboard-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "dashboard-dark",
+      "runLabel": "dashboard-dark",
+      "generatedAt": "2026-03-24T12:26:23.977Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 0,
+        "byImpact": {
+          "critical": 0,
+          "serious": 0,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 0,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/dashboard",
+          "summary": {
+            "total": 0,
+            "byImpact": {
+              "critical": 0,
+              "serious": 0,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 0,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\dashboard-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-light",
+      "runLabel": "collections-light",
+      "generatedAt": "2026-03-24T12:26:26.320Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 1,
+        "byImpact": {
+          "critical": 0,
+          "serious": 1,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 1,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections",
+          "summary": {
+            "total": 1,
+            "byImpact": {
+              "critical": 0,
+              "serious": 1,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 1,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-dark",
+      "runLabel": "collections-dark",
+      "generatedAt": "2026-03-24T12:26:28.298Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 2,
+        "byImpact": {
+          "critical": 0,
+          "serious": 2,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections",
+          "summary": {
+            "total": 2,
+            "byImpact": {
+              "critical": 0,
+              "serious": 2,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-1-light",
+      "runLabel": "collections-1-light",
+      "generatedAt": "2026-03-24T12:26:30.502Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 1,
+        "byImpact": {
+          "critical": 0,
+          "serious": 1,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 1,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections/1",
+          "summary": {
+            "total": 1,
+            "byImpact": {
+              "critical": 0,
+              "serious": 1,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 1,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-1-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-1-dark",
+      "runLabel": "collections-1-dark",
+      "generatedAt": "2026-03-24T12:26:32.686Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 2,
+        "byImpact": {
+          "critical": 0,
+          "serious": 2,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections/1",
+          "summary": {
+            "total": 2,
+            "byImpact": {
+              "critical": 0,
+              "serious": 2,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-1-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-new-light",
+      "runLabel": "collections-new-light",
+      "generatedAt": "2026-03-24T12:26:34.968Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 2,
+        "byImpact": {
+          "critical": 1,
+          "serious": 1,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 1,
+          "needs-review": 1,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections/new",
+          "summary": {
+            "total": 2,
+            "byImpact": {
+              "critical": 1,
+              "serious": 1,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 1,
+              "needs-review": 1,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-new-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-new-dark",
+      "runLabel": "collections-new-dark",
+      "generatedAt": "2026-03-24T12:26:37.212Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 3,
+        "byImpact": {
+          "critical": 1,
+          "serious": 2,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 1,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections/new",
+          "summary": {
+            "total": 3,
+            "byImpact": {
+              "critical": 1,
+              "serious": 2,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 1,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-new-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-1-edit-light",
+      "runLabel": "collections-1-edit-light",
+      "generatedAt": "2026-03-24T12:26:38.849Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 0,
+        "byImpact": {
+          "critical": 0,
+          "serious": 0,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 0,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections/1/edit",
+          "summary": {
+            "total": 0,
+            "byImpact": {
+              "critical": 0,
+              "serious": 0,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 0,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-1-edit-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "collections-1-edit-dark",
+      "runLabel": "collections-1-edit-dark",
+      "generatedAt": "2026-03-24T12:26:40.484Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 0,
+        "byImpact": {
+          "critical": 0,
+          "serious": 0,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 0,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/collections/1/edit",
+          "summary": {
+            "total": 0,
+            "byImpact": {
+              "critical": 0,
+              "serious": 0,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 0,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\collections-1-edit-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "prompts-new-light",
+      "runLabel": "prompts-new-light",
+      "generatedAt": "2026-03-24T12:26:42.596Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 4,
+        "byImpact": {
+          "critical": 0,
+          "serious": 4,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 2,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/prompts/new",
+          "summary": {
+            "total": 4,
+            "byImpact": {
+              "critical": 0,
+              "serious": 4,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 2,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\prompts-new-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "prompts-new-dark",
+      "runLabel": "prompts-new-dark",
+      "generatedAt": "2026-03-24T12:26:44.750Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 5,
+        "byImpact": {
+          "critical": 0,
+          "serious": 5,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 2,
+          "needs-review": 3,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/prompts/new",
+          "summary": {
+            "total": 5,
+            "byImpact": {
+              "critical": 0,
+              "serious": 5,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 2,
+              "needs-review": 3,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\prompts-new-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "prompts-1-edit-light",
+      "runLabel": "prompts-1-edit-light",
+      "generatedAt": "2026-03-24T12:26:47.523Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 1,
+        "byImpact": {
+          "critical": 0,
+          "serious": 1,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 1,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/prompts/1/edit",
+          "summary": {
+            "total": 1,
+            "byImpact": {
+              "critical": 0,
+              "serious": 1,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 1,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\prompts-1-edit-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "prompts-1-edit-dark",
+      "runLabel": "prompts-1-edit-dark",
+      "generatedAt": "2026-03-24T12:26:49.595Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 2,
+        "byImpact": {
+          "critical": 0,
+          "serious": 2,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/prompts/1/edit",
+          "summary": {
+            "total": 2,
+            "byImpact": {
+              "critical": 0,
+              "serious": 2,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\prompts-1-edit-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "prompts-1-light",
+      "runLabel": "prompts-1-light",
+      "generatedAt": "2026-03-24T12:26:52.501Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 1,
+        "byImpact": {
+          "critical": 0,
+          "serious": 1,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 1,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/prompts/1",
+          "summary": {
+            "total": 1,
+            "byImpact": {
+              "critical": 0,
+              "serious": 1,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 1,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\prompts-1-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "prompts-1-dark",
+      "runLabel": "prompts-1-dark",
+      "generatedAt": "2026-03-24T12:26:54.580Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 2,
+        "byImpact": {
+          "critical": 0,
+          "serious": 2,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/prompts/1",
+          "summary": {
+            "total": 2,
+            "byImpact": {
+              "critical": 0,
+              "serious": 2,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\prompts-1-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "settings-light",
+      "runLabel": "settings-light",
+      "generatedAt": "2026-03-24T12:26:57.194Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 77,
+        "byImpact": {
+          "critical": 29,
+          "serious": 48,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 32,
+          "needs-review": 45,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/settings",
+          "summary": {
+            "total": 77,
+            "byImpact": {
+              "critical": 29,
+              "serious": 48,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 32,
+              "needs-review": 45,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\settings-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "settings-dark",
+      "runLabel": "settings-dark",
+      "generatedAt": "2026-03-24T12:26:59.382Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 76,
+        "byImpact": {
+          "critical": 29,
+          "serious": 47,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 30,
+          "needs-review": 46,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/settings",
+          "summary": {
+            "total": 76,
+            "byImpact": {
+              "critical": 29,
+              "serious": 47,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 30,
+              "needs-review": 46,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\settings-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "import-export-light",
+      "runLabel": "import-export-light",
+      "generatedAt": "2026-03-24T12:27:02.188Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 13,
+        "byImpact": {
+          "critical": 2,
+          "serious": 11,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 3,
+          "needs-review": 10,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/import-export",
+          "summary": {
+            "total": 13,
+            "byImpact": {
+              "critical": 2,
+              "serious": 11,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 3,
+              "needs-review": 10,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\import-export-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "import-export-dark",
+      "runLabel": "import-export-dark",
+      "generatedAt": "2026-03-24T12:27:04.265Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 14,
+        "byImpact": {
+          "critical": 2,
+          "serious": 12,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 3,
+          "needs-review": 11,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/import-export",
+          "summary": {
+            "total": 14,
+            "byImpact": {
+              "critical": 2,
+              "serious": 12,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 3,
+              "needs-review": 11,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\import-export-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "help-light",
+      "runLabel": "help-light",
+      "generatedAt": "2026-03-24T12:27:07.008Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 6,
+        "byImpact": {
+          "critical": 0,
+          "serious": 6,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 4,
+          "needs-review": 2,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/help",
+          "summary": {
+            "total": 6,
+            "byImpact": {
+              "critical": 0,
+              "serious": 6,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 4,
+              "needs-review": 2,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\help-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "help-dark",
+      "runLabel": "help-dark",
+      "generatedAt": "2026-03-24T12:27:09.366Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 8,
+        "byImpact": {
+          "critical": 0,
+          "serious": 8,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 5,
+          "needs-review": 3,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/help",
+          "summary": {
+            "total": 8,
+            "byImpact": {
+              "critical": 0,
+              "serious": 8,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 5,
+              "needs-review": 3,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\help-dark.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "dashboard-search-light",
+      "runLabel": "dashboard-search-light",
+      "generatedAt": "2026-03-24T12:27:11.069Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 0,
+        "byImpact": {
+          "critical": 0,
+          "serious": 0,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 0,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/dashboard?search=test",
+          "summary": {
+            "total": 0,
+            "byImpact": {
+              "critical": 0,
+              "serious": 0,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 0,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\dashboard-search-light.json"
+          ]
+        }
+      ]
+    },
+    {
+      "runId": "dashboard-search-dark",
+      "runLabel": "dashboard-search-dark",
+      "generatedAt": "2026-03-24T12:27:12.712Z",
+      "pageCount": 1,
+      "summary": {
+        "total": 0,
+        "byImpact": {
+          "critical": 0,
+          "serious": 0,
+          "moderate": 0,
+          "minor": 0
+        },
+        "byStatus": {
+          "violation": 0,
+          "needs-review": 0,
+          "pass": 0
+        }
+      },
+      "pages": [
+        {
+          "url": "http://localhost:3000/dashboard?search=test",
+          "summary": {
+            "total": 0,
+            "byImpact": {
+              "critical": 0,
+              "serious": 0,
+              "moderate": 0,
+              "minor": 0
+            },
+            "byStatus": {
+              "violation": 0,
+              "needs-review": 0,
+              "pass": 0
+            }
+          },
+          "files": [
+            "sandbox\\runs\\dashboard-search-dark.json"
+          ]
+        }
+      ]
+    }
+  ],
+  "comparison": {
+    "baselineRunId": "dashboard-light",
+    "latestRunId": "dashboard-search-dark",
+    "summaryDelta": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0
+    },
+    "pageDelta": [
+      {
+        "url": "http://localhost:3000/dashboard",
+        "baselineViolations": 0,
+        "latestViolations": 0,
+        "deltaViolations": 0
+      },
+      {
+        "url": "http://localhost:3000/dashboard?search=test",
+        "baselineViolations": 0,
+        "latestViolations": 0,
+        "deltaViolations": 0
+      }
+    ]
+  }
+}

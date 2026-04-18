@@ -59,7 +59,7 @@ Object.assign(navigator, {
 });
 
 describe('PromptCard', () => {
-    const mockPrompt = {
+    const mockPrompt: any = {
         id: '123',
         title: 'Test Prompt',
         description: 'A test description',
@@ -69,7 +69,8 @@ describe('PromptCard', () => {
         createdAt: new Date('2023-01-01'),
         updatedAt: new Date('2023-01-02'),
         createdBy: { email: 'test@example.com' },
-        versions: [{ content: 'Prompt Content', resultImage: null }]
+        versions: [{ content: 'Prompt Content', resultImage: null }],
+        itemType: 'PROMPT'
     };
 
     beforeEach(() => {

@@ -152,6 +152,9 @@
         "createTitle": "Créer un nouveau prompt",
         "editTitle": "Modifier le prompt : {{title}}",
         "newPrompt": "Nouvelle Prompt",
+        "skill": "Skill",
+        "prompt": "Prompt",
+        "installation": "Installation",
         "searchResults": "Résultats de recherche",
         "searchTitle": "Recherche : \"{{query}}\"",
         "noResults": "Aucun prompt trouvé correspondant à vos critères.",
@@ -193,6 +196,16 @@
         "creator": "Email du créateur",
         "clear": "Effacer",
         "apply": "Appliquer les filtres"
+    },
+    "skills": {
+        "createTitle": "Créer un nouveau Agent Skill",
+        "repositoryUrl": "URL du dépôt GitHub",
+        "fetchInfo": "Récupérer les infos",
+        "installCommand": "Commande d'installation",
+        "fetching": "Récupération...",
+        "saveChanges": "Enregistrer le Skill",
+        "create": "Créer le Skill",
+        "newSkill": "Nouveau Skill"
     },
     "sortControls": {
         "date": "Date",
@@ -428,7 +441,7 @@
     },
     "help": {
         "title": "Centre d'Aide",
-        "subtitle": "Documentation v3.0",
+        "subtitle": "Documentation v4.0",
         "externalLinks": "Liens Externes",
         "stillQuestions": "Encore des questions ?",
         "checkRepo": "Consultez le dépôt GitHub pour les problèmes ou les demandes de fonctionnalités.",
@@ -449,19 +462,37 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.3 (Non publié)",
+                "desc": "Pour les anciennes versions, veuillez consulter le <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>journal des modifications complet sur GitHub</a>.",
                 "improvements": "Modifié",
                 "fixes": "Corrigé",
                 "added": "Ajouté",
-                "desc": "Pour les anciennes versions, veuillez consulter le <a href='https://github.com/jovd83/TMT/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>journal des modifications complet sur GitHub</a>.",
-                "added_1": "<strong>Couleurs des tags</strong> : Ajout d'une distinction visuelle pour les tags avec des couleurs uniques. Les utilisateurs peuvent activer/désactiver cette fonctionnalité dans les Paramètres généraux.",
-                "added_2": "<strong>Compte Invité</strong> : Ajout d'un nouveau rôle GUEST avec accès en lecture seule. Inclut une navigation et des éléments d'interface restreints.",
-                "added_3": "<strong>Gestion des utilisateurs</strong> : Ajout de la possibilité pour les administrateurs de supprimer des utilisateurs via la page des Paramètres Admin. Le contenu est préservé et réassigné à l'administrateur.",
-                "added_4": "<strong>Paramètres des tags</strong> : Ajout de la préférence 'Activer les couleurs des tags' aux Paramètres généraux.",
-                "added_5": "<strong>IDs Techniques</strong> : Prend en charge la recherche par ID technique (par ex. VIBE-123) et l'accès direct par URL (/prompts/[id]).",
-                "added_6": "<strong>Prompts Liés</strong> : Possibilité de lier des prompts connexes ensemble (bidirectionnel) avec prise en charge de l'export/import.",
-                "changed_1": "<strong>Déplacement des Paramètres</strong> : Déplacement de la sauvegarde automatique et de la zone de danger vers le bas de la page Import/Export.",
-                "changed_2": "<strong>Amélioré</strong> : La suppression d'un prompt depuis une Collection ne redirige plus vers le Tableau de bord."
+                "v311": {
+                    "version": "v4.0.0 (2026-04-18)",
+                    "added_1": "<strong>Frontend Playwright Tests</strong>: Expanded E2E test coverage using the Playwright-skill agent framework.",
+                    "fixed_1": "<strong>Test Stability</strong>: Resolved failures in Playwright E2E suite related to page transitions.",
+                    "fixed_2": "<strong>Environment Configuration</strong>: Corrected NEXTAUTH_URL in .env.test to match test server port.",
+                    "fixed_3": "<strong>Data Export</strong>: Fixed Unicode export test by ensuring collection is populated before export."
+                },
+                "v310": {
+                    "version": "v3.1.0 (2026-03-07)",
+                    "added_1": "<strong>Playwright Test Suite</strong>: Generated and integrated a comprehensive new Playwright E2E test set.",
+                    "changed_1": "<strong>Settings UI</strong>: Refined Settings controls with data-testid attributes for robust E2E testing.",
+                    "changed_2": "<strong>Documentation</strong>: Restructured TDD documentation into feature-based folders.",
+                    "fixed_1": "<strong>Dashboard Sorting Links</strong>: Fixed \"View all\" defaulting to dashboard instead of sorted list.",
+                    "fixed_2": "<strong>Most Viewed Sort</strong>: Fixed Usage sort using copyCount rather than viewCount.",
+                    "fixed_3": "<strong>User Management</strong>: Fixed string/boolean modal visibility state bug.",
+                    "fixed_4": "<strong>Auth Flow</strong>: Corrected password reset and login field consistency."
+                },
+                "v302": {
+                    "version": "v3.0.2 (2026-02-23)",
+                    "added_1": "<strong>VisualDiff Component</strong>: Word/line level comparison tool for prompt versions.",
+                    "added_2": "<strong>Modular Architecture</strong>: Partitioned monolithic files into domain-specific modules.",
+                    "added_3": "<strong>Streaming Exports</strong>: Streaming JSON responses to prevent memory bloat during large backups.",
+                    "added_4": "<strong>Batch Processing</strong>: Refactored bulk imports to use batched operations, reducing SQLite lock errors.",
+                    "changed_1": "<strong>Type Safety</strong>: Eliminated as-any casts with properly encapsulated Prisma types.",
+                    "changed_2": "<strong>Security Hardening</strong>: Performed audit and established multi-phase hardening roadmap.",
+                    "fixed_1": "<strong>Favorites Sync</strong>: Fixed state synchronization issue in favorites collection view."
+                }
             },
             "intro": {
                 "welcome": "Bienvenue sur <strong>TMT</strong>, votre sanctuaire local pour gérer, tester et organiser vos prompts LLM.",

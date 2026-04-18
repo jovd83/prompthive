@@ -96,7 +96,7 @@ export async function getExportMeta(collectionIds?: string[], recursive: boolean
 
     // 2. Build Collection Hierarchy (definedCollections)
     // We need all collections referenced by these prompts, PLUS their ancestors.
-    let relevantCollectionIds = new Set<string>();
+    const relevantCollectionIds = new Set<string>();
 
     // Add collections directly linked to exported prompts
     prompts.forEach(p => {
@@ -118,11 +118,10 @@ export async function getExportMeta(collectionIds?: string[], recursive: boolean
     // If "Select All" or no filter, we might want ALL collections?
     // If strict filter, we only want related ones.
     // Let's resolve ancestors for the relevant ones.
-    let collectionsToExport = [];
 
     // Iteratively fetch parents
-    let currentPool = Array.from(relevantCollectionIds);
-    let allFoundIds = new Set(currentPool);
+    const currentPool = Array.from(relevantCollectionIds);
+    const allFoundIds = new Set(currentPool);
 
     // Fetch all user collections to map parents efficiently (assuming user doesn't have 10k collections)
     const allUserCollections = await prisma.collection.findMany({
@@ -163,9 +162,12 @@ export async function getExportMeta(collectionIds?: string[], recursive: boolean
     };
 }
 
-export async function getExportBatch(ids: string[]) {
+export async function getExportBatch(ids: string[], options?: { includeAttachments?: boolean, includeResults?: boolean }) {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) return { success: false, error: "Unauthorized" };
+
+    const includeAttachments = options?.includeAttachments ?? true;
+    const includeResults = options?.includeResults ?? true;
 
     const prompts = await prisma.prompt.findMany({
         where: { id: { in: ids }, createdById: session.user.id },
@@ -188,6 +190,9 @@ export async function getExportBatch(ids: string[]) {
             tags: prompt.tags.map(t => t.name),
             collections: prompt.collections.map(c => c.title), // Legacy support
             collectionIds: prompt.collections.map(c => c.id),  // New V2 linking
+            itemType: prompt.itemType,
+            repoUrl: prompt.repoUrl,
+            installCommand: prompt.installCommand,
             viewCount: prompt.viewCount,
             copyCount: prompt.copyCount,
             createdAt: prompt.createdAt,
@@ -201,15 +206,15 @@ export async function getExportBatch(ids: string[]) {
                 model: v.model,
                 changelog: v.changelog,
                 resultText: v.resultText,
-                resultImage: v.resultImage ? {
+                resultImage: (includeResults && v.resultImage) ? {
                     path: v.resultImage,
                     file: getFileAsBase64(v.resultImage)
                 } : null,
-                attachments: v.attachments.map(a => ({
+                attachments: includeAttachments ? v.attachments.map(a => ({
                     filePath: a.filePath,
                     fileType: a.fileType,
                     file: getFileAsBase64(a.filePath)
-                })),
+                })) : [],
                 createdAt: v.createdAt
             }))
         };

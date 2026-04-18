@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { createUserService, getAllUsersService, updateUserRoleService } from "@/services/user";
 import { updateGlobalSettingsService } from "@/services/settings";
-import { hash } from "bcryptjs";
+import { hash } from "bcrypt";
 import { prisma } from "@/lib/prisma";
 
 export async function getUsers() {

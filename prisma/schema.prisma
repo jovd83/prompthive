@@ -9,23 +9,24 @@ datasource db {
 }
 
 model User {
-  id                String          @id @default(cuid())
-  email             String          @unique
-  username          String          @unique
+  id                String                  @id @default(cuid())
+  email             String                  @unique
+  username          String                  @unique
   passwordHash      String
-  role              String          @default("USER")
-  language          String          @default("en")
+  role              String                  @default("USER")
+  language          String                  @default("en")
   avatarUrl         String?
-  resetToken        String?         @unique
+  resetToken        String?                 @unique
   resetTokenExpires DateTime?
-  createdAt         DateTime        @default(now())
+  createdAt         DateTime                @default(now())
   collections       Collection[]
   favorites         Favorite[]
   prompts           Prompt[]
   versions          PromptVersion[]
   settings          Settings?
+  interactions      UserPromptInteraction[]
   workflows         Workflow[]
-  hiddenInSettings  Settings[]      @relation("UserVisibility")
+  hiddenInSettings  Settings[]              @relation("UserVisibility")
 }
 
 model Settings {
@@ -50,27 +51,31 @@ model GlobalConfiguration {
 }
 
 model Prompt {
-  id               String          @id @default(cuid())
+  id               String                  @id @default(cuid())
   title            String
   description      String?
   resource         String?
   currentVersionId String?
   createdById      String
-  viewCount        Int             @default(0)
-  copyCount        Int             @default(0)
-  isLocked         Boolean         @default(false)
-  isPrivate        Boolean         @default(false)
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-  technicalId      String?         @unique
+  viewCount        Int                     @default(0)
+  copyCount        Int                     @default(0)
+  isLocked         Boolean                 @default(false)
+  isPrivate        Boolean                 @default(false)
+  itemType         String                  @default("PROMPT")
+  repoUrl          String?
+  installCommand   String?
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
+  technicalId      String?                 @unique
   favoritedBy      Favorite[]
-  createdBy        User            @relation(fields: [createdById], references: [id])
+  createdBy        User                    @relation(fields: [createdById], references: [id])
   versions         PromptVersion[]
+  interactions     UserPromptInteraction[]
   workflowSteps    WorkflowStep[]
-  collections      Collection[]    @relation("CollectionToPrompt")
-  relatedPrompts   Prompt[]        @relation("PromptLinks")
-  relatedToPrompts Prompt[]        @relation("PromptLinks")
-  tags             Tag[]           @relation("PromptToTag")
+  collections      Collection[]            @relation("CollectionToPrompt")
+  relatedPrompts   Prompt[]                @relation("PromptLinks")
+  relatedToPrompts Prompt[]                @relation("PromptLinks")
+  tags             Tag[]                   @relation("PromptToTag")
 }
 
 model TechnicalIdSequence {
@@ -101,8 +106,8 @@ model PromptVersion {
   createdById         String
   createdAt           DateTime     @default(now())
   attachments         Attachment[]
-  createdBy           User         @relation(fields: [createdById], references: [id])
   prompt              Prompt       @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  createdBy           User         @relation(fields: [createdById], references: [id])
 }
 
 model Attachment {
@@ -123,9 +128,9 @@ model Collection {
   ownerId          String
   parentId         String?
   createdAt        DateTime     @default(now())
+  owner            User         @relation(fields: [ownerId], references: [id])
   parent           Collection?  @relation("CollectionHierarchy", fields: [parentId], references: [id])
   children         Collection[] @relation("CollectionHierarchy")
-  owner            User         @relation(fields: [ownerId], references: [id])
   prompts          Prompt[]     @relation("CollectionToPrompt")
   hiddenInSettings Settings[]   @relation("CollectionVisibility")
 }
@@ -147,16 +152,29 @@ model WorkflowStep {
   promptId      String
   order         Int
   inputMappings String?
-  prompt        Prompt   @relation(fields: [promptId], references: [id])
   workflow      Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  prompt        Prompt   @relation(fields: [promptId], references: [id])
 }
 
 model Favorite {
   userId    String
   promptId  String
   createdAt DateTime @default(now())
-  prompt    Prompt   @relation(fields: [promptId], references: [id])
   user      User     @relation(fields: [userId], references: [id])
+  prompt    Prompt   @relation(fields: [promptId], references: [id])
 
   @@id([userId, promptId])
+}
+
+model UserPromptInteraction {
+  id        String   @id @default(cuid())
+  userId    String
+  promptId  String
+  type      String   @default("USE")
+  updatedAt DateTime @default(now()) @updatedAt
+  prompt    Prompt   @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, promptId])
+  @@index([userId, updatedAt])
 }

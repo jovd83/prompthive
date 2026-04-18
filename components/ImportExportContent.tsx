@@ -13,6 +13,7 @@ import JsonImportForm from "./import-export/JsonImportForm";
 import LocalImportForm from "./import-export/LocalImportForm";
 import StandardExportForm from "./import-export/StandardExportForm";
 import ExportZeroForm from "./import-export/ExportZeroForm";
+import GroupSkillImportForm from "./import-export/GroupSkillImportForm";
 
 import BackupSettings from "./settings/BackupSettings";
 import DangerZoneSettings from "./settings/DangerZoneSettings";
@@ -156,6 +157,18 @@ export default function ImportExportContent({
                 </p>
 
                 <LocalImportForm collections={collections} />
+            </div>
+
+            {/* Group Skill Import */}
+            <div className="card border-orange-500/20 bg-orange-500/5">
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-orange-700 dark:text-orange-400">
+                    <Globe size={24} /> Group Import Skills
+                </h2>
+                <p className="text-muted-foreground mb-4">
+                    Import multiple Agent Skills simultaneously by pasting their GitHub repository URLs. They will be placed into a new collection with today's date prefix.
+                </p>
+
+                <GroupSkillImportForm />
             </div>
 
             {isAdmin && initialSettings && (

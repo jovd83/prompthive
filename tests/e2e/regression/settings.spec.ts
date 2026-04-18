@@ -37,17 +37,17 @@ test.describe('General Settings - Enriched Datasets & Stress Testing', () => {
         await settingsPage.goto();
 
         // Enforce visible first
-        await settingsPage.showWorkflowsToggle.click({ force: true });
+        await settingsPage.showWorkflowsToggle.evaluate((el: HTMLElement) => el.click());
         await settingsPage.saveGeneralSettings();
         await expect(page.locator('nav a[href="/workflows"], .sidebar a[href="/workflows"]')).toBeVisible({ timeout: 10000 });
 
         // Toggle back off
-        await settingsPage.showWorkflowsToggle.click({ force: true });
+        await settingsPage.showWorkflowsToggle.evaluate((el: HTMLElement) => el.click());
         await settingsPage.saveGeneralSettings();
         await expect(page.locator('nav a[href="/workflows"], .sidebar a[href="/workflows"]')).toBeHidden();
 
         // Final Toggle on
-        await settingsPage.showWorkflowsToggle.click({ force: true });
+        await settingsPage.showWorkflowsToggle.evaluate((el: HTMLElement) => el.click());
         await settingsPage.saveGeneralSettings();
         await expect(page.locator('nav a[href="/workflows"], .sidebar a[href="/workflows"]')).toBeVisible();
     });

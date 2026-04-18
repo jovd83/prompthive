@@ -38,7 +38,7 @@ export async function sendPasswordResetEmail(email: string, token: string, origi
         const message = `[${timestamp}] [RESET PASSWORD] To: ${email} | Link: ${resetLink}\n`;
 
         await fs.appendFile(logFile, message);
-        console.log(`[Mock Email] Reset email sent to ${email}`);
+        console.log(`[Mock Email] Reset email sent to ${email} (Token masked in console: ${token.substring(0, 4)}...${token.substring(token.length - 4)})`);
     } catch (error) {
         console.error("Failed to log reset email:", error);
     }

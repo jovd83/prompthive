@@ -53,7 +53,7 @@ test.describe('Dashboard Sorting', () => {
         const searchResultsHeading = page.getByRole('heading', { name: /Search Results/i });
         await expect(searchResultsHeading).toBeVisible({ timeout: 10000 });
 
-        const cards = page.locator('h3');
+        const cards = page.locator('.card');
         await expect(cards.first()).toBeVisible({ timeout: 10000 });
 
         const titles = await cards.allTextContents();

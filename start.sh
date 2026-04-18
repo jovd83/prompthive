@@ -2,6 +2,8 @@
 # Start script for Synology Container
 # Logs to both console (for Synology UI) and file (for debug)
 
+export HOME=/tmp
+export npm_config_cache=/tmp/.npm
 LOGFILE="/app/data/startup_log.txt"
 
 # Function to log to both stdout and file

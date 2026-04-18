@@ -151,6 +151,9 @@
         "createTitle": "Crear Nuevo Prompt",
         "editTitle": "Editar Prompt: {{title}}",
         "newPrompt": "Nuevo Prompt",
+        "skill": "Skill",
+        "prompt": "Prompt",
+        "installation": "Instalación",
         "searchResults": "Resultados de Búsqueda",
         "searchTitle": "Buscar: \"{{query}}\"",
         "noResults": "No se encontraron prompts que coincidan con tus criterios.",
@@ -192,6 +195,16 @@
         "creator": "Email del Creador",
         "clear": "Limpiar",
         "apply": "Aplicar Filtros"
+    },
+    "skills": {
+        "createTitle": "Crear Nuevo Agent Skill",
+        "repositoryUrl": "URL de Repositorio GitHub",
+        "fetchInfo": "Obtener Info",
+        "installCommand": "Comando de Instalación",
+        "fetching": "Obteniendo...",
+        "saveChanges": "Guardar Skill",
+        "create": "Crear Skill",
+        "newSkill": "Nuevo Skill"
     },
     "sortControls": {
         "date": "Fecha",
@@ -419,7 +432,7 @@
     },
     "help": {
         "title": "Centro de Ayuda",
-        "subtitle": "Documentación v3.0",
+        "subtitle": "Documentación v3.1",
         "externalLinks": "Enlaces Externos",
         "stillQuestions": "¿Aún tienes preguntas?",
         "checkRepo": "Revisa el repositorio de GitHub para problemas o solicitudes de funciones.",
@@ -432,19 +445,37 @@
         },
         "content": {
             "changelog": {
-                "version": "v2.3.3 (Sin publicar)",
+                "desc": "Para versiones anteriores, consulte el <a href='https://github.com/jovd83/prompthive/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>registro completo de cambios en GitHub</a>.",
                 "improvements": "Modificado",
                 "fixes": "Corregido",
                 "added": "Agregado",
-                "desc": "Para versiones anteriores, consulte el <a href='https://github.com/jovd83/TMT/blob/main/CHANGELOG.md' target='_blank' class='underline hover:text-primary'>registro completo de cambios en GitHub</a>.",
-                "added_1": "<strong>Colores de Etiquetas</strong>: Se añadió distinción visual para etiquetas con colores únicos. Los usuarios pueden activar/desactivar esta función en la Configuración General.",
-                "added_2": "<strong>Cuenta de Invitado</strong>: Se añadió un nuevo rol GUEST con acceso de solo lectura. Incluye navegación y elementos de interfaz restringidos.",
-                "added_3": "<strong>Gestión de Usuarios</strong>: Se añadió la capacidad para que los administradores eliminen usuarios a través de la página de Configuración de Administración. El contenido se conserva y se reasigna al administrador.",
-                "added_4": "<strong>Configuración de Etiquetas</strong>: Se añadió la preferencia 'Activar Colores de Etiquetas' en la Configuración General.",
-                "added_5": "<strong>IDs Técnicos</strong>: Admite búsqueda por ID Técnico (por ejemplo, VIBE-123) y acceso directo por URL (/prompts/[id]).",
-                "added_6": "<strong>Prompts Vinculados</strong>: Capacidad para vincular prompts relacionados (bidireccional) con soporte de exportación/importación.",
-                "changed_1": "<strong>Reubicación de Configuración</strong>: Se movió la copia de seguridad automática y la zona de peligro a la parte inferior de la página de Importación/Exportación.",
-                "changed_2": "<strong>Mejorado</strong>: Eliminar un prompt desde una Colección ya no redirige al Panel de Control."
+                "v311": {
+                    "version": "v4.0.0 (2026-04-18)",
+                    "added_1": "<strong>Frontend Playwright Tests</strong>: Expanded E2E test coverage using the Playwright-skill agent framework.",
+                    "fixed_1": "<strong>Test Stability</strong>: Resolved failures in Playwright E2E suite related to page transitions.",
+                    "fixed_2": "<strong>Environment Configuration</strong>: Corrected NEXTAUTH_URL in .env.test to match test server port.",
+                    "fixed_3": "<strong>Data Export</strong>: Fixed Unicode export test by ensuring collection is populated before export."
+                },
+                "v310": {
+                    "version": "v3.1.0 (2026-03-07)",
+                    "added_1": "<strong>Playwright Test Suite</strong>: Generated and integrated a comprehensive new Playwright E2E test set.",
+                    "changed_1": "<strong>Settings UI</strong>: Refined Settings controls with data-testid attributes for robust E2E testing.",
+                    "changed_2": "<strong>Documentation</strong>: Restructured TDD documentation into feature-based folders.",
+                    "fixed_1": "<strong>Dashboard Sorting Links</strong>: Fixed \"View all\" defaulting to dashboard instead of sorted list.",
+                    "fixed_2": "<strong>Most Viewed Sort</strong>: Fixed Usage sort using copyCount rather than viewCount.",
+                    "fixed_3": "<strong>User Management</strong>: Fixed string/boolean modal visibility state bug.",
+                    "fixed_4": "<strong>Auth Flow</strong>: Corrected password reset and login field consistency."
+                },
+                "v302": {
+                    "version": "v3.0.2 (2026-02-23)",
+                    "added_1": "<strong>VisualDiff Component</strong>: Word/line level comparison tool for prompt versions.",
+                    "added_2": "<strong>Modular Architecture</strong>: Partitioned monolithic files into domain-specific modules.",
+                    "added_3": "<strong>Streaming Exports</strong>: Streaming JSON responses to prevent memory bloat during large backups.",
+                    "added_4": "<strong>Batch Processing</strong>: Refactored bulk imports to use batched operations, reducing SQLite lock errors.",
+                    "changed_1": "<strong>Type Safety</strong>: Eliminated as-any casts with properly encapsulated Prisma types.",
+                    "changed_2": "<strong>Security Hardening</strong>: Performed audit and established multi-phase hardening roadmap.",
+                    "fixed_1": "<strong>Favorites Sync</strong>: Fixed state synchronization issue in favorites collection view."
+                }
             },
             "intro": {
                 "welcome": "Bienvenido a <strong>TMT</strong>, tu santuario local-first para gestionar, probar y organizar prompts de LLM.",

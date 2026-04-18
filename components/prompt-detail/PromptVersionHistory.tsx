@@ -27,6 +27,12 @@ export default function PromptVersionHistory({
 }: PromptVersionHistoryProps) {
     const { t, language } = useLanguage();
 
+    const safeFormatDistance = (dateInput: string | Date | number | undefined | null) => {
+        const d = dateInput ? new Date(dateInput) : new Date();
+        const safeDate = isNaN(d.getTime()) ? new Date() : d;
+        return formatDistanceToNow(safeDate, { addSuffix: false, locale: localeMap[language] || enUS });
+    };
+
     return (
         <div className="card">
             <h3 className="font-bold mb-4 flex items-center gap-2">
@@ -47,7 +53,7 @@ export default function PromptVersionHistory({
                                 <span className="font-medium">{t('detail.meta.version')} {v.versionNumber}</span>
                                 <span className="text-xs text-muted-foreground">{t('detail.meta.by')} {v.createdBy?.username || t('detail.meta.unknown')}</span>
                             </div>
-                            <span className="text-xs text-muted-foreground mr-2">{formatDistanceToNow(new Date(v.createdAt), { addSuffix: false, locale: localeMap[language] || enUS })}</span>
+                            <span className="text-xs text-muted-foreground mr-2">{safeFormatDistance(v.createdAt)}</span>
                         </button>
 
                         <div className="flex items-center gap-1">

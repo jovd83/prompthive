@@ -1,5 +1,34 @@
 # Changelog
 
+## 4.0.1 (Unreleased)
+
+### Added
+### Changed
+### Fixed
+### Removed
+
+## 4.0.0 (2026-04-18)
+
+### Added
+- **Agent Skills Feature**: Support for storing and managing AI Agent Skills along with Prompts.
+  - Ability to create Agent Skills distinctly from standard Prompts.
+  - New `npx` install command inference from GitHub repositories via the "Import Repository" tool.
+  - Interactive badges (🤖 Skill / 📝 Prompt) across the application components (dashboard, views, search).
+- **Group Skill Import**: Added ability to import multiple agent skills concurrently by providing a list of GitHub repository URLs. Skills are saved into an automatically generated `yyyymmdd_Skillimport` collection.
+- **Comprehensive Testing & reporting Suite**: Integrated a unified automated testing infrastructure providing holistic platform health overview.
+  - **Master Test Report**: Automated generation of interactive master reports consolidating all test categories.
+  - **A11y Testing**: Integration of `axe-core` for automated accessibility audits.
+  - **Performance Benchmarking**: Added dedicated performance reviews and load testing suites.
+  - **Security Audits**: Established security review processes with automated findings tracking (v4 audit).
+  - **Test Management**: Introduced TDD-style test case documentation and automated traceability mapping.
+  - **Visual Regression**: Expanded visual testing coverage with Playwright snapshots.
+
+### Fixed
+- **Skill Content Copying**: Fixed a bug where the "Copy" button on the agent skills details screen incorrectly copied the installation instruction instead of the actual prompt content.
+- **Recently Accessed Prompts**: Fixed the "recently used by me" dashboard section to accurately display prompts the user has interacted with, regardless of creator, ensuring precise and deterministic sorting.
+- **Skill Editing & Validation**: Fixed `installCommand` validation errors during skill creation and editing, resolving failing Playwright e2e tests.
+- **Acceptance Tests**: Resolved errors in the acceptance test suite (`prompthive-acceptance.html`) related to package installations and database migrations.
+
 ## 3.1.1 (2026-03-11)
 
 ### Added

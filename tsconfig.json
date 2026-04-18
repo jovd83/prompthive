@@ -39,6 +39,16 @@
     ".next-test/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "archive",
+    "tests",
+    "Performance_Reviews",
+    "Security_Reviews",
+    "Technical_Reviews",
+    "a11y_testing",
+    "changelog",
+    "demo",
+    "docs",
+    "prompting_tips"
   ]
 }

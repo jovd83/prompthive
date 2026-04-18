@@ -32,6 +32,7 @@ export default function CollectionSidebar({
 }: CollectionSidebarProps) {
     const isOwner = collection.ownerId === currentUserId;
     const router = useRouter();
+    const { t } = useLanguage();
 
     const {
         isMenuOpen, setIsMenuOpen,
@@ -228,10 +229,13 @@ export default function CollectionSidebar({
                     )}
                     {collection.id !== 'unassigned' && !isSelectionMode && !isGuest && (
                         <div className="flex gap-2">
-                            <Link href={`/prompts/new?collectionId=${collection.id}`} className="btn btn-sm btn-primary flex-1 justify-center">
-                                <Plus size={14} /> New Prompt
+                            <Link href={`/prompts/new?collectionId=${collection.id}`} className="btn btn-sm btn-primary flex-1 justify-center px-1">
+                                <Plus size={14} /> {t('prompts.prompt') || 'Prompt'}
                             </Link>
-                            <Link href={`/collections/new?parentId=${collection.id}`} className="btn btn-sm bg-surface border border-border hover:bg-background px-2" title="New Sub-collection">
+                            <Link href={`/skills/new?collectionId=${collection.id}`} className="btn btn-sm btn-primary flex-1 justify-center px-1">
+                                <Plus size={14} /> {t('prompts.skill') || 'Skill'}
+                            </Link>
+                            <Link href={`/collections/new?parentId=${collection.id}`} className="btn btn-sm bg-surface border border-border hover:bg-background px-2 flex-shrink-0" title="New Sub-collection">
                                 <Folder size={14} /> <Plus size={10} className="-ml-1" />
                             </Link>
                         </div>

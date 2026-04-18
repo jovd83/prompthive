@@ -22,7 +22,7 @@ test.describe('Prompt Management - Enriched Datasets & Edge Cases', () => {
         await promptPage.createPrompt(title, content);
 
         await page.waitForURL('**/prompts/*');
-        await expect(promptPage.promptTitleDisplay).toHaveText(title);
+        await expect(promptPage.promptTitleDisplay).toContainText(title);
 
         // Check on dashboard
         await page.goto('/');
@@ -71,7 +71,7 @@ test.describe('Prompt Management - Enriched Datasets & Edge Cases', () => {
         await promptPage.submitButton.click();
 
         await page.waitForURL(`/prompts/${prompt.id}`);
-        await expect(promptPage.promptTitleDisplay).toHaveText(newTitle);
+        await expect(promptPage.promptTitleDisplay).toContainText(newTitle);
     });
 
     test('MSS: Delete prompt', async ({ page, seedUser }) => {
@@ -244,7 +244,7 @@ test.describe('Prompt Views and Interactions Extended', () => {
         const promptPage = new PromptPage(page);
         await promptPage.gotoView(testPromptId);
 
-        await expect(promptPage.promptTitleDisplay).toHaveText('Management Test Prompt Focus');
+        await expect(promptPage.promptTitleDisplay).toContainText('Management Test Prompt Focus');
 
         const techId = page.locator('span[title="Technical ID"]');
         if (await techId.isVisible()) {

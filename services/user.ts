@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
-import { hash, compare } from "bcryptjs";
+import { hash, compare } from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import { ROLES } from "@/lib/permissions";
 

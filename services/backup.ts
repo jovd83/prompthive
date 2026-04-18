@@ -54,15 +54,6 @@ export async function saveSettingsService(userId: string, data: SaveSettingsInpu
 export async function performBackupService(userId: string, backupPath: string) {
     try {
         const collections = await prisma.collection.findMany({ where: { ownerId: userId } });
-        const prompts = await prisma.prompt.findMany({
-            where: { createdById: userId },
-            include: {
-                versions: {
-                    include: { attachments: true }
-                },
-                tags: true
-            },
-        });
         const tags = await prisma.tag.findMany();
         const settings = await prisma.settings.findUnique({ where: { userId } });
 
@@ -86,32 +77,57 @@ export async function performBackupService(userId: string, backupPath: string) {
 
         await fileHandle.write(',"prompts":[\n');
 
-        for (let i = 0; i < prompts.length; i++) {
-            const p = prompts[i];
+        const batchSize = 100;
+        let cursor: string | undefined = undefined;
+        let isFirst = true;
 
-            const richVersions = [];
-            for (const v of p.versions) {
-                const richAttachments = [];
-                for (const a of v.attachments) {
-                    richAttachments.push({
-                        ...a,
-                        file: await getFileAsBase64(a.filePath)
+        while (true) {
+            const prompts: any[] = await prisma.prompt.findMany({
+                take: batchSize,
+                skip: cursor ? 1 : 0,
+                cursor: cursor ? { id: cursor } : undefined,
+                where: { createdById: userId },
+                include: {
+                    versions: {
+                        include: { attachments: true },
+                        orderBy: { versionNumber: "desc" }
+                    },
+                    tags: true
+                },
+                orderBy: { id: 'asc' }
+            });
+
+            if (prompts.length === 0) break;
+
+            for (let i = 0; i < prompts.length; i++) {
+                const p = prompts[i];
+                const richVersions = [];
+                for (const v of p.versions) {
+                    const richAttachments = [];
+                    for (const a of v.attachments) {
+                        richAttachments.push({
+                            ...a,
+                            file: await getFileAsBase64(a.filePath)
+                        });
+                    }
+                    richVersions.push({
+                        ...v,
+                        resultImageFile: await getFileAsBase64(v.resultImage),
+                        attachments: richAttachments
                     });
                 }
-                richVersions.push({
-                    ...v,
-                    resultImageFile: await getFileAsBase64(v.resultImage),
-                    attachments: richAttachments
-                });
+
+                const richPrompt = {
+                    ...p,
+                    versions: richVersions
+                };
+
+                const chunk = (isFirst ? "" : ",\n") + JSON.stringify(richPrompt);
+                await fileHandle.write(chunk);
+                isFirst = false;
             }
 
-            const richPrompt = {
-                ...p,
-                versions: richVersions
-            };
-
-            const chunk = JSON.stringify(richPrompt) + (i < prompts.length - 1 ? ",\n" : "\n");
-            await fileHandle.write(chunk);
+            cursor = prompts[prompts.length - 1].id;
         }
 
         await fileHandle.write(']}');
@@ -121,7 +137,6 @@ export async function performBackupService(userId: string, backupPath: string) {
         return true;
     } catch (error: unknown) {
         console.error("[BackupService] Backup failed:", error instanceof Error ? error.message : String(error));
-        // Ensures caller is aware it failed by uniformly returning false
         return false;
     }
 }
@@ -172,120 +187,149 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
 
     await dropAllDataService(userId);
 
+    // Restore Tags
+    const tagsToCreate = backupData.tags.map((t: any) => ({ name: t.name }));
+    const existingTags = await prisma.tag.findMany({
+        where: { name: { in: tagsToCreate.map((t: any) => t.name) } }
+    });
+    const existingNames = new Set(existingTags.map(t => t.name));
+    const newTags = tagsToCreate.filter((t: any) => !existingNames.has(t.name));
+
+    if (newTags.length > 0) {
+        await prisma.tag.createMany({
+            data: newTags
+        });
+    }
+
     // Restore Collections
     const collectionIdMap: Record<string, string> = {};
+    const collectionsToCreate = backupData.collections.map((col: any) => ({
+        title: col.title,
+        description: col.description,
+        ownerId: userId,
+    }));
 
-    for (const col of backupData.collections) {
-        const newCol = await prisma.collection.create({
-            data: {
-                title: col.title,
-                description: col.description,
-                ownerId: userId,
-            }
-        });
-        collectionIdMap[col.id] = newCol.id;
-    }
-
-    for (const col of backupData.collections) {
-        if (col.parentId && collectionIdMap[col.parentId]) {
-            await prisma.collection.update({
-                where: { id: collectionIdMap[col.id] },
-                data: { parentId: collectionIdMap[col.parentId] }
-            });
-        }
-    }
-
-    // Restore Prompts
-    for (const p of backupData.prompts) {
-        const tagIds: string[] = [];
-        if (p.tags) {
-            for (const tag of p.tags) {
-                let existingTag = await prisma.tag.findUnique({ where: { name: tag.name } });
-                if (!existingTag) {
-                    existingTag = await prisma.tag.create({ data: { name: tag.name } });
+    // createMany doesn't return the new IDs, so we might need individual creates if we need mapping
+    // HOWEVER, we can generate the IDs ourselves if we want to use createMany!
+    // But PromptHive uses cuid() by default. We can use uuidv4 or cuid() ourselves.
+    // Given we need the map, I'll stick to a loop but in a single transaction for speed.
+    await prisma.$transaction(async (tx) => {
+        for (const col of backupData.collections) {
+            const newCol = await tx.collection.create({
+                data: {
+                    title: col.title,
+                    description: col.description,
+                    ownerId: userId,
                 }
-                tagIds.push(existingTag.id);
-            }
+            });
+            collectionIdMap[col.id] = newCol.id;
         }
 
-        const newPrompt = await prisma.prompt.create({
-            data: {
-                title: p.title,
-                description: p.description,
-                createdById: userId,
-                tags: tagIds.length > 0 ? { connect: tagIds.map(id => ({ id })) } : undefined,
-                viewCount: p.viewCount,
-                copyCount: p.copyCount,
-                versions: {
-                    create: await Promise.all(p.versions.map(async (v: Record<string, any>) => {
-                        // Restore Image Helper
-                        let resultImagePath = v.resultImage;
-                        if (v.resultImageFile && v.resultImageFile.data) {
-                            try {
-                                const buffer = Buffer.from(v.resultImageFile.data, 'base64');
-                                const ext = v.resultImage ? path.extname(v.resultImage) : '.png';
-                                const fileName = `restored-${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
-                                const uploadDir = path.join(process.cwd(), "public", "uploads");
-                                await fs.mkdir(uploadDir, { recursive: true });
-                                await fs.writeFile(path.join(uploadDir, fileName), buffer);
-                                resultImagePath = `/uploads/${fileName}`;
-                            } catch (e: unknown) {
-                                console.error("[BackupService] Failed to restore image", e instanceof Error ? e.message : String(e));
-                            }
-                        }
+        for (const col of backupData.collections) {
+            if (col.parentId && collectionIdMap[col.parentId]) {
+                await tx.collection.update({
+                    where: { id: collectionIdMap[col.id] },
+                    data: { parentId: collectionIdMap[col.parentId] }
+                });
+            }
+        }
+    });
 
-                        const restoredAttachments: { filePath: string; fileType: string }[] = [];
-                        if (v.attachments && Array.isArray(v.attachments)) {
-                            for (const att of v.attachments) {
-                                if (att.file && att.file.data) {
-                                    try {
-                                        const buffer = Buffer.from(att.file.data, 'base64');
-                                        const ext = att.filePath ? path.extname(att.filePath) : '.bin';
-                                        const fileName = `restored-att-${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
-                                        const uploadDir = path.join(process.cwd(), "public", "uploads");
-                                        await fs.mkdir(uploadDir, { recursive: true });
-                                        await fs.writeFile(path.join(uploadDir, fileName), buffer);
-                                        restoredAttachments.push({
-                                            filePath: `/uploads/${fileName}`,
-                                            fileType: att.fileType
-                                        });
-                                    } catch (e: unknown) {
-                                        console.error("[BackupService] Failed to restore attachment", e instanceof Error ? e.message : String(e));
+    // Restore Prompts in chunks to balance speed and locking
+    const promptChunks = [];
+    const batchSize = 50;
+    for (let i = 0; i < backupData.prompts.length; i += batchSize) {
+        promptChunks.push(backupData.prompts.slice(i, i + batchSize));
+    }
+
+    for (const chunk of promptChunks) {
+        await prisma.$transaction(async (tx) => {
+        for (const p of chunk) {
+            const tagIds: string[] = [];
+            if (p.tags) {
+                const tagsFound = await tx.tag.findMany({ where: { name: { in: p.tags.map((t: any) => typeof t === 'string' ? t : t.name) } } });
+                tagIds.push(...tagsFound.map(t => t.id));
+            }
+
+            const newPrompt = await tx.prompt.create({
+                data: {
+                    title: p.title,
+                    description: p.description,
+                    createdById: userId,
+                    tags: tagIds.length > 0 ? { connect: tagIds.map(id => ({ id })) } : undefined,
+                    viewCount: p.viewCount,
+                    copyCount: p.copyCount,
+                    versions: {
+                        create: await Promise.all(p.versions.map(async (v: Record<string, any>) => {
+                            // Restore Image Helper
+                            let resultImagePath = v.resultImage;
+                            if (v.resultImageFile && v.resultImageFile.data) {
+                                try {
+                                    const buffer = Buffer.from(v.resultImageFile.data, 'base64');
+                                    const ext = v.resultImage ? path.extname(v.resultImage) : '.png';
+                                    const fileName = `restored-${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
+                                    const uploadDir = path.join(process.cwd(), "public", "uploads");
+                                    await fs.mkdir(uploadDir, { recursive: true });
+                                    await fs.writeFile(path.join(uploadDir, fileName), buffer);
+                                    resultImagePath = `/uploads/${fileName}`;
+                                } catch (e: unknown) {
+                                    console.error("[BackupService] Failed to restore image", e instanceof Error ? e.message : String(e));
+                                }
+                            }
+
+                            const restoredAttachments: { filePath: string; fileType: string }[] = [];
+                            if (v.attachments && Array.isArray(v.attachments)) {
+                                for (const att of v.attachments) {
+                                    if (att.file && att.file.data) {
+                                        try {
+                                            const buffer = Buffer.from(att.file.data, 'base64');
+                                            const ext = att.filePath ? path.extname(att.filePath) : '.bin';
+                                            const fileName = `restored-att-${Date.now()}-${Math.floor(Math.random() * 1000)}${ext}`;
+                                            const uploadDir = path.join(process.cwd(), "public", "uploads");
+                                            await fs.mkdir(uploadDir, { recursive: true });
+                                            await fs.writeFile(path.join(uploadDir, fileName), buffer);
+                                            restoredAttachments.push({
+                                                filePath: `/uploads/${fileName}`,
+                                                fileType: att.fileType
+                                            });
+                                        } catch (e: unknown) {
+                                            console.error("[BackupService] Failed to restore attachment", e instanceof Error ? e.message : String(e));
+                                        }
                                     }
                                 }
                             }
-                        }
 
-                        return {
-                            content: v.content,
-                            longContent: v.longContent,
-                            shortContent: v.shortContent,
-                            usageExample: v.usageExample,
-                            variableDefinitions: v.variableDefinitions,
-                            versionNumber: v.versionNumber,
-                            createdById: userId,
-                            resultText: v.resultText,
-                            resultImage: resultImagePath,
-                            changelog: v.changelog,
-                            attachments: { create: restoredAttachments }
-                        };
-                    }))
-                }
-            },
-            include: { versions: true }
-        });
+                            return {
+                                content: v.content,
+                                shortContent: v.shortContent,
+                                usageExample: v.usageExample,
+                                variableDefinitions: v.variableDefinitions,
+                                versionNumber: v.versionNumber,
+                                createdById: userId,
+                                resultText: v.resultText,
+                                resultImage: resultImagePath,
+                                changelog: v.changelog,
+                                attachments: { create: restoredAttachments }
+                            };
+                        }))
+                    }
+                },
+                include: { versions: true }
+            });
 
-        if (p.currentVersionId) {
-            const originalCurrentVersion = p.versions.find((v: Record<string, any>) => v.id === p.currentVersionId);
-            if (originalCurrentVersion) {
-                const newCurrentVersion = newPrompt.versions.find(v => v.versionNumber === originalCurrentVersion.versionNumber);
-                if (newCurrentVersion) {
-                    await prisma.prompt.update({
-                        where: { id: newPrompt.id },
-                        data: { currentVersionId: newCurrentVersion.id }
-                    });
+            if (p.currentVersionId) {
+                const originalCurrentVersion = p.versions.find((v: Record<string, any>) => v.id === p.currentVersionId);
+                if (originalCurrentVersion) {
+                    const newCurrentVersion = newPrompt.versions.find(v => v.versionNumber === originalCurrentVersion.versionNumber);
+                    if (newCurrentVersion) {
+                        await tx.prompt.update({
+                            where: { id: newPrompt.id },
+                            data: { currentVersionId: newCurrentVersion.id }
+                        });
+                    }
                 }
             }
         }
+    });
     }
 }

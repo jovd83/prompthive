@@ -28,3 +28,13 @@ global.ResizeObserver = class ResizeObserver {
 
 // Polyfill scrollIntoView
 window.HTMLElement.prototype.scrollIntoView = function () { };
+
+// Polyfill relative URLs for fetch (needed for undici v7+)
+const originalFetch = global.fetch;
+(global as any).fetch = (input: RequestInfo | URL, init?: RequestInit) => {
+    if (typeof input === 'string' && input.startsWith('/')) {
+        const url = new URL(input, window.location.origin).href;
+        return originalFetch(url, init);
+    }
+    return originalFetch(input, init);
+};

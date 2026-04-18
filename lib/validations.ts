@@ -53,40 +53,43 @@ export const CollectionSchema = z.object({
 
 // Import Schema (Unified)
 const ImportVersionSchema = z.object({
-    content: z.string().optional(),
-    shortContent: z.string().optional(),
-    longContent: z.string().optional(), // Legacy support
-    usageExample: z.string().optional(),
-    variableDefinitions: z.union([z.string(), z.array(z.any())]).optional(),
-    versionNumber: z.number().optional(),
-    resultText: z.string().optional(),
+    content: z.string().optional().nullable(),
+    shortContent: z.string().optional().nullable(),
+    longContent: z.string().optional().nullable(), // Legacy support
+    usageExample: z.string().optional().nullable(),
+    variableDefinitions: z.union([z.string(), z.array(z.any())]).optional().nullable(),
+    versionNumber: z.number().optional().nullable(),
+    resultText: z.string().optional().nullable(),
     resultImage: z.union([
         z.string(),
         z.object({
             path: z.string(),
-            file: z.object({ data: z.string().optional() }).optional()
+            file: z.object({ data: z.string().optional().nullable(), type: z.string().optional().nullable() }).optional().nullable()
         })
-    ]).optional(),
-    changelog: z.string().optional(),
-    attachments: z.array(z.any()).optional(), // Hard to strict type binary file inputs here
+    ]).optional().nullable(),
+    changelog: z.string().optional().nullable(),
+    attachments: z.array(z.any()).optional().nullable(), // Hard to strict type binary file inputs here
 });
 
 export const ImportItemSchema = z.object({
-    title: z.string().optional(),
-    content: z.string().optional(), // Flat format
-    description: z.string().optional(),
+    title: z.string().optional().nullable(),
+    content: z.string().optional().nullable(), // Flat format
+    description: z.string().optional().nullable(),
     // Backward comp: allow non-array if normalized later, or mixed types
-    tags: z.union([z.string(), z.array(z.any())]).optional(),
-    collections: z.union([z.string(), z.array(z.any())]).optional(),
-    collection: z.string().optional(), // Legacy
-    collectionIds: z.array(z.string()).optional(), // V2
-    technicalId: z.string().optional(),
-    versions: z.array(z.any()).optional(), // Relaxed version schema entirely for import to avoid deep failures
-    relatedPrompts: z.array(z.string()).optional(),
+    tags: z.union([z.string(), z.array(z.any())]).optional().nullable(),
+    collections: z.union([z.string(), z.array(z.any())]).optional().nullable(),
+    collection: z.string().optional().nullable(), // Legacy
+    collectionIds: z.array(z.string()).optional().nullable(), // V2
+    technicalId: z.string().optional().nullable(),
+    versions: z.array(z.any()).optional().nullable(), // Relaxed version schema entirely for import to avoid deep failures
+    relatedPrompts: z.array(z.string()).optional().nullable(),
     // PromptCat specific
-    categories: z.union([z.string(), z.array(z.string())]).optional(),
-    category: z.string().optional(),
-    folderId: z.string().optional(),
+    categories: z.union([z.string(), z.array(z.string())]).optional().nullable(),
+    category: z.string().optional().nullable(),
+    folderId: z.string().optional().nullable(),
+    itemType: z.string().optional().nullable(),
+    repoUrl: z.string().optional().nullable(),
+    installCommand: z.string().optional().nullable(),
     // Allow pass-through of other legacy fields
 }).passthrough();
 

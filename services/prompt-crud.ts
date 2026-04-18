@@ -15,6 +15,9 @@ export type CreatePromptInput = {
     resultText: string;
     resource?: string;
     isPrivate?: boolean;
+    itemType?: string;
+    repoUrl?: string;
+    installCommand?: string;
 };
 
 export type CreateVersionInput = {
@@ -34,6 +37,9 @@ export type CreateVersionInput = {
     keepResultImageIds: string[];
     existingResultImagePath?: string;
     isPrivate?: boolean;
+    itemType?: string;
+    repoUrl?: string;
+    installCommand?: string;
 };
 
 export async function createPromptService(
@@ -72,6 +78,9 @@ export async function createPromptService(
             isPrivate: input.isPrivate ?? false,
             description: input.description,
             resource: input.resource,
+            itemType: input.itemType || "PROMPT",
+            repoUrl: input.repoUrl,
+            installCommand: input.installCommand,
             createdById: userId,
             collections: input.collectionId ? { connect: { id: input.collectionId } } : undefined,
             tags: input.tagIds.length > 0 ? { connect: input.tagIds.map(id => ({ id })) } : undefined,
@@ -161,6 +170,10 @@ export async function createVersionService(
         resource: input.resource,
         isPrivate: input.isPrivate,
     };
+
+    if (input.itemType !== undefined) updateData.itemType = input.itemType;
+    if (input.repoUrl !== undefined) updateData.repoUrl = input.repoUrl;
+    if (input.installCommand !== undefined) updateData.installCommand = input.installCommand;
 
     if (input.collectionId) {
         if (input.collectionId === "unassigned") {
