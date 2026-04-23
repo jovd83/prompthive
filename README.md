@@ -8,7 +8,7 @@ last_updated: 2026-04-23
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
 ![License](https://img.shields.io/badge/License-MIT-blue)
-![Tech](https://img.shields.io/badge/Tech-Next.js%2016%20%7C%20Prisma%206%20%7C%20SQLite-black)
+![Tech](https://img.shields.io/badge/Tech-Next.js%2016%20%7C%20React%2019%20%7C%20Prisma%206%20%7C%20SQLite-black)
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/jovd83)
 
 **MyPromptHive** is a self-hosted, local-first Prompt Management System designed for prompt engineers and AI enthusiasts. It allows you to organize, version, and text your LLM prompts in a beautiful, structured interface.
@@ -69,6 +69,7 @@ Demo videos can be found on the following [YouTube Channel](https://www.youtube.
 ## 🛠️ Technology Stack
 
 - **Framework**: [Next.js 16+](https://nextjs.org/) (App Router)
+- **UI Library**: [React 19](https://react.dev/)
 - **Database**: SQLite with [Prisma ORM 6+](https://www.prisma.io/)
 - **Styling**: Tailwind CSS + Custom Design System
 - **Authentication**: NextAuth.js (Local Credentials)

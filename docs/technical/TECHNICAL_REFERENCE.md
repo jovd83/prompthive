@@ -323,6 +323,16 @@ This document details the architectural decisions regarding the technology stack
     - **File-System Routing:** Intuitive directory structure matches the application's information architecture.
     - **Zero-Config:** Easy to get started and deploy locally.
     - **React Server Components (RSC):** improved performance by rendering non-interactive parts of the UI on the server, reducing the client-side JavaScript bundle.
++
++### **React 19**
++
++- **Role:** Core UI Library.
++- **Decision:**
++  - The industry-standard library for building component-based user interfaces.
++  - **Why Chosen:**
++    - **Stability & Ecosystem:** Vast ecosystem of libraries and tools.
++    - **Concurrent Rendering:** Improves responsiveness by allowing React to interrupt a long-running render.
++    - **Action Hooks:** Simplified state management for data mutations (Server Actions integration).
 
 ## 2. Database & Data Access
 
