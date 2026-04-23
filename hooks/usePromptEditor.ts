@@ -17,6 +17,9 @@ export type UsePromptEditorProps = {
     initialDescription?: string;
     existingAttachments?: ExistingAttachment[]; // All attachments, will be split by role
     legacyResultImage?: string | null;
+    initialAgentUsage?: string;
+    initialAgentSkillIds?: string;
+    allAgentSkills?: any[];
 };
 
 export function usePromptEditor({
@@ -25,12 +28,29 @@ export function usePromptEditor({
     initialShortContent = "",
     initialDescription = "",
     existingAttachments = [],
-    legacyResultImage = null
+    legacyResultImage = null,
+    initialAgentUsage = "",
+    initialAgentSkillIds = "[]",
+    allAgentSkills = []
 }: UsePromptEditorProps = {}) {
     // --- Form Content State ---
     const [content, setContent] = useState(initialContent);
     const [shortContent, setShortContent] = useState(initialShortContent);
     const [description, setDescription] = useState(initialDescription);
+    const [agentUsage, setAgentUsage] = useState(initialAgentUsage);
+    
+    // Track selected skills and their sources (skill IDs that inherited them, or 'direct')
+    const [selectedSkillsMap, setSelectedSkillsMap] = useState<Record<string, string[]>>(() => {
+        const initialIds = JSON.parse(initialAgentSkillIds || "[]") as string[];
+        const map: Record<string, string[]> = {};
+        initialIds.forEach(id => {
+            map[id] = ['direct'];
+        });
+        return map;
+    });
+
+    const agentSkillIds = Object.keys(selectedSkillsMap);
+
     console.log(`[usePromptEditor] Render. Desc: "${description}", Initial: "${initialDescription}"`);
     useEffect(() => { console.log("[usePromptEditor] Mount"); return () => console.log("[usePromptEditor] Unmount"); }, []);
     const [variables, setVariables] = useState<Variable[]>(initialVariables);
@@ -129,6 +149,58 @@ export function usePromptEditor({
         removeVariable,
         updateVariable,
         scanForVariables,
+        
+        // Agent Actions
+        agentUsage, setAgentUsage,
+        agentSkillIds,
+        selectedSkillsMap,
+        toggleAgentSkill: (id: string, isDirect: boolean = true) => {
+            setSelectedSkillsMap(prev => {
+                const newMap = { ...prev };
+                const isSelected = !!newMap[id] && newMap[id].includes(isDirect ? 'direct' : 'inherited');
+                
+                const skill = allAgentSkills.find(s => s.id === id);
+                const inheritedIds = JSON.parse(skill?.versions?.[0]?.agentSkillIds || "[]") as string[];
+
+                const recAdd = (targetId: string, sourceId: string, map: Record<string, string[]>) => {
+                    if (!map[targetId]) map[targetId] = [];
+                    if (!map[targetId].includes(sourceId)) {
+                        map[targetId].push(sourceId);
+                        // Recursively add for this skill's children
+                        const targetSkill = allAgentSkills.find(s => s.id === targetId);
+                        const children = JSON.parse(targetSkill?.versions?.[0]?.agentSkillIds || "[]") as string[];
+                        children.forEach(childId => recAdd(childId, targetId, map));
+                    }
+                };
+
+                const recRemove = (targetId: string, sourceId: string, map: Record<string, string[]>) => {
+                    if (map[targetId]) {
+                        map[targetId] = map[targetId].filter(s => s !== sourceId);
+                        if (map[targetId].length === 0) {
+                            const subSkill = allAgentSkills.find(s => s.id === targetId);
+                            const children = JSON.parse(subSkill?.versions?.[0]?.agentSkillIds || "[]") as string[];
+                            delete map[targetId];
+                            children.forEach(childId => recRemove(childId, targetId, map));
+                        }
+                    }
+                };
+
+                if (newMap[id] && newMap[id].includes(isDirect ? 'direct' : 'inherited')) {
+                    // Remove source
+                    newMap[id] = newMap[id].filter(s => s !== (isDirect ? 'direct' : 'inherited'));
+                    if (newMap[id].length === 0) {
+                        delete newMap[id];
+                        inheritedIds.forEach(childId => recRemove(childId, id, newMap));
+                    }
+                } else {
+                    // Add source
+                    if (!newMap[id]) newMap[id] = [];
+                    newMap[id].push(isDirect ? 'direct' : 'inherited');
+                    inheritedIds.forEach(childId => recAdd(childId, id, newMap));
+                }
+                return newMap;
+            });
+        },
 
         // UI State
         isCodeView, setIsCodeView,

@@ -30,7 +30,13 @@
         "save": "Guardar",
         "cancel": "Cancelar",
         "selectAll": "Seleccionar todo",
-        "deselectAll": "Deseleccionar todo"
+        "deselectAll": "Deseleccionar todo",
+        "tipOfTheDay": "Consejo del día",
+        "learnMore": "Saber más",
+        "expandTip": "Expandir consejo",
+        "collapseTip": "Contraer consejo",
+        "system": "Sistema",
+        "export": "Exportar"
     },
     "languages": {
         "en": "English",
@@ -84,7 +90,8 @@
                 "role": "Rol",
                 "cancel": "Cancelar",
                 "create": "Crear Usuario",
-                "error": "Error al crear usuario"
+                "error": "Error al crear usuario",
+                "success": "Usuario creado exitosamente"
             },
             "roleToggleTitle": "Haga clic para cambiar el rol",
             "deleteConfirmTitle": "Eliminar usuario",
@@ -111,12 +118,16 @@
             "help": "Centro de ayuda",
             "createPrompt": "Crear nuevo prompt",
             "createCollection": "Crear colección",
-            "toggleTheme": "Cambiar tema"
+            "toggleTheme": "Cambiar tema",
+            "adminSettings": "Configuración de administrador",
+            "userManagement": "Gestión de usuarios"
         },
         "sections": {
             "navigation": "Navegación",
             "actions": "Acciones",
-            "preferences": "Preferencias"
+            "preferences": "Preferencias",
+            "admin": "Administración",
+            "account": "Cuenta"
         }
     },
     "collections": {
@@ -144,7 +155,14 @@
             "title": "No hay flujos de trabajo",
             "desc": "Crea tu primera cadena de prompts para automatizar tareas complejas."
         },
-        "beta": "(BETA - No probado)"
+        "beta": "(BETA - No probado)",
+        "card": {
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "run": "Ejecutar",
+            "steps": "Pasos",
+            "noDesc": "Sin descripción proporcionada."
+        }
     },
     "prompts": {
         "dashboard": "Panel",
@@ -186,7 +204,9 @@
             "za": "Z - A",
             "newest": "Más Nuevos Primero",
             "oldest": "Más Antiguos Primero",
-            "mostItems": "Más Elementos"
+            "mostItems": "Más Elementos",
+            "mostViewed": "Más vistos",
+            "leastViewed": "Menos vistos"
         }
     },
     "advancedSearch": {
@@ -198,7 +218,8 @@
     },
     "skills": {
         "createTitle": "Crear Nuevo Agent Skill",
-        "repositoryUrl": "URL de Repositorio GitHub",
+        "repositoryUrl": "URL de Importación",
+        "url": "URL",
         "fetchInfo": "Obtener Info",
         "installCommand": "Comando de Instalación",
         "fetching": "Obteniendo...",
@@ -276,12 +297,20 @@
             "createFailed": "Error al crear prompt. Por favor intenta de nuevo.",
             "createVersionFailed": "Error al crear versión. Por favor intenta de nuevo.",
             "invalidExtension": "Extensión de archivo inválida: {{ext}}. Permitido: {{allowed}}"
-        }
+        },
+        "useOfAgents": "Uso de agents",
+        "useOfAgentSkills": "Uso de agentskills",
+        "agentUsageHint": "Este contenido se añadirá al portapapeles al copiar el prompt.",
+        "agentSkillsHint": "Los agentskills seleccionados se añadirán al portapapeles al copiar el prompt.",
+        "skillAgentUsageHint": "Define qué agents especializados deben usarse cuando se invoca esta habilidad. Este contenido se añadirá al portapapeles en la copia avanzada.",
+        "skillAgentSkillsHint": "Vincula otros agentskills de los que depende este skill. Los agentskills vinculados se incluirán en el portapapeles en la copia avanzada."
     },
     "tags": {
         "placeholder": "Seleccionar o crear etiquetas...",
         "create": "Crear etiqueta \"{{tag}}\"",
-        "noMatch": "No se encontraron etiquetas coincidentes."
+        "noMatch": "No se encontraron etiquetas coincidentes.",
+        "viewAll": "Ver todos",
+        "showLess": "Mostrar menos"
     },
     "diff": {
         "title": "Comparar Versiones",
@@ -312,7 +341,16 @@
             "restoreSuccess": "Versión restaurada con éxito.",
             "lockPrompt": "Bloquear prompt (solo creador)",
             "unlockPrompt": "Desbloquear prompt (solo creador)",
-            "lockedByCreator": "Bloqueado por el creador"
+            "lockedByCreator": "Bloqueado por el creador",
+            "advancedCopy": "Copia avanzada",
+            "addAgents": "Agregar agents",
+            "addAgentSkills": "Agregar agentskills",
+            "addSotPolicy": "Agregar política de fuente de verdad",
+            "addPersistenceCheck": "Agregar verificación de persistencia",
+            "addUserHandoff": "Agregar transferencia de usuario",
+            "copySelected": "Copiar seleccionados",
+            "linkPrompt": "Vincular prompt relacionado",
+            "downloadMarkdown": "Descargar Markdown"
         },
         "labels": {
             "description": "Descripción",
@@ -329,7 +367,8 @@
             "source": "Fuente",
             "shortPrompt": "Prompt Corto",
             "usageExample": "Ejemplo de Uso",
-            "editingVariable": "Editando Variable"
+            "editingVariable": "Editando Variable",
+            "relatedPrompts": "Prompts relacionados"
         },
         "meta": {
             "by": "Por",
@@ -341,11 +380,15 @@
             "noDescription": "Sin descripción proporcionada.",
             "noVersions": "No se encontraron versiones.",
             "valueFor": "Valor para {{name}}",
-            "enterLargeText": "Ingrese texto regular o largo aquí..."
+            "enterLargeText": "Ingrese texto regular o largo aquí...",
+            "searchPrompts": "Buscar por título o ID..."
         },
         "errors": {
             "deleteFailed": "Error al eliminar prompt.",
             "restoreFailed": "Error al restaurar versión."
+        },
+        "badges": {
+            "private": "Privado"
         }
     },
     "settings": {
@@ -392,7 +435,14 @@
         "dbCleared": "Base de datos limpiada exitosamente.",
         "saveVisibility": "Guardar Visibilidad",
         "collectionVisibility": "Visibilidad de la Colección",
-        "collectionVisibilityDesc": "Desmarca las colecciones que quieras ocultar. Las colecciones ocultas (y sus hijos) no aparecerán en la barra lateral."
+        "collectionVisibilityDesc": "Desmarca las colecciones que quieras ocultar. Las colecciones ocultas (y sus hijos) no aparecerán en la barra lateral.",
+        "showTips": "Mostrar consejos de prompts",
+        "showTipsDesc": "Muestra un consejo útil sobre prompts en el panel principal cada día.",
+        "showWorkflows": "Mostrar flujos de trabajo",
+        "showWorkflowsDesc": "Habilitar la función de flujos de trabajo en la barra lateral.",
+        "languageSettings": "Configuración de idioma",
+        "saveGeneral": "Guardar configuración general",
+        "saveBackup": "Guardar configuración de respaldo"
     },
     "importExport": {
         "title": "Importar / Exportar",
@@ -428,7 +478,9 @@
         "exportComplete": "Exportación completa: {{count}} prompts exportados.",
         "exportZeroTitle": "Exportar para TMT Zero",
         "exportZeroDesc": "Seleccione colecciones para exportar para la versión ligera.",
-        "exportZeroButton": "Exportar para TMT Zero"
+        "exportZeroButton": "Exportar para TMT Zero",
+        "includeAttachments": "Incluir archivos adjuntos",
+        "includeResultFiles": "Incluir archivos de resultado / imágenes"
     },
     "help": {
         "title": "Centro de Ayuda",
@@ -441,7 +493,20 @@
             "introduction": "Introducción",
             "gettingStarted": "Comenzando",
             "variables": "Variables y Sintaxis",
-            "collections": "Colecciones y estructura"
+            "collections": "Colecciones y estructura",
+            "exporting": "Exportar y descargar",
+            "locking": "Bloqueo de prompts (protección)",
+            "technicalIds": "IDs técnicos",
+            "tagColors": "Colores de etiquetas",
+            "admin": "Funciones de administrador",
+            "aiScraping": "Guía de Web Scraping con IA",
+            "commandPalette": "Paleta de comandos",
+            "visualDiff": "Comparación visual de versiones",
+            "versionHistory": "Historial y comparación de versiones",
+            "language": "Configuración de idioma",
+            "userProfile": "Perfil de usuario y seguridad",
+            "faq": "Preguntas frecuentes y solución de problemas",
+            "changelog": "Registro de cambios"
         },
         "content": {
             "changelog": {
@@ -485,7 +550,9 @@
                 "versionTitle": "Versión",
                 "versionDesc": "Nunca pierdas un buen prompt. Cada guardado crea una nueva entrada en el historial.",
                 "templatizeTitle": "Templatizar",
-                "templatizeDesc": "Usa variables como <code>{{topic}}</code> para crear plantillas reutilizables."
+                "templatizeDesc": "Usa variables como <code>{{topic}}</code> para crear plantillas reutilizables.",
+                "tipsTitle": "Aprende",
+                "tipsDesc": "Recibe <strong>consejos de prompts</strong> diarios en tu panel para mejorar tus habilidades (se puede desactivar en Configuración)."
             },
             "gettingStarted": {
                 "tip": "No necesitas conexión a internet. TMT se ejecuta completamente local en tu máquina.",
@@ -501,7 +568,8 @@
                 "step2Li2": "Llena cualquier Variable (si está definida).",
                 "step2Li3": "Pega la salida de ChatGPT/Claude en el campo <strong>\"Texto Resultado\"</strong>.",
                 "step2Li4": "Adjunta capturas de pantalla si es necesario.",
-                "step2Li5": "Haz clic en <strong>Guardar Nueva Versión</strong>."
+                "step2Li5": "Haz clic en <strong>Guardar Nueva Versión</strong>.",
+                "step1Li4": "Escribe tu prompt en el editor."
             },
             "variables": {
                 "desc": "Las variables hacen tus prompts dinámicos. En lugar de reescribir \"Escribe un blog sobre Perros\", puedes escribir \"Escribe un blog sobre <code>{{topic}}</code>\".",
@@ -552,8 +620,8 @@
                 "greenDesc": "Indica texto que fue <strong>Añadido</strong> en la versión más nueva.",
                 "redTitle": "Fondo Rojo",
                 "redDesc": "Indica texto que fue <strong>Eliminado</strong> de la versión más antigua.",
-                "restoreTitle": "Restaurar Versiones Antiguas",
-                "restoreDesc": "Puedes restaurar cualquier versión anterior para que se convierta en la nueva versión actual. Haz clic en el icono 'Restaurar' (flecha circular) junto a una versión en la lista del historial. Esto crea una nueva copia de versión, preservando tu historial lineal.",
+                "restoreTitle": "Restaurar versiones anteriores",
+                "restoreDesc": "Puedes restaurar cualquier versión anterior para que sea la versión actual. Haz clic en el icono 'Restaurar' (flecha circular) junto a una versión en la lista del historial. Esto crea una nueva copia de la versión, preservando tu historial lineal.",
                 "tipTitle": "Consejo",
                 "tipDesc": "¡Usa esto para verificar si tu último \"ajuste\" realmente mejoró el prompt o solo movió palabras!"
             },
@@ -598,20 +666,29 @@
                 "a3": "Actualmente, TMT es una herramienta local de un solo usuario. Sin embargo, puedes usar la función <strong>Importar/Exportar</strong> en la barra lateral para compartir archivos JSON con colegas."
             },
             "technicalIds": {
-                "desc": "Los identificadores técnicos proporcionan una referencia estable y legible para tus prompts (ej. VIBE-123).",
-                "generationTitle": "Generación Automática",
-                "generationDesc": "Al asignar un prompt a una colección, este obtiene automáticamente un ID basado en el nombre de la colección (ej. 'Ventas' -> 'VENT-1').",
-                "routingTitle": "URLs Directas",
+                "desc": "Los IDs técnicos proporcionan una referencia estable y legible para tus prompts (ej. VIBE-123).",
+                "generationTitle": "Generación automática",
+                "generationDesc": "Cuando asignas un prompt a una colección, automáticamente obtiene un ID basado en el nombre de la colección (ej. 'Ventas' -> 'VENT-1').",
+                "routingTitle": "URLs directas",
                 "routingDesc": "Puedes acceder a cualquier prompt directamente escribiendo su ID en la URL: <code>/prompts/VIBE-123</code>.",
                 "searchTitle": "Búsqueda",
-                "searchDesc": "Puedes encontrar cualquier prompt instantáneamente escribiendo su ID técnico en la barra de búsqueda."
+                "searchDesc": "Puedes encontrar cualquier prompt instantáneamente escribiendo su ID técnico en la barra de búsqueda del panel."
             },
             "tagColors": {
                 "desc": "Organiza tus etiquetas visualmente asignándoles colores automáticos y consistentes.",
-                "enableTitle": "Habilitar Colores",
-                "enableDesc": "Ve a <strong>Configuración > General</strong> y marca <strong>Habilitar Colores de Etiquetas</strong>.",
+                "enableTitle": "Activar colores",
+                "enableDesc": "Ve a <strong>Configuración > General</strong> y marca <strong>Activar colores de etiquetas</strong>.",
                 "howItWorksTitle": "Cómo funciona",
                 "howItWorksDesc": "Los colores se generan de forma determinista basándose en el nombre de la etiqueta. La misma etiqueta siempre tendrá el mismo color en toda la aplicación."
+            },
+            "locking": {
+                "desc": "Protege tu trabajo de ediciones accidentales <strong>bloqueando</strong> tus prompts.",
+                "howToTitle": "Cómo bloquear",
+                "li1": "Abre un prompt que hayas creado.",
+                "li2": "Haz clic en el icono <span class=\"text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span> <strong>Desbloquear</strong> en la cabecera.",
+                "li3": "El icono cambiará a un <strong>candado cerrado</strong>, indicando que el prompt está bloqueado.",
+                "effectTitle": "¿Qué sucede?",
+                "effectDesc": "Cuando está bloqueado, los botones <strong>Editar</strong>, <strong>Guardar nueva versión</strong> y <strong>Agregar variable</strong> están deshabilitados para todos (excepto para ti). Usa esto para marcar prompts como 'Final/Estable' o para evitar que los miembros del equipo modifiquen tus plantillas."
             }
         }
     }

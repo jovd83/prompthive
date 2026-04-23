@@ -23,10 +23,17 @@ export default async function NewPromptPage({ searchParams }: { searchParams: Pr
     const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
     const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: CONFIG_ID.GLOBAL } });
 
+    const agentSkills = await prisma.prompt.findMany({
+        where: { itemType: "AGENT_SKILL" },
+        include: { versions: { orderBy: { versionNumber: "desc" }, take: 1 } },
+        orderBy: { title: "asc" }
+    });
+
     return (
         <NewPromptContent
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             initialCollectionId={collectionId}
             tagColorsEnabled={settings?.tagColorsEnabled ?? true}
             privatePromptsEnabled={globalConfig?.privatePromptsEnabled ?? false}

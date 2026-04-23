@@ -1,6 +1,6 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { updateAvatarService, changePasswordService, generateResetTokenService, resetPasswordService, updateLanguageService, updateUserRoleService, createUserService } from './user';
+import { updateAvatarService, changePasswordService, generateResetTokenService, resetPasswordService, updateLanguageService, updateUserRoleService, createUserService, getAllUsersService, deleteUserService } from './user';
 import { prisma } from '@/lib/prisma';
 import { hash, compare } from 'bcrypt';
 
@@ -12,7 +12,16 @@ vi.mock('@/lib/prisma', () => ({
             findUnique: vi.fn(),
             findFirst: vi.fn(),
             create: vi.fn(),
-        }
+            findMany: vi.fn(),
+            deleteMany: vi.fn(),
+        },
+        prompt: { updateMany: vi.fn() },
+        promptVersion: { updateMany: vi.fn() },
+        collection: { updateMany: vi.fn() },
+        workflow: { updateMany: vi.fn() },
+        settings: { deleteMany: vi.fn() },
+        favorite: { deleteMany: vi.fn() },
+        $transaction: vi.fn((cb) => cb(prisma)),
     }
 }));
 
@@ -189,6 +198,36 @@ describe('createUserService', () => {
             passwordHash: 'pass',
             role: 'USER'
         })).rejects.toThrow('User with this email or username already exists');
+    });
+});
+describe('getAllUsersService', () => {
+    it('should return all users ordered by creation date', async () => {
+        const mockUsers = [{ id: '1', username: 'u1' }];
+        (prisma.user.findMany as any).mockResolvedValue(mockUsers);
+
+        const result = await getAllUsersService();
+
+        expect(result).toEqual(mockUsers);
+        expect(prisma.user.findMany).toHaveBeenCalledWith(expect.objectContaining({
+            orderBy: { createdAt: 'desc' }
+        }));
+    });
+});
+
+describe('deleteUserService', () => {
+    it('should reassign assets and delete user data in a transaction', async () => {
+        const userId = 'user-to-delete';
+        const adminId = 'admin-id';
+
+        await deleteUserService(userId, adminId);
+
+        expect(prisma.prompt.updateMany).toHaveBeenCalledWith(expect.objectContaining({
+            where: { createdById: userId },
+            data: { createdById: adminId }
+        }));
+        expect(prisma.user.deleteMany).toHaveBeenCalledWith({
+            where: { id: userId }
+        });
     });
 });
 

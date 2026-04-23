@@ -22,6 +22,7 @@ interface UnifiedPromptFormProps {
     initialValues?: any;
     collections?: CollectionWithPrompts[];
     tags?: TagWithCount[];
+    agentSkills?: any[];
     // Config
     tagColorsEnabled?: boolean;
     privatePromptsEnabled?: boolean;
@@ -38,6 +39,7 @@ export default function UnifiedPromptForm({
     initialValues = {},
     collections = [],
     tags = [],
+    agentSkills = [],
     tagColorsEnabled = true,
     privatePromptsEnabled = false,
     onSubmit,
@@ -55,7 +57,10 @@ export default function UnifiedPromptForm({
         initialDescription: initialValues.description || "",
         // Attachments
         existingAttachments: mode === 'EDIT' ? (initialValues.versions?.[0]?.attachments?.map((a: any) => ({ id: a.id, filePath: a.filePath, role: a.role })) || []) : [],
-        legacyResultImage: mode === 'EDIT' ? (initialValues.versions?.[0]?.resultImage) : null
+        legacyResultImage: mode === 'EDIT' ? (initialValues.versions?.[0]?.resultImage) : null,
+        initialAgentUsage: initialValues.agentUsage || "",
+        initialAgentSkillIds: initialValues.agentSkillIds || "[]",
+        allAgentSkills: agentSkills,
     };
 
     const {
@@ -74,7 +79,10 @@ export default function UnifiedPromptForm({
         handleFileChange, removeNewAttachment, removeNewResultImage,
         // Existing Files
         keptAttachments, keptResultImages,
-        removeKeptAttachment, removeKeptResultImage
+        removeKeptAttachment, removeKeptResultImage,
+        // Agent Integration
+        agentUsage, setAgentUsage,
+        agentSkillIds, toggleAgentSkill, selectedSkillsMap
     } = usePromptEditor(hookProps);
 
 
@@ -91,6 +99,8 @@ export default function UnifiedPromptForm({
         formData.set("content", content);
         formData.set("shortContent", shortContent);
         formData.set("variableDefinitions", JSON.stringify(variables));
+        formData.set("agentUsage", agentUsage);
+        formData.set("agentSkillIds", JSON.stringify(agentSkillIds));
 
         // Append Files
         newResultImages.forEach((file) => formData.append("resultImages", file));
@@ -312,6 +322,70 @@ export default function UnifiedPromptForm({
                     </div>
                 </div>
             </CollapsibleSection>
+
+            {/* --- Use of Agents --- */}
+            <CollapsibleSection title={t('form.useOfAgents')} defaultOpen={!!agentUsage}>
+                <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground mb-2">{t('form.agentUsageHint')}</p>
+                    <ExpandableTextarea
+                        name="agentUsage"
+                        value={agentUsage}
+                        onChange={(e) => setAgentUsage(e.target.value)}
+                        className="input h-32 font-mono text-sm resize-y"
+                        placeholder="e.g., Use a Researcher agent to gather initial data..."
+                        label={t('form.useOfAgents')}
+                    />
+                </div>
+            </CollapsibleSection>
+
+            {/* --- Use of Agent Skills --- */}
+            <CollapsibleSection title={t('form.useOfAgentSkills')} defaultOpen={agentSkillIds.length > 0}>
+                <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground mb-4">{t('form.agentSkillsHint')}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto p-1">
+                        {agentSkills.map((skill: any) => {
+                            const sources = selectedSkillsMap[skill.id] || [];
+                            const isSelected = sources.length > 0;
+                            const isDirect = sources.includes('direct');
+                            const inheritances = sources.filter(s => s !== 'direct');
+                            
+                            return (
+                                <label 
+                                    key={skill.id} 
+                                    className={`flex items-start gap-2 p-3 rounded-lg border cursor-pointer transition-all hover:bg-surface ${isSelected ? 'border-primary bg-primary/5 shadow-sm' : 'border-border'}`}
+                                >
+                                    <input 
+                                        type="checkbox" 
+                                        className="checkbox mt-1" 
+                                        checked={isSelected}
+                                        onChange={() => toggleAgentSkill(skill.id)}
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                            <span className="font-medium text-sm truncate">{skill.title}</span>
+                                            {inheritances.map(sourceId => {
+                                                const sourceSkill = agentSkills.find(s => s.id === sourceId);
+                                                return (
+                                                    <span key={sourceId} className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold uppercase whitespace-nowrap">
+                                                        inherited from {sourceSkill?.title || 'Another Skill'}
+                                                    </span>
+                                                );
+                                            })}
+                                        </div>
+                                        <div className="text-xs text-muted-foreground line-clamp-2 mt-0.5" title={skill.versions?.[0]?.content || skill.description}>
+                                            {skill.description || skill.versions?.[0]?.content || "No description available"}
+                                        </div>
+                                    </div>
+                                </label>
+                            );
+                        })}
+                        {agentSkills.length === 0 && (
+                            <p className="text-sm text-muted-foreground italic col-span-2 py-4 text-center">No agent skills available.</p>
+                        )}
+                    </div>
+                </div>
+            </CollapsibleSection>
+
 
             {/* --- Results --- */}
             <CollapsibleSection title={t('form.sections.results')} defaultOpen={mode === 'EDIT' && (!!initialValues.versions?.[0]?.resultText || keptResultImages.length > 0)}>

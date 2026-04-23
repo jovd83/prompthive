@@ -4,11 +4,12 @@ erDiagram
     User ||--o| Settings : has
     User ||--o{ Workflow : owns
     User ||--o{ Favorite : "favorites"
+    User ||--o{ UserPromptInteraction : "interacts"
     
     User {
         string id PK
-        string username
         string email
+        string username
         string passwordHash
         string role "USER | ADMIN"
         string language "en | nl | fr | es | etc"
@@ -20,17 +21,20 @@ erDiagram
 
     Settings {
         string id PK
+        string userId FK
         boolean autoBackupEnabled
+        string backupPath
         string backupFrequency
+        datetime lastBackupAt
         boolean showPrompterTips
         boolean tagColorsEnabled
-        string backupPath
-        datetime lastBackupAt
+        boolean workflowVisible
     }
     
     GlobalConfiguration {
         string id PK "GLOBAL"
         boolean registrationEnabled
+        boolean privatePromptsEnabled
     }
 
     Prompt ||--|{ PromptVersion : contains
@@ -39,6 +43,7 @@ erDiagram
     Prompt ||--o{ WorkflowStep : "used in"
     Prompt ||--o{ Favorite : "favorited by"
     Prompt }|--|{ Prompt : "related to"
+    Prompt ||--o{ UserPromptInteraction : "logged interactions"
 
     Prompt {
         string id PK
@@ -50,13 +55,20 @@ erDiagram
         int viewCount
         int copyCount
         boolean isLocked
-        string technicalId "Unique VIBE-ID"
+        boolean isPrivate
+        string itemType "PROMPT | AGENT_SKILL"
+        string repoUrl
+        string url
+        string installCommand
+        string technicalId "Unique Technical ID"
         datetime createdAt
+        datetime updatedAt
     }
 
     PromptVersion ||--o{ Attachment : "has files"
     PromptVersion {
         string id PK
+        string promptId FK
         string content
         string shortContent
         string usageExample
@@ -67,14 +79,19 @@ erDiagram
         int versionNumber
         string changelog
         string createdById FK
+        string agentUsage "Markdown"
+        string agentSkillIds "CSV"
         datetime createdAt
     }
 
     Attachment {
         string id PK
+        string versionId FK
         string filePath
         string fileType
+        string originalName
         string role "ATTACHMENT | RESULT"
+        datetime createdAt
     }
 
     Collection ||--o{ Collection : "parent of"
@@ -84,12 +101,14 @@ erDiagram
         string description
         string parentId FK
         string ownerId FK
+        datetime createdAt
     }
 
     Tag {
         string id PK
         string name
         string color
+        datetime createdAt
     }
 
     Workflow ||--o{ WorkflowStep : contains
@@ -99,10 +118,12 @@ erDiagram
         string description
         string ownerId FK
         datetime createdAt
+        datetime updatedAt
     }
 
     WorkflowStep {
         string id PK
+        string workflowId FK
         string promptId FK
         int order
         string inputMappings "JSON"
@@ -114,5 +135,18 @@ erDiagram
         datetime createdAt
     }
 
+    UserPromptInteraction {
+        string id PK
+        string userId FK
+        string promptId FK
+        string type "USE | COPY | VIEW"
+        datetime updatedAt
+    }
+
     Settings }|--|{ Collection : "hides (hiddenCollections)"
     Settings }|--|{ User : "hides (hiddenUsers)"
+    
+    TechnicalIdSequence {
+        string prefix PK
+        int lastValue
+    }

@@ -223,7 +223,8 @@
     },
     "skills": {
         "createTitle": "Create New Agent Skill",
-        "repositoryUrl": "GitHub Repository URL",
+        "repositoryUrl": "URL",
+        "url": "URL",
         "fetchInfo": "Fetch Info",
         "installCommand": "Install Command",
         "fetching": "Fetching...",
@@ -296,7 +297,13 @@
             "createFailed": "Failed to create prompt. Please try again.",
             "createVersionFailed": "Failed to create version. Please try again.",
             "invalidExtension": "Invalid file extension: {{ext}}. Allowed: {{allowed}}"
-        }
+        },
+        "useOfAgents": "Use of agents",
+        "useOfAgentSkills": "Use of agentskills",
+        "agentUsageHint": "This content will be appended to the clipboard when copying the prompt.",
+        "agentSkillsHint": "Selected skills will be appended to the clipboard when copying the prompt.",
+        "skillAgentUsageHint": "Define which specialized agents should be used when this skill is invoked. This content will be appended to the clipboard on advanced copy.",
+        "skillAgentSkillsHint": "Link other skills that this skill depends on. Linked skills will be included in the clipboard on advanced copy."
     },
     "tags": {
         "placeholder": "Select or create tags...",
@@ -322,6 +329,13 @@
             "edit": "Edit",
             "delete": "Delete",
             "copy": "Copy Prompt",
+            "advancedCopy": "Advanced Copy",
+            "addAgents": "Add agents",
+            "addAgentSkills": "Add agentskills",
+            "addSotPolicy": "Add source-of-truth policy",
+            "addPersistenceCheck": "Add persistence check",
+            "addUserHandoff": "Add user handoff",
+            "copySelected": "Copy Selected",
             "linkPrompt": "Link Related Prompt",
             "copied": "Copied!",
             "codeView": "Code View",

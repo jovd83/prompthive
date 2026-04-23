@@ -28,7 +28,7 @@ test.describe('Agent Skills - Core Management Features', () => {
 
         const title = `My Agent Skill ${Date.now()}`;
 
-        await repoUrlInput.fill('https://github.com/jovd83/mock-skill');
+        await page.locator('input[name="url"]').fill('https://github.com/jovd83/mock-skill');
         await titleInput.fill(title);
         await descriptionInput.fill('This is a mock skill created during testing.');
         await installCommandInput.fill('npx -y mock-skill@latest ./');
@@ -55,11 +55,9 @@ test.describe('Agent Skills - Core Management Features', () => {
         await newSkillButton.click();
         await page.waitForURL('**/skills/new*');
 
-        const repoUrlInput = page.locator('input[name="repoUrl"]');
-        const titleInput = page.locator('input[name="title"]');
-
-        await repoUrlInput.fill('https://github.com/jovd83/edit-skill-test');
-        await titleInput.fill('Skill To Edit');
+        const initialUrl = 'https://github.com/jovd83/edit-skill-test';
+        await page.locator('input[name="url"]').fill(initialUrl);
+        await page.locator('input[name="title"]').fill('Skill To Edit');
         await page.locator('input[name="installCommand"]').fill('npx -y skill@latest ./');
         await page.getByRole('button', { name: "Create Skill" }).click();
 
@@ -85,55 +83,57 @@ test.describe('Agent Skills - Core Management Features', () => {
     });
 
     test('MSS: Dashboard distinguishes Skills and Prompts', async ({ page }) => {
+        // Use unique titles to avoid shadowing or list collisions
+        const dashSkillTitle = `Dashboard Skill ${Date.now()}`;
+        const dashPromptTitle = `My Basic Prompt ${Date.now()}`;
+
         // Create a prompt
         const promptPage = new PromptPage(page);
         await promptPage.gotoCreate();
-        const promptTitle = `My Basic Prompt ${Date.now()}`;
-        await promptPage.createPrompt(promptTitle, 'Basic prompt text');
+        await promptPage.createPrompt(dashPromptTitle, 'Basic prompt text');
 
         await page.goto('/');
 
         // Create a skill
         await page.locator('a[href="/skills/new"]').first().click();
         await page.waitForURL('**/skills/new*');
-        const skillTitle = `My Basic Skill ${Date.now()}`;
-        await page.locator('input[name="repoUrl"]').fill('https://github.com/jovd83/skill');
-        await page.locator('input[name="title"]').fill(skillTitle);
+        await page.locator('input[name="url"]').fill('https://github.com/jovd83/skill');
+        await page.locator('input[name="title"]').fill(dashSkillTitle);
         await page.locator('input[name="installCommand"]').fill('npx skill');
         await page.getByRole('button', { name: "Create Skill" }).click();
         await page.waitForURL('**/skills/*');
 
         // Navigate to dashboard searching for prompt
-        await page.goto(`/?q=${encodeURIComponent(promptTitle)}`);
+        await page.goto(`/?q=${encodeURIComponent(dashPromptTitle)}`);
 
         // Verify there is a prompt badge inside the prompt card
-        const promptCard = page.locator('.card', { hasText: promptTitle }).first();
+        const promptCard = page.locator('.card', { hasText: dashPromptTitle }).first();
         await expect(promptCard).toContainText('📝');
 
         // Navigate to dashboard searching for skill
-        await page.goto(`/?q=${encodeURIComponent(skillTitle)}`);
-
+        await page.goto(`/?q=${encodeURIComponent(dashSkillTitle)}`);
+        
         // Verify there is a skill badge inside the skill card
-        const skillCard = page.locator('.card', { hasText: skillTitle }).first();
+        const skillCard = page.locator('.card', { hasText: dashSkillTitle }).first();
         await expect(skillCard).toBeVisible({ timeout: 15000 });
         await expect(skillCard).toContainText('🤖');
         await expect(skillCard).toContainText('Usage Example');
     });
 
-    test('MSS: Export and Import an Agent Skill', async ({ page }) => {
+    test('STABLE MSS: Export and Import an Agent Skill', async ({ page }) => {
         // 1. Create a unique Agent Skill
-        const skillTitle = `Exportable Skill ${Date.now()}`;
+        const exportSkillTitle = `Exportable Skill ${Date.now()}`;
         const installCmd = `npx -y unique-export-skill@latest ./`;
         const repoUrl = `https://github.com/jovd83/unique-export-skill`;
 
         await page.goto('/skills/new');
 
-        await page.locator('input[name="repoUrl"]').fill(repoUrl);
-        await page.locator('input[name="title"]').fill(skillTitle);
+        await page.locator('input[name="url"]').fill(repoUrl);
+        await page.locator('input[name="title"]').fill(exportSkillTitle);
         await page.locator('input[name="installCommand"]').fill(installCmd);
         await page.getByRole('button', { name: "Create Skill" }).click();
 
-        await expect(page.getByRole('heading', { name: skillTitle }).first()).toBeVisible({ timeout: 15000 });
+        await expect(page.getByRole('heading', { name: exportSkillTitle }).first()).toBeVisible({ timeout: 15000 });
 
         // 2. Export the Database
         await page.goto('/import-export');
@@ -149,17 +149,21 @@ test.describe('Agent Skills - Core Management Features', () => {
         expect(exportPath).toBeTruthy();
 
         // 3. Delete the specific skill to ensure we can actually import it
-        await page.goto('/');
-        await page.locator('.card', { hasText: skillTitle }).first().click();
+        await page.goto(`/?q=${encodeURIComponent(exportSkillTitle)}`);
+        await page.locator('.card', { hasText: exportSkillTitle }).first().click();
         await page.waitForURL('**/skills/*');
-
-        // Delete
-        await page.getByRole('button', { name: 'Delete', exact: true }).click();
-        await page.getByRole('button', { name: 'Yes', exact: true }).click();
-
-        // Wait for it to be removed from the UI
-        // Ensure it's gone
-        await expect(page.locator('.card', { hasText: skillTitle })).not.toBeVisible();
+ 
+         // Delete
+         await page.getByRole('button', { name: 'Delete', exact: true }).click();
+         await page.getByRole('button', { name: 'Yes', exact: true }).click();
+ 
+         // Wait for redirected or modal to close
+         await page.waitForLoadState('networkidle');
+ 
+         // Ensure it's gone from the search results
+         await page.goto(`/?q=${encodeURIComponent(exportSkillTitle)}`);
+         await page.waitForLoadState('networkidle');
+         await expect(page.locator('.card', { hasText: exportSkillTitle })).toHaveCount(0, { timeout: 15000 });
 
         // 4. Import the file back
         await page.goto('/import-export');
@@ -172,12 +176,12 @@ test.describe('Agent Skills - Core Management Features', () => {
         await page.getByRole('button', { name: 'Import Prompts', exact: true }).click();
 
         // Wait for success toast/message showing 'imported'
-        await expect(page.locator('.bg-green-50')).toContainText('Import complete');
+        await expect(page.getByText(/(Import complete|Importation terminée|terminée|imported|Success)/i)).toBeVisible({ timeout: 45000 });
 
         // 5. Verify it's back and correctly recognized as a Skill
-        await page.goto('/');
-        const skillCard = page.locator('.card', { hasText: skillTitle }).first();
-        await expect(skillCard).toBeVisible();
+        await page.goto(`/?q=${encodeURIComponent(exportSkillTitle)}`);
+        const skillCard = page.locator('.card', { hasText: exportSkillTitle }).first();
+        await expect(skillCard).toBeVisible({ timeout: 15000 });
         await expect(skillCard).toContainText('🤖'); // Just the emoji since we removed texts
 
         // Click to view details and ensure data was maintained

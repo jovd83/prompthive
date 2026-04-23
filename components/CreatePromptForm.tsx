@@ -5,19 +5,20 @@ import { createPrompt } from "@/actions/prompt-crud";
 import { CollectionWithPrompts, TagWithCount } from "@/types/prisma";
 import UnifiedPromptForm from "@/components/UnifiedPromptForm";
 import { useLanguage } from "./LanguageProvider";
-
-export default function CreatePromptForm({
-    collections,
-    tags,
-    initialCollectionId,
-    tagColorsEnabled = true,
-    privatePromptsEnabled = false
-}: {
-    collections: CollectionWithPrompts[],
-    tags: TagWithCount[],
-    initialCollectionId?: string,
-    tagColorsEnabled?: boolean;
-    privatePromptsEnabled?: boolean;
+export default function CreatePromptForm({ 
+    collections, 
+    tags, 
+    agentSkills, 
+    initialCollectionId, 
+    tagColorsEnabled, 
+    privatePromptsEnabled = false 
+}: { 
+    collections: CollectionWithPrompts[], 
+    tags: TagWithCount[], 
+    agentSkills?: any[], 
+    initialCollectionId?: string, 
+    tagColorsEnabled?: boolean, 
+    privatePromptsEnabled?: boolean 
 }) {
     const { t } = useLanguage();
     const [isPending, startTransition] = useTransition();
@@ -56,6 +57,7 @@ export default function CreatePromptForm({
             initialValues={initialValues}
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             tagColorsEnabled={tagColorsEnabled}
             privatePromptsEnabled={privatePromptsEnabled}
             onSubmit={handleSubmit}

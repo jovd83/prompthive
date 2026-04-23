@@ -39,11 +39,11 @@ function Render-Diagram {
 }
 
 # 1. Architecture
-Render-Diagram "docs/diagrams/architecture.mmd" "docs/diagrams/img/architecture.png" "TMT Architecture"
+Render-Diagram "docs/diagrams/architecture.mmd" "docs/diagrams/img/architecture.png" "MyPromptHive Architecture"
 
 # 2. Schema
 if (Test-Path "docs/diagrams/schema.mmd") {
-    Render-Diagram "docs/diagrams/schema.mmd" "docs/diagrams/img/schema.png" "TMT Data Schema"
+    Render-Diagram "docs/diagrams/schema.mmd" "docs/diagrams/img/schema.png" "MyPromptHive Data Schema"
 }
 
 # 3. Wireframes

@@ -7,12 +7,14 @@ import { Collection, Tag } from "@prisma/client";
 export default function NewSkillContent({
     collections,
     tags,
+    agentSkills = [],
     initialCollectionId,
     tagColorsEnabled,
     privatePromptsEnabled
 }: {
     collections: (Collection & { _count?: { prompts: number } })[],
     tags: Tag[],
+    agentSkills?: any[],
     initialCollectionId?: string,
     tagColorsEnabled?: boolean;
     privatePromptsEnabled?: boolean;
@@ -29,6 +31,7 @@ export default function NewSkillContent({
             <CreateSkillForm
                 collections={collections as any}
                 tags={tags}
+                agentSkills={agentSkills}
                 initialCollectionId={initialCollectionId}
                 tagColorsEnabled={tagColorsEnabled}
             />

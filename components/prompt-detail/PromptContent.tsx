@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FileText, Code2, Copy, Check, Paperclip, Download, Lock } from "lucide-react";
+import { FileText, Code2, Copy, Check, Paperclip, Download, Lock, ShieldCheck } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import CodeEditor from "@/components/CodeEditor";
 import CollapsibleSection from "@/components/CollapsibleSection";
@@ -17,28 +17,56 @@ interface PromptContentProps {
     variables: Record<string, string>;
 }
 
+const SOT_POLICY = `STRICT SOURCE-OF-TRUTH POLICY
+
+You must not rely on training knowledge, cached memory, prior conversation context, or “what you already know” as the authoritative basis for methodology, policy, templates, metadata, reporting formats, registry structure, or project rules.
+Those may be used only as tentative hypotheses. They are never sufficient as final authority.
+Before planning, answering, or taking action, you must check the current source of truth using the relevant Information Layer skill when one exists. Before finalizing any analysis, recommendation, compliance judgment, review, or deliverable, you must use the relevant Feedback Layer skill when one exists.
+Using a skill means actually following its workflow against current project artifacts. Referring to the skill from memory does not count. Remembered knowledge is not verification.
+If a current file, registry, template, or policy source is available, you must consult it. If it conflicts with memory, the most recent source wins.
+If the skill requires telemetry, logging, or workflow evidence, you must complete that step. Unlogged skill usage is incomplete usage.
+You must not skip a relevant Information Layer or Feedback Layer skill by saying the answer is already known from training, previous sessions, or earlier context.
+If a required skill, file, registry, or verification path is unavailable, you must stop, state the blocker clearly, and avoid presenting an unverified answer as compliant, current, or authoritative.
+Your final response must be grounded in current checked sources and current verification, not recalled knowledge.`;
+
 export default function PromptContent({ prompt, selectedVersion, variableDefs, variables }: PromptContentProps) {
     const { t } = useLanguage();
     const [isCodeView, setIsCodeView] = useState(false);
     const [isLongCodeView, setIsLongCodeView] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [copiedWithSot, setCopiedWithSot] = useState(false);
 
     const allAttachments = selectedVersion.attachments || [];
     const resultAttachments = allAttachments.filter((a: any) => a.role === 'RESULT');
     const generalAttachments = allAttachments.filter((a: any) => a.role !== 'RESULT');
     const showLegacyResultImage = resultAttachments.length === 0 && selectedVersion.resultImage;
 
-    const handleCopy = async () => {
-        const content = replaceVariables(selectedVersion.content, variables);
+    const handleCopy = async (withSot = false) => {
+        let content = replaceVariables(selectedVersion.content, variables);
+
+        // Append SOT Policy
+        if (withSot) {
+            content += `\n\n--------------------------------------------------------------------------------\n${SOT_POLICY}\n--------------------------------------------------------------------------------`;
+        }
+
         const success = await copyToClipboard(content);
 
         if (success) {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
+            if (withSot) {
+                setCopiedWithSot(true);
+                setTimeout(() => setCopiedWithSot(false), 2000);
+            } else {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            }
+
             fetch("/api/analytics", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ promptId: prompt.id, type: "copy" }),
+                body: JSON.stringify({ 
+                    promptId: prompt.id, 
+                    type: withSot ? "copy_with_sot" : "copy" 
+                }),
             }).catch(console.error);
         }
     };
@@ -64,9 +92,13 @@ export default function PromptContent({ prompt, selectedVersion, variableDefs, v
                         >
                             <Code2 size={14} /> {t('detail.actions.codeView')}
                         </button>
-                        <button onClick={handleCopy} className="btn btn-primary py-1.5 px-3 text-sm shadow-md shadow-primary/20">
+                        <button onClick={() => handleCopy(false)} className="btn btn-primary py-1.5 px-3 text-sm shadow-md shadow-primary/20">
                             {copied ? <Check size={16} /> : <Copy size={16} />}
                             {copied ? t('detail.actions.copied') : t('detail.actions.copy')}
+                        </button>
+                        <button onClick={() => handleCopy(true)} className="btn bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 px-3 text-sm shadow-md shadow-indigo-600/20 flex items-center gap-2 border-none">
+                            {copiedWithSot ? <Check size={16} /> : <ShieldCheck size={16} />}
+                            {copiedWithSot ? t('detail.actions.copiedWithSot') : t('detail.actions.copyWithSot')}
                         </button>
                     </div>
                 </div>

@@ -75,7 +75,7 @@ test.describe('Data Management - Enriched Datasets & Error Handling', () => {
         await dataPage.goto();
 
         await dataPage.importJson(massiveJsonPath);
-        await expect(page.getByText(/Import complete|Importation terminée/i)).toBeVisible({ timeout: 30000 });
+        await expect(page.getByText(/(Import complete|Importation terminée|imported)/i)).toBeVisible({ timeout: 45000 });
 
         await page.goto('/');
         await expect(page.getByText('Massive Prompt').first()).toBeVisible();
@@ -86,7 +86,7 @@ test.describe('Data Management - Enriched Datasets & Error Handling', () => {
         await dataPage.goto();
 
         await dataPage.importJson(maliciousJsonPath);
-        await expect(page.getByText(/Import complete/i)).toBeVisible();
+        await expect(page.getByText(/Import complete|Importation terminée/i)).toBeVisible({ timeout: 15000 });
 
         await page.goto('/');
         await expect(page.getByText('Malicious <script>alert(1)</script>').first()).toBeVisible();

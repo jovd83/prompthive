@@ -14,7 +14,10 @@ describe('Prompts Service Integration', () => {
 
     beforeEach(async () => {
         // Warning: This cleanup wipes data! Ensure Vitest uses the test.db
-        // To be safe, we only wipe what we touch, or rely on db logic.
+        // Cleanup dependent tables first to avoid FK violations
+        await prisma.favorite.deleteMany();
+        await prisma.workflowStep.deleteMany();
+        await prisma.promptVersion.deleteMany();
         await prisma.prompt.deleteMany();
         
         const user = await prisma.user.findUnique({ where: { email: 'integration@test.com' } });

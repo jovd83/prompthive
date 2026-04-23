@@ -1,6 +1,6 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { createPromptService, deletePromptService, createVersionService, deleteUnusedTagsService } from './prompts';
+import { createPromptService, deletePromptService, createVersionService, deleteUnusedTagsService, bulkDeletePromptsService } from './prompts';
 import { prisma } from '@/lib/prisma';
 
 // Mock File Service
@@ -22,6 +22,7 @@ vi.mock('@/lib/prisma', () => ({
             update: vi.fn(),
             findUnique: vi.fn(),
             delete: vi.fn(),
+            deleteMany: vi.fn(),
             count: vi.fn(),
             findMany: vi.fn(),
             findFirst: vi.fn(),
@@ -566,6 +567,92 @@ describe('restoreVersionService', () => {
                 }
             })
         }));
+    });
+
+    it('should allow ADMIN to restore another user\'s prompt version', async () => {
+        const { restoreVersionService } = await import('./prompts');
+        const adminId = 'admin-1';
+
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+            id: promptId,
+            title: 'Title',
+            createdById: 'other-user',
+            versions: [{ id: versionId }]
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: adminId, role: 'ADMIN' });
+        (prisma.promptVersion.findUnique as any).mockResolvedValueOnce({
+            id: versionId,
+            promptId: promptId,
+            content: 'Content',
+            attachments: []
+        });
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({ id: promptId, createdById: 'other-user', versions: [] });
+        (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-new' });
+
+        await restoreVersionService(adminId, promptId, versionId);
+        expect(prisma.promptVersion.create).toHaveBeenCalled();
+    });
+
+    it('should throw if non-owner tries to restore', async () => {
+        const { restoreVersionService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: promptId,
+            createdById: 'other-user'
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+        await expect(restoreVersionService(userId, promptId, versionId)).rejects.toThrow('Access denied');
+    });
+});
+
+describe('bulkDeletePromptsService', () => {
+    const userId = 'u-1';
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should delete prompts owned by user', async () => {
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId },
+            { id: 'p-2', createdById: userId }
+        ]);
+
+        const result = await bulkDeletePromptsService(userId, ['p-1', 'p-2', 'p-missing']);
+
+        expect(prisma.prompt.deleteMany).toHaveBeenCalledWith({
+            where: { id: { in: ['p-1', 'p-2'] } }
+        });
+        expect(result.count).toBe(2);
+    });
+
+    it('should allow ADMIN to delete any prompts', async () => {
+        const adminId = 'admin-1';
+        (prisma.user.findUnique as any).mockResolvedValue({ id: adminId, role: 'ADMIN' });
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: 'user-1' },
+            { id: 'p-2', createdById: 'user-2' }
+        ]);
+
+        const result = await bulkDeletePromptsService(adminId, ['p-1', 'p-2']);
+
+        expect(prisma.prompt.deleteMany).toHaveBeenCalledWith({
+            where: { id: { in: ['p-1', 'p-2'] } }
+        });
+        expect(result.count).toBe(2);
+    });
+
+    it('should return 0 if no valid prompts found', async () => {
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-other', createdById: 'other' }
+        ]);
+
+        const result = await bulkDeletePromptsService(userId, ['p-other']);
+
+        expect(prisma.prompt.deleteMany).not.toHaveBeenCalled();
+        expect(result.count).toBe(0);
     });
 });
 

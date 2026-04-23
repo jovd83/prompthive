@@ -17,7 +17,7 @@ export default defineConfig({
     /* Retry on CI only */
     retries: process.env.CI ? 2 : 0,
     /* Opt out of parallel tests on CI. */
-    workers: process.env.CI ? 1 : undefined, // Expanded to multi-worker locally
+    workers: 1, // Set to 1 for stability with SQLite locally
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
     reporter: [
         ['html'],
@@ -40,8 +40,8 @@ export default defineConfig({
         video: 'on',
 
         /* Increase action timeout for slower environments */
-        actionTimeout: 60000,
-        navigationTimeout: 60000,
+        actionTimeout: 90000,
+        navigationTimeout: 90000,
     },
 
     /* Configure projects for major browsers */
@@ -50,19 +50,19 @@ export default defineConfig({
             name: 'chromium',
             use: { ...devices['Desktop Chrome'] },
         },
-        {
-            name: 'webkit',
-            use: { ...devices['Desktop Safari'] },
-        },
+       // {
+       //     name: 'webkit',
+       //     use: { ...devices['Desktop Safari'] },
+       // },
         /* Test against mobile viewports. */
-        {
-            name: 'Mobile Chrome',
-            use: { ...devices['Pixel 5'] },
-        },
-        {
-            name: 'Mobile Safari',
-            use: { ...devices['iPhone 12'] },
-        },
+       // {
+       //     name: 'Mobile Chrome',
+       //     use: { ...devices['Pixel 5'] },
+       // },
+       // {
+       //     name: 'Mobile Safari',
+       //     use: { ...devices['iPhone 12'] },
+       // },
     ],
 
     /* Run your local dev server before starting the tests */

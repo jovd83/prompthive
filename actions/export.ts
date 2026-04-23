@@ -92,14 +92,52 @@ export async function getExportMeta(collectionIds?: string[], recursive: boolean
         select: { id: true, collections: { select: { id: true } } }
     });
 
-    const promptIds = prompts.map(p => p.id);
+    const allPromptIds = new Set(prompts.map(p => p.id));
+
+    // 1.5. Resolve skill dependencies recursively (Follow AgentSkill links)
+    let changed = true;
+    while (changed) {
+        changed = false;
+        const currentPromptIds = Array.from(allPromptIds);
+        const versions = await prisma.promptVersion.findMany({
+            where: {
+                promptId: { in: currentPromptIds }
+            },
+            select: { agentSkillIds: true }
+        });
+
+        for (const v of versions) {
+            if (v.agentSkillIds) {
+                try {
+                    const skillIds = JSON.parse(v.agentSkillIds) as string[];
+                    for (const sid of skillIds) {
+                        if (!allPromptIds.has(sid)) {
+                            // Check if it exists and is accessible (or just add it, the actual fetch will handle missing ones)
+                            allPromptIds.add(sid);
+                            changed = true;
+                        }
+                    }
+                } catch (e) {
+                    // Ignore parse errors
+                }
+            }
+        }
+    }
+
+    // Re-fetch prompts to include collections for the newly discovered dependencies
+    const finalPrompts = await prisma.prompt.findMany({
+        where: { id: { in: Array.from(allPromptIds) } },
+        select: { id: true, collections: { select: { id: true } } }
+    });
+
+    const promptIds = finalPrompts.map(p => p.id);
 
     // 2. Build Collection Hierarchy (definedCollections)
     // We need all collections referenced by these prompts, PLUS their ancestors.
     const relevantCollectionIds = new Set<string>();
 
     // Add collections directly linked to exported prompts
-    prompts.forEach(p => {
+    finalPrompts.forEach(p => {
         p.collections.forEach(c => relevantCollectionIds.add(c.id));
     });
 
@@ -181,6 +219,16 @@ export async function getExportBatch(ids: string[], options?: { includeAttachmen
         },
     });
 
+    console.log(`[getExportBatch] Fetched ${prompts.length} prompts.`);
+    if (prompts.length > 0) {
+        const p = prompts[0];
+        console.log(`[getExportBatch] First prompt: ${p.title}, itemType: ${p.itemType}`);
+        if (p.versions.length > 0) {
+            const v = p.versions[0];
+            console.log(`[getExportBatch] First version: ${v.versionNumber}, agentUsage: ${v.agentUsage}, agentSkillIds: ${v.agentSkillIds}`);
+        }
+    }
+
     // Transform to Export Format
     const exportData = prompts.map((prompt) => {
         return {
@@ -210,6 +258,8 @@ export async function getExportBatch(ids: string[], options?: { includeAttachmen
                     path: v.resultImage,
                     file: getFileAsBase64(v.resultImage)
                 } : null,
+                agentUsage: v.agentUsage ?? "",
+                agentSkillIds: v.agentSkillIds ?? "[]",
                 attachments: includeAttachments ? v.attachments.map(a => ({
                     filePath: a.filePath,
                     fileType: a.fileType,

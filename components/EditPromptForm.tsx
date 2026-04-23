@@ -12,11 +12,12 @@ interface EditPromptFormProps {
     latestVersion: PromptVersionWithRelations;
     collections?: CollectionWithPrompts[];
     tags?: TagWithCount[];
+    agentSkills?: any[];
     tagColorsEnabled?: boolean;
     privatePromptsEnabled?: boolean;
 }
 
-export default function EditPromptForm({ prompt, latestVersion, collections = [], tags = [], tagColorsEnabled = true, privatePromptsEnabled = false }: EditPromptFormProps) {
+export default function EditPromptForm({ prompt, latestVersion, collections = [], tags = [], agentSkills, tagColorsEnabled = true, privatePromptsEnabled = false }: EditPromptFormProps) {
     const { t } = useLanguage();
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState<string | null>(null);
@@ -41,6 +42,8 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
     const initialValues = {
         ...prompt,
         variableDefinitions: latestVersion.variableDefinitions,
+        agentUsage: latestVersion.agentUsage,
+        agentSkillIds: latestVersion.agentSkillIds,
         // Helper for hook to find attachment data
         versions: [latestVersion],
         // Direct content mapping (UnifiedForm handles both)
@@ -54,6 +57,7 @@ export default function EditPromptForm({ prompt, latestVersion, collections = []
             initialValues={initialValues}
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             tagColorsEnabled={tagColorsEnabled}
             privatePromptsEnabled={privatePromptsEnabled}
             onSubmit={handleSubmit}

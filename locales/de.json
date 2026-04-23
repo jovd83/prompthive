@@ -30,7 +30,13 @@
         "save": "Speichern",
         "cancel": "Abbrechen",
         "selectAll": "Alles auswählen",
-        "deselectAll": "Alles abwählen"
+        "deselectAll": "Alles abwählen",
+        "tipOfTheDay": "Tipp des Tages",
+        "learnMore": "Mehr erfahren",
+        "expandTip": "Tipp ausklappen",
+        "collapseTip": "Tipp einklappen",
+        "system": "System",
+        "export": "Exportieren"
     },
     "languages": {
         "en": "English",
@@ -84,7 +90,8 @@
                 "role": "Rolle",
                 "cancel": "Abbrechen",
                 "create": "Benutzer erstellen",
-                "error": "Benutzer konnte nicht erstellt werden"
+                "error": "Benutzer konnte nicht erstellt werden",
+                "success": "Benutzer erfolgreich erstellt"
             },
             "roleToggleTitle": "Klicken Sie, um die Rolle zu ändern",
             "deleteConfirmTitle": "Benutzer löschen",
@@ -111,12 +118,16 @@
             "help": "Hilfezentrum",
             "createPrompt": "Neuen Prompt erstellen",
             "createCollection": "Sammlung erstellen",
-            "toggleTheme": "Thema wechseln"
+            "toggleTheme": "Thema wechseln",
+            "adminSettings": "Admin-Einstellungen",
+            "userManagement": "Benutzerverwaltung"
         },
         "sections": {
             "navigation": "Navigation",
             "actions": "Aktionen",
-            "preferences": "Einstellungen"
+            "preferences": "Einstellungen",
+            "admin": "Administration",
+            "account": "Konto"
         }
     },
     "collections": {
@@ -144,7 +155,14 @@
             "title": "Noch keine Workflows",
             "desc": "Erstelle deine erste Prompt-Kette, um komplexe Aufgaben zu automatisieren."
         },
-        "beta": "(BETA - Ungetestet)"
+        "beta": "(BETA - Ungetestet)",
+        "card": {
+            "edit": "Bearbeiten",
+            "delete": "Löschen",
+            "run": "Ausführen",
+            "steps": "Schritte",
+            "noDesc": "Keine Beschreibung vorhanden."
+        }
     },
     "prompts": {
         "dashboard": "Dashboard",
@@ -186,7 +204,9 @@
             "za": "Z - A",
             "newest": "Neueste zuerst",
             "oldest": "Älteste zuerst",
-            "mostItems": "Meiste Elemente"
+            "mostItems": "Meiste Elemente",
+            "mostViewed": "Meistgesehen",
+            "leastViewed": "Am wenigsten gesehen"
         }
     },
     "advancedSearch": {
@@ -198,7 +218,8 @@
     },
     "skills": {
         "createTitle": "Neue Agent Skill erstellen",
-        "repositoryUrl": "GitHub-Repository-URL",
+        "repositoryUrl": "Import-URL",
+        "url": "URL",
         "fetchInfo": "Infos abrufen",
         "installCommand": "Installationsbefehl",
         "fetching": "Abrufen...",
@@ -276,12 +297,20 @@
             "createFailed": "Prompt konnte nicht erstellt werden. Bitte versuche es erneut.",
             "createVersionFailed": "Version konnte nicht erstellt werden. Bitte versuche es erneut.",
             "invalidExtension": "Ungültige Dateiendung: {{ext}}. Erlaubt: {{allowed}}"
-        }
+        },
+        "useOfAgents": "Verwendung von agents",
+        "useOfAgentSkills": "Verwendung von agentskills",
+        "agentUsageHint": "Dieser Inhalt wird beim Kopieren des Prompts in die Zwischenablage eingefügt.",
+        "agentSkillsHint": "Ausgewählte agentskills werden beim Kopieren des Prompts in die Zwischenablage eingefügt.",
+        "skillAgentUsageHint": "Definiere, welche spezialisierten agents bei der Ausführung dieses Skills verwendet werden sollen. Dieser Inhalt wird beim erweiterten Kopieren in die Zwischenablage eingefügt.",
+        "skillAgentSkillsHint": "Verknüpfe andere agentskills, von denen dieser Skill abhängt. Verknüpfte agentskills werden beim erweiterten Kopieren in die Zwischenablage aufgenommen."
     },
     "tags": {
         "placeholder": "Tags auswählen oder erstellen...",
         "create": "Tag \"{{tag}}\" erstellen",
-        "noMatch": "Keine passenden Tags gefunden."
+        "noMatch": "Keine passenden Tags gefunden.",
+        "viewAll": "Alle anzeigen",
+        "showLess": "Weniger anzeigen"
     },
     "diff": {
         "title": "Versionen vergleichen",
@@ -312,7 +341,16 @@
             "restoreSuccess": "Version erfolgreich wiederhergestellt.",
             "lockPrompt": "Prompt sperren (nur Ersteller)",
             "unlockPrompt": "Prompt entsperren (nur Ersteller)",
-            "lockedByCreator": "Vom Ersteller gesperrt"
+            "lockedByCreator": "Vom Ersteller gesperrt",
+            "advancedCopy": "Erweitertes Kopieren",
+            "addAgents": "agents hinzufügen",
+            "addAgentSkills": "agentskills hinzufügen",
+            "addSotPolicy": "Source-of-Truth-Richtlinie hinzufügen",
+            "addPersistenceCheck": "Persistenzprüfung hinzufügen",
+            "addUserHandoff": "Benutzerübergabe hinzufügen",
+            "copySelected": "Ausgewählte kopieren",
+            "downloadMarkdown": "Markdown herunterladen",
+            "linkPrompt": "Verwandten Prompt verknüpfen"
         },
         "labels": {
             "description": "Beschreibung",
@@ -329,7 +367,8 @@
             "source": "Quelle",
             "shortPrompt": "Kurzer Prompt",
             "usageExample": "Anwendungsbeispiel",
-            "editingVariable": "Variable bearbeiten"
+            "editingVariable": "Variable bearbeiten",
+            "relatedPrompts": "Verwandte Prompts"
         },
         "meta": {
             "by": "Von",
@@ -341,11 +380,15 @@
             "noDescription": "Keine Beschreibung vorhanden.",
             "noVersions": "Keine Versionen gefunden.",
             "valueFor": "Wert für {{name}}",
-            "enterLargeText": "Gib hier normalen oder langen Text ein..."
+            "enterLargeText": "Gib hier normalen oder langen Text ein...",
+            "searchPrompts": "Nach Titel oder ID suchen..."
         },
         "errors": {
             "deleteFailed": "Prompt konnte nicht gelöscht werden.",
             "restoreFailed": "Version konnte nicht wiederhergestellt werden."
+        },
+        "badges": {
+            "private": "Privat"
         }
     },
     "settings": {
@@ -377,7 +420,7 @@
         "confirmDelete": "Bestätigen: ALLES LÖSCHEN",
         "cancel": "Abbrechen",
         "userVisibility": "Benutzer-Sichtbarkeit",
-        "showTipsDesc": "Zeigen Sie jeden Tag einen hilfreichen Prompting-Tipp auf dem Dashboard an.",
+        "showTipsDesc": "Zeige jeden Tag einen hilfreichen Prompt-Tipp auf dem Dashboard an.",
         "tagColors": "Tag-Farben aktivieren",
         "tagColorsDesc": "Tags mit unterschiedlichen Farben anstatt in einem einheitlichen Stil anzeigen.",
         "checkAll": "Alle auswählen",
@@ -395,7 +438,11 @@
         "saveBackup": "Backup-Konfiguration speichern",
         "saveVisibility": "Sichtbarkeitseinstellungen speichern",
         "collectionVisibility": "Sammlungssichtbarkeit",
-        "collectionVisibilityDesc": "Deaktivieren Sie Sammlungen, die Sie ausblenden möchten. Verborgene Sammlungen erscheinen nicht in der Seitenleiste."
+        "collectionVisibilityDesc": "Deaktivieren Sie Sammlungen, die Sie ausblenden möchten. Verborgene Sammlungen erscheinen nicht in der Seitenleiste.",
+        "showTips": "Prompt-Tipps anzeigen",
+        "userVisibilityDesc": "Wähle die Benutzer aus, deren Prompts du in deinem Dashboard sehen möchtest.",
+        "showWorkflows": "Workflows anzeigen",
+        "showWorkflowsDesc": "Aktiviere die Workflow-Funktion in der Seitenleiste."
     },
     "importExport": {
         "title": "Import / Export",
@@ -431,7 +478,9 @@
         "exportComplete": "Export vollständig: {{count}} Prompts exportiert.",
         "exportZeroTitle": "Export für TMT Zero",
         "exportZeroDesc": "Wählen Sie Sammlungen aus, um sie für die Lightweight-Version zu exportieren.",
-        "exportZeroButton": "Export für TMT Zero"
+        "exportZeroButton": "Export für TMT Zero",
+        "includeAttachments": "Anhänge einbeziehen",
+        "includeResultFiles": "Ergebnisdateien / Bilder einbeziehen"
     },
     "help": {
         "title": "Hilfe-Center",
@@ -452,7 +501,12 @@
             "language": "Spracheinstellungen",
             "userProfile": "Benutzerprofil & Sicherheit",
             "faq": "FAQ & Fehlerbehebung",
-            "changelog": "Änderungsprotokoll"
+            "changelog": "Änderungsprotokoll",
+            "exporting": "Exportieren & Herunterladen",
+            "locking": "Prompts sperren (Schutz)",
+            "technicalIds": "Technische IDs",
+            "tagColors": "Tag-Farben",
+            "admin": "Admin-Funktionen"
         },
         "content": {
             "changelog": {
@@ -496,7 +550,9 @@
                 "versionTitle": "Versionieren",
                 "versionDesc": "Verliere nie einen guten Prompt. Jedes Speichern erstellt einen neuen Verlaufseintrag.",
                 "templatizeTitle": "Vorlagen erstellen",
-                "templatizeDesc": "Verwende Variablen wie <code>{{topic}}</code>, um wiederverwendbare Vorlagen zu erstellen."
+                "templatizeDesc": "Verwende Variablen wie <code>{{topic}}</code>, um wiederverwendbare Vorlagen zu erstellen.",
+                "tipsTitle": "Lernen",
+                "tipsDesc": "Erhalte täglich <strong>Prompt-Tipps</strong> auf deinem Dashboard, um deine Fähigkeiten zu verbessern (kann in den Einstellungen deaktiviert werden)."
             },
             "gettingStarted": {
                 "tip": "Du benötigst keine Internetverbindung. TMT läuft vollständig lokal auf deiner Maschine.",
@@ -564,7 +620,9 @@
                 "redTitle": "Roter Hintergrund",
                 "redDesc": "Zeigt Text an, der aus der älteren Version <strong>Entfernt</strong> wurde.",
                 "tipTitle": "Tipp",
-                "tipDesc": "Nutze dies, um zu überprüfen, ob deine letzte \"Anpassung\" den Prompt wirklich verbessert hat oder nur Wörter verschoben hat!"
+                "tipDesc": "Nutze dies, um zu überprüfen, ob deine letzte \"Anpassung\" den Prompt wirklich verbessert hat oder nur Wörter verschoben hat!",
+                "restoreTitle": "Alte Versionen wiederherstellen",
+                "restoreDesc": "Du kannst jede frühere Version als neue aktuelle Version wiederherstellen. Klicke auf das Symbol 'Wiederherstellen' (kreisförmiger Pfeil) neben einer Version in der Verlaufsliste. Dies erstellt eine neue Versionskopie und bewahrt deinen linearen Verlauf."
             },
             "language": {
                 "desc": "TMT unterstützt mehrere Sprachen. Du kannst deine bevorzugte Sprache jederzeit ändern.",
@@ -607,20 +665,29 @@
                 "a3": "Derzeit ist TMT ein lokales Einzelbenutzer-Tool. Du kannst jedoch die <strong>Import/Export</strong>-Funktion in der Seitenleiste verwenden, um JSON-Dateien mit Kollegen zu teilen."
             },
             "technicalIds": {
-                "desc": "Technische IDs bieten eine stabile, lesbare Referenz für Ihre Prompts (z.B. VIBE-123).",
+                "desc": "Technische IDs bieten eine stabile, menschenlesbare Referenz für deine Prompts (z.B. VIBE-123).",
                 "generationTitle": "Automatische Generierung",
-                "generationDesc": "Wenn Sie einen Prompt einer Sammlung zuweisen, erhält er automatisch eine ID basierend auf dem Namen der Sammlung (z.B. 'Verkauf' -> 'VERK-1').",
+                "generationDesc": "Wenn du einen Prompt einer Sammlung zuweist, erhält er automatisch eine ID basierend auf dem Sammlungsnamen (z.B. 'Verkauf' -> 'VERK-1').",
                 "routingTitle": "Direkte URLs",
-                "routingDesc": "Sie können jeden Prompt direkt aufrufen, indem Sie seine ID in die URL eingeben: <code>/prompts/VIBE-123</code>.",
+                "routingDesc": "Du kannst auf jeden Prompt direkt zugreifen, indem du seine ID in der URL eingibst: <code>/prompts/VIBE-123</code>.",
                 "searchTitle": "Suche",
-                "searchDesc": "Sie können jeden Prompt sofort finden, indem Sie seine technische ID in die Suchleiste des Dashboards eingeben."
+                "searchDesc": "Du kannst jeden Prompt sofort finden, indem du seine technische ID in die Dashboard-Suchleiste eingibst."
             },
             "tagColors": {
-                "desc": "Organisieren Sie Ihre Tags visuell durch automatische, einheitliche Farben.",
+                "desc": "Organisiere deine Tags visuell, indem du ihnen automatische, konsistente Farben zuweist.",
                 "enableTitle": "Farben aktivieren",
-                "enableDesc": "Gehen Sie zu <strong>Einstellungen > Allgemein</strong> und aktivieren Sie <strong>Tag-Farben aktivieren</strong>.",
-                "howItWorksTitle": "Funktionsweise",
-                "howItWorksDesc": "Farben werden deterministisch basierend auf dem Tag-Namen generiert. Dasselbe Tag hat immer dieselbe Farbe."
+                "enableDesc": "Gehe zu <strong>Einstellungen > Allgemein</strong> und aktiviere <strong>Tag-Farben aktivieren</strong>.",
+                "howItWorksTitle": "So funktioniert es",
+                "howItWorksDesc": "Farben werden deterministisch basierend auf dem Tag-Namen generiert. Dasselbe Tag hat in der gesamten Anwendung immer dieselbe Farbe."
+            },
+            "locking": {
+                "desc": "Schütze deine Arbeit vor versehentlichen Änderungen, indem du deine Prompts <strong>sperrst</strong>.",
+                "howToTitle": "So sperrst du",
+                "li1": "Öffne einen Prompt, den du erstellt hast.",
+                "li2": "Klicke auf das <span class=\"text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span> <strong>Entsperren</strong>-Symbol in der Kopfzeile.",
+                "li3": "Das Symbol ändert sich zu einem <strong>geschlossenen Vorhängeschloss</strong>, das anzeigt, dass der Prompt gesperrt ist.",
+                "effectTitle": "Was passiert?",
+                "effectDesc": "Im gesperrten Zustand sind die Schaltflächen <strong>Bearbeiten</strong>, <strong>Neue Version speichern</strong> und <strong>Variable hinzufügen</strong> für alle deaktiviert (außer für dich). Verwende dies, um Prompts als 'Final/Stabil' zu markieren oder um zu verhindern, dass Teammitglieder deine Vorlagen ändern."
             }
         }
     }

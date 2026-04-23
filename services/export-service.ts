@@ -23,6 +23,8 @@ export interface ZeroExportData {
         itemType: string;
         repoUrl: string | null;
         installCommand: string | null;
+        agentUsage: string | null;
+        agentSkillIds: string | null;
         relatedPrompts?: string[]; // List of Technical IDs
     }[];
 }
@@ -41,8 +43,8 @@ export async function generateZeroExport(userId: string, collectionIds: string[]
         }
     });
 
-    // Fetch prompts in these collections
-    const prompts = await prisma.prompt.findMany({
+    // 1. Initial Prompt Fetch
+    const initialPrompts = await prisma.prompt.findMany({
         where: {
             createdById: userId,
             collections: {
@@ -50,6 +52,45 @@ export async function generateZeroExport(userId: string, collectionIds: string[]
                     id: { in: collectionIds }
                 }
             }
+        },
+        select: { id: true }
+    });
+
+    const allPromptIds = new Set(initialPrompts.map(p => p.id));
+
+    // 2. Resolve skill dependencies recursively
+    let changed = true;
+    while (changed) {
+        changed = false;
+        const currentPromptIds = Array.from(allPromptIds);
+        const versions = await prisma.promptVersion.findMany({
+            where: {
+                promptId: { in: currentPromptIds }
+            },
+            select: { agentSkillIds: true }
+        });
+
+        for (const v of versions) {
+            if (v.agentSkillIds) {
+                try {
+                    const skillIds = JSON.parse(v.agentSkillIds) as string[];
+                    for (const sid of skillIds) {
+                        if (!allPromptIds.has(sid)) {
+                            allPromptIds.add(sid);
+                            changed = true;
+                        }
+                    }
+                } catch (e) {}
+            }
+        }
+    }
+
+    // 3. Fetch final prompts with all relations
+    const prompts = await prisma.prompt.findMany({
+        where: {
+            id: { in: Array.from(allPromptIds) }
+            // Note: We don't filter by userId here for dependencies, 
+            // as a prompt might reference a public skill or similar.
         },
         include: {
             tags: true,
@@ -90,11 +131,22 @@ export async function generateZeroExport(userId: string, collectionIds: string[]
             itemType: p.itemType,
             repoUrl: p.repoUrl,
             installCommand: p.installCommand,
+            agentUsage: latestVersion?.agentUsage ?? "",
+            agentSkillIds: latestVersion?.agentSkillIds ?? "[]",
             relatedPrompts
         };
     });
 
-    const exportCollections = collections.map(c => ({
+    // 4. Finalize collections (include those from dependencies)
+    const neededCollectionIds = new Set(collectionIds);
+    prompts.forEach(p => p.collections.forEach(c => neededCollectionIds.add(c.id)));
+
+    const finalCollections = await prisma.collection.findMany({
+        where: { id: { in: Array.from(neededCollectionIds) } },
+        select: { id: true, title: true, parentId: true }
+    });
+
+    const exportCollections = finalCollections.map(c => ({
         id: c.id,
         name: c.title,
         parentId: c.parentId

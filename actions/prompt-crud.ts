@@ -31,6 +31,8 @@ export async function createPrompt(formData: FormData) {
         resource: formData.get("resource") ?? undefined,
         tagIds: formData.getAll("tagIds"),
         isPrivate: formData.get("isPrivate") === "on",
+        agentUsage: formData.get("agentUsage") ?? undefined,
+        agentSkillIds: formData.get("agentSkillIds") ?? undefined,
     };
 
     const result = CreatePromptSchema.safeParse(rawData);
@@ -54,6 +56,8 @@ export async function createPrompt(formData: FormData) {
         resultText: result.data.resultText || "",
         resource: result.data.resource,
         isPrivate: result.data.isPrivate,
+        agentUsage: result.data.agentUsage || "",
+        agentSkillIds: result.data.agentSkillIds || "[]",
     };
 
     const attachments = formData.getAll("attachments") as File[];
@@ -93,6 +97,8 @@ export async function createVersion(formData: FormData) {
         keepAttachmentIds: formData.getAll("keepAttachmentIds"),
         keepResultImageIds: formData.getAll("keepResultImageIds"),
         isPrivate: formData.get("isPrivate") === "on",
+        agentUsage: formData.get("agentUsage") ?? undefined,
+        agentSkillIds: formData.get("agentSkillIds") ?? undefined,
     };
 
     const result = CreateVersionSchema.safeParse(rawData);
@@ -121,6 +127,8 @@ export async function createVersion(formData: FormData) {
         keepResultImageIds: (result.data.keepResultImageIds || []) as string[],
         existingResultImagePath: result.data.existingResultImagePath || "",
         isPrivate: result.data.isPrivate,
+        agentUsage: result.data.agentUsage || "",
+        agentSkillIds: result.data.agentSkillIds || "[]",
     };
 
     const attachments = formData.getAll("attachments") as File[];

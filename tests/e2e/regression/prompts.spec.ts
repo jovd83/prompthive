@@ -22,11 +22,12 @@ test.describe('Prompt Management - Enriched Datasets & Edge Cases', () => {
         await promptPage.createPrompt(title, content);
 
         await page.waitForURL('**/prompts/*');
-        await expect(promptPage.promptTitleDisplay).toContainText(title);
+        await expect(promptPage.promptTitleDisplay).toContainText(title, { timeout: 15000 });
 
-        // Check on dashboard
-        await page.goto('/');
-        await expect(page.getByText(title).first()).toBeVisible();
+        // Check on dashboard using search to avoid data bloat issues
+        await page.goto(`/?q=${encodeURIComponent(title)}`);
+        await page.waitForLoadState('networkidle');
+        await expect(page.getByText(title).first()).toBeVisible({ timeout: 15000 });
     });
 
     test('MSS: List and view prompts', async ({ page, seedUser }) => {
@@ -244,7 +245,7 @@ test.describe('Prompt Views and Interactions Extended', () => {
         const promptPage = new PromptPage(page);
         await promptPage.gotoView(testPromptId);
 
-        await expect(promptPage.promptTitleDisplay).toContainText('Management Test Prompt Focus');
+        await expect(promptPage.promptTitleDisplay).toContainText('Management Test Prompt Focus', { timeout: 15000 });
 
         const techId = page.locator('span[title="Technical ID"]');
         if (await techId.isVisible()) {
@@ -252,7 +253,8 @@ test.describe('Prompt Views and Interactions Extended', () => {
         }
 
         await expect(page.getByText('Fill Variables')).toBeVisible();
-        await page.locator('textarea[id="name"]').fill('World');
+        // Use a more robust selector for the variable input (id might be on an input or textarea)
+        await page.locator('#name').fill('World');
 
         await promptPage.copyButton.click();
         await expect(page.getByText(/Copied/i)).toBeVisible();

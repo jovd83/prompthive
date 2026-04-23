@@ -1,7 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
     try {
+        const session = await getServerSession(authOptions);
+        
+        if (!session) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
+
+        if (session.user.role === 'GUEST') {
+            return NextResponse.json({ error: "Forbidden: Guests cannot import skills" }, { status: 403 });
+        }
+
         const body = await req.json();
         const { repoUrl } = body;
 
@@ -10,9 +22,9 @@ export async function POST(req: NextRequest) {
         }
 
         // Parse github url
-        const match = repoUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+        const match = repoUrl.match(/^https?:\/\/(?:www\.)?github\.com\/([^\/]+)\/([^\/]+)/);
         if (!match) {
-            return NextResponse.json({ error: "Invalid GitHub URL" }, { status: 400 });
+            return NextResponse.json({ error: "Invalid GitHub repository URL" }, { status: 400 });
         }
 
         const owner = match[1];

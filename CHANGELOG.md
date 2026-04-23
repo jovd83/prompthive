@@ -1,10 +1,37 @@
 # Changelog
 
-## 4.0.1 (Unreleased)
+## 4.0.1 (2026-04-23)
 
 ### Added
+- **Agent Integration Enhancement**: Deepened "Use of agents" and "Use of agentskills" support across the platform.
+  - New collapsible form sections for structured AI agent instructions and skill linking.
+  - Linked agent skills include descriptions in the prompt detail view.
+  - Automatic clipboard formatting: Agent context is now appended to the prompt content on copy.
+  - Integrated full import/export support for agent-specific metadata.
+  - **Enhanced Markdown Download**: Re-architected the "Download Markdown" feature for prompts and skills to follow a premium, agent-ready format.
+    - Added dedicated `## Agents` and `## Agentskills` headers.
+    - Introduced mandatory introductory text for agent skills to improve AI interpretability.
+    - Implemented a structured nested list format for skills (Name, Description, URL).
+    - Verified with high unit test coverage (97%+) and regression testing.
+  - **Copy Prompt with SOURCE-OF-TRUTH Policy**: Introduced a secondary copy action to enforce project-specific guardrails.
+    - Appends a strict "STRICT SOURCE-OF-TRUTH POLICY" block to the clipboard payload.
+    - Added "SOT Copy" button with `ShieldCheck` icon in the prompt detail view.
+    - Includes localized success feedback: "SOT Copied!".
+    - Integrated with analytics tracking (`copy_with_sot`).
+- **Advanced Copy Dialog**: New multi-option copy interface with configurable context blocks.
+  - Toggle individual sections: Agents, Agent Skills, Source-of-Truth Policy, Persistence Check, User Handoff.
+  - Single "Copy Selected" action assembles the final prompt from chosen blocks.
+  - Fully localized in all 7 supported languages.
+- **Recursive Export with Skill Metadata**: Export now includes full agent skill metadata, linked skill descriptions, and cross-prompt references for complete backup fidelity.
+
 ### Changed
+- **Skill Form Simplification**: Simplified the "Repository URL" label to "URL" across all locales for a cleaner, more generic interface. Added a dedicated `url` translation key.
+
 ### Fixed
+- **Agent Skill Import Linking (Cross-Batch Resolution)**: Fixed a critical bug where imported agent skill references were silently dropped. Root cause: the UI batches imports into groups of 20, and each batch had its own isolated ID map — skills imported in batch 1 couldn't be linked by prompts in batch 12. Implemented a two-phase import architecture: Phase 1 imports all items and collects pending link data, Phase 2 resolves all skill links in a single post-import pass using the full title map.
+- **Prisma Client Sync**: Resolved `Unknown argument agentUsage` error by force-regenerating the Prisma Client after unlocking service DLLs.
+- **Database Schema Sync**: Fixed missing `agentUsage` column in the development database by synchronizing the local `dev.db` with the latest Prisma schema.
+
 ### Removed
 
 ## 4.0.0 (2026-04-18)

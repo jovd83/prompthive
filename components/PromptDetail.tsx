@@ -5,8 +5,13 @@ import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS, nl, fr } from "date-fns/locale";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock, Loader2, Eye, EyeOff, Package, Terminal } from "lucide-react";
-// ... (skip down to insertion)
+import { 
+    Copy, Edit, History, FileText, Check, Paperclip, Download, Code2, Trash2, 
+    GitCompare, Heart, Maximize2, X, FileDown, RotateCcw, Lock, Unlock, 
+    Loader2, Eye, EyeOff, Package, Terminal, ShieldCheck, Settings2, 
+    ChevronDown, Users, Library, Database, RefreshCw, Zap, Sparkles,
+    Globe, ExternalLink, Link as LinkIcon
+} from "lucide-react";
 
 import CollapsibleSection from "./CollapsibleSection";
 import ExpandableTextarea from "./ExpandableTextarea";
@@ -23,12 +28,12 @@ import { PromptWithRelations } from "@/types/prisma";
 import { VariableDef, replaceVariables, getDisplayName } from "@/lib/prompt-utils";
 import { copyToClipboard } from "@/lib/clipboard";
 import { generateMarkdown, downloadStringAsFile } from "@/lib/markdown";
+import { AdvancedCopyOptions, formatAdvancedPrompt } from "@/lib/copy-utils";
 import { restorePromptVersion, toggleLock, toggleVisibility } from "@/actions/prompt-crud";
 import { unlinkPrompts } from "@/actions/prompt-links";
 import LinkPromptDialog from "./LinkPromptDialog";
 import TagList from "./TagList";
-import { Link as LinkIcon } from "lucide-react";
-import { isGuest } from "@/lib/permissions";
+import { Action, hasPermission, isGuest, isAdmin } from "@/lib/permissions";
 
 import { PromptDTO } from "@/lib/dto-mappers";
 
@@ -40,14 +45,16 @@ type PromptDetailProps = {
     privatePromptsEnabled?: boolean;
     tagColorsEnabled?: boolean;
     relatedPrompts?: PromptDTO[];
+    selectedAgentSkills?: any[];
     currentUser?: { id: string; role: string; name?: string | null; email?: string | null };
 };
+
 
 const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
 
 
 
-export default function PromptDetail({ prompt, isFavorited: initialIsFavorited = false, serverParsedVariables, collectionPaths, privatePromptsEnabled = false, tagColorsEnabled = true, relatedPrompts, currentUser }: PromptDetailProps) {
+export default function PromptDetail({ prompt, isFavorited: initialIsFavorited = false, serverParsedVariables, collectionPaths, privatePromptsEnabled = false, tagColorsEnabled = true, relatedPrompts, selectedAgentSkills = [], currentUser }: PromptDetailProps) {
     const { t, language } = useLanguage();
     const router = useRouter();
     const { data: session } = useSession();
@@ -76,6 +83,7 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
 
     // Local UI state
     const [copied, setCopied] = useState(false);
+    const [copiedWithSot, setCopiedWithSot] = useState(false);
     const [copyCount, setCopyCount] = useState(prompt.copyCount || 0);
     const [isCodeView, setIsCodeView] = useState(false);
     const [isLongCodeView, setIsLongCodeView] = useState(false); // keeping var name internal for now or rename? logic is same. Let's keep internal vars stable to avoid excessive churn.
@@ -85,6 +93,33 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
     const [isVisibilityLoading, setIsVisibilityLoading] = useState(false);
     const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
     const [unlinkingId, setUnlinkingId] = useState<string | null>(null);
+    const [isAdvancedCopyOpen, setIsAdvancedCopyOpen] = useState(false);
+
+    // Derived: skills for current version
+    const currentSkillIds = selectedVersion?.agentSkillIds 
+        ? (() => { try { return JSON.parse(selectedVersion.agentSkillIds); } catch(e) { return []; } })()
+        : [];
+    const currentSkills = selectedAgentSkills.filter((s: any) => currentSkillIds.includes(s.id));
+
+    const [advancedOptions, setAdvancedOptions] = useState<AdvancedCopyOptions>({
+        addAgents: !!selectedVersion?.agentUsage,
+        addAgentSkills: (currentSkills.length > 0),
+
+        addSotPolicy: false,
+        addPersistenceCheck: false,
+        addUserHandoff: false
+    });
+
+    // Update options when version changes
+    const [lastVid, setLastVid] = useState(selectedVersion?.id);
+    if (selectedVersion?.id !== lastVid) {
+        setLastVid(selectedVersion?.id);
+        setAdvancedOptions(prev => ({
+            ...prev,
+            addAgents: !!selectedVersion?.agentUsage,
+            addAgentSkills: currentSkills.length > 0
+        }));
+    }
 
     const handleUnlink = async (targetId: string) => {
         if (unlinkingId) return;
@@ -102,8 +137,8 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
         }
     };
 
-    const isCreator = user?.id === prompt.createdById;
-    // Cast prompt to any to access isLocked if types are stale
+    // Auth and permissions
+    const isCreator = user?.id === prompt.createdById || user?.role === 'ADMIN';
     const isLocked = prompt.isLocked;
     const canEdit = !isLocked && !isGuest(user);
 
@@ -124,27 +159,39 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
 
 
 
-    const handleCopy = async () => {
-        const content = replaceVariables(selectedVersion.content, variables);
+    const handleCopy = async (options?: AdvancedCopyOptions) => {
+        let content = replaceVariables(selectedVersion.content, variables);
+
+        if (options) {
+            content = formatAdvancedPrompt(content, options, {
+                agentUsage: selectedVersion.agentUsage || undefined,
+                agentSkills: currentSkills
+            });
+        }
 
         const success = await copyToClipboard(content);
 
         if (success) {
             setCopied(true);
-            setCopyCount(prev => prev + 1);
             setTimeout(() => setCopied(false), 2000);
+            
+            setCopyCount(prev => prev + 1);
 
             fetch("/api/analytics", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ promptId: prompt.id, type: "copy" }),
+                body: JSON.stringify({ 
+                    promptId: prompt.id, 
+                    type: options ? "copy_advanced" : "copy",
+                    options: options
+                }),
             }).catch(console.error);
         }
     };
 
     const handleDownloadMarkdown = () => {
         if (!selectedVersion) return;
-        const md = generateMarkdown(prompt, selectedVersion.id);
+        const md = generateMarkdown(prompt, selectedVersion.id, currentSkills);
         const slug = prompt.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         const filename = `${slug}_v${selectedVersion.versionNumber}.md`;
         downloadStringAsFile(md, filename);
@@ -282,8 +329,9 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                 onClick={() => setIsLinkDialogOpen(true)}
                                 className="btn border border-border hover:bg-background bg-surface flex-shrink-0"
                                 title={t('detail.actions.linkPrompt') || "Link Related Prompt"}
+                                id="link-prompt-trigger"
                             >
-                                <LinkIcon size={20} />
+                                <LinkIcon size={20} className="text-primary" />
                             </button>
                         )}
 
@@ -333,29 +381,33 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             </button>
                         )}
 
-                        {isDeleting ? (
-                            <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 flex-shrink-0">
-                                <span className="text-sm font-bold text-red-600">{t('detail.actions.confirmDelete')}</span>
-                                <button onClick={confirmDelete} className="btn btn-sm bg-red-600 text-white hover:bg-red-700">{t('detail.actions.yes')}</button>
-                                <button onClick={() => setIsDeleting(false)} className="btn btn-sm bg-surface text-foreground border border-border hover:bg-muted">{t('detail.actions.no')}</button>
-                            </div>
-                        ) : (
+                        {isCreator && (
                             <>
-                                <Link
-                                    href={canEdit ? (prompt.itemType === 'AGENT_SKILL' ? `/skills/${prompt.id}/edit` : `/prompts/${prompt.id}/edit`) : "#"}
-                                    className={`btn bg-surface border border-border hover:bg-background flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
-                                    title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
-                                >
-                                    <Edit size={16} />
-                                </Link>
-                                <button
-                                    onClick={() => setIsDeleting(true)}
-                                    disabled={!canEdit}
-                                    className={`btn bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:bg-red-950/10 dark:text-red-400 dark:border-red-900/30 dark:hover:bg-red-900/20 flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
-                                    title={canEdit ? t('detail.actions.delete') : t('detail.actions.lockedByCreator')}
-                                >
-                                    <Trash2 size={16} />
-                                </button>
+                                {isDeleting ? (
+                                    <div className="flex items-center gap-2 animate-in fade-in slide-in-from-right-2 flex-shrink-0">
+                                        <span className="text-sm font-bold text-red-600">{t('detail.actions.confirmDelete')}</span>
+                                        <button onClick={confirmDelete} className="btn btn-sm bg-red-600 text-white hover:bg-red-700">{t('detail.actions.yes')}</button>
+                                        <button onClick={() => setIsDeleting(false)} className="btn btn-sm bg-surface text-foreground border border-border hover:bg-muted">{t('detail.actions.no')}</button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href={canEdit ? (prompt.itemType === 'AGENT_SKILL' ? `/skills/${prompt.id}/edit` : `/prompts/${prompt.id}/edit`) : "#"}
+                                            className={`btn bg-surface border border-border hover:bg-background flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                            title={canEdit ? t('detail.actions.edit') : t('detail.actions.lockedByCreator')}
+                                        >
+                                            <Edit size={16} />
+                                        </Link>
+                                        <button
+                                            onClick={() => setIsDeleting(true)}
+                                            disabled={!canEdit}
+                                            className={`btn bg-white border border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:bg-red-950/10 dark:text-red-400 dark:border-red-900/30 dark:hover:bg-red-900/20 flex-shrink-0 ${!canEdit ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                                            title={canEdit ? t('detail.actions.delete') : t('detail.actions.lockedByCreator')}
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>
@@ -435,6 +487,31 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                     </button>
                                 </div>
                             </div>
+
+                            <div className="flex flex-col gap-2 mt-4">
+                                <label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                    <Globe size={14} /> {t('skills.url') || "URL"}
+                                </label>
+                                <div className="flex gap-2">
+                                    <input 
+                                        type="text" 
+                                        readOnly 
+                                        value={prompt.url || prompt.repoUrl || ''} 
+                                        className="input flex-1 font-mono text-sm bg-background border border-border" 
+                                    />
+                                    {(prompt.url || prompt.repoUrl) && (
+                                        <a 
+                                            href={prompt.url || prompt.repoUrl || '#'} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="btn btn-outline p-2 px-3 flex items-center justify-center"
+                                            title={t('skills.openLink') || "Open Link"}
+                                        >
+                                            <ExternalLink size={14} />
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     )}
 
@@ -450,10 +527,99 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                                 >
                                     <Code2 size={14} /> {t('detail.actions.codeView')}
                                 </button>
-                                <button onClick={handleCopy} className="btn btn-primary py-1.5 px-3 text-sm shadow-md shadow-primary/20">
-                                    {copied ? <Check size={16} /> : <Copy size={16} />}
-                                    {copied ? t('detail.actions.copied') : t('detail.actions.copy')}
-                                </button>
+                                <div className="relative inline-flex items-stretch shadow-md rounded-lg overflow-visible group/btn h-8">
+                                    <button 
+                                        onClick={() => handleCopy()} 
+                                        className="btn btn-primary btn-sm h-8 px-3 pr-8 border-none hover:brightness-105 active:scale-[0.98] transition-all flex items-center gap-2 rounded-lg w-full justify-start whitespace-nowrap text-xs min-h-0"
+                                    >
+                                        {copied ? <Check size={14} className="animate-in zoom-in duration-300" /> : <Copy size={14} />}
+                                        {copied ? t('detail.actions.copied') : t('detail.actions.copy')}
+                                    </button>
+
+                                    <div className="absolute right-0 top-0 bottom-0 flex h-full">
+                                        <div className="w-[1px] h-3/5 my-auto bg-white/20" />
+                                        <button 
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setIsAdvancedCopyOpen(!isAdvancedCopyOpen);
+                                            }}
+                                            className={`px-2 hover:bg-white/10 transition-colors flex items-center justify-center rounded-r-lg ${isAdvancedCopyOpen ? 'bg-white/20' : ''}`}
+                                            title="Advanced Copy Options"
+                                        >
+                                            <ChevronDown size={12} className={`transition-transform duration-300 ${isAdvancedCopyOpen ? 'rotate-180' : ''}`} />
+                                        </button>
+
+                                        {isAdvancedCopyOpen && (
+                                            <>
+                                                <div className="fixed inset-0 z-[19] bg-transparent" onClick={() => setIsAdvancedCopyOpen(false)} />
+                                                <div className="absolute right-0 top-full z-[20] mt-2 w-72 overflow-hidden rounded-xl border border-white/20 bg-white/95 p-0 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-900/95 animate-in fade-in slide-in-from-top-1 duration-200">
+                                                    <div className="bg-gradient-to-br from-primary/10 via-transparent to-transparent p-3 pb-2 border-b border-border/50 flex items-center justify-between">
+                                                        <div className="flex items-center gap-2 text-primary font-bold text-xs">
+                                                            <Sparkles size={12} />
+                                                            {t('detail.actions.advancedCopy')}
+                                                        </div>
+                                                        <button onClick={() => setIsAdvancedCopyOpen(false)} className="opacity-40 hover:opacity-100 transition-opacity"><X size={12} /></button>
+                                                    </div>
+
+                                                    <div className="p-2 space-y-0.5">
+                                                        <label className={`flex items-center justify-between p-2 rounded-lg transition-all cursor-pointer ${!selectedVersion.agentUsage ? 'opacity-30 grayscale cursor-not-allowed' : 'hover:bg-primary/5 group'}`}>
+                                                            <div className="flex items-center gap-2.5">
+                                                                <div className="p-1.5 rounded bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 group-hover:scale-105 transition-transform"><Users size={14} /></div>
+                                                                <span className="text-xs font-medium">{t('detail.actions.addAgents')}</span>
+                                                            </div>
+                                                            <input type="checkbox" className="checkbox checkbox-primary checkbox-xs rounded" checked={advancedOptions.addAgents} onChange={(e) => setAdvancedOptions(prev => ({ ...prev, addAgents: e.target.checked }))} disabled={!selectedVersion.agentUsage} />
+                                                        </label>
+
+                                                        <label className={`flex items-center justify-between p-2 rounded-lg transition-all cursor-pointer ${(!currentSkills || currentSkills.length === 0) ? 'opacity-30 grayscale cursor-not-allowed' : 'hover:bg-primary/5 group'}`}>
+                                                            <div className="flex items-center gap-2.5">
+                                                                <div className="p-1.5 rounded bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 group-hover:scale-105 transition-transform"><Library size={14} /></div>
+                                                                <span className="text-xs font-medium">{t('detail.actions.addAgentSkills')}</span>
+                                                            </div>
+                                                            <input type="checkbox" className="checkbox checkbox-primary checkbox-xs rounded" checked={advancedOptions.addAgentSkills} onChange={(e) => setAdvancedOptions(prev => ({ ...prev, addAgentSkills: e.target.checked }))} disabled={!currentSkills || currentSkills.length === 0} />
+                                                        </label>
+
+                                                        <label className="flex items-center justify-between p-2 rounded-lg transition-all hover:bg-primary/5 cursor-pointer group">
+                                                            <div className="flex items-center gap-2.5">
+                                                                <div className="p-1.5 rounded bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 group-hover:scale-105 transition-transform"><ShieldCheck size={14} /></div>
+                                                                <span className="text-xs font-medium lowercase first-letter:uppercase">{t('detail.actions.addSotPolicy')}</span>
+                                                            </div>
+                                                            <input type="checkbox" className="checkbox checkbox-primary checkbox-xs rounded" checked={advancedOptions.addSotPolicy} onChange={(e) => setAdvancedOptions(prev => ({ ...prev, addSotPolicy: e.target.checked }))} />
+                                                        </label>
+
+                                                        <label className="flex items-center justify-between p-2 rounded-lg transition-all hover:bg-primary/5 cursor-pointer group">
+                                                            <div className="flex items-center gap-2.5">
+                                                                <div className="p-1.5 rounded bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 group-hover:scale-105 transition-transform"><Database size={14} /></div>
+                                                                <span className="text-xs font-medium lowercase first-letter:uppercase">{t('detail.actions.addPersistenceCheck')}</span>
+                                                            </div>
+                                                            <input type="checkbox" className="checkbox checkbox-primary checkbox-xs rounded" checked={advancedOptions.addPersistenceCheck} onChange={(e) => setAdvancedOptions(prev => ({ ...prev, addPersistenceCheck: e.target.checked }))} />
+                                                        </label>
+
+                                                        <label className="flex items-center justify-between p-2 rounded-lg transition-all hover:bg-primary/5 cursor-pointer group">
+                                                            <div className="flex items-center gap-2.5">
+                                                                <div className="p-1.5 rounded bg-indigo-500/10 text-indigo-600 dark:bg-indigo-500/20 dark:text-indigo-400 group-hover:scale-105 transition-transform"><RefreshCw size={14} /></div>
+                                                                <span className="text-xs font-medium lowercase first-letter:uppercase">{t('detail.actions.addUserHandoff')}</span>
+                                                            </div>
+                                                            <input type="checkbox" className="checkbox checkbox-primary checkbox-xs rounded" checked={advancedOptions.addUserHandoff} onChange={(e) => setAdvancedOptions(prev => ({ ...prev, addUserHandoff: e.target.checked }))} />
+                                                        </label>
+                                                    </div>
+
+                                                    <div className="p-2 bg-muted/40 border-t border-border/50">
+                                                        <button 
+                                                            className="btn btn-primary btn-xs w-full rounded-lg shadow hover:scale-[1.01] active:scale-95 transition-all text-[10px] font-bold"
+                                                            onClick={() => {
+                                                                handleCopy(advancedOptions);
+                                                                setIsAdvancedCopyOpen(false);
+                                                            }}
+                                                        >
+                                                            <Zap size={12} className="fill-current" />
+                                                            {t('detail.actions.copySelected')}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         {isCodeView ? (
@@ -464,6 +630,40 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             </div>
                         )}
                     </div>
+
+                    {selectedVersion.agentUsage && (
+                        <div className="card">
+                            <h3 className="font-bold mb-2 text-sm text-muted-foreground">{t('form.useOfAgents')}</h3>
+                            <div className="bg-background/40 p-3 rounded-lg border border-border/50 text-sm whitespace-pre-wrap">
+                                {selectedVersion.agentUsage}
+                            </div>
+                        </div>
+                    )}
+
+                    {currentSkills && currentSkills.length > 0 && (
+                        <div className="card">
+                            <h3 className="font-bold mb-4 text-sm text-muted-foreground">{t('form.useOfAgentSkills')}</h3>
+                            <div className="space-y-3">
+                                {currentSkills.map((skill: any) => (
+                                    <Link 
+                                        key={skill.id} 
+                                        href={`/prompts/${skill.id}`}
+                                        className="flex items-start gap-3 p-3 rounded-lg border border-border hover:bg-surface transition-all group"
+                                    >
+                                        <div className="bg-primary/10 p-2 rounded-md text-primary group-hover:scale-110 transition-transform">
+                                            <Package size={18} />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-medium text-sm text-foreground">{skill.title}</div>
+                                            <div className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
+                                                {skill.description || skill.versions?.[0]?.content || "No description available"}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {selectedVersion.shortContent && (
                         <CollapsibleSection
@@ -525,6 +725,8 @@ export default function PromptDetail({ prompt, isFavorited: initialIsFavorited =
                             </div>
                         </CollapsibleSection>
                     )}
+
+
 
                     {/* Results Section */}
                     {(selectedVersion.resultText || resultAttachments.length > 0 || showLegacyResultImage) && (

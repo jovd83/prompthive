@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { useLanguage } from "../LanguageProvider";
 import { useRouter } from "next/navigation";
-import { importBatchAction, importStructureAction } from "@/actions/import-batch";
+import { importBatchAction, importStructureAction, resolveSkillLinksAction } from "@/actions/import-batch";
 import { Loader2, AlertCircle, Check } from "lucide-react";
 
 export default function JsonImportForm() {
@@ -66,11 +66,22 @@ export default function JsonImportForm() {
                 let imported = 0;
                 let skipped = 0;
 
-                setProgress({ current: 0, total, message: "Importing prompts..." });
+                // Pre-index ALL titles for post-import skill link resolution
+                const originalIdToTitleMap: Record<string, string> = {};
+                items.forEach((it: any) => {
+                    if (it.id && it.title) {
+                        originalIdToTitleMap[it.id] = it.title;
+                    }
+                });
 
+                // Accumulate pending skill updates from ALL batches
+                const allPendingSkillUpdates: { versionId: string, originalSkillIds: string[] }[] = [];
+
+                setProgress({ current: 0, total, message: "Phase 1: Importing prompts..." });
+
+                // === PHASE 1: Import all items in batches ===
                 for (let i = 0; i < total; i += BATCH_SIZE) {
                     const batch = items.slice(i, i + BATCH_SIZE);
-                    // Pass the map only if it exists
                     const res = await importBatchAction(batch, collectionIdMap);
 
                     if (!res.success) throw new Error(res.error || "Batch failed");
@@ -78,7 +89,22 @@ export default function JsonImportForm() {
                     imported += res.count || 0;
                     skipped += res.skipped || 0;
                     processed += batch.length;
-                    setProgress({ current: processed, total, message: "Importing prompts..." });
+
+                    // Collect pending skill updates from this batch
+                    if (res.pendingSkillUpdates && res.pendingSkillUpdates.length > 0) {
+                        allPendingSkillUpdates.push(...res.pendingSkillUpdates);
+                    }
+
+                    setProgress({ current: processed, total, message: "Phase 1: Importing prompts..." });
+                }
+
+                // === PHASE 2: Resolve all agent skill links in ONE pass ===
+                if (allPendingSkillUpdates.length > 0) {
+                    setProgress({ current: total, total, message: "Phase 2: Linking agent skills..." });
+                    const linkRes = await resolveSkillLinksAction(allPendingSkillUpdates, originalIdToTitleMap);
+                    if (!linkRes.success) {
+                        console.error("Skill link resolution failed:", linkRes.error);
+                    }
                 }
 
                 setResult({ success: true, count: imported, skipped });

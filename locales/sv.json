@@ -30,7 +30,13 @@
         "save": "Spara",
         "cancel": "Avbryt",
         "selectAll": "Markera allt",
-        "deselectAll": "Avmarkera allt"
+        "deselectAll": "Avmarkera allt",
+        "tipOfTheDay": "Dagens tips",
+        "learnMore": "Läs mer",
+        "expandTip": "Expandera tips",
+        "collapseTip": "Fäll ihop tips",
+        "system": "System",
+        "export": "Exportera"
     },
     "languages": {
         "en": "English",
@@ -84,7 +90,8 @@
                 "role": "Roll",
                 "cancel": "Avbryt",
                 "create": "Skapa användare",
-                "error": "Kunde inte skapa användare"
+                "error": "Kunde inte skapa användare",
+                "success": "Användare skapad framgångsrikt"
             },
             "roleToggleTitle": "Klicka för att ändra roll",
             "deleteConfirmTitle": "Ta bort användare",
@@ -111,12 +118,16 @@
             "help": "Hjälpcenter",
             "createPrompt": "Skapa ny prompt",
             "createCollection": "Skapa samling",
-            "toggleTheme": "Växla tema"
+            "toggleTheme": "Växla tema",
+            "adminSettings": "Administratörsinställningar",
+            "userManagement": "Användarhantering"
         },
         "sections": {
             "navigation": "Navigering",
             "actions": "Åtgärder",
-            "preferences": "Preferenser"
+            "preferences": "Preferenser",
+            "admin": "Administration",
+            "account": "Konto"
         }
     },
     "collections": {
@@ -144,7 +155,14 @@
             "title": "Inga arbetsflöden än",
             "desc": "Skapa din första prompt-kedja för att automatisera komplexa uppgifter."
         },
-        "beta": "(BETA - Otestad)"
+        "beta": "(BETA - Otestad)",
+        "card": {
+            "edit": "Redigera",
+            "delete": "Ta bort",
+            "run": "Kör",
+            "steps": "Steg",
+            "noDesc": "Ingen beskrivning angiven."
+        }
     },
     "prompts": {
         "dashboard": "Dashboard",
@@ -186,7 +204,9 @@
             "za": "Ö - A",
             "newest": "Nyast Först",
             "oldest": "Äldst Först",
-            "mostItems": "Flest Objekt"
+            "mostItems": "Flest Objekt",
+            "mostViewed": "Mest visade",
+            "leastViewed": "Minst visade"
         }
     },
     "advancedSearch": {
@@ -198,7 +218,8 @@
     },
     "skills": {
         "createTitle": "Skapa nytt Agent Skill",
-        "repositoryUrl": "URL till GitHub-arkiv",
+        "repositoryUrl": "URL",
+        "url": "URL",
         "fetchInfo": "Hämta info",
         "installCommand": "Installationskommando",
         "fetching": "Hämtar...",
@@ -276,12 +297,20 @@
             "createFailed": "Misslyckades att skapa prompt. Försök igen.",
             "createVersionFailed": "Misslyckades att skapa version. Försök igen.",
             "invalidExtension": "Ogiltig filtillägg: {{ext}}. Tillåtet: {{allowed}}"
-        }
+        },
+        "useOfAgents": "Användning av agents",
+        "useOfAgentSkills": "Användning av agentskills",
+        "agentUsageHint": "Detta innehåll läggs till i urklipp när prompten kopieras.",
+        "agentSkillsHint": "Valda agentskills läggs till i urklipp när prompten kopieras.",
+        "skillAgentUsageHint": "Definiera vilka specialiserade agents som ska användas när denna skill anropas. Detta innehåll läggs till i urklipp vid avancerad kopiering.",
+        "skillAgentSkillsHint": "Länka andra agentskills som denna skill är beroende av. Länkade agentskills inkluderas i urklipp vid avancerad kopiering."
     },
     "tags": {
         "placeholder": "Välj eller skapa taggar...",
         "create": "Skapa tagg \"{{tag}}\"",
-        "noMatch": "Inga matchande taggar hittades."
+        "noMatch": "Inga matchande taggar hittades.",
+        "viewAll": "Visa alla",
+        "showLess": "Visa färre"
     },
     "diff": {
         "title": "Jämför Versioner",
@@ -312,7 +341,16 @@
             "restoreSuccess": "Version återställd.",
             "lockPrompt": "Lås prompt (endast skapare)",
             "unlockPrompt": "Lås upp prompt (endast skapare)",
-            "lockedByCreator": "Låst av skapare"
+            "lockedByCreator": "Låst av skapare",
+            "advancedCopy": "Avancerad kopiering",
+            "addAgents": "Lägg till agents",
+            "addAgentSkills": "Lägg till agentskills",
+            "addSotPolicy": "Lägg till policy för sanningskälla",
+            "addPersistenceCheck": "Lägg till persistenskontroll",
+            "addUserHandoff": "Lägg till användaröverlämning",
+            "copySelected": "Kopiera valda",
+            "linkPrompt": "Länka relaterad prompt",
+            "downloadMarkdown": "Ladda ner Markdown"
         },
         "labels": {
             "description": "Beskrivning",
@@ -329,7 +367,8 @@
             "source": "Källa",
             "shortPrompt": "Kort Prompt",
             "usageExample": "Användningsexempel",
-            "editingVariable": "Redigerar Variabel"
+            "editingVariable": "Redigerar Variabel",
+            "relatedPrompts": "Relaterade prompts"
         },
         "meta": {
             "by": "Av",
@@ -341,11 +380,15 @@
             "noDescription": "Ingen beskrivning angiven.",
             "noVersions": "Inga versioner hittades.",
             "valueFor": "Värde för {{name}}",
-            "enterLargeText": "Ange vanlig eller lång text här..."
+            "enterLargeText": "Ange vanlig eller lång text här...",
+            "searchPrompts": "Sök efter titel eller ID..."
         },
         "errors": {
             "deleteFailed": "Misslyckades att ta bort prompt.",
             "restoreFailed": "Misslyckades att återställa version."
+        },
+        "badges": {
+            "private": "Privat"
         }
     },
     "settings": {
@@ -391,11 +434,15 @@
         "restoreFailed": "Återställning misslyckades: {{error}}",
         "dbCleared": "Databas rensad.",
         "languageSettings": "Språkinställningar",
-        "saveGeneral": "Spara Allmänna Inställningar",
-        "saveBackup": "Spara Backupkonfiguration",
+        "saveGeneral": "Spara allmänna inställningar",
+        "saveBackup": "Spara säkerhetskopieringskonfiguration",
         "saveVisibility": "Spara Synlighetsinställningar",
         "collectionVisibility": "Samlingens Synlighet",
-        "collectionVisibilityDesc": "Avmarkera samlingar du vill dölja. Dolda samlingar (och deras barn) kommer inte att synas i sidofältet."
+        "collectionVisibilityDesc": "Avmarkera samlingar du vill dölja. Dolda samlingar (och deras barn) kommer inte att synas i sidofältet.",
+        "showTips": "Visa prompttips",
+        "showTipsDesc": "Visa ett hjälpsamt prompttips på instrumentpanelen varje dag.",
+        "showWorkflows": "Visa arbetsflöden",
+        "showWorkflowsDesc": "Aktivera arbetsflödesfunktionen i sidofältet."
     },
     "importExport": {
         "title": "Importera / Exportera",
@@ -431,7 +478,9 @@
         "exportComplete": "Export klar: {{count}} prompts exporterade.",
         "exportZeroTitle": "Exportera för TMT Zero",
         "exportZeroDesc": "Välj samlingar att exportera för den lätta versionen.",
-        "exportZeroButton": "Exportera för TMT Zero"
+        "exportZeroButton": "Exportera för TMT Zero",
+        "includeAttachments": "Inkludera bilagor",
+        "includeResultFiles": "Inkludera resultatfiler / bilder"
     },
     "help": {
         "title": "Hjälpcenter",
@@ -452,7 +501,12 @@
             "language": "Språkinställningar",
             "userProfile": "Användarprofil & Säkerhet",
             "faq": "FAQ & Felsökning",
-            "changelog": "Ändringslogg"
+            "changelog": "Ändringslogg",
+            "exporting": "Exportera & ladda ner",
+            "locking": "Låsa prompts (skydd)",
+            "technicalIds": "Tekniska ID:n",
+            "tagColors": "Taggfärger",
+            "admin": "Administratörsfunktioner"
         },
         "content": {
             "changelog": {
@@ -496,7 +550,9 @@
                 "versionTitle": "Versionera",
                 "versionDesc": "Förlora aldrig en bra prompt. Varje sparning skapar en ny historikpost.",
                 "templatizeTitle": "Mallar",
-                "templatizeDesc": "Använd variabler som <code>{{topic}}</code> för att skapa återanvändbara mallar."
+                "templatizeDesc": "Använd variabler som <code>{{topic}}</code> för att skapa återanvändbara mallar.",
+                "tipsTitle": "Lär dig",
+                "tipsDesc": "Få dagliga <strong>prompttips</strong> på din instrumentpanel för att förbättra dina färdigheter (kan inaktiveras i Inställningar)."
             },
             "gettingStarted": {
                 "tip": "Du behöver ingen internetanslutning. TMT körs helt lokalt på din maskin.",
@@ -565,7 +621,9 @@
                 "redTitle": "Röd Bakgrund",
                 "redDesc": "Indikerar text som har <strong>Tagits bort</strong> från den äldre versionen.",
                 "tipTitle": "Tips",
-                "tipDesc": "Använd detta för att verifiera om din senaste \"justering\" faktiskt förbättrade prompten eller bara flyttade ord!"
+                "tipDesc": "Använd detta för att verifiera om din senaste \"justering\" faktiskt förbättrade prompten eller bara flyttade ord!",
+                "restoreTitle": "Återställa tidigare versioner",
+                "restoreDesc": "Du kan återställa vilken tidigare version som helst till att bli den nya aktuella versionen. Klicka på ikonen 'Återställ' (cirkelformad pil) bredvid en version i historiklistan. Detta skapar en ny versionskopia och bevarar din linjära historik."
             },
             "language": {
                 "desc": "TMT stöder flera språk. Du kan ändra ditt föredragna språk när som helst.",
@@ -606,6 +664,31 @@
                 "a2": "Du har två val: <strong>Ta bort Allt</strong> (vilket raderar alla barn och prompts inuti) eller <strong>Ta bort Endast Samling</strong> (vilket flyttar alla barn/prompts upp en nivå eller till Roten).",
                 "q3": "F: Kan jag dela mina prompts?",
                 "a3": "För närvarande är TMT ett lokalt enanvändarverktyg. Du kan dock använda funktionen <strong>Importera/Exportera</strong> i sidofältet för att dela JSON-filer med kollegor."
+            },
+            "locking": {
+                "desc": "Skydda ditt arbete från oavsiktliga redigeringar genom att <strong>låsa</strong> dina prompts.",
+                "howToTitle": "Hur man låser",
+                "li1": "Öppna en prompt som du har skapat.",
+                "li2": "Klicka på <span class=\"text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span> <strong>Lås upp</strong>-ikonen i rubriken.",
+                "li3": "Ikonen ändras till ett <strong>stängt hänglås</strong>, vilket indikerar att prompten är låst.",
+                "effectTitle": "Vad händer?",
+                "effectDesc": "När den är låst är knapparna <strong>Redigera</strong>, <strong>Spara ny version</strong> och <strong>Lägg till variabel</strong> inaktiverade för alla (utom dig). Använd detta för att markera prompts som 'Slutgiltig/Stabil' eller för att förhindra att teammedlemmar ändrar dina mallar."
+            },
+            "technicalIds": {
+                "desc": "Tekniska ID:n ger en stabil, läsbar referens för dina prompts (t.ex. VIBE-123).",
+                "generationTitle": "Automatisk generering",
+                "generationDesc": "När du tilldelar en prompt till en samling får den automatiskt ett ID baserat på samlingsnamnet (t.ex. 'Försäljning' -> 'FÖRS-1').",
+                "routingTitle": "Direkta URL:er",
+                "routingDesc": "Du kan komma åt vilken prompt som helst direkt genom att skriva dess ID i URL:en: <code>/prompts/VIBE-123</code>.",
+                "searchTitle": "Sök",
+                "searchDesc": "Du kan hitta vilken prompt som helst direkt genom att skriva dess tekniska ID i sökfältet på instrumentpanelen."
+            },
+            "tagColors": {
+                "desc": "Organisera dina taggar visuellt genom att ge dem automatiska, konsekventa färger.",
+                "enableTitle": "Aktivera färger",
+                "enableDesc": "Gå till <strong>Inställningar > Allmänt</strong> och markera <strong>Aktivera taggfärger</strong>.",
+                "howItWorksTitle": "Hur det fungerar",
+                "howItWorksDesc": "Färger genereras deterministiskt baserat på taggnamnet. Samma tagg har alltid samma färg i hela applikationen."
             }
         }
     }

@@ -259,3 +259,15 @@ Users can search for and link other prompts to the current prompt. These appear 
 *   [ ] **Visual Style**: Verify related prompts are displayed as cards in a single row with horizontal scrolling when overflowing, using the standard PromptCard styling.
 *   [x] **Search Filter**: Verify user cannot see already linked prompts in the search results when trying to link a new prompt.
 *   [ ] **Localization**: Verify all labels (`actions.linkPrompt`, `placeholders.searchPrompts`, `labels.relatedPrompts`) are localized for EN, NL, FR.
+
+---
+
+## User Story: Advanced Copy
+*(Moved to [Epic_Advanced_Copy.md](./Epic_Advanced_Copy.md))*
+The previous "Copy with SOT Policy" functionality has been integrated into a more flexible Advanced Copy feature.
+
+
+---
+
+## Related Epics
+*   [Epic: Agent & Agent Skill Integration](./Epic_Agent_Integration.md)

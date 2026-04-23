@@ -83,12 +83,48 @@ async function* generateExportStream(userId: string, collectionIds?: string[]) {
         where.collections = { some: { id: { in: collectionIds } } };
     }
 
-    while (true) {
+    // 1. Resolve all prompt IDs recursively
+    const initialPrompts = await prisma.prompt.findMany({
+        where,
+        select: { id: true }
+    });
+    
+    const allPromptIds = new Set(initialPrompts.map(p => p.id));
+    
+    let changed = true;
+    while (changed) {
+        changed = false;
+        const currentPromptIds = Array.from(allPromptIds);
+        const versions = await prisma.promptVersion.findMany({
+            where: { promptId: { in: currentPromptIds } },
+            select: { agentSkillIds: true }
+        });
+        
+        for (const v of versions) {
+            if (v.agentSkillIds) {
+                try {
+                    const skillIds = JSON.parse(v.agentSkillIds);
+                    if (Array.isArray(skillIds)) {
+                        for (const sid of skillIds) {
+                            if (!allPromptIds.has(sid)) {
+                                allPromptIds.add(sid);
+                                changed = true;
+                            }
+                        }
+                    }
+                } catch (e) {}
+            }
+        }
+    }
+
+    // 2. Stream using the resolved IDs
+    const resolvedIds = Array.from(allPromptIds);
+    let processed = 0;
+
+    while (processed < resolvedIds.length) {
+        const batchIds = resolvedIds.slice(processed, processed + batchSize);
         const prompts: any[] = await prisma.prompt.findMany({
-            take: batchSize,
-            skip: cursor ? 1 : 0,
-            cursor: cursor ? { id: cursor } : undefined,
-            where,
+            where: { id: { in: batchIds } },
             include: {
                 tags: true,
                 versions: {
@@ -103,6 +139,7 @@ async function* generateExportStream(userId: string, collectionIds?: string[]) {
         });
 
         if (prompts.length === 0) break;
+        processed += batchIds.length;
 
         for (let i = 0; i < prompts.length; i++) {
             const prompt = prompts[i];
@@ -131,6 +168,8 @@ async function* generateExportStream(userId: string, collectionIds?: string[]) {
                         file: await getFileAsBase64(v.resultImage)
                     } : null,
                     attachments,
+                    agentUsage: v.agentUsage ?? "",
+                    agentSkillIds: v.agentSkillIds ?? "[]",
                     createdAt: v.createdAt
                 });
             }

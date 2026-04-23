@@ -24,6 +24,8 @@ export const CreatePromptSchema = z.object({
     resultText: z.string().optional(),
     resource: z.string().optional(),
     isPrivate: z.boolean().optional(),
+    agentUsage: z.string().optional(),
+    agentSkillIds: z.string().optional(),
 });
 
 export const CreateVersionSchema = z.object({
@@ -43,6 +45,8 @@ export const CreateVersionSchema = z.object({
     existingResultImagePath: z.string().optional(),
     resource: z.string().optional(),
     isPrivate: z.boolean().optional(),
+    agentUsage: z.string().optional(),
+    agentSkillIds: z.string().optional(),
 });
 
 export const CollectionSchema = z.object({
@@ -69,9 +73,12 @@ const ImportVersionSchema = z.object({
     ]).optional().nullable(),
     changelog: z.string().optional().nullable(),
     attachments: z.array(z.any()).optional().nullable(), // Hard to strict type binary file inputs here
+    agentUsage: z.string().optional().nullable(),
+    agentSkillIds: z.union([z.string(), z.array(z.any())]).optional().nullable(),
 });
 
 export const ImportItemSchema = z.object({
+    id: z.string().optional().nullable(),
     title: z.string().optional().nullable(),
     content: z.string().optional().nullable(), // Flat format
     description: z.string().optional().nullable(),
@@ -90,6 +97,8 @@ export const ImportItemSchema = z.object({
     itemType: z.string().optional().nullable(),
     repoUrl: z.string().optional().nullable(),
     installCommand: z.string().optional().nullable(),
+    agentUsage: z.string().optional().nullable(),
+    agentSkillIds: z.union([z.string(), z.array(z.any())]).optional().nullable(),
     // Allow pass-through of other legacy fields
 }).passthrough();
 

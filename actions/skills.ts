@@ -20,15 +20,19 @@ export async function createSkill(formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const repoUrl = formData.get("repoUrl") as string;
+    const url = formData.get("url") as string;
     const installCommand = formData.get("installCommand") as string;
     const collectionId = formData.get("collectionId") as string;
     const tagIds = formData.getAll("tagIds") as string[];
+    const agentUsage = formData.get("agentUsage") as string;
+    const agentSkillIds = formData.get("agentSkillIds") as string;
 
-    if (!title || !repoUrl) {
-        throw new Error("Title and Repository URL are required.");
+    if (!title || (!repoUrl && !url)) {
+        throw new Error("Title and either Repository URL or URL are required.");
     }
 
-    const skillNameMatch = repoUrl.match(/github\.com\/[^\/]+\/([^\/]+)/);
+    const effectiveRepoUrl = repoUrl || url;
+    const skillNameMatch = effectiveRepoUrl.match(/github\.com\/[^\/]+\/([^\/]+)/);
     const skillName = skillNameMatch ? skillNameMatch[1].replace(/\.git$/, '').replace(/\/$/, '') : title;
 
     const data: PromptsService.CreatePromptInput = {
@@ -41,11 +45,14 @@ export async function createSkill(formData: FormData) {
         collectionId: collectionId || "",
         tagIds: tagIds || [],
         resultText: "",
-        resource: repoUrl,
+        resource: effectiveRepoUrl,
         isPrivate: false,
         itemType: "AGENT_SKILL",
-        repoUrl: repoUrl,
+        repoUrl: repoUrl || url,
+        url: url || repoUrl,
         installCommand: installCommand,
+        agentUsage: agentUsage || "",
+        agentSkillIds: agentSkillIds || "[]",
     };
 
     const prompt = await PromptsService.createPromptService(userId, data, [], []);
@@ -69,15 +76,19 @@ export async function updateSkill(formData: FormData) {
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const repoUrl = formData.get("repoUrl") as string;
+    const url = formData.get("url") as string;
     const installCommand = formData.get("installCommand") as string;
     const collectionId = formData.get("collectionId") as string;
     const tagIds = formData.getAll("tagIds") as string[];
+    const agentUsage = formData.get("agentUsage") as string;
+    const agentSkillIds = formData.get("agentSkillIds") as string;
 
-    if (!skillId || !title || !repoUrl) {
-        throw new Error("ID, Title, and Repository URL are required.");
+    if (!skillId || !title || (!repoUrl && !url)) {
+        throw new Error("ID, Title, and either Repository URL or URL are required.");
     }
 
-    const skillNameMatch = repoUrl.match(/github\.com\/[^\/]+\/([^\/]+)/);
+    const effectiveRepoUrl = repoUrl || url;
+    const skillNameMatch = effectiveRepoUrl.match(/github\.com\/[^\/]+\/([^\/]+)/);
     const skillName = skillNameMatch ? skillNameMatch[1].replace(/\.git$/, '').replace(/\/$/, '') : title;
 
     const data: PromptsService.CreateVersionInput = {
@@ -92,11 +103,14 @@ export async function updateSkill(formData: FormData) {
         collectionId: collectionId || "",
         tagIds: tagIds || [],
         resultText: "",
-        resource: repoUrl,
+        resource: effectiveRepoUrl,
         isPrivate: false,
         itemType: "AGENT_SKILL",
-        repoUrl: repoUrl,
+        repoUrl: repoUrl || url,
+        url: url || repoUrl,
         installCommand: installCommand,
+        agentUsage: agentUsage || "",
+        agentSkillIds: agentSkillIds || "[]",
         keepAttachmentIds: [],
         keepResultImageIds: [],
     };
@@ -189,6 +203,7 @@ export async function importGroupSkills(urls: string[]) {
                 isPrivate: false,
                 itemType: "AGENT_SKILL",
                 repoUrl: repoUrl,
+                url: repoUrl,
                 installCommand: installCommand,
             };
 

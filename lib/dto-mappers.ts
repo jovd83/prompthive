@@ -45,6 +45,8 @@ export type PromptVersionDTO = {
     resultText: string | null;
     resultImage: string | null;
     attachments: { id: string; filePath: string; role: string; fileType?: string }[];
+    agentUsage: string | null;
+    agentSkillIds: string | null;
     createdBy: { id: string; username: string | null; email: string | null } | null;
 };
 
@@ -100,6 +102,8 @@ export function mapPromptToDTO(prompt: PromptWithRelations): PromptDTO {
                 role: a.role,
                 fileType: a.fileType
             })) || [],
+            agentUsage: (v as any).agentUsage || null,
+            agentSkillIds: (v as any).agentSkillIds || null,
             createdBy: (v as any).createdBy ? {
                 id: (v as any).createdBy.id,
                 username: (v as any).createdBy.username,

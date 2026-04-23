@@ -308,6 +308,8 @@ export async function restoreLatestBackupService(userId: string, backupPath: str
                                 createdById: userId,
                                 resultText: v.resultText,
                                 resultImage: resultImagePath,
+                                agentUsage: v.agentUsage,
+                                agentSkillIds: v.agentSkillIds,
                                 changelog: v.changelog,
                                 attachments: { create: restoredAttachments }
                             };

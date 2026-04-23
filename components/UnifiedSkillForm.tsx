@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { Plus, Trash, Upload, DownloadCloud, Loader2 } from "lucide-react";
+import { Plus, Trash, Upload, DownloadCloud, Loader2, Sparkles, BrainCircuit } from "lucide-react";
 import TagSelector from "@/components/TagSelector";
+import CollapsibleSection from "@/components/CollapsibleSection";
 import ExpandableTextarea from "./ExpandableTextarea";
 import { useLanguage } from "./LanguageProvider";
 import { CollectionWithPrompts, TagWithCount } from "@/types/prisma";
@@ -16,6 +17,7 @@ interface UnifiedSkillFormProps {
     initialValues?: any;
     collections?: CollectionWithPrompts[];
     tags?: TagWithCount[];
+    agentSkills?: any[];
     tagColorsEnabled?: boolean;
     onSubmit: (formData: FormData) => void;
     isPending: boolean;
@@ -28,6 +30,7 @@ export default function UnifiedSkillForm({
     initialValues = {},
     collections = [],
     tags = [],
+    agentSkills = [],
     tagColorsEnabled = true,
     onSubmit,
     isPending,
@@ -38,9 +41,24 @@ export default function UnifiedSkillForm({
     const [isFetchingInfo, startFetching] = useTransition();
 
     const [repoUrl, setRepoUrl] = useState(initialValues.repoUrl || "");
+    const [url, setUrl] = useState(initialValues.url || "");
     const [title, setTitle] = useState(initialValues.title || "");
     const [description, setDescription] = useState(initialValues.description || "");
     const [installCommand, setInstallCommand] = useState(initialValues.installCommand || "");
+    const [agentUsage, setAgentUsage] = useState(initialValues.agentUsage || "");
+    const [agentSkillIds, setAgentSkillIds] = useState<string[]>(() => {
+        try {
+            return JSON.parse(initialValues.agentSkillIds || "[]");
+        } catch (e) {
+            return [];
+        }
+    });
+
+    const toggleAgentSkill = (id: string) => {
+        setAgentSkillIds(prev =>
+            prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
+        );
+    };
 
     const collectionsWithCounts = Array.from(computeRecursiveCounts(collections as unknown as CollectionWithCount[]).values());
 
@@ -60,6 +78,7 @@ export default function UnifiedSkillForm({
                     if (data.title && !title) setTitle(data.title);
                     if (data.description && !description) setDescription(data.description);
                     if (data.installCommand && !installCommand) setInstallCommand(data.installCommand);
+                    if (data.repoUrl && !url) setUrl(data.repoUrl); // Use repoUrl as default url value if empty
                 } else {
                     const data = await res.json();
                     console.error("Failed to fetch repo info:", data.error);
@@ -77,7 +96,10 @@ export default function UnifiedSkillForm({
         formData.set("title", title);
         formData.set("description", description);
         formData.set("repoUrl", repoUrl);
+        formData.set("url", url);
         formData.set("installCommand", installCommand);
+        formData.set("agentUsage", agentUsage);
+        formData.set("agentSkillIds", JSON.stringify(agentSkillIds));
 
         onSubmit(formData);
     };
@@ -103,7 +125,7 @@ export default function UnifiedSkillForm({
                 </h2>
                 <div className="flex flex-col md:flex-row gap-2 items-end">
                     <div className="flex-1 w-full">
-                        <label htmlFor="repoUrl" className="block text-sm font-medium mb-1">{t('skills.repositoryUrl') || "GitHub Repository URL"}</label>
+                        <label htmlFor="repoUrl" className="block text-sm font-medium mb-1">{t('skills.url') || "URL"}</label>
                         <input 
                             id="repoUrl" 
                             name="repoUrl" 
@@ -112,7 +134,6 @@ export default function UnifiedSkillForm({
                             value={repoUrl}
                             onChange={(e) => setRepoUrl(e.target.value)}
                             placeholder="https://github.com/username/repository" 
-                            required
                         />
                     </div>
                     <button 
@@ -158,6 +179,19 @@ export default function UnifiedSkillForm({
                     </div>
 
                     <div className="col-span-2">
+                        <label htmlFor="url" className="block text-sm font-medium mb-1">{t('skills.url') || "URL"}</label>
+                        <input 
+                            id="url" 
+                            name="url" 
+                            type="url" 
+                            className="input" 
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            placeholder="https://..." 
+                        />
+                    </div>
+
+                    <div className="col-span-2">
                         <label htmlFor="installCommand" className="block text-sm font-medium mb-1">{t('skills.installCommand') || "Install Command"}</label>
                         <input 
                             id="installCommand" 
@@ -191,6 +225,75 @@ export default function UnifiedSkillForm({
                     </div>
                 </div>
             </div>
+
+            {/* Use of Agents */}
+            <CollapsibleSection 
+                title={t('form.useOfAgents')} 
+                secondaryTitle="Optional instructions for specialized agents"
+                icon={<Sparkles size={18} className="text-amber-500" />}
+                defaultOpen={!!agentUsage}
+            >
+                <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                        {t('form.skillAgentUsageHint')}
+                    </p>
+                    <ExpandableTextarea
+                        name="agentUsage"
+                        value={agentUsage}
+                        onChange={(e) => setAgentUsage(e.target.value)}
+                        className="input h-32 font-mono text-sm resize-y bg-background"
+                        placeholder="e.g., Use an Architect agent to plan the file structure..."
+                        label={t('form.useOfAgents')}
+                    />
+                </div>
+            </CollapsibleSection>
+
+            {/* Use of Agent Skills */}
+            <CollapsibleSection 
+                title={t('form.useOfAgentSkills')} 
+                secondaryTitle="Linked dependencies on other agent skills"
+                icon={<BrainCircuit size={18} className="text-blue-500" />}
+                defaultOpen={agentSkillIds.length > 0}
+            >
+                <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                        Select which other Agent Skills this skill depends on or should make use of for its execution.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[320px] overflow-y-auto p-1 custom-scrollbar">
+                        {agentSkills.map((skill: any) => (
+                            <label 
+                                key={skill.id} 
+                                className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all hover:bg-surface/80 group ${agentSkillIds.includes(skill.id) ? 'border-primary bg-primary/5 shadow-sm ring-1 ring-primary/20' : 'border-border bg-background'}`}
+                            >
+                                <div className="pt-0.5">
+                                    <input 
+                                        type="checkbox" 
+                                        className="checkbox checkbox-primary border-2" 
+                                        checked={agentSkillIds.includes(skill.id)}
+                                        onChange={() => toggleAgentSkill(skill.id)}
+                                    />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="font-bold text-sm truncate group-hover:text-primary transition-colors">{skill.title}</div>
+                                    <div className="text-xs text-muted-foreground line-clamp-2 mt-1" title={skill.versions?.[0]?.content || skill.description}>
+                                        {skill.description || skill.versions?.[0]?.content || "No description provided"}
+                                    </div>
+                                    {skill.repoUrl && (
+                                        <div className="text-[10px] text-muted-foreground/60 mt-2 truncate flex items-center gap-1">
+                                            <div className="w-1 h-1 rounded-full bg-border" /> {skill.repoUrl.replace('https://github.com/', '')}
+                                        </div>
+                                    )}
+                                </div>
+                            </label>
+                        ))}
+                        {agentSkills.length === 0 && (
+                            <div className="col-span-full py-8 text-center bg-muted/30 rounded-xl border-2 border-dashed border-border/50">
+                                <p className="text-sm text-muted-foreground italic">No agent skills available to link.</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </CollapsibleSection>
 
             <div className="flex justify-end gap-4 pt-4">
                 {cancelHref && (

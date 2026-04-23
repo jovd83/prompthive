@@ -9,7 +9,7 @@ interface MobileHeaderProps {
 
 export const MobileHeader = ({ onMenuClick }: MobileHeaderProps) => {
     return (
-        <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-surface text-foreground w-full shrink-0 h-[60px]" data-testid="mobile-header">
+        <header className="md:hidden flex items-center justify-between p-4 border-b border-border bg-surface text-foreground w-full shrink-0 h-[60px]" data-testid="mobile-header">
             <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <img src="/logo-light.png" alt="Logo" className="w-8 h-8 object-contain rounded-md dark:hidden" />
                 <img src="/logo-dark.png" alt="Logo" className="w-8 h-8 object-contain rounded-md hidden dark:block" />
@@ -23,6 +23,6 @@ export const MobileHeader = ({ onMenuClick }: MobileHeaderProps) => {
             >
                 <Menu size={24} />
             </button>
-        </div>
+        </header>
     );
 };

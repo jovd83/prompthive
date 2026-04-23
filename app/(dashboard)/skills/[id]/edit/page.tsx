@@ -14,6 +14,10 @@ export default async function EditSkillPage({ params }: { params: Promise<{ id: 
         include: {
             collections: true,
             tags: true,
+            versions: {
+                orderBy: { versionNumber: "desc" },
+                take: 1,
+            }
         },
     });
 
@@ -30,6 +34,13 @@ export default async function EditSkillPage({ params }: { params: Promise<{ id: 
         orderBy: { name: "asc" },
     });
 
+    // Fetch agent skills
+    const agentSkills = await prisma.prompt.findMany({
+        where: { itemType: "AGENT_SKILL", id: { not: id } },
+        orderBy: { title: "asc" },
+        include: { versions: { orderBy: { versionNumber: "desc" }, take: 1 } }
+    });
+
     const session = await getServerSession(authOptions);
     const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
     const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: "GLOBAL" } });
@@ -38,6 +49,8 @@ export default async function EditSkillPage({ params }: { params: Promise<{ id: 
     const skillData = {
         ...prompt,
         collectionId: prompt.collections?.[0]?.id || "",
+        agentUsage: prompt.versions[0]?.agentUsage || "",
+        agentSkillIds: prompt.versions[0]?.agentSkillIds || "[]",
     };
 
     return (
@@ -45,6 +58,7 @@ export default async function EditSkillPage({ params }: { params: Promise<{ id: 
             skill={skillData}
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             tagColorsEnabled={settings?.tagColorsEnabled ?? true}
         />
     );

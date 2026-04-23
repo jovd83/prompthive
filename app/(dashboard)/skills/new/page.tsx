@@ -20,6 +20,12 @@ export default async function NewSkillPage({ searchParams }: { searchParams: Pro
         orderBy: { name: "asc" },
     });
 
+    const agentSkills = await prisma.prompt.findMany({
+        where: { itemType: "AGENT_SKILL" },
+        orderBy: { title: "asc" },
+        include: { versions: { orderBy: { versionNumber: "desc" }, take: 1 } }
+    });
+
     const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
     const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: CONFIG_ID.GLOBAL } });
 
@@ -27,6 +33,7 @@ export default async function NewSkillPage({ searchParams }: { searchParams: Pro
         <NewSkillContent
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             initialCollectionId={collectionId}
             tagColorsEnabled={settings?.tagColorsEnabled ?? true}
             privatePromptsEnabled={globalConfig?.privatePromptsEnabled ?? false}

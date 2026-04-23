@@ -30,7 +30,13 @@
         "save": "Enregistrer",
         "cancel": "Annuler",
         "selectAll": "Tout sélectionner",
-        "deselectAll": "Tout désélectionner"
+        "deselectAll": "Tout désélectionner",
+        "tipOfTheDay": "Conseil du jour",
+        "learnMore": "En savoir plus",
+        "expandTip": "Développer le conseil",
+        "collapseTip": "Réduire le conseil",
+        "system": "Système",
+        "export": "Exporter"
     },
     "languages": {
         "en": "English",
@@ -112,12 +118,16 @@
             "help": "Centre d'aide",
             "createPrompt": "Créer un nouveau prompt",
             "createCollection": "Créer une collection",
-            "toggleTheme": "Changer de thème"
+            "toggleTheme": "Changer de thème",
+            "adminSettings": "Paramètres d'administration",
+            "userManagement": "Gestion des utilisateurs"
         },
         "sections": {
             "navigation": "Navigation",
             "actions": "Actions",
-            "preferences": "Préférences"
+            "preferences": "Préférences",
+            "admin": "Administration",
+            "account": "Compte"
         }
     },
     "collections": {
@@ -145,7 +155,14 @@
             "title": "Aucun flux de travail",
             "desc": "Créez votre première chaîne de prompts pour automatiser des tâches complexes."
         },
-        "beta": "(BETA - Non testé)"
+        "beta": "(BETA - Non testé)",
+        "card": {
+            "edit": "Modifier",
+            "delete": "Supprimer",
+            "run": "Exécuter",
+            "steps": "Étapes",
+            "noDesc": "Aucune description fournie."
+        }
     },
     "prompts": {
         "dashboard": "Tableau de Bord",
@@ -187,7 +204,9 @@
             "za": "Z - A",
             "newest": "Plus Récents",
             "oldest": "Plus Anciens",
-            "mostItems": "Plus d'éléments"
+            "mostItems": "Plus d'éléments",
+            "mostViewed": "Les plus consultés",
+            "leastViewed": "Les moins consultés"
         }
     },
     "advancedSearch": {
@@ -199,7 +218,8 @@
     },
     "skills": {
         "createTitle": "Créer un nouveau Agent Skill",
-        "repositoryUrl": "URL du dépôt GitHub",
+        "repositoryUrl": "URL d'importation",
+        "url": "URL",
         "fetchInfo": "Récupérer les infos",
         "installCommand": "Commande d'installation",
         "fetching": "Récupération...",
@@ -277,12 +297,20 @@
             "createFailed": "Échec de la création du prompt. Veuillez réessayer.",
             "createVersionFailed": "Échec de la création de la version. Veuillez réessayer.",
             "invalidExtension": "Extension de fichier invalide: {{ext}}. Autorisé: {{allowed}}"
-        }
+        },
+        "useOfAgents": "Utilisation des agents",
+        "useOfAgentSkills": "Utilisation des agentskills",
+        "agentUsageHint": "Ce contenu sera ajouté au presse-papiers lors de la copie du prompt.",
+        "agentSkillsHint": "Les agentskills sélectionnés seront ajoutés au presse-papiers lors de la copie du prompt.",
+        "skillAgentUsageHint": "Définissez quels agents spécialisés doivent être utilisés lors de l'invocation de ce skill. Ce contenu sera ajouté au presse-papiers lors de la copie avancée.",
+        "skillAgentSkillsHint": "Liez d'autres agentskills dont ce skill dépend. Les agentskills liés seront inclus dans le presse-papiers lors de la copie avancée."
     },
     "tags": {
         "placeholder": "Sélectionner ou créer des tags...",
         "create": "Créer le tag \"{{tag}}\"",
-        "noMatch": "Aucun tag correspondant trouvé."
+        "noMatch": "Aucun tag correspondant trouvé.",
+        "viewAll": "Voir tout",
+        "showLess": "Voir moins"
     },
     "diff": {
         "title": "Comparer les versions",
@@ -301,6 +329,13 @@
             "edit": "Éditer",
             "delete": "Supprimer",
             "copy": "Copier Prompt",
+            "advancedCopy": "Copie Avancée",
+            "addAgents": "Ajouter des agents",
+            "addAgentSkills": "Ajouter des compétences d'agent",
+            "addSotPolicy": "Ajouter la politique de source de vérité",
+            "addPersistenceCheck": "Ajouter la vérification de persistance",
+            "addUserHandoff": "Ajouter la section de passation",
+            "copySelected": "Copier la Sélection",
             "linkPrompt": "Lier un Prompt",
             "copied": "Copié !",
             "codeView": "Vue Code",
@@ -317,7 +352,8 @@
             "restoreSuccess": "Version restaurée avec succès.",
             "lockPrompt": "Verrouiller le prompt (créateur uniquement)",
             "unlockPrompt": "Déverrouiller le prompt (créateur uniquement)",
-            "lockedByCreator": "Verrouillé par le créateur"
+            "lockedByCreator": "Verrouillé par le créateur",
+            "downloadMarkdown": "Télécharger le Markdown"
         },
         "labels": {
             "description": "Description",
@@ -401,7 +437,12 @@
         "dbCleared": "Base de données effacée avec succès.",
         "saveVisibility": "Enregistrer la Visibilité",
         "collectionVisibility": "Visibilité des Collections",
-        "collectionVisibilityDesc": "Décochez les collections que vous souhaitez masquer. Les collections masquées (et leurs enfants) n'apparaîtront pas dans la barre latérale."
+        "collectionVisibilityDesc": "Décochez les collections que vous souhaitez masquer. Les collections masquées (et leurs enfants) n'apparaîtront pas dans la barre latérale.",
+        "showTips": "Afficher les conseils de prompts",
+        "showTipsDesc": "Affiche un conseil utile sur les prompts sur le tableau de bord chaque jour.",
+        "languageSettings": "Paramètres de langue",
+        "saveGeneral": "Enregistrer les paramètres généraux",
+        "saveBackup": "Enregistrer la configuration de sauvegarde"
     },
     "importExport": {
         "title": "Import / Export",
@@ -437,7 +478,9 @@
         "exportComplete": "Exportation terminée : {{count}} prompts exportés.",
         "exportZeroTitle": "Exporter pour TMT Zero",
         "exportZeroDesc": "Sélectionnez les collections à exporter pour la version légère.",
-        "exportZeroButton": "Exporter pour TMT Zero"
+        "exportZeroButton": "Exporter pour TMT Zero",
+        "includeAttachments": "Inclure les pièces jointes",
+        "includeResultFiles": "Inclure les fichiers de résultat / images"
     },
     "help": {
         "title": "Centre d'Aide",
@@ -458,7 +501,12 @@
             "language": "Paramètres de Langue",
             "userProfile": "Profil Utilisateur & Sécurité",
             "faq": "FAQ & Dépannage",
-            "changelog": "Journal des modifications"
+            "changelog": "Journal des modifications",
+            "exporting": "Exporter et télécharger",
+            "locking": "Verrouillage des prompts (protection)",
+            "technicalIds": "IDs techniques",
+            "tagColors": "Couleurs des tags",
+            "admin": "Fonctions d'administration"
         },
         "content": {
             "changelog": {
@@ -502,7 +550,9 @@
                 "versionTitle": "Version",
                 "versionDesc": "Ne perdez jamais un bon prompt. Chaque sauvegarde crée une nouvelle entrée dans l'historique.",
                 "templatizeTitle": "Modéliser",
-                "templatizeDesc": "Utilisez des variables comme <code>{{topic}}</code> pour créer des modèles réutilisables."
+                "templatizeDesc": "Utilisez des variables comme <code>{{topic}}</code> pour créer des modèles réutilisables.",
+                "tipsTitle": "Apprendre",
+                "tipsDesc": "Recevez quotidiennement des <strong>conseils de prompts</strong> sur votre tableau de bord pour améliorer vos compétences (désactivable dans les Paramètres)."
             },
             "gettingStarted": {
                 "tip": "Vous n'avez pas besoin de connexion internet. TMT fonctionne entièrement localement sur votre machine.",
@@ -570,7 +620,9 @@
                 "redTitle": "Fond Rouge",
                 "redDesc": "Indique le texte qui a été <strong>Supprimé</strong> de l'ancienne version.",
                 "tipTitle": "Conseil",
-                "tipDesc": "Utilisez ceci pour vérifier si votre dernier \"ajustement\" a vraiment amélioré le prompt ou juste déplacé des mots !"
+                "tipDesc": "Utilisez ceci pour vérifier si votre dernier \"ajustement\" a vraiment amélioré le prompt ou juste déplacé des mots !",
+                "restoreTitle": "Restaurer d'anciennes versions",
+                "restoreDesc": "Vous pouvez restaurer n'importe quelle version précédente comme nouvelle version actuelle. Cliquez sur l'icône 'Restaurer' (flèche circulaire) à côté d'une version dans la liste de l'historique. Cela crée une nouvelle copie de la version, préservant votre historique linéaire."
             },
             "language": {
                 "desc": "TMT supporte plusieurs langues. Vous pouvez changer votre langue préférée à tout moment.",
@@ -611,7 +663,43 @@
                 "a2": "Vous avez deux choix : <strong>Tout Supprimer</strong> (efface tous les enfants et prompts à l'intérieur) ou <strong>Supprimer Collection Uniquement</strong> (déplace tous les enfants/prompts vers le niveau parent ou la Racine).",
                 "q3": "Q : Puis-je partager mes prompts ?",
                 "a3": "Actuellement, TMT est un outil local mono-utilisateur. Cependant, vous pouvez utiliser la fonctionnalité <strong>Import/Export</strong> dans la barre latérale pour partager des fichiers JSON avec des collègues."
+            },
+            "locking": {
+                "desc": "Protégez votre travail contre les modifications accidentelles en <strong>verrouillant</strong> vos prompts.",
+                "howToTitle": "Comment verrouiller",
+                "li1": "Ouvrez un prompt que vous avez créé.",
+                "li2": "Cliquez sur l'icône <span class=\"text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span> <strong>Déverrouiller</strong> dans l'en-tête.",
+                "li3": "L'icône se transformera en <strong>cadenas fermé</strong>, indiquant que le prompt est verrouillé.",
+                "effectTitle": "Que se passe-t-il ?",
+                "effectDesc": "Lorsqu'il est verrouillé, les boutons <strong>Modifier</strong>, <strong>Enregistrer une nouvelle version</strong> et <strong>Ajouter une variable</strong> sont désactivés pour tout le monde (sauf vous). Utilisez ceci pour marquer les prompts comme 'Final/Stable' ou pour empêcher les membres de l'équipe de modifier vos modèles."
+            },
+            "technicalIds": {
+                "desc": "Les IDs techniques fournissent une référence stable et lisible pour vos prompts (ex. VIBE-123).",
+                "generationTitle": "Génération automatique",
+                "generationDesc": "Lorsque vous assignez un prompt à une collection, il obtient automatiquement un ID basé sur le nom de la collection (ex. 'Ventes' -> 'VENT-1').",
+                "routingTitle": "URLs directes",
+                "routingDesc": "Vous pouvez accéder à n'importe quel prompt directement en tapant son ID dans l'URL : <code>/prompts/VIBE-123</code>.",
+                "searchTitle": "Recherche",
+                "searchDesc": "Vous pouvez trouver n'importe quel prompt instantanément en tapant son ID technique dans la barre de recherche du tableau de bord."
+            },
+            "tagColors": {
+                "desc": "Organisez vos tags visuellement en leur attribuant des couleurs automatiques et cohérentes.",
+                "enableTitle": "Activer les couleurs",
+                "enableDesc": "Allez dans <strong>Paramètres > Général</strong> et cochez <strong>Activer les couleurs des tags</strong>.",
+                "howItWorksTitle": "Comment ça marche",
+                "howItWorksDesc": "Les couleurs sont générées de manière déterministe en fonction du nom du tag. Le même tag aura toujours la même couleur dans toute l'application."
             }
+        }
+    },
+    "promptDetail": {
+        "actions": {
+            "advancedCopy": "Copie Avancée",
+            "addAgents": "Ajouter des agents",
+            "addAgentSkills": "Ajouter des agentskills",
+            "addSotPolicy": "Ajouter la politique de source de vérité",
+            "addPersistenceCheck": "Ajouter la vérification de persistance",
+            "addUserHandoff": "Ajouter la section de passation",
+            "copySelected": "Copier la Sélection"
         }
     }
 }

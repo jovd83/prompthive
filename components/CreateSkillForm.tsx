@@ -8,11 +8,13 @@ import { CollectionWithPrompts, TagWithCount } from "@/types/prisma";
 export default function CreateSkillForm({
     collections,
     tags,
+    agentSkills = [],
     initialCollectionId,
     tagColorsEnabled = true,
 }: {
     collections: CollectionWithPrompts[],
     tags: TagWithCount[],
+    agentSkills?: any[],
     initialCollectionId?: string,
     tagColorsEnabled?: boolean,
 }) {
@@ -39,6 +41,7 @@ export default function CreateSkillForm({
             mode="CREATE"
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             tagColorsEnabled={tagColorsEnabled}
             onSubmit={handleSubmit}
             isPending={isPending}

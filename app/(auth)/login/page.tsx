@@ -95,10 +95,10 @@ function LoginForm() {
 
 export default function LoginPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background">
+        <main className="min-h-screen flex items-center justify-center bg-background">
             <Suspense fallback={<div>Loading...</div>}>
                 <LoginForm />
             </Suspense>
-        </div>
+        </main>
     );
 }

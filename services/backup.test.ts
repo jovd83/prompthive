@@ -7,8 +7,9 @@ import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 
 // Mock Prisma
-vi.mock('@/lib/prisma', () => ({
-    prisma: {
+const { mockPrisma } = vi.hoisted(() => ({
+    mockPrisma: {
+        $transaction: vi.fn(async (cb) => cb(mockPrisma)),
         settings: {
             upsert: vi.fn(),
             findUnique: vi.fn(),
@@ -30,6 +31,7 @@ vi.mock('@/lib/prisma', () => ({
             findMany: vi.fn(),
             findUnique: vi.fn(),
             create: vi.fn(),
+            createMany: vi.fn(),
             deleteMany: vi.fn(),
         },
         promptVersion: {
@@ -48,6 +50,10 @@ vi.mock('@/lib/prisma', () => ({
             deleteMany: vi.fn(),
         }
     }
+}));
+
+vi.mock('@/lib/prisma', () => ({
+    prisma: mockPrisma
 }));
 
 // Mock FS modules
@@ -101,15 +107,17 @@ describe('Backup Service', () => {
         it('should fetch data and write backup file with attachments', async () => {
             // Mock data
             (prisma.collection.findMany as any).mockResolvedValue([{ id: 'c1', title: 'Col 1' }]);
-            (prisma.prompt.findMany as any).mockResolvedValue([{
-                id: 'p1',
-                versions: [{
-                    id: 'v1',
-                    resultImage: '/uploads/res.png',
-                    attachments: [{ filePath: '/uploads/att.png' }]
-                }],
-                tags: []
-            }]);
+            (prisma.prompt.findMany as any)
+                .mockResolvedValueOnce([{
+                    id: 'p1',
+                    versions: [{
+                        id: 'v1',
+                        resultImage: '/uploads/res.png',
+                        attachments: [{ filePath: '/uploads/att.png' }]
+                    }],
+                    tags: []
+                }])
+                .mockResolvedValue([]);
             (prisma.tag.findMany as any).mockResolvedValue([]);
             (prisma.settings.findUnique as any).mockResolvedValue({});
 

@@ -72,14 +72,14 @@ test.describe('Search and Discovery', () => {
     // 1. Keyword search
     await searchPage.searchInput.fill('Playwright');
     await searchPage.searchInput.press('Enter');
-    await page.waitForURL(/q=Playwright/, { timeout: 10000 });
+    await page.waitForURL(/q=Playwright/, { timeout: 30000 });
     await expect(page.getByRole('heading', { name: 'Playwright Testing Guide' }).first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'SEO Keywords' }).first()).not.toBeVisible();
 
     // 2. Technical ID search
     await searchPage.searchInput.fill(prompt?.technicalId as string);
     await searchPage.searchInput.press('Enter');
-    await page.waitForURL(new RegExp(`q=${prompt?.technicalId}`), { timeout: 10000 });
+    await page.waitForURL(new RegExp(`q=${prompt?.technicalId}`), { timeout: 30000 });
     await expect(page.getByRole('heading', { name: 'SEO Keywords' }).first()).toBeVisible();
   });
 
@@ -91,7 +91,7 @@ test.describe('Search and Discovery', () => {
     await searchPage.ensureFiltersVisible();
     await searchPage.tagsInput.fill('SEO');
     await searchPage.applyFilterBtn.click();
-    await page.waitForURL(/tags=SEO/, { timeout: 10000 });
+    await page.waitForURL(/tags=SEO/, { timeout: 30000 });
     await expect(page.getByRole('heading', { name: 'SEO Keywords' }).first()).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Playwright Testing Guide' }).first()).not.toBeVisible();
 
@@ -100,7 +100,7 @@ test.describe('Search and Discovery', () => {
     await searchPage.tagsInput.fill(''); // Clear tags
     await searchPage.creatorInput.fill(seedUser.email);
     await searchPage.applyFilterBtn.click();
-    await page.waitForURL(new RegExp(`creator=${encodeURIComponent(seedUser.email)}`), { timeout: 10000 });
+    await page.waitForURL(new RegExp(`creator=${encodeURIComponent(seedUser.email)}`), { timeout: 30000 });
 
     const results = await page.getByRole('heading', { level: 3 }).allTextContents();
     expect(results.some(r => r.includes('SEO Keywords'))).toBeTruthy();

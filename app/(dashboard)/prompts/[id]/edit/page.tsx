@@ -39,12 +39,19 @@ export default async function EditPromptPage({ params }: { params: Promise<{ id:
     const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
     const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: "GLOBAL" } });
 
+    const agentSkills = await prisma.prompt.findMany({
+        where: { itemType: "AGENT_SKILL" },
+        include: { versions: { orderBy: { versionNumber: "desc" }, take: 1 } },
+        orderBy: { title: "asc" }
+    });
+
     return (
         <EditPromptContent
             prompt={prompt}
             latestVersion={prompt.versions[0]}
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             tagColorsEnabled={settings?.tagColorsEnabled ?? true}
             privatePromptsEnabled={globalConfig?.privatePromptsEnabled ?? false}
         />

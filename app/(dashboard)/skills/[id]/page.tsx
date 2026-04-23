@@ -179,6 +179,22 @@ export default async function SkillDetailPage({ params }: { params: Promise<{ id
     const settings = session?.user?.id ? await getSettingsService(session.user.id) : null;
     const globalConfig = await prisma.globalConfiguration.findUnique({ where: { id: "GLOBAL" } });
 
+    // Fetch details for selected agent skills
+    let selectedAgentSkills: any[] = [];
+    if (currentVersion?.agentSkillIds) {
+        try {
+            const skillIds = JSON.parse(currentVersion.agentSkillIds);
+            if (Array.isArray(skillIds) && skillIds.length > 0) {
+                selectedAgentSkills = await prisma.prompt.findMany({
+                    where: { id: { in: skillIds } },
+                    include: { versions: { orderBy: { versionNumber: "desc" }, take: 1 } }
+                });
+            }
+        } catch (e) {
+            console.error("Failed to parse agentSkillIds", e);
+        }
+    }
+
     // Apply DTO mapping for the prompt itself
     const promptDTO = mapPromptToDTO(prompt as unknown as PromptWithRelations);
 
@@ -187,6 +203,7 @@ export default async function SkillDetailPage({ params }: { params: Promise<{ id
             ...promptDTO,
             collections: enrichedCollections as any // Keeping as any for now until PromptDTO collections is fully compatible
         }}
+        selectedAgentSkills={selectedAgentSkills}
         isFavorited={isFavorited}
         serverParsedVariables={serverParsedVariables}
         collectionPaths={collectionPaths}

@@ -17,7 +17,10 @@ export type CreatePromptInput = {
     isPrivate?: boolean;
     itemType?: string;
     repoUrl?: string;
+    url?: string;
     installCommand?: string;
+    agentUsage?: string;
+    agentSkillIds?: string;
 };
 
 export type CreateVersionInput = {
@@ -39,7 +42,10 @@ export type CreateVersionInput = {
     isPrivate?: boolean;
     itemType?: string;
     repoUrl?: string;
+    url?: string;
     installCommand?: string;
+    agentUsage?: string;
+    agentSkillIds?: string;
 };
 
 export async function createPromptService(
@@ -80,6 +86,7 @@ export async function createPromptService(
             resource: input.resource,
             itemType: input.itemType || "PROMPT",
             repoUrl: input.repoUrl,
+            url: input.url,
             installCommand: input.installCommand,
             createdById: userId,
             collections: input.collectionId ? { connect: { id: input.collectionId } } : undefined,
@@ -90,6 +97,8 @@ export async function createPromptService(
                     shortContent: input.shortContent,
                     usageExample: input.usageExample,
                     variableDefinitions: input.variableDefinitions,
+                    agentUsage: input.agentUsage,
+                    agentSkillIds: input.agentSkillIds,
                     versionNumber: 1,
                     createdById: userId,
                     resultText: input.resultText,
@@ -152,6 +161,8 @@ export async function createVersionService(
             shortContent: input.shortContent,
             usageExample: input.usageExample,
             variableDefinitions: input.variableDefinitions,
+            agentUsage: input.agentUsage,
+            agentSkillIds: input.agentSkillIds,
             resultText: input.resultText,
             resultImage: primaryResultImagePath,
             versionNumber: nextVersionNumber,
@@ -173,6 +184,7 @@ export async function createVersionService(
 
     if (input.itemType !== undefined) updateData.itemType = input.itemType;
     if (input.repoUrl !== undefined) updateData.repoUrl = input.repoUrl;
+    if (input.url !== undefined) updateData.url = input.url;
     if (input.installCommand !== undefined) updateData.installCommand = input.installCommand;
 
     if (input.collectionId) {
@@ -239,6 +251,8 @@ export async function restoreVersionService(userId: string, promptId: string, ve
         keepAttachmentIds: attachmentIds,
         keepResultImageIds: resultImageIds,
         existingResultImagePath: sourceVersion.resultImage || "",
+        agentUsage: sourceVersion.agentUsage || "",
+        agentSkillIds: sourceVersion.agentSkillIds || "",
     };
 
     return createVersionService(userId, input, [], []);

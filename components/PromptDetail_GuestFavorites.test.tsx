@@ -29,6 +29,9 @@ vi.mock('lucide-react', () => ({
     Eye: () => <div />,
     EyeOff: () => <div />,
     Link: () => <div />,
+    ChevronDown: () => <div data-testid="icon-chevron-down" />,
+    ChevronRight: () => <div data-testid="icon-chevron-right" />,
+    Maximize2: () => <div data-testid="icon-maximize-2" />,
 }));
 
 vi.mock('next/link', () => ({

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import path from "path";
+import fs from "fs";
 import { detectFormat } from "@/lib/import-utils";
 import { generateTechnicalId } from "./id-service";
 import { ImportSchema, ImportItemSchema } from "@/lib/validations";
@@ -66,6 +67,8 @@ export async function importPromptsService(userId: string, data: ValidatedImport
     let skipped = 0;
     const pendingLinks: { sourcePromptId: string, targetTechnicalIds: string[] }[] = [];
     const technicalIdMap = new Map<string, string>();
+    const originalIdToNewId = new Map<string, string>();
+    const pendingAgentSkillUpdates: { versionId: string, originalSkillIds: string[] }[] = [];
 
     // 1. Gather all unique Tags and Collection Names to batch create
     const allTagNames = new Set<string>();
@@ -106,6 +109,61 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                 select: { id: true }
             });
             if (existing) {
+                if (item.id) {
+                    originalIdToNewId.set(item.id, existing.id);
+                    fs.appendFileSync('import-debug.log', `Mapped (Sk): ${item.id} -> ${existing.id} ("${item.title}")\n`);
+                }
+                if (item.technicalId) technicalIdMap.set(item.technicalId, existing.id);
+                
+                // metadata repair
+                await tx.prompt.update({
+                    where: { id: existing.id },
+                    data: {
+                        itemType: item.itemType === 'AGENT_SKILL' ? 'AGENT_SKILL' : undefined,
+                        repoUrl: item.repoUrl || undefined,
+                        installCommand: item.installCommand || undefined,
+                    }
+                });
+                
+                // Track existing versions for link remapping
+                const existingVersions = await tx.promptVersion.findMany({
+                    where: { promptId: existing.id },
+                    select: { id: true, versionNumber: true }
+                });
+                
+                // Re-use version remapping logic
+                existingVersions.forEach((v: any) => {
+                    let originalSkillIdsStr = "";
+                    if (item.versions && Array.isArray(item.versions)) {
+                        const ov = item.versions.find((ov: any) => {
+                            const num = ov.versionNumber || (item.versions!.length - item.versions.indexOf(ov));
+                            return num === v.versionNumber;
+                        });
+                        if (ov) originalSkillIdsStr = ov.agentSkillIds;
+                    } else {
+                        originalSkillIdsStr = item.agentSkillIds;
+                    }
+
+                    if (originalSkillIdsStr) {
+                        try {
+                            const skillIds = typeof originalSkillIdsStr === 'string' 
+                                ? JSON.parse(originalSkillIdsStr) 
+                                : originalSkillIdsStr;
+                                
+                            if (Array.isArray(skillIds) && skillIds.length > 0) {
+                                pendingAgentSkillUpdates.push({ versionId: v.id, originalSkillIds: skillIds });
+                            }
+                        } catch (e) {}
+                    }
+                });
+
+                // Store ID mapping even if skipped (so others can link to it)
+                if (item.id) {
+                    const normId = item.id.trim().replace(/^["']|["']$/g, '');
+                    originalIdToNewId.set(normId, existing.id);
+                    fs.appendFileSync('import-debug.log', `Mapped (Existing): ${normId} -> ${existing.id} ("${item.title}")\n`);
+                }
+
                 skipped++;
                 return;
             }
@@ -177,6 +235,8 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                             : JSON.stringify(v.variableDefinitions || []),
                         resultText: v.resultText,
                         resultImage: resultImagePath,
+                        agentUsage: v.agentUsage,
+                        agentSkillIds: Array.isArray(v.agentSkillIds) ? JSON.stringify(v.agentSkillIds) : v.agentSkillIds,
                         changelog: v.changelog,
                         createdById: userId,
                         attachments: (v.attachments && Array.isArray(v.attachments)) ? {
@@ -207,6 +267,8 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                         ? item.variableDefinitions
                         : JSON.stringify(item.variableDefinitions || []),
                     resultText: item.resultText,
+                    agentUsage: item.agentUsage,
+                    agentSkillIds: Array.isArray(item.agentSkillIds) ? JSON.stringify(item.agentSkillIds) : item.agentSkillIds,
                     createdById: userId
                 }];
             }
@@ -220,12 +282,49 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                     technicalId,
                     itemType: item.itemType === 'AGENT_SKILL' ? 'AGENT_SKILL' : 'PROMPT',
                     repoUrl: item.repoUrl || null,
+                    url: item.url || item.repoUrl || null,
                     installCommand: item.installCommand || null,
                     tags: tagIds.length > 0 ? { connect: tagIds.map(id => ({ id })) } : undefined,
                     collections: collectionIds.size > 0 ? { connect: Array.from(collectionIds).map(id => ({ id })) } : undefined,
                     versions: { create: versionsToCreate }
                 },
                 include: { versions: true }
+            });
+
+            // Store ID mapping
+            if (item.id) {
+                const normId = item.id.trim().replace(/^["']|["']$/g, '');
+                originalIdToNewId.set(normId, prompt.id);
+                fs.appendFileSync('import-debug.log', `Mapped: ${normId} -> ${prompt.id} ("${item.title}")\n`);
+            }
+
+            // Track versions for agentSkillIds remapping
+            prompt.versions.forEach((v: any) => {
+                let originalSkillIdsStr = "";
+                if (item.versions && Array.isArray(item.versions)) {
+                    // Match by version number to handle potential order changes in Prisma result
+                    const ov = item.versions.find((ov: any) => {
+                        const num = ov.versionNumber || (item.versions!.length - item.versions.indexOf(ov));
+                        return num === v.versionNumber;
+                    });
+                    if (ov) originalSkillIdsStr = ov.agentSkillIds;
+                } else {
+                    originalSkillIdsStr = item.agentSkillIds;
+                }
+
+                if (originalSkillIdsStr) {
+                    try {
+                        const skillIds = typeof originalSkillIdsStr === 'string' 
+                            ? JSON.parse(originalSkillIdsStr) 
+                            : originalSkillIdsStr;
+                            
+                        if (Array.isArray(skillIds) && skillIds.length > 0) {
+                            pendingAgentSkillUpdates.push({ versionId: v.id, originalSkillIds: skillIds });
+                        }
+                    } catch (e) {
+                        // Ignore parse errors
+                    }
+                }
             });
 
             // Update Current Version (Safeguard)
@@ -239,6 +338,9 @@ export async function importPromptsService(userId: string, data: ValidatedImport
 
             // Store Mapping for Links
             if (item.technicalId) technicalIdMap.set(item.technicalId, prompt.id);
+            
+            fs.appendFileSync('import-debug.log', `Imported: "${item.title}" -> ${prompt.id} (Existing: ${!!existing})\n`);
+            
             if (item.relatedPrompts && item.relatedPrompts.length > 0) {
                 pendingLinks.push({
                     sourcePromptId: prompt.id,
@@ -260,7 +362,7 @@ export async function importPromptsService(userId: string, data: ValidatedImport
         }, { timeout: 120000 });
     }
 
-    // 4. Link Resolution
+    // 4. Link Resolution (Related Prompts)
     if (pendingLinks.length > 0) {
         for (const link of pendingLinks) {
             const targetIds = link.targetTechnicalIds.map(tid => technicalIdMap.get(tid)).filter(Boolean) as string[];
@@ -273,7 +375,79 @@ export async function importPromptsService(userId: string, data: ValidatedImport
         }
     }
 
-    return { count, skipped };
+    // 5. Return pending skill updates for deferred resolution (cross-batch safe)
+    // Do NOT resolve inline — the skills may have been imported in a different batch
+    return { count, skipped, pendingSkillUpdates: pendingAgentSkillUpdates };
+}
+
+/**
+ * Resolve agent skill links AFTER all import batches have completed.
+ * This runs as a single pass with access to the full title map and full DB state.
+ */
+export async function resolveAgentSkillLinksService(
+    pendingUpdates: { versionId: string, originalSkillIds: string[] }[],
+    idToTitleMap: Record<string, string>
+) {
+    let resolved = 0;
+    let failed = 0;
+
+    fs.appendFileSync('import-debug.log',
+        `\n[${new Date().toISOString()}] === POST-IMPORT SKILL RESOLUTION ===\n` +
+        `Pending versions: ${pendingUpdates.length}. Title map entries: ${Object.keys(idToTitleMap).length}\n`);
+
+    for (const update of pendingUpdates) {
+        const resolvedSkillIds: string[] = [];
+        const debugLog: string[] = [];
+
+        for (let oldId of update.originalSkillIds) {
+            if (typeof oldId !== 'string') continue;
+            oldId = oldId.trim().replace(/^["']|["']$/g, '');
+
+            // Strategy 1: Title-based DB lookup (primary strategy — uses full file's title map)
+            const title = idToTitleMap[oldId];
+            if (title) {
+                const byTitle = await prisma.prompt.findFirst({
+                    where: { title },
+                    select: { id: true }
+                });
+                if (byTitle) {
+                    resolvedSkillIds.push(byTitle.id);
+                    debugLog.push(`Resolved (Title): ${oldId} ("${title}") -> ${byTitle.id}`);
+                    continue;
+                } else {
+                    debugLog.push(`Title Not In DB: "${title}"`);
+                }
+            }
+
+            // Strategy 2: Direct DB lookup (ID survived as-is)
+            const existsById = await prisma.prompt.findUnique({ where: { id: oldId }, select: { id: true } });
+            if (existsById) {
+                resolvedSkillIds.push(oldId);
+                debugLog.push(`Resolved (Exists): ${oldId}`);
+                continue;
+            }
+
+            failed++;
+            debugLog.push(`Failed: ${oldId} (title=${title || 'NOT IN MAP'})`);
+        }
+
+        await prisma.promptVersion.update({
+            where: { id: update.versionId },
+            data: { agentSkillIds: JSON.stringify(resolvedSkillIds) }
+        });
+
+        resolved += resolvedSkillIds.length;
+
+        try {
+            const logLine = `[${new Date().toISOString()}] Version: ${update.versionId} | Skills: ${resolvedSkillIds.length}/${update.originalSkillIds.length}\n${debugLog.join('\n')}\n---\n`;
+            fs.appendFileSync('import-debug.log', logLine);
+        } catch (e) {}
+    }
+
+    fs.appendFileSync('import-debug.log',
+        `[${new Date().toISOString()}] === RESOLUTION COMPLETE: ${resolved} resolved, ${failed} failed ===\n\n`);
+
+    return { resolved, failed };
 }
 
 export async function importUnifiedService(userId: string, data: any, collectionIdMap?: Record<string, string>) {
@@ -289,9 +463,6 @@ export async function importUnifiedService(userId: string, data: any, collection
 
     if (format === 'PROMPTCAT') {
         const promptCatData = validatedData as { prompts: ValidatedImportData[], folders?: any[] };
-        // Map folders if present (PromptCat specific logic simplified here for batching)
-        // For now, we reuse the robust importPromptsService but we might need to handle the specific folder structure mapping if it differs significantly. 
-        // Assuming normalized structure via Schema.
         const prompts = Array.isArray(promptCatData) ? promptCatData : (promptCatData.prompts || []);
         return importPromptsService(userId, prompts, collectionIdMap);
     } else {

@@ -27,7 +27,7 @@ test.describe('Collections Management - Enriched Datasets & Edge Cases', () => {
         await collectionsPage.createCollection(title, 'Basic description');
 
         await page.waitForURL(/\/collections\/.+/);
-        await expect(collectionsPage.collectionHeader).toContainText(title);
+        await expect(collectionsPage.collectionHeader).toContainText(title, { timeout: 15000 });
     });
 
     test('MSS: Edit collection', async ({ page, seedUser }) => {
@@ -38,7 +38,7 @@ test.describe('Collections Management - Enriched Datasets & Edge Cases', () => {
         });
 
         await page.goto(`/collections/${col.id}`);
-        await collectionsPage.actionsMenuButton.click();
+        await collectionsPage.actionsMenuButton.evaluate(el => (el as HTMLElement).click());
         await collectionsPage.editDetailsMenuItem.click();
 
         const newTitle = `Edited ${title}`;
@@ -46,10 +46,10 @@ test.describe('Collections Management - Enriched Datasets & Edge Cases', () => {
         await collectionsPage.inlineSaveButton.click();
 
         await page.waitForURL(`/collections/${col.id}`);
-        await expect(collectionsPage.collectionHeader).toContainText(newTitle);
+        await expect(page.getByRole('heading', { name: new RegExp(newTitle) })).toBeVisible({ timeout: 15000 });
     });
 
-    test('MSS: Delete collection', async ({ page, seedUser }) => {
+    test('STABLE MSS: Delete collection', async ({ page, seedUser }) => {
         const collectionsPage = new CollectionsPage(page);
         const title = `Col to Delete ${Date.now()}`;
         const coll = await prisma.collection.create({
@@ -59,13 +59,14 @@ test.describe('Collections Management - Enriched Datasets & Edge Cases', () => {
         await page.goto(`/collections/${coll.id}`);
         await expect(collectionsPage.collectionHeader).toContainText(title);
 
-        await collectionsPage.actionsMenuButton.click();
+        await collectionsPage.actionsMenuButton.evaluate(el => (el as HTMLElement).click());
         await expect(collectionsPage.deleteCollectionMenuItem).toBeVisible();
         await collectionsPage.deleteCollectionMenuItem.click();
         await expect(collectionsPage.deleteEverythingButton).toBeVisible();
         await collectionsPage.deleteEverythingButton.click();
 
         await page.waitForURL(url => url.pathname === '/');
+        await page.waitForLoadState('networkidle');
         // Check sidebar or main list, avoid toast matches
         const sidebar = page.getByTestId('sidebar').first();
         if (await sidebar.isVisible()) {
@@ -157,7 +158,7 @@ test.describe('Collections Management - Enriched Datasets & Edge Cases', () => {
             await collectionsPage.createCollection(title);
             await page.waitForURL(/\/collections\/.+/, { timeout: 15000 });
 
-            await collectionsPage.actionsMenuButton.click();
+            await collectionsPage.actionsMenuButton.evaluate(el => (el as HTMLElement).click());
             await expect(collectionsPage.deleteCollectionMenuItem).toBeVisible();
             await collectionsPage.deleteCollectionMenuItem.click();
             await expect(collectionsPage.deleteEverythingButton).toBeVisible();

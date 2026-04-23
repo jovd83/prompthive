@@ -9,10 +9,12 @@ export default function NewPromptContent({
     tags,
     initialCollectionId,
     tagColorsEnabled,
-    privatePromptsEnabled
+    privatePromptsEnabled,
+    agentSkills
 }: {
     collections: (Collection & { _count?: { prompts: number } })[],
     tags: Tag[],
+    agentSkills?: any[],
     initialCollectionId?: string,
     tagColorsEnabled?: boolean;
     privatePromptsEnabled?: boolean;
@@ -29,6 +31,7 @@ export default function NewPromptContent({
             <CreatePromptForm
                 collections={collections as any}
                 tags={tags}
+                agentSkills={agentSkills}
                 initialCollectionId={initialCollectionId}
                 tagColorsEnabled={tagColorsEnabled}
                 privatePromptsEnabled={privatePromptsEnabled}

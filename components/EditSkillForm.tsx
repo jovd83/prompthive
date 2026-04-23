@@ -10,11 +10,13 @@ export default function EditSkillForm({
     skill,
     collections = [],
     tags = [],
+    agentSkills = [],
     tagColorsEnabled = true,
 }: {
     skill: any,
     collections?: CollectionWithPrompts[],
     tags?: TagWithCount[],
+    agentSkills?: any[],
     tagColorsEnabled?: boolean,
 }) {
     const { t } = useLanguage();
@@ -43,6 +45,7 @@ export default function EditSkillForm({
             initialValues={skill}
             collections={collections}
             tags={tags}
+            agentSkills={agentSkills}
             tagColorsEnabled={tagColorsEnabled}
             onSubmit={handleSubmit}
             isPending={isPending}

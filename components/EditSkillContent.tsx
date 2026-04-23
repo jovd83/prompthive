@@ -3,7 +3,7 @@
 import EditSkillForm from "@/components/EditSkillForm";
 import { useLanguage } from "./LanguageProvider";
 
-export default function EditSkillContent({ skill, collections, tags, tagColorsEnabled }: any) {
+export default function EditSkillContent({ skill, collections, tags, agentSkills, tagColorsEnabled }: any) {
     const { t } = useLanguage();
     return (
         <div className="max-w-3xl mx-auto pb-12">
@@ -17,6 +17,7 @@ export default function EditSkillContent({ skill, collections, tags, tagColorsEn
                 skill={skill} 
                 collections={collections} 
                 tags={tags} 
+                agentSkills={agentSkills}
                 tagColorsEnabled={tagColorsEnabled} 
             />
         </div>

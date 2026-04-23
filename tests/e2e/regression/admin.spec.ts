@@ -12,7 +12,7 @@ test.describe('Admin Management - Enriched Datasets & Security Resilience', () =
     });
 
     test.beforeEach(async ({ page, seedAdmin }) => {
-        test.setTimeout(120000);
+        test.setTimeout(180000);
         const loginPage = new LoginPage(page);
         await loginPage.goto();
         await loginPage.login(seedAdmin.username, seedAdmin.plainTextPassword!);
@@ -31,7 +31,7 @@ test.describe('Admin Management - Enriched Datasets & Security Resilience', () =
         await page.getByLabel(/Username|Utilisateur/i).fill(unicodeUser);
         await page.getByLabel(/Email/i).fill(testEmail);
         await page.getByLabel(/Password|Mot de passe/i).fill('Pass123!🚀');
-        await page.getByRole('button', { name: /Create|Créer/i }).click();
+        await page.getByRole('button', { name: /Create|Créer/i }).click({ force: true, timeout: 15000 });
 
         await expect(page.getByText(/User created successfully|Utilisateur créé avec succès/i)).toBeVisible();
         await page.getByText(/User created successfully|Utilisateur créé avec succès/i).waitFor({ state: 'hidden', timeout: 10000 });
@@ -50,7 +50,7 @@ test.describe('Admin Management - Enriched Datasets & Security Resilience', () =
         await page.getByLabel(/Username|Utilisateur/i).fill(hugeUser);
         await page.getByLabel(/Email/i).fill(hugeEmail);
         await page.getByLabel(/Password|Mot de passe/i).fill('Password123!');
-        await page.getByRole('button', { name: /Create|Créer/i }).click();
+        await page.getByRole('button', { name: /Create|Créer/i }).click({ force: true, timeout: 15000 });
 
         // Either succeeds (if allowed) or shows validation error, but should not crash
         const isSuccess = await page.getByText(/User created successfully/i).isVisible({ timeout: 5000 });

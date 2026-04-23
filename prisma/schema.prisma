@@ -63,6 +63,7 @@ model Prompt {
   isPrivate        Boolean                 @default(false)
   itemType         String                  @default("PROMPT")
   repoUrl          String?
+  url              String?
   installCommand   String?
   createdAt        DateTime                @default(now())
   updatedAt        DateTime                @updatedAt
@@ -105,6 +106,8 @@ model PromptVersion {
   changelog           String?
   createdById         String
   createdAt           DateTime     @default(now())
+  agentUsage          String?
+  agentSkillIds       String?
   attachments         Attachment[]
   prompt              Prompt       @relation(fields: [promptId], references: [id], onDelete: Cascade)
   createdBy           User         @relation(fields: [createdById], references: [id])

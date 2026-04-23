@@ -36,7 +36,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background">
+        <main className="min-h-screen flex items-center justify-center bg-background">
             <div className="card w-full max-w-md space-y-6 animate-fade-in">
                 <h1 className="text-2xl font-bold text-center">Create New User</h1>
                 {error && <div className="text-red-500 text-center text-sm">{error}</div>}
@@ -84,6 +84,6 @@ export default function RegisterPage() {
                     </div>
                 </form>
             </div>
-        </div >
+        </main>
     );
 }

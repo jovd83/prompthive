@@ -4,7 +4,7 @@ import { format } from "date-fns";
 /**
  * Generates a markdown string for a prompt version.
  */
-export function generateMarkdown(prompt: PromptDTO, versionId: string): string {
+export function generateMarkdown(prompt: PromptDTO, versionId: string, agentSkills?: any[]): string {
     const version = (prompt.versions || []).find(v => v.id === versionId);
     if (!version) return "";
 
@@ -34,6 +34,24 @@ export function generateMarkdown(prompt: PromptDTO, versionId: string): string {
 ${version.content}
 \`\`\`
 `;
+
+    if (version.agentUsage) {
+        md += `
+## Agents
+${version.agentUsage}
+`;
+    }
+
+    if (agentSkills && agentSkills.length > 0) {
+        md += `
+## Agentskills
+The following agentskills could be used to achieve the goals of this prompt and its tasks
+` +
+              agentSkills.map((s: any) => 
+                `* ${s.title}\n** ${s.description || (s.versions?.[0]?.content ? s.versions[0].content.substring(0, 200) + '...' : "No description available")}\n** ${s.url || s.repoUrl || "No URL available"}`
+              ).join("\n") +
+              `\n`;
+    }
 
     if (version.shortContent) {
         md += `

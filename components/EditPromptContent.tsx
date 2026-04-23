@@ -3,7 +3,7 @@
 import EditPromptForm from "@/components/EditPromptForm";
 import { useLanguage } from "./LanguageProvider";
 
-export default function EditPromptContent({ prompt, latestVersion, collections, tags, tagColorsEnabled, privatePromptsEnabled = false }: any) {
+export default function EditPromptContent({ prompt, latestVersion, collections, tags, agentSkills, tagColorsEnabled, privatePromptsEnabled = false }: any) {
     const { t } = useLanguage();
     return (
         <div className="max-w-3xl mx-auto pb-12">
@@ -19,7 +19,15 @@ export default function EditPromptContent({ prompt, latestVersion, collections, 
                 )}
                 {t('prompts.editTitle').replace('{{title}}', prompt.title)}
             </h1>
-            <EditPromptForm prompt={prompt} latestVersion={latestVersion} collections={collections} tags={tags} tagColorsEnabled={tagColorsEnabled} privatePromptsEnabled={privatePromptsEnabled} />
+            <EditPromptForm 
+                prompt={prompt} 
+                latestVersion={latestVersion} 
+                collections={collections} 
+                tags={tags} 
+                agentSkills={agentSkills}
+                tagColorsEnabled={tagColorsEnabled} 
+                privatePromptsEnabled={privatePromptsEnabled} 
+            />
         </div>
     );
 }

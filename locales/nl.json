@@ -30,7 +30,13 @@
         "save": "Opslaan",
         "cancel": "Annuleren",
         "selectAll": "Alles selecteren",
-        "deselectAll": "Alles deselecteren"
+        "deselectAll": "Alles deselecteren",
+        "tipOfTheDay": "Tip van de dag",
+        "learnMore": "Meer informatie",
+        "expandTip": "Tip uitvouwen",
+        "collapseTip": "Tip invouwen",
+        "system": "Systeem",
+        "export": "Exporteren"
     },
     "languages": {
         "en": "English",
@@ -84,7 +90,8 @@
                 "role": "Rol",
                 "cancel": "Annuleren",
                 "create": "Gebruiker aanmaken",
-                "error": "Kon gebruiker niet aanmaken"
+                "error": "Kon gebruiker niet aanmaken",
+                "success": "Gebruiker succesvol aangemaakt"
             },
             "roleToggleTitle": "Klik om rol te wisselen",
             "deleteConfirmTitle": "Gebruiker verwijderen",
@@ -111,12 +118,16 @@
             "help": "Helpcentrum",
             "createPrompt": "Nieuwe Prompt Maken",
             "createCollection": "Collectie Maken",
-            "toggleTheme": "Thema Wisselen"
+            "toggleTheme": "Thema Wisselen",
+            "adminSettings": "Beheerdersinstellingen",
+            "userManagement": "Gebruikersbeheer"
         },
         "sections": {
             "navigation": "Navigatie",
             "actions": "Acties",
-            "preferences": "Voorkeuren"
+            "preferences": "Voorkeuren",
+            "admin": "Administratie",
+            "account": "Account"
         }
     },
     "collections": {
@@ -144,7 +155,14 @@
             "title": "Nog geen workflows",
             "desc": "Maak je eerste prompt-keten om complexe taken te automatiseren."
         },
-        "beta": "(BETA - Niet getest)"
+        "beta": "(BETA - Niet getest)",
+        "card": {
+            "edit": "Bewerken",
+            "delete": "Verwijderen",
+            "run": "Uitvoeren",
+            "steps": "Stappen",
+            "noDesc": "Geen beschrijving opgegeven."
+        }
     },
     "prompts": {
         "dashboard": "Dashboard",
@@ -186,7 +204,8 @@
     },
     "skills": {
         "createTitle": "Maak Nieuwe Agent Skill",
-        "repositoryUrl": "GitHub Repository URL",
+        "repositoryUrl": "URL",
+        "url": "URL",
         "fetchInfo": "Info Ophalen",
         "installCommand": "Installatie Commando",
         "fetching": "Ophalen...",
@@ -259,12 +278,20 @@
             "createFailed": "Kon prompt niet maken. Probeer het opnieuw.",
             "createVersionFailed": "Kon versie niet maken. Probeer het opnieuw.",
             "invalidExtension": "Ongeldige bestandsextensie: {{ext}}. Toegestaan: {{allowed}}"
-        }
+        },
+        "useOfAgents": "Gebruik van agents",
+        "useOfAgentSkills": "Gebruik van agentskills",
+        "agentUsageHint": "Deze inhoud wordt aan het klembord toegevoegd bij het kopiëren van de prompt.",
+        "agentSkillsHint": "Geselecteerde agentskills worden aan het klembord toegevoegd bij het kopiëren van de prompt.",
+        "skillAgentUsageHint": "Definieer welke gespecialiseerde agents gebruikt moeten worden wanneer deze skill wordt aangeroepen. Deze inhoud wordt bij geavanceerd kopiëren aan het klembord toegevoegd.",
+        "skillAgentSkillsHint": "Koppel andere agentskills waarvan deze skill afhankelijk is. Gekoppelde agentskills worden bij geavanceerd kopiëren opgenomen in het klembord."
     },
     "tags": {
         "placeholder": "Selecteer of maak tags...",
         "create": "Maak tag \"{{tag}}\"",
-        "noMatch": "Geen overeenkomende tags gevonden."
+        "noMatch": "Geen overeenkomende tags gevonden.",
+        "viewAll": "Alles tonen",
+        "showLess": "Minder tonen"
     },
     "diff": {
         "title": "Versies Vergelijken",
@@ -283,6 +310,13 @@
             "edit": "Bewerken",
             "delete": "Verwijderen",
             "copy": "Kopieer Prompt",
+            "advancedCopy": "Geavanceerd Kopiëren",
+            "addAgents": "agents toevoegen",
+            "addAgentSkills": "agentskills toevoegen",
+            "addSotPolicy": "Source-of-truth beleid toevoegen",
+            "addPersistenceCheck": "Persistentie-check toevoegen",
+            "addUserHandoff": "Gebruikersoverdracht toevoegen",
+            "copySelected": "Geselecteerde Kopiëren",
             "linkPrompt": "Link Gerelateerde Prompt",
             "copied": "Gekopieerd!",
             "codeView": "Code Weergave",
@@ -299,7 +333,8 @@
             "restoreSuccess": "Versie succesvol hersteld.",
             "lockPrompt": "Prompt vergrendelen (alleen maker)",
             "unlockPrompt": "Prompt ontgrendelen (alleen maker)",
-            "lockedByCreator": "Vergrendeld door maker"
+            "lockedByCreator": "Vergrendeld door maker",
+            "downloadMarkdown": "Markdown downloaden"
         },
         "labels": {
             "description": "Beschrijving",
@@ -351,7 +386,9 @@
             "za": "Z - A",
             "newest": "Nieuwste Eerst",
             "oldest": "Oudste Eerst",
-            "mostItems": "Meeste Items"
+            "mostItems": "Meeste Items",
+            "mostViewed": "Meest bekeken",
+            "leastViewed": "Minst bekeken"
         }
     },
     "settings": {
@@ -400,7 +437,12 @@
         "dbCleared": "Database succesvol gewist.",
         "saveVisibility": "Zichtbaarheid Opslaan",
         "collectionVisibility": "Collectie Zichtbaarheid",
-        "collectionVisibilityDesc": "Vink de collecties uit die je wilt verbergen. Verborgen collecties (en hun submappen) verschijnen niet in de zijbalk."
+        "collectionVisibilityDesc": "Vink de collecties uit die je wilt verbergen. Verborgen collecties (en hun submappen) verschijnen niet in de zijbalk.",
+        "showTips": "Prompt-tips tonen",
+        "showTipsDesc": "Toon elke dag een nuttige prompt-tip op het dashboard.",
+        "languageSettings": "Taalinstellingen",
+        "saveGeneral": "Algemene instellingen opslaan",
+        "saveBackup": "Back-upconfiguratie opslaan"
     },
     "importExport": {
         "title": "Import / Export",
@@ -459,7 +501,12 @@
             "language": "Taalinstellingen",
             "userProfile": "Gebruikersprofiel & Beveiliging",
             "faq": "Veelgestelde Vragen & Probleemoplossing",
-            "changelog": "Wijzigingslog"
+            "changelog": "Wijzigingslog",
+            "exporting": "Exporteren & downloaden",
+            "locking": "Prompts vergrendelen (bescherming)",
+            "technicalIds": "Technische ID's",
+            "tagColors": "Tagkleuren",
+            "admin": "Beheerfuncties"
         },
         "content": {
             "changelog": {
@@ -503,7 +550,9 @@
                 "versionTitle": "Versie",
                 "versionDesc": "Verlies nooit een goede prompt. Elke opslag creëert een nieuw geschiedenisitem.",
                 "templatizeTitle": "Sjablonen",
-                "templatizeDesc": "Gebruik variabelen zoals <code>{{topic}}</code> om herbruikbare sjablonen te maken."
+                "templatizeDesc": "Gebruik variabelen zoals <code>{{topic}}</code> om herbruikbare sjablonen te maken.",
+                "tipsTitle": "Leren",
+                "tipsDesc": "Ontvang dagelijks <strong>prompt-tips</strong> op je dashboard om je vaardigheden te verbeteren (kan worden uitgeschakeld in Instellingen)."
             },
             "gettingStarted": {
                 "tip": "Je hebt geen internetverbinding nodig. TMT draait volledig lokaal op je machine.",
@@ -615,6 +664,31 @@
                 "a2": "Je hebt twee keuzes: <strong>Alles Verwijderen</strong> (wist alle kinderen en prompts daarbinnen) of <strong>Alleen Collectie Verwijderen</strong> (verplaatst alle kinderen/prompts naar het bovenliggende niveau of Root).",
                 "q3": "V: Kan ik mijn prompts delen?",
                 "a3": "Momenteel is TMT een lokale tool voor één gebruiker. Je kunt echter de <strong>Import/Export</strong> functie in de zijbalk gebruiken om JSON-bestanden met collega's te delen."
+            },
+            "locking": {
+                "desc": "Bescherm je werk tegen onbedoelde bewerkingen door je prompts te <strong>vergrendelen</strong>.",
+                "howToTitle": "Hoe te vergrendelen",
+                "li1": "Open een prompt die je hebt gemaakt.",
+                "li2": "Klik op het <span class=\"text-muted-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"11\" width=\"18\" height=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/></svg></span> <strong>Ontgrendel</strong>-pictogram in de koptekst.",
+                "li3": "Het pictogram verandert in een <strong>gesloten hangslot</strong>, wat aangeeft dat de prompt vergrendeld is.",
+                "effectTitle": "Wat gebeurt er?",
+                "effectDesc": "Wanneer vergrendeld, zijn de knoppen <strong>Bewerken</strong>, <strong>Nieuwe versie opslaan</strong> en <strong>Variabele toevoegen</strong> uitgeschakeld voor iedereen (behalve jou). Gebruik dit om prompts te markeren als 'Definitief/Stabiel' of om te voorkomen dat teamleden je sjablonen wijzigen."
+            },
+            "technicalIds": {
+                "desc": "Technische ID's bieden een stabiele, leesbare referentie voor je prompts (bijv. VIBE-123).",
+                "generationTitle": "Automatische generatie",
+                "generationDesc": "Wanneer je een prompt toewijst aan een collectie, krijgt het automatisch een ID op basis van de collectienaam (bijv. 'Verkoop' -> 'VERK-1').",
+                "routingTitle": "Directe URL's",
+                "routingDesc": "Je kunt elke prompt direct openen door de ID in de URL te typen: <code>/prompts/VIBE-123</code>.",
+                "searchTitle": "Zoeken",
+                "searchDesc": "Je kunt elke prompt direct vinden door de technische ID in de zoekbalk van het dashboard te typen."
+            },
+            "tagColors": {
+                "desc": "Organiseer je tags visueel door ze automatische, consistente kleuren toe te wijzen.",
+                "enableTitle": "Kleuren inschakelen",
+                "enableDesc": "Ga naar <strong>Instellingen > Algemeen</strong> en vink <strong>Tagkleuren inschakelen</strong> aan.",
+                "howItWorksTitle": "Hoe het werkt",
+                "howItWorksDesc": "Kleuren worden deterministisch gegenereerd op basis van de tagnaam. Dezelfde tag heeft altijd dezelfde kleur in de hele applicatie."
             }
         }
     }

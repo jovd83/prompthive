@@ -113,14 +113,11 @@ describe('PromptDetail Guest Access', () => {
         isLocked: false // Not locked
     };
 
-    it('should disable delete button for GUEST user', () => {
+    it('should NOT show delete button for GUEST user (who is not creator)', () => {
         render(<PromptDetail prompt={mockPrompt} />);
 
-        // When disabled/cannot edit, title changes to 'detail.actions.lockedByCreator' (reused for disabled state)
-        // We verify that the normal delete title DOES NOT exist, and the locked title DOES exist and is disabled.
+        // Guests who didn't create the prompt shouldn't see these actions at all
         expect(screen.queryByTitle('detail.actions.delete')).not.toBeInTheDocument();
-
-        const deleteButton = screen.getByTitle('detail.actions.lockedByCreator');
-        expect(deleteButton).toBeDisabled();
+        expect(screen.queryByTitle('detail.actions.lockedByCreator')).not.toBeInTheDocument();
     });
 });
