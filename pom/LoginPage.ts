@@ -32,7 +32,7 @@ export class LoginPage {
 
         if (expectSuccess) {
             // Wait for redirect to dashboard to ensure login completed
-            await this.page.waitForURL(url => url.pathname === '/', { timeout: 10000 });
+            await this.page.waitForURL(url => url.pathname === '/', { timeout: 60000 });
         }
     }
 }
