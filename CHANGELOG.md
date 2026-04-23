@@ -1,4 +1,15 @@
 # Changelog
++
++## 4.0.2 (Unreleased)
++
++### Added
++
++### Changed
++
++### Fixed
++
++### Removed
++
 
 ## 4.0.1 (2026-04-23)
 
