@@ -1,0 +1,49 @@
+graph TD
+    A[Sidebar] --> B(Dashboard Content)
+    
+    subgraph Sidebar [Sidebar]
+    S1[Logo]
+    S2[Search Prompts Input]
+    S3[Navigation Links]
+    S3 --> S3a[All Prompts]
+    S3 --> S3b[My Prompts]
+    S3 --> S3c[Collections Tree]
+    S4[User Profile / Settings]
+    end
+
+    subgraph Content [Dashboard Content]
+    D1[Header]
+    D1 --> D1a[Breadcrumbs]
+    D1 --> D1b[Create New Prompt]
+    D1 --> D1c[Create Collection]
+    
+    D2[Filter Bar]
+    D2 --> D2a[Sort Dropdown]
+    D2 --> D2b[Tag Filter]
+
+    DT[Prompter Tip]
+    DT --> DTa[Tip Content]
+    DT --> DTb[Dismiss / Next]
+    
+    D3[Prompt Grid]
+    D3 --> P1[Prompt Card 1]
+    D3 --> P2[Prompt Card 2]
+    D3 --> P3[Prompt Card 3]
+    
+    P1 --> P1a[Title]
+    P1 --> P1b[Description Truncated]
+    P1 --> P1c[Tags]
+    P1 --> P1d[Copy Button]
+    P1 --> P1e[Edit Button]
+    end
+
+    %% Premium Styling
+    classDef container fill:#f9fafb,stroke:#e5e7eb,color:#1f2937,rx:8,ry:8,stroke-width:1px;
+    classDef button fill:#3b82f6,stroke:#2563eb,color:#ffffff,rx:4,ry:4,stroke-width:0px;
+    classDef card fill:#ffffff,stroke:#e5e7eb,color:#374151,rx:6,ry:6,stroke-width:1px;
+    classDef input fill:#ffffff,stroke:#d1d5db,color:#374151,rx:4,ry:4,stroke-dasharray: 5 5;
+    
+    class Sidebar,Content container;
+    class D1b,D1c,P1d,P1e,S3a,S3b,S3c button;
+    class P1,P2,P3,D2,D3 card;
+    class S2,D2a,D2b input;

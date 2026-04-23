@@ -1,0 +1,282 @@
+# Changelog
++
++## 4.0.2 (Unreleased)
++
++### Added
++
++### Changed
++
++### Fixed
++
++### Removed
++
+
+## 4.0.1 (2026-04-23)
+
+### Added
+- **Agent Integration Enhancement**: Deepened "Use of agents" and "Use of agentskills" support across the platform.
+  - New collapsible form sections for structured AI agent instructions and skill linking.
+  - Linked agent skills include descriptions in the prompt detail view.
+  - Automatic clipboard formatting: Agent context is now appended to the prompt content on copy.
+  - Integrated full import/export support for agent-specific metadata.
+  - **Enhanced Markdown Download**: Re-architected the "Download Markdown" feature for prompts and skills to follow a premium, agent-ready format.
+    - Added dedicated `## Agents` and `## Agentskills` headers.
+    - Introduced mandatory introductory text for agent skills to improve AI interpretability.
+    - Implemented a structured nested list format for skills (Name, Description, URL).
+    - Verified with high unit test coverage (97%+) and regression testing.
+  - **Copy Prompt with SOURCE-OF-TRUTH Policy**: Introduced a secondary copy action to enforce project-specific guardrails.
+    - Appends a strict "STRICT SOURCE-OF-TRUTH POLICY" block to the clipboard payload.
+    - Added "SOT Copy" button with `ShieldCheck` icon in the prompt detail view.
+    - Includes localized success feedback: "SOT Copied!".
+    - Integrated with analytics tracking (`copy_with_sot`).
+- **Advanced Copy Dialog**: New multi-option copy interface with configurable context blocks.
+  - Toggle individual sections: Agents, Agent Skills, Source-of-Truth Policy, Persistence Check, User Handoff.
+  - Single "Copy Selected" action assembles the final prompt from chosen blocks.
+  - Fully localized in all 7 supported languages.
+- **Recursive Export with Skill Metadata**: Export now includes full agent skill metadata, linked skill descriptions, and cross-prompt references for complete backup fidelity.
+
+### Changed
+- **Skill Form Simplification**: Simplified the "Repository URL" label to "URL" across all locales for a cleaner, more generic interface. Added a dedicated `url` translation key.
+
+### Fixed
+- **Agent Skill Import Linking (Cross-Batch Resolution)**: Fixed a critical bug where imported agent skill references were silently dropped. Root cause: the UI batches imports into groups of 20, and each batch had its own isolated ID map — skills imported in batch 1 couldn't be linked by prompts in batch 12. Implemented a two-phase import architecture: Phase 1 imports all items and collects pending link data, Phase 2 resolves all skill links in a single post-import pass using the full title map.
+- **Prisma Client Sync**: Resolved `Unknown argument agentUsage` error by force-regenerating the Prisma Client after unlocking service DLLs.
+- **Database Schema Sync**: Fixed missing `agentUsage` column in the development database by synchronizing the local `dev.db` with the latest Prisma schema.
+
+### Removed
+
+## 4.0.0 (2026-04-18)
+
+### Added
+- **Agent Skills Feature**: Support for storing and managing AI Agent Skills along with Prompts.
+  - Ability to create Agent Skills distinctly from standard Prompts.
+  - New `npx` install command inference from GitHub repositories via the "Import Repository" tool.
+  - Interactive badges (🤖 Skill / 📝 Prompt) across the application components (dashboard, views, search).
+- **Group Skill Import**: Added ability to import multiple agent skills concurrently by providing a list of GitHub repository URLs. Skills are saved into an automatically generated `yyyymmdd_Skillimport` collection.
+- **Comprehensive Testing & reporting Suite**: Integrated a unified automated testing infrastructure providing holistic platform health overview.
+  - **Master Test Report**: Automated generation of interactive master reports consolidating all test categories.
+  - **A11y Testing**: Integration of `axe-core` for automated accessibility audits.
+  - **Performance Benchmarking**: Added dedicated performance reviews and load testing suites.
+  - **Security Audits**: Established security review processes with automated findings tracking (v4 audit).
+  - **Test Management**: Introduced TDD-style test case documentation and automated traceability mapping.
+  - **Visual Regression**: Expanded visual testing coverage with Playwright snapshots.
+
+### Fixed
+- **Skill Content Copying**: Fixed a bug where the "Copy" button on the agent skills details screen incorrectly copied the installation instruction instead of the actual prompt content.
+- **Recently Accessed Prompts**: Fixed the "recently used by me" dashboard section to accurately display prompts the user has interacted with, regardless of creator, ensuring precise and deterministic sorting.
+- **Skill Editing & Validation**: Fixed `installCommand` validation errors during skill creation and editing, resolving failing Playwright e2e tests.
+- **Acceptance Tests**: Resolved errors in the acceptance test suite (`prompthive-acceptance.html`) related to package installations and database migrations.
+
+## 3.1.1 (2026-03-11)
+
+### Added
+- **Frontend Playwright Tests**: Expanded E2E test coverage using the [jovd83/Playwright-skill](https://github.com/jovd83/Playwright-skill) agent framework, covering workflows, data management, and authentication edge cases.
+
+### Fixed
+- **Test Stability**: Resolved failures in Playwright E2E suite related to Next.js page transitions and element visibility.
+- **Environment Configuration**: Corrected `NEXTAUTH_URL` in `.env.test` to match the test server port.
+- **Access Control Regex**: Updated unauthorized navigation regex to support Next.js 404 pages ("could not be found").
+- **Workflow constraints**: Fixed navigation timing in "Maximal Character Description" test to handle redirects to the editor.
+- **Data Export Resilience**: Fixed Unicode export test by ensuring the test collection is populated before export.
+
+## 3.1.0 (2026-03-07)
+
+### Added
+- **Playwright Test Suite**: Generated and integrated a comprehensive new Playwright E2E test set using the [jovd83/Playwright-skill](https://github.com/jovd83/Playwright-skill) agent framework.
+
+
+### Changed
+- **Settings UI**: Refined Settings controls with `data-testid` attributes to support robust E2E testing.
+- **Documentation**: Restructured TDD documentation into feature-based folders for better traceability.
+- **Archive**: Moved legacy Playwright tests to a dedicated `/archive` folder.
+
+### Fixed
+- **Dashboard Sorting Links**: Fixed an issue where clicking "View all" on dashboard sections like "Most viewed" and "Newly created" defaulted to the dashboard view instead of showing the correctly sorted and paginated list.
+- **Most Viewed Sort Engine**: Fixed the "Most viewed" (Usage) dashboard parameter passing `copyCount` rather than `viewCount` during ordering.
+- **User Management**: Fixed a UI bug in `UserManagement` where a string instead of a boolean was used for modal visibility state.
+- **Auth Flow**: Corrected password reset and login field consistency.
+
+### Removed
+
+
+## 3.0.2 (2026-02-23)
+
+### Added
+- **VisualDiff Component**: Implemented a word/line level comparison tool for prompt versions using `diff` library.
+- **SafeRender Component**: Added a dedicated component for secure HTML rendering to prevent XSS in documentation and translation strings.
+- **Modular Architecture**: Partitioned the monolithic `actions/prompts.ts` and associated services into domain-specific modules (`prompt-crud.ts`, `prompt-bulk.ts`, `prompt-links.ts`, `tags.ts`, etc.) for improved maintainability.
+- **Streaming JSON Exports**: Implemented streaming responses for export endpoints to prevent memory bloat and blocking the main thread during large backups.
+- **DTO Implementation**: Added explicit presentation-layer mappers to prevent over-fetching and accidental data exposure from the database.
+- **Scraper Resilience**: Implemented `AbortSignal` timeouts and retry logic in the AI scraper to prevent hanging requests and socket exhaustion.
+- **Batch Processing**: Refactored bulk imports to use batched operations and transaction chunks, significantly improving performance and reducing SQLite "database is locked" errors.
+- **Dashboard UI Enhancements**: Added default `error.tsx`, `loading.tsx`, and `not-found.tsx` states to the dashboard for a smoother user experience.
+
+### Changed
+- **Type Safety**: Eliminated `as any` casts across the codebase by properly encapsulating Prisma schema augmentations in `types/prisma.ts`.
+- **Log Management**: Moved all root-level log files to a dedicated `/logs` directory.
+- **Security Hardening**: Performed a security audit and established a multi-phase hardening roadmap.
+- **Blocking IO Removal**: Migrated synchronous file operations to asynchronous `fs.promises` to keep the event loop responsive.
+
+### Fixed
+- **Favorites Sync**: Fixed a state synchronization issue in the favorites collection view.
+
+
+
+## 3.0.1 (2026-02-08)
+
+### Added
+- **Collection Deletion**: Added a progress bar for collection deletion to provide feedback during long-running operations. The deletion process is now batched to prevent timeouts.
+
+### Changed
+
+- **Name Change** Renamed the app from Prompthive to MyPrompthive
+
+### Fixed
+- **Collection Grid**: Fixed an issue where tag colors were displayed in the collection grid view even when disabled in user settings.
+- **Scraping Prompt**: Fixed the AI scraping prompt to generate compatible JSON and updated the importer to handle flat file fields correctly.
+- **Favorites**: Fixed an issue with favorite collections.
+
+
+### Removed
+
+## 3.0.0 - mobile_view (2026-01-18)
+
+### Added
+- **Responsive Design**: Complete overhaul of the layout for mobile and tablet devices.
+    - Added Mobile Navigation with Hamburger Menu and Drawer.
+    - Updated Dashboard to use a responsive grid (1 column on mobile).
+    - Refactored Prompt Detail view for better readability on small screens.
+    - Added `MobileHeader` component.
+
+### Fixed
+- **Localization**: Fixed missing Command Palette help translation keys in the Spanish (es) locale file.
+- **Command Palette**: Fixed a critical bug where the Command Palette failed to display translated text, showing only translation keys. The component now correctly accesses the language context.
+- **Collection Deletion**: Fixed an issue where "Delete everything" on a collection moved child collections to the root instead of deleting them recursively. The action now correctly removes all nested content.
+- **Attachment Filenames**: Fixed an issue where attachment filenames were displayed with a system database prefix. They now show the original filename uploaded by the user.
+- **Prompt Detail Header**: Added 'viewed' and 'copied' counters to the prompt detail header, bringing consistency with the dashboard card view.
+- **Prompt Locking**: Fixed an issue where the **Delete** button remained active even when a prompt was locked. It is now correctly disabled.
+- **Related Prompts UI**: Fixed the layout and styling of the "Related Prompts" section in the prompt detail view. It is now positioned as the last pane and uses consistent `PromptCard` styling matching the dashboard.
+- **Related Prompts Scroll**: Updated the "Related Prompts" section to use a single row layout with horizontal scrolling for better space utilization.
+- **Technical ID Display**: Fixed an issue where the Technical ID was missing from the prompt detail header. It is now displayed in a badge alongside the author and timestamp information.
+- **Linked Prompts Visibility**: Fixed bidirectional visibility for related prompts. Linking Prompt A to Prompt B now correctly ensures Prompt A appears in Prompt B's "Related Prompts" section.
+- **Tag Colors**: Fixed an issue where tag colors were not being displayed on the prompt detail page. They now correctly reflect the assigned color.
+- **Unlink Prompt**: Removed the confirmation dialog when unlinking prompts. The action is now immediate for a smoother user flow.
+- **Guest Permissions**: Fixed a security issue where Guest users could see and interact with the prompt delete button. It is now correctly disabled.
+- **Collection Drag & Drop**: Fixed a bug where dragging prompts into sidebar subcollections (nested items) was not possible. Added better drop zone detection and visual feedback for nested structures.
+- **Collection List View Drop**: Enabled dragging prompts into sub-collection folders directly from the main collection list view.
+- **Dashboard Search**: Fixed Dashboard Search to include Technical ID in search results.
+- **Guest Favorites**: Fixed an issue where Guest users could see and interact with the favorite button. It is now correctly disabled.
+- **Guest Interaction**: Fixed a bug where Guest users could drag prompt cards, which caused potential errors. Drag and drop is now disabled for guests.
+- **Search Prompts**: Fixed an issue where already linked prompts appeared in the "Link Prompt" search results. They are now filtered out.
+- **Tag Display**: Fixed tag overflow on prompt detail pages. Tags now display in a single line with a "View all" expansion option for cleaner layout.
+
+## v2.3.4 (2026-01-14)
+### Changed
+*   **Infrastructure**: Updated build scripts and acceptance environment configuration.
+*   **Tests**: Updated frontend tests.
+
+## v2.3.3 (2026-01-13)
+### Added
+*   **Tag Colors**: Added visual distinction for tags with unique colors. Users can enable/disable this feature in General Settings.
+*   **Guest Account**: Added a new `GUEST` role with read-only access.
+    *   Admins can create Guest users via the new Admin Dashboard (`/admin/users`).
+    *   Guest users can view Prompts and Collections but cannot Edit, Delete, Link, or Favorite items.
+    *   Restricted "New Prompt" and "Admin" navigation for Guests.
+    *   **UI Restrictions**: Hidden 'Import/Export' and 'Preferences', disabled download and delete actions for Guest users.
+*   **User Management**: Added ability for Admins to **Delete Users** via the Admin Settings page. **Content Preservation**: Prompts, Collections, and Workflows are reassigned to the Admin instead of being deleted.
+*   **Tag Settings**: Added "Enable Tag Colors" preference to General Settings.
+*   **Technical IDs**:
+    *   Supports searching by Technical ID (e.g., `VIBE-123`) in the main dashboard.
+    *   Direct URL access via `/prompts/[technicalId]`.
+    *   **Fix**: Ensure Technical IDs are generated when importing JSON files.
+    *   IDs are generated automatically based on the collection name.
+    *   IDs are regenerating when moving prompts between collections or importing.
+    *   Search now supports finding prompts by their Technical ID.
+    *   Direct URL routing is supported (e.g. `/prompts/VIBE-1`).
+*   **Linked Prompts**:
+    *   **Relation**: Ability to link related prompts together (bidirectional).
+    *   **UI**: "Related Prompts" section in prompt details with card view.
+    *   **Export/Import**: Linked relationships are preserved during JSON export and restored upon import (matching by Technical ID).
+*   **Workflow Visibility**:
+    *   **Settings**: Added "Show Workflows" toggle in General Settings (Default: Hidden).
+    *   **Sidebar**: Workflows section is now hidden by default to declutter the UI for users who don't need it.
+    *   **Logic**: Conditionally renders sidebar links and routes based on user preference.
+*   **Private Prompts**:
+    *   **Feature**: Added ability for users to mark prompts as "Private", making them visible only to themselves.
+    *   **Admin Control**: Feature can be toggled on/off globally by Administrators in General Settings.
+    *   **UI**: Added visual "Private" badge to prompt details and a checkbox in the prompt editor.
+    *   **Visibility Toggle**: Dedicated Eye/EyeOff toggle button for creators in the prompt detailed view (next to Favorite icon) to quickly switch between Public and Private status.
+
+### Changed
+*   **Settings Relocation**: Moved **Auto-backup** and **Danger Zone** (Restore/Reset) from the generic Settings page to the bottom of the **Import/Export** page (`/import-export`) to centralize data management operations.
+*   **Improved**: Deleting a prompt from within a Collection no longer redirects to the Dashboard, but keeps you in the Collection.
+
+### Fixed
+
+*   **Prompt Locking**: Fixed an issue where the **Delete** button remained active even when a prompt was locked. It is now correctly disabled.
+*   **Related Prompts UI**: Fixed the layout and styling of the "Related Prompts" section in the prompt detail view. It is now positioned as the last pane and uses consistent `PromptCard` styling matching the dashboard.
+*   **Related Prompts Scroll**: Updated the "Related Prompts" section to use a single row layout with horizontal scrolling for better space utilization.
+*   **Technical ID Display**: Fixed an issue where the Technical ID was missing from the prompt detail header. It is now displayed in a badge alongside the author and timestamp information.
+*   **Linked Prompts Visibility**: Fixed bidirectional visibility for related prompts. Linking Prompt A to Prompt B now correctly ensures Prompt A appears in Prompt B's "Related Prompts" section.
+*   **Tag Colors**: Fixed an issue where tag colors were not being displayed on the prompt detail page. They now correctly reflect the assigned color.
+*   **Unlink Prompt**: Removed the confirmation dialog when unlinking prompts. The action is now immediate for a smoother user flow.
+*   **Guest Permissions**: Fixed a security issue where Guest users could see and interact with the prompt delete button. It is now correctly disabled.
+*   **Collection Drag & Drop**: Fixed a bug where dragging prompts into sidebar subcollections (nested items) was not possible. Added better drop zone detection and visual feedback for nested structures.
+*   **Collection List View Drop**: Enabled dragging prompts into sub-collection folders directly from the main collection list view.
+*   **Dashboard Search**: Fixed Dashboard Search to include Technical ID in search results.
+*   **Guest Favorites**: Fixed an issue where Guest users could see and interact with the favorite button. It is now correctly disabled.
+*   **Guest Interaction**: Fixed a bug where Guest users could drag prompt cards, which caused potential errors. Drag and drop is now disabled for guests.
+*   **Search Prompts**: Fixed an issue where already linked prompts appeared in the "Link Prompt" search results. They are now filtered out.
+*   **Tag Display**: Fixed tag overflow on prompt detail pages. Tags now display in a single line with a "View all" expansion option for cleaner layout.
+
+### Removed
+
+## v2.3.2 (2026-01-05)
+### Added
+*   **Export Collection**: Added "Export Collection" option to the specific collection menu (header '...' button), allowing users to export a collection tree as a JSON file.
+
+### Changed
+*   **Documentation**: Merged technical documentation (`SAD_Tech_stack.md` into `TECHNICAL_REFERENCE.md`).
+
+### Fixed
+*   **Documentation**: Fixed broken image paths in `TECHNICAL_REFERENCE.MD`.
+*   **Dashboard Favorites**: Fixed a bug where the last favorite item could not be unfavorited from the dashboard due to state synchronization issues in the prompt card component.
+*   **Prompt View**: Fixed a UI bug where the description of a variable was displayed twice in the prompt detail view.
+*   **Prompt Edit**: Fixed an issue where the description field would get cleared when adding or removing tags during prompt editing.
+
+### Removed
+
+## v2.3.1 (2026-01-02)
+### Added
+*   **Import Progress Bar**: Added a progress bar for JSON imports, processing files in batches to prevent the UI from freezing during large uploads.
+*   **Bulk Actions Select All**: Added "Select All" and "Deselect All" buttons to the bulk action header in Collections, allowing users to quickly manage large numbers of prompts.
+*   **Export for TMT Zero**: allowing export of specific collections in a lightweight JSON format.
+*   **Locking Prompts**: Creators can now lock their prompts to prevent accidental edits or modification by other users. Locked prompts show a padlock icon and disable edit features.
+
+
+### Changed
+*   **Export UI**: Renamed generic JSON export button to "Export for TMT Zero" and ensured full internationalization support for the export section across all languages.
+*   **Export Collections Tree**: Replaced flat list selection with a hierarchical **Tree View** for both standard and Zero exports, enabling granular selection of nested collections and their children.
+
+### Fixed
+*   **JSON Import**: Fixed a crash when importing JSON files with missing commas (e.g. `} {`). The importer now attempts to automatically repair the JSON or displays a friendly error message in the UI instead of crashing the application.
+*   **BOM Handling**: Improved handling of files with Byte Order Mark (BOM) characters.
+*   **Hydration Error**: Fixed a React hydration mismatch error related to relative time display (e.g., "Updated 3 mins ago") in prompt cards.
+*   **Copy Button**: Fixed an issue where the "Copy" button for the AI System Prompt in the Help section was non-functional in non-secure contexts (HTTP). Implemented a robust fallback mechanism.
+*   **Import Linking**: Fixed a critical bug where imported prompts were not correctly linked to their nested collections if the ID mapping required a fallback to name-based lookup. This ensures prompts now correctly appear in deep hierarchies (Level 3+) after import.
+*   **Prompt Deletion**: Resolved "Foreign Key Constraint" error when deleting Prompts. Associated Favorites and Workflow Steps are now properly cleaned up before deletion.
+*   **Import Technical IDs**: Resolved issue where imported prompts (JSON) were missing Technical IDs (`technicalId`), preventing search and routing.
+
+## v2.3.0 (2025-12-29)
+### Added
+*   **Collection Tree Visibility**: You can now hide specific collections (and their sub-collections) from the sidebar and main views via Settings, similar to User Visibility.
+*   **Sorting Options**: Added ability to sort collections by Name (A-Z/Z-A), Date (Newest/Oldest), and Count (Most Items) in the main list.
+*   **Localization**: Fully translated new settings and help documentation into Dutch, French, Spanish, Italian, German, and Swedish.
+
+### Changed
+*   **Hierarchical Collection View**: Replaced the flat grid view with a proper Tree View in the Collections page for better navigation of deep hierarchies.
+*   **Performance**: Optimized `CollectionTree` component for rendering large hierarchies.
+*   **UI Polish**: Added icons to Save buttons and improved visual feedback processing states.
+
+### Fixed
+*   **Deployment**: Adjusted build process to use `npm install` for broader compatibility across platforms, preventing lockfile issues during Docker builds.

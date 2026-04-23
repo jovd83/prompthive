@@ -1,0 +1,28 @@
+graph TD
+    subgraph Auth [Auth Pages]
+        direction TB
+        
+        subgraph Register [Register Card]
+            R_Title[Create Account]
+            R_User[Input: Username]
+            R_Email[Input: Email]
+            R_Pass[Input: Password]
+            R_Btn[Sign Up]
+            R_Link[Already have an account? Login]
+            
+            R_Title --- R_User --- R_Email --- R_Pass --- R_Btn --- R_Link
+        end
+
+        subgraph Login [Login Card]
+            L_Title[Welcome Back]
+            L_User[Input: Username]
+            L_Pass[Input: Password]
+            L_Btn[Sign In]
+            L_Link[No account? Register]
+            
+            L_Title --- L_User --- L_Pass --- L_Btn --- L_Link
+        end
+    end
+    
+    style Register fill:#f9f9f9,stroke:#333,stroke-width:1px
+    style Login fill:#f9f9f9,stroke:#333,stroke-width:1px

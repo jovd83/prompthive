@@ -1,0 +1,32 @@
+graph TD
+    subgraph "Prompt Detail Page"
+        Header[Prompt Title / Metadata]
+        
+        subgraph "Main Content"
+            Content[Current Version Content]
+        end
+        
+        subgraph "Sidebar"
+            Vars[Variable Inputs]
+            
+            subgraph "History Section"
+                HistoryHeader[History Header]
+                
+                subgraph "Version List"
+                    V3[v3 (Current) - You - 1m ago]
+                    
+                    V2[v2 - You - 2h ago]
+                    V2Restore[< Button: Restore >]
+                    V2Compare[< Button: Compare >]
+                    
+                    V1[v1 - You - 1d ago]
+                    V1Restore[< Button: Restore >]
+                    V1Compare[< Button: Compare >]
+                end
+            end
+        end
+    end
+    
+    V2Restore -->|Clicks Restore| Confirm[Confirmation Dialog]
+    Confirm -->|Yes| NewVer[Creates v4 (copy of v2)]
+    NewVer -->|Updates UI| V4[v4 (Current) - You - Just now]

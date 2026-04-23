@@ -1,0 +1,24 @@
+graph TD
+    subgraph Overlay ["Compare Mode Overlay"]
+        Header["Header: Comparing Version 2 vs Version 1"]
+        
+        subgraph Diff ["Unified Diff View"]
+            Line1["Line 1: You are a helpful assistant... (Unchanged)"]
+            Line2["Line 2: - Be concise. (Removed)"]:::removed
+            Line3["Line 2: + Be extremely verbose. (Added)"]:::added
+            Line4["Line 3: Answer in JSON format. (Unchanged)"]
+        end
+        
+        Actions["Actions: [ Restore v1 ] | [ Cancel ]"]
+    end
+
+    %% Premium Styling
+    classDef container fill:#ffffff,stroke:#e5e7eb,color:#374151,rx:8,ry:8,stroke-width:1px,shadow:lg;
+    classDef added fill:#dcfce7,stroke:#22c55e,color:#14532d,rx:0,ry:0;
+    classDef removed fill:#fee2e2,stroke:#ef4444,color:#7f1d1d,rx:0,ry:0;
+    classDef neutral fill:#f3f4f6,stroke:none,color:#6b7280;
+    
+    class Overlay container;
+    class Line1,Line4 neutral;
+    class Line2 removed;
+    class Line3 added;

@@ -1,0 +1,35 @@
+graph TD
+    subgraph Client ["Client (Browser)"]
+        UI["User Interface (React Components)"]
+        Forms["Forms (Server Actions)"]
+    end
+
+    subgraph Server ["Next.js Server"]
+        MW["Middleware (NextAuth)"]
+        Actions["Server Actions (app/actions.ts)"]
+        API["API Routes (app/api/)"]
+        
+        subgraph Logic ["Business Logic"]
+            Auth["Auth Service"]
+            Files["File Service"]
+            ColAlgo["Recursive Collection Algo"]
+        end
+    end
+
+    subgraph Data ["Data Layer"]
+        Prisma["Prisma ORM"]
+        DB[("SQLite Database")]
+        FS["File System (Uploads)"]
+    end
+
+    UI -->|Navigation| MW
+    Forms -->|Submit| Actions
+    
+    MW -->|Protect| UI
+    
+    Actions -->|Validate| Zod["Zod Schemas"]
+    Actions -->|Call| Prisma
+    Actions -->|Manage| FS
+    Actions -->|Compute| ColAlgo
+    
+    Prisma -->|Query| DB

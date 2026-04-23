@@ -1,0 +1,287 @@
+"use client";
+
+import Link from "next/link";
+import NextImage from "next/image";
+import { Copy, Eye, Clock, Heart, Check, Terminal, Package } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { enUS, nl, fr } from "date-fns/locale";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { toggleFavorite } from "@/actions/favorites";
+import { useSession, signIn } from "next-auth/react";
+import { useLanguage } from "./LanguageProvider";
+import { copyToClipboard } from "@/lib/clipboard";
+
+import { PromptDTO } from "@/lib/dto-mappers";
+
+interface PromptCardProps {
+    prompt: PromptDTO;
+    isFavorited?: boolean;
+    tagColorsEnabled?: boolean;
+}
+
+const localeMap: Record<string, any> = { en: enUS, nl: nl, fr: fr };
+
+export default function PromptCard({ prompt, isFavorited: initialIsFavorited = false, tagColorsEnabled = true }: PromptCardProps) {
+    const router = useRouter();
+    const { t, language } = useLanguage();
+    const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
+
+    // Sync local state with prop when it changes (e.g. after revalidation)
+    useEffect(() => {
+        setIsFavorited(initialIsFavorited);
+    }, [initialIsFavorited]);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [isCopied, setIsCopied] = useState(false);
+
+    const latestVersion = prompt.versions?.[0];
+    const promptContent = latestVersion?.content || t('prompts.noContent');
+
+    // Determine result image: explicit resultImage field OR first attachment with role 'RESULT' that looks like an image
+    let resultImage = latestVersion?.resultImage;
+    if (!resultImage && latestVersion?.attachments) {
+        const imgAtt = latestVersion.attachments.find(a =>
+            a.role === 'RESULT' && /\.(jpg|jpeg|png|gif|webp)$/i.test(a.filePath)
+        );
+        if (imgAtt) resultImage = imgAtt.filePath;
+    }
+
+    const getThumbnailUrl = (url: string) => {
+        if (url.startsWith('/uploads/')) {
+            const parts = url.split('/');
+            const filename = parts[parts.length - 1];
+            return `/uploads/thumb_${filename}`;
+        }
+        return url;
+    };
+
+    const [imgSrc, setImgSrc] = useState(resultImage ? getThumbnailUrl(resultImage) : "");
+
+    useEffect(() => {
+        if (resultImage) {
+            setImgSrc(getThumbnailUrl(resultImage));
+        }
+    }, [resultImage]);
+
+    const handleImageError = () => {
+        if (resultImage && imgSrc !== resultImage) {
+            setImgSrc(resultImage);
+        }
+    };
+
+
+    const { data: session, status } = useSession();
+
+    const handleToggleFavorite = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (status !== 'authenticated' || !session?.user) {
+            signIn();
+            return;
+        }
+
+        if (session.user.role === 'GUEST') return;
+
+        if (isLoading) return;
+
+        setIsLoading(true);
+        const newState = !isFavorited;
+        setIsFavorited(newState);
+
+        try {
+            await toggleFavorite(prompt.id);
+        } catch (error: unknown) {
+            const msg = error instanceof Error ? error.message : String(error);
+            console.error("Failed to toggle favorite:", msg);
+            setIsFavorited(!newState);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    const [copyCount, setCopyCount] = useState(prompt.copyCount);
+
+    const handleCopy = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        const success = await copyToClipboard(promptContent);
+
+        if (success) {
+            setIsCopied(true);
+            setCopyCount(prev => prev + 1);
+            setTimeout(() => setIsCopied(false), 2000);
+
+            // Track copy event
+            fetch("/api/analytics", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ promptId: prompt.id, type: "copy" }),
+            }).then(res => {
+                if (!res.ok) throw new Error("Analytics update failed");
+            }).catch(err => {
+                console.error(err);
+                setCopyCount(prev => prev - 1); // Revert on error
+            });
+        }
+    };
+
+    const date = prompt.updatedAt ? new Date(prompt.updatedAt) : new Date();
+    const safeDate = isNaN(date.getTime()) ? new Date() : date;
+    const timeAgo = formatDistanceToNow(safeDate, { addSuffix: false, locale: localeMap[language] || enUS }); const isGuest = session?.user?.role === 'GUEST' || session?.user?.role === 'guest';
+    const canDrag = status === 'authenticated' && !isGuest;
+
+    return (
+        <div
+            draggable={canDrag}
+            onDragStart={(e) => {
+                if (!canDrag) {
+                    e.preventDefault();
+                    return;
+                }
+                e.dataTransfer.setData("promptId", prompt.id);
+                // Optional: set ghost image or effect
+            }}
+            onClick={() => router.push(prompt.itemType === 'AGENT_SKILL' ? `/skills/${prompt.id}` : `/prompts/${prompt.id}`)}
+            className="card group h-full flex flex-col cursor-pointer relative hover:ring-2 hover:ring-primary/20 transition-all overflow-hidden border-border/60"
+        >
+            {/* 1. Header: Title, Fav, Stats */}
+            <div className="flex justify-between items-start mb-3 gap-2">
+                <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                        {prompt.itemType === 'AGENT_SKILL' ? (
+                            <span className="shrink-0 text-base leading-none" title="Agent Skill">
+                                🤖
+                            </span>
+                        ) : (
+                            <span className="shrink-0 text-base leading-none" title="Prompt">
+                                📝
+                            </span>
+                        )}
+                        <h3 className="font-bold text-lg group-hover:text-primary transition-colors truncate" title={prompt.title}>
+                            {prompt.title}
+                        </h3>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
+                        <span className="flex items-center gap-1 bg-muted px-1.5 py-0.5 rounded" title={t('list.views')}>
+                            <Eye size={12} /> {prompt.viewCount}
+                        </span>
+                        <span className="flex items-center gap-1 bg-muted px-1.5 py-0.5 rounded" title={t('list.copies')}>
+                            <Copy size={12} /> {copyCount}
+                        </span>
+                    </div>
+                </div>
+                <button
+                    onClick={handleToggleFavorite}
+                    className={`shrink-0 p-1.5 rounded-full hover:bg-muted transition-colors ${isFavorited ? "text-red-500" : "text-muted-foreground hover:text-red-500"} ${session?.user?.role === 'GUEST' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    disabled={isLoading || session?.user?.role === 'GUEST'}
+                    title={isFavorited ? t('prompts.removeFromFavorites') : t('prompts.addToFavorites')}
+                >
+                    <Heart size={20} fill={isFavorited ? "currentColor" : "none"} />
+                </button>
+            </div>
+
+            {/* 2. Result Image Thumbnail */}
+            {resultImage && (
+                <div className="mb-3 rounded-md overflow-hidden bg-muted aspect-video relative border border-border/50">
+                    <NextImage
+                        src={imgSrc}
+                        onError={handleImageError}
+                        alt={t('prompts.resultImage')}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        priority={false}
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
+                </div>
+            )}
+
+            {/* 3. Description (Abbreviated) */}
+            {prompt.description && (
+                <p className="text-sm text-foreground/80 mb-3 line-clamp-2">
+                    {prompt.description}
+                </p>
+            )}
+
+            {/* 4. Prompt Preview & Copy */}
+            <div className={`bg-muted/50 rounded-md border border-border/50 p-2 mb-3 relative group/code flex flex-col ${!resultImage ? "flex-1" : ""}`}>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-1.5 select-none shrink-0">
+                    {prompt.itemType === 'AGENT_SKILL' ? (
+                        <><Package size={12} /> {t('detail.labels.usageExample') || "Usage"}</>
+                    ) : (
+                        <><Terminal size={12} /> {t('list.promptPreview')}</>
+                    )}
+                </div>
+
+                <div className="relative flex-1 min-h-[3rem]">
+                    {/* Ghost/Sizer element: Defines the intrinsic height (matches original 3-line look) */}
+                    <pre className="font-mono text-xs invisible whitespace-pre-wrap break-words line-clamp-3" aria-hidden="true">
+                        {promptContent}
+                    </pre>
+
+                    {/* Visible content: Fills availability space */}
+                    <pre className="font-mono text-xs text-muted-foreground absolute inset-0 whitespace-pre-wrap break-words overflow-hidden">
+                        {promptContent}
+                    </pre>
+                </div>
+
+                {/* Copy Button Overlay */}
+                <div className="absolute top-2 right-2">
+                    <button
+                        onClick={handleCopy}
+                        className={`
+                            flex items-center gap-1.5 text-[10px] font-medium py-1 px-2 rounded-md shadow-sm border transition-all
+                            ${isCopied
+                                ? "bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-400"
+                                : "bg-background border-border text-muted-foreground hover:text-foreground hover:border-primary/50"
+                            }
+                        `}
+                        title={t('prompts.copyContent')}
+                    >
+                        {isCopied ? <Check size={12} className={isCopied ? "text-green-600 dark:text-green-400" : ""} /> : <Copy size={12} />}
+                        {isCopied ? t('list.copied') : t('list.copy')}
+                    </button>
+                </div>
+            </div>
+
+            {/* 5. Footer: Tags & Timestamp */}
+            <div className="mt-auto pt-3 border-t border-border/50 flex flex-col gap-2">
+                <div className="flex gap-1 flex-wrap w-full">
+                    {prompt.tags && prompt.tags.slice(0, 3).map((tag) => {
+                        const style = tagColorsEnabled && tag.color ? {
+                            backgroundColor: `${tag.color}20`,
+                            color: tag.color,
+                            borderColor: `${tag.color}40`,
+                        } : undefined;
+
+                        return (
+                            <Link
+                                key={tag.id}
+                                href={`/?tags=${tag.id}`}
+                                className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold tracking-wider transition-colors border ${!style ? "bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground border-transparent" : "hover:brightness-110"}`}
+                                style={style}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                #{tag.name}
+                            </Link>
+                        );
+                    })}
+                    {(!prompt.tags || prompt.tags.length === 0) && <span className="text-[10px] text-muted-foreground italic">{t('list.noTags')}</span>}
+                </div>
+                <div data-testid="debug-role" className="hidden">{session?.user?.role}</div>
+
+                <div className="flex justify-between items-center text-[10px] text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                        {t('list.by')} <span className="font-medium text-foreground">{prompt.createdBy?.username || prompt.createdBy?.email?.split('@')[0]}</span>
+                    </span>
+                    <span className="flex items-center gap-1" title={safeDate.toString()} suppressHydrationWarning>
+                        <Clock size={10} /> {t('list.updatedAgo').replace('{{time}}', timeAgo)}
+                    </span>
+                </div>
+            </div>
+        </div>
+    );
+}
+

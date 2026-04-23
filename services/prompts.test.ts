@@ -1,0 +1,837 @@
+
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { createPromptService, deletePromptService, createVersionService, deleteUnusedTagsService, bulkDeletePromptsService } from './prompts';
+import { prisma } from '@/lib/prisma';
+
+// Mock File Service
+vi.mock('./files', () => ({
+    uploadFile: vi.fn(),
+    deleteFile: vi.fn(),
+}));
+
+// Mock ID Service
+vi.mock('./id-service', () => ({
+    generateTechnicalId: vi.fn().mockResolvedValue('TECH-ID-123'),
+}));
+
+// Mock Prisma
+vi.mock('@/lib/prisma', () => ({
+    prisma: {
+        prompt: {
+            create: vi.fn(),
+            update: vi.fn(),
+            findUnique: vi.fn(),
+            delete: vi.fn(),
+            deleteMany: vi.fn(),
+            count: vi.fn(),
+            findMany: vi.fn(),
+            findFirst: vi.fn(),
+        },
+        promptVersion: {
+            create: vi.fn(),
+            findUnique: vi.fn(),
+        },
+        tag: {
+            delete: vi.fn(),
+            deleteMany: vi.fn(),
+            findMany: vi.fn(),
+            create: vi.fn(),
+        },
+        attachment: {
+            findMany: vi.fn(),
+        },
+        user: {
+            findUnique: vi.fn(),
+            update: vi.fn(),
+        },
+        favorite: {
+            deleteMany: vi.fn(),
+        },
+        workflowStep: {
+            deleteMany: vi.fn(),
+        },
+        collection: {
+            findUnique: vi.fn(),
+        },
+        $transaction: vi.fn(),
+    }
+}));
+
+describe('Prompts Service', () => {
+    const userId = 'user-123';
+
+    // Mock File object for attachments
+    const mockFile = new File(['content'], 'test.txt', { type: 'text/plain' });
+    mockFile.arrayBuffer = vi.fn().mockResolvedValue(new ArrayBuffer(8));
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    describe('createPromptService', () => {
+        it('should create prompt with version and attachments', async () => {
+            const input = {
+                title: 'Test Prompt',
+                description: 'Desc',
+                content: 'Prompt content',
+                shortContent: '',
+                usageExample: '',
+                variableDefinitions: '[]',
+                collectionId: '',
+                tagIds: [],
+                resultText: ''
+            };
+
+            // Mock uploadFile result
+            const { uploadFile } = await import('./files');
+            (uploadFile as any).mockResolvedValue({
+                filePath: '/uploads/test.txt',
+                fileType: 'text/plain',
+                originalName: 'test.txt'
+            });
+
+            const mockPrompt = { id: 'p-1', versions: [{ id: 'v-1' }] };
+            (prisma.prompt.create as any).mockResolvedValue(mockPrompt);
+
+            await createPromptService(userId, input, [mockFile], []);
+
+            // Check File Service via import
+            expect(uploadFile).toHaveBeenCalled();
+
+            // Check Prisma
+            expect(prisma.prompt.create).toHaveBeenCalled();
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-1' },
+                data: { currentVersionId: 'v-1' }
+            });
+        });
+    });
+
+    describe('createVersionService', () => {
+        it('should create new version and increment number', async () => {
+            const input = {
+                promptId: 'p-1',
+                title: 'Test',
+                content: 'New content',
+                shortContent: '',
+                usageExample: '',
+                variableDefinitions: '',
+                changelog: 'Fix',
+                resultText: '',
+                collectionId: '',
+                keepAttachmentIds: [],
+                keepResultImageIds: [],
+                existingResultImagePath: ''
+            };
+
+            (prisma.prompt.findUnique as any).mockResolvedValue({
+                id: 'p-1',
+                createdById: userId,
+                versions: [{ versionNumber: 1 }]
+            });
+
+            (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+            (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
+
+            await createVersionService(userId, input, [], []);
+
+            expect(prisma.promptVersion.create).toHaveBeenCalledWith(expect.objectContaining({
+                data: expect.objectContaining({
+                    versionNumber: 2
+                })
+            }));
+        });
+    });
+
+    describe('deletePromptService', () => {
+        it('should delete prompt and cleanup assets', async () => {
+            // First call: Prompt Lookup
+            (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+                id: 'p-1',
+                createdById: userId,
+                versions: []
+            });
+
+            // User lookup
+            (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+            // Second call: Internal cleanupPromptAssetsService (prompt lookup)
+            (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+                id: 'p-1',
+                versions: []
+            });
+
+            // Third call: Get tags validation
+            (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+                id: 'p-1',
+                createdById: userId,
+                tags: []
+            });
+
+            await deletePromptService(userId, 'p-1');
+
+            expect(prisma.prompt.delete).toHaveBeenCalledWith({ where: { id: 'p-1' } });
+        });
+
+        it('should throw if access denied', async () => {
+            (prisma.prompt.findUnique as any).mockResolvedValue({
+                id: 'p-1',
+                createdById: 'other-user'
+            });
+
+            (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+            await expect(deletePromptService(userId, 'p-1')).rejects.toThrow("Access denied");
+        });
+
+        it('should allow ADMIN to delete other users prompt', async () => {
+            (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+                id: 'p-1',
+                createdById: 'other-user',
+                versions: [] // for cleanup
+            });
+
+            (prisma.user.findUnique as any).mockResolvedValue({ id: 'admin-id', role: 'ADMIN' });
+
+            // Internal cleanup lookup
+            (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+                id: 'p-1',
+                versions: []
+            });
+            // Tags lookup
+            (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+                id: 'p-1',
+                tags: []
+            });
+
+            await deletePromptService('admin-id', 'p-1');
+            expect(prisma.prompt.delete).toHaveBeenCalledWith({ where: { id: 'p-1' } });
+        });
+    });
+
+    describe('deleteUnusedTagsService', () => {
+        it('should delete tags with no prompts', async () => {
+            const { deleteUnusedTagsService } = await import('./prompts');
+
+            (prisma.tag.findMany as any).mockResolvedValue([{ id: 'tag-1' }]);
+
+            await deleteUnusedTagsService();
+
+            expect(prisma.tag.deleteMany).toHaveBeenCalledWith({
+                where: { id: { in: ['tag-1'] } }
+            });
+        });
+    });
+
+    it('should handle kept attachments and result images', async () => {
+        const input = {
+            promptId: 'p-1',
+            title: 'Test',
+            content: 'Content',
+            shortContent: '',
+            usageExample: '',
+            variableDefinitions: '',
+            changelog: 'Fix',
+            resultText: '',
+            collectionId: '',
+            keepAttachmentIds: ['att-1'],
+            keepResultImageIds: [],
+            existingResultImagePath: ''
+        };
+
+        // Mock prompt
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            createdById: userId,
+            versions: [{ versionNumber: 1 }]
+        });
+
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+        // Mock existing attachments lookup
+        (prisma.attachment.findMany as any).mockResolvedValue([
+            { id: 'att-1', filePath: '/old.txt', fileType: 'text/plain', originalName: 'old.txt' }
+        ]);
+
+        (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
+
+        await createVersionService(userId, input, [], []);
+
+        // Verify prisma create call includes the kept attachment
+        expect(prisma.promptVersion.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                attachments: {
+                    create: expect.arrayContaining([
+                        expect.objectContaining({ filePath: '/old.txt' })
+                    ])
+                }
+            })
+        }));
+    });
+
+    it('should throw error if prompt not found in createVersion', async () => {
+        (prisma.prompt.findUnique as any).mockResolvedValue(null);
+        const input = { promptId: 'bad-id' } as any;
+        await expect(createVersionService(userId, input, [], [])).rejects.toThrow('Prompt not found');
+    });
+
+    it('should handle new result images and legacy path in createVersion', async () => {
+        const input = {
+            promptId: 'p-1',
+            title: 'Test',
+            content: '',
+            shortContent: '',
+            usageExample: '',
+            variableDefinitions: '',
+            changelog: '',
+            resultText: '',
+            collectionId: 'new-col',
+            keepAttachmentIds: [],
+            keepResultImageIds: [],
+            existingResultImagePath: '/legacy.jpg'
+        };
+
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            createdById: userId,
+            versions: [{ versionNumber: 1 }]
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
+
+        const { uploadFile } = await import('./files');
+        (uploadFile as any).mockResolvedValue({ filePath: '/new.png', fileType: 'image/png', originalName: 'new.png' });
+
+        await createVersionService(userId, input, [], [mockFile]);
+
+        // Expect upload for result image
+        expect(uploadFile).toHaveBeenCalled();
+        // Expect update collection
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                collections: { set: [{ id: 'new-col' }] }
+            })
+        }));
+    });
+
+    it('should handle unassigning collection in createVersion', async () => {
+        const input = {
+            promptId: 'p-1',
+            collectionId: 'unassigned',
+            keepAttachmentIds: [],
+            keepResultImageIds: []
+        } as any;
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            createdById: userId,
+            versions: []
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-2' });
+
+        await createVersionService(userId, input, [], []);
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                collections: { set: [] }
+            })
+        }));
+    });
+});
+
+describe('cleanupPromptAssetsService', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should delete files for attachments and result images', async () => {
+        const { deleteFile } = await import('./files');
+
+        // Mock prompt with assets
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            versions: [
+                {
+                    resultImage: '/result.jpg', // Not in attachments, should be deleted explicitly
+                    attachments: [
+                        { filePath: '/att.txt' },
+                        { filePath: '/shared.jpg' } // If this matched resultImage, special logic applies, but here prompt.resultImage is different
+                    ]
+                }
+            ]
+        });
+
+        const { cleanupPromptAssetsService } = await import('./prompts');
+        await cleanupPromptAssetsService('p-1');
+
+        expect(deleteFile).toHaveBeenCalledWith('/att.txt');
+        expect(deleteFile).toHaveBeenCalledWith('/shared.jpg');
+        expect(deleteFile).toHaveBeenCalledWith('/result.jpg');
+    });
+
+    it('should not delete result image if it is also an attachment', async () => {
+        const { deleteFile } = await import('./files');
+        const { cleanupPromptAssetsService } = await import('./prompts');
+
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: 'p-1',
+            versions: [
+                {
+                    resultImage: '/shared.jpg',
+                    attachments: [
+                        { filePath: '/shared.jpg' }
+                    ]
+                }
+            ]
+        });
+
+        await cleanupPromptAssetsService('p-1');
+        // It deletes attachments looped, so it deletes /shared.jpg once.
+        // Then checks resultImage. It IS attached, so it should NOT delete again (duplicate check logic).
+
+        // We verify called once
+        expect(deleteFile).toHaveBeenCalledWith('/shared.jpg');
+        expect(deleteFile).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe('getAllPromptsSimple', () => {
+    it('should fetch and map prompts', async () => {
+        const { getAllPromptsSimple } = await import('./prompts');
+        const mockData = [
+            { id: '1', title: 'A', versions: [{ variableDefinitions: 'vars' }] }
+        ];
+        (prisma.prompt.findMany as any).mockResolvedValue(mockData);
+
+        const result = await getAllPromptsSimple('u-1');
+        expect(result).toEqual([{ id: '1', title: 'A', variableDefinitions: 'vars' }]);
+    });
+});
+
+describe('Full Integration Test for CreatePrompt', () => {
+    it('should handle optional fields like tags, images, collections', async () => {
+        const input = {
+            title: 'T', description: 'D', content: 'C', shortContent: '', usageExample: '',
+            variableDefinitions: '', collectionId: 'col-1', tagIds: ['tag-1'], resultText: ''
+        };
+
+        const { uploadFile } = await import('./files');
+        (uploadFile as any).mockResolvedValue({ filePath: '/res.png', fileType: 'image/png', originalName: 'res.png' });
+
+        // Redefine mockFile locally since previous scope is closed
+        const localMockFile = new File(['content'], 'test.txt', { type: 'text/plain' });
+        Object.defineProperty(localMockFile, 'size', { value: 1024 });
+
+        await createPromptService('u-1', input, [], [localMockFile]); // Has result image
+
+        expect(uploadFile).toHaveBeenCalled();
+        expect(prisma.prompt.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                tags: { connect: [{ id: 'tag-1' }] },
+                collections: { connect: { id: 'col-1' } }
+            })
+        }));
+    });
+});
+
+describe('Delete Prompt Tags Cleanup', () => {
+    it('should delete orphaned tags using batch delete', async () => {
+        // 1. Auth check
+        (prisma.prompt.findUnique as any)
+            .mockResolvedValueOnce({ id: 'p-1', createdById: 'u-1' }); // Check
+
+        (prisma.user.findUnique as any).mockResolvedValue({ id: 'u-1', role: 'USER' });
+
+        (prisma.prompt.findUnique as any)
+            .mockResolvedValueOnce({ id: 'p-1', versions: [] }) // Cleanup
+            .mockResolvedValueOnce({ id: 'p-1', createdById: 'u-1', tags: [{ id: 't-1' }] }); // Get tags
+
+        // 2. tagsInUse check: Return EMPTY array, meaning t-1 is NOT in use by any other prompt
+        (prisma.tag.findMany as any).mockResolvedValue([]);
+
+        await deletePromptService('u-1', 'p-1');
+
+        // Expect batch delete
+        expect(prisma.tag.deleteMany).toHaveBeenCalledWith({ where: { id: { in: ['t-1'] } } });
+    });
+});
+
+describe('movePromptService', () => {
+    const userId = 'u-1';
+    const promptId = 'p-1';
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should update prompt collections when collectionId is provided', async () => {
+        const { movePromptService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({ id: promptId, createdById: userId });
+
+        await movePromptService(userId, promptId, 'col-2');
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            where: { id: promptId },
+            data: expect.objectContaining({
+                collections: { set: [{ id: 'col-2' }] }
+            })
+        }));
+    });
+
+    it('should clear collections when collectionId is null (Unassigned)', async () => {
+        const { movePromptService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({ id: promptId, createdById: userId });
+
+        await movePromptService(userId, promptId, null);
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            where: { id: promptId },
+            data: expect.objectContaining({
+                collections: { set: [] }
+            })
+        }));
+    });
+
+    it('should throw "Prompt is locked" if locked (even for owner)', async () => {
+        const { movePromptService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: promptId,
+            createdById: userId,
+            isLocked: true
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+        await expect(movePromptService(userId, promptId, 'col-2')).rejects.toThrow("Prompt is locked by the creator.");
+    });
+});
+
+describe('restoreVersionService', () => {
+    const userId = 'u-1';
+    const promptId = 'p-1';
+    const versionId = 'v-1';
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should create a new version based on the old one', async () => {
+        const { restoreVersionService } = await import('./prompts');
+
+        // 1. Prompt lookup
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+            id: promptId,
+            title: 'Title',
+            createdById: userId,
+            versions: [{ id: versionId }]
+        });
+
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+        // 2. Source version lookup
+        (prisma.promptVersion.findUnique as any).mockResolvedValueOnce({
+            id: versionId,
+            promptId: promptId,
+            versionNumber: 1,
+            content: 'Old Content',
+            shortContent: 'Old Short',
+            usageExample: 'Old Usage',
+            attachments: [{ id: 'att-1', role: 'ATTACHMENT', filePath: '/old.txt', originalName: 'old.txt' }]
+        });
+
+        // 3. createVersionService internal calls (prompt lookup for version number)
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+            id: promptId,
+            createdById: userId,
+            versions: [{ versionNumber: 5 }]
+        }); // current head is v5
+
+        // 4. Create response
+        (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-6', versionNumber: 6 });
+
+        // 5. Attachment lookup (for keepAttachmentIds)
+        (prisma.attachment.findMany as any).mockResolvedValue([{ id: 'att-1', filePath: '/old.txt', fileType: 'text/plain', originalName: 'old.txt' }]);
+
+        await restoreVersionService(userId, promptId, versionId);
+
+        // Verify we called create with old content and incremented version
+        expect(prisma.promptVersion.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({
+                content: 'Old Content',
+                versionNumber: 6,
+                changelog: expect.stringContaining('Restored from version 1'),
+                attachments: {
+                    create: expect.arrayContaining([
+                        expect.objectContaining({ filePath: '/old.txt' })
+                    ])
+                }
+            })
+        }));
+    });
+
+    it('should allow ADMIN to restore another user\'s prompt version', async () => {
+        const { restoreVersionService } = await import('./prompts');
+        const adminId = 'admin-1';
+
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({
+            id: promptId,
+            title: 'Title',
+            createdById: 'other-user',
+            versions: [{ id: versionId }]
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: adminId, role: 'ADMIN' });
+        (prisma.promptVersion.findUnique as any).mockResolvedValueOnce({
+            id: versionId,
+            promptId: promptId,
+            content: 'Content',
+            attachments: []
+        });
+        (prisma.prompt.findUnique as any).mockResolvedValueOnce({ id: promptId, createdById: 'other-user', versions: [] });
+        (prisma.promptVersion.create as any).mockResolvedValue({ id: 'v-new' });
+
+        await restoreVersionService(adminId, promptId, versionId);
+        expect(prisma.promptVersion.create).toHaveBeenCalled();
+    });
+
+    it('should throw if non-owner tries to restore', async () => {
+        const { restoreVersionService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({
+            id: promptId,
+            createdById: 'other-user'
+        });
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+        await expect(restoreVersionService(userId, promptId, versionId)).rejects.toThrow('Access denied');
+    });
+});
+
+describe('bulkDeletePromptsService', () => {
+    const userId = 'u-1';
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should delete prompts owned by user', async () => {
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId },
+            { id: 'p-2', createdById: userId }
+        ]);
+
+        const result = await bulkDeletePromptsService(userId, ['p-1', 'p-2', 'p-missing']);
+
+        expect(prisma.prompt.deleteMany).toHaveBeenCalledWith({
+            where: { id: { in: ['p-1', 'p-2'] } }
+        });
+        expect(result.count).toBe(2);
+    });
+
+    it('should allow ADMIN to delete any prompts', async () => {
+        const adminId = 'admin-1';
+        (prisma.user.findUnique as any).mockResolvedValue({ id: adminId, role: 'ADMIN' });
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: 'user-1' },
+            { id: 'p-2', createdById: 'user-2' }
+        ]);
+
+        const result = await bulkDeletePromptsService(adminId, ['p-1', 'p-2']);
+
+        expect(prisma.prompt.deleteMany).toHaveBeenCalledWith({
+            where: { id: { in: ['p-1', 'p-2'] } }
+        });
+        expect(result.count).toBe(2);
+    });
+
+    it('should return 0 if no valid prompts found', async () => {
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-other', createdById: 'other' }
+        ]);
+
+        const result = await bulkDeletePromptsService(userId, ['p-other']);
+
+        expect(prisma.prompt.deleteMany).not.toHaveBeenCalled();
+        expect(result.count).toBe(0);
+    });
+});
+
+describe('createTagService', () => {
+    it('should create tag with generated color', async () => {
+        const { createTagService } = await import('./prompts');
+        // Since we can't easily mock lib/color-utils without mocking the module at top level,
+        // and it wasn't mocked, we assume it runs real code which is fine for unit test of service if it's pure.
+
+        (prisma.tag.create as any).mockResolvedValue({ id: 't-1', name: 'Tag', color: '#123456' });
+
+        await createTagService('Tag');
+
+        expect(prisma.tag.create).toHaveBeenCalledWith(expect.objectContaining({
+            data: expect.objectContaining({ name: 'Tag' })
+        }));
+    });
+});
+
+describe('toggleLockService', () => {
+    it('should toggle lock status if owner', async () => {
+        const { toggleLockService } = await import('./prompts');
+        const userId = 'u-1';
+
+        (prisma.prompt.findUnique as any).mockResolvedValue({ id: 'p-1', createdById: userId, isLocked: false });
+
+        await toggleLockService(userId, 'p-1');
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith({
+            where: { id: 'p-1' },
+            data: { isLocked: true }
+        });
+    });
+
+    it('should throw if not owner', async () => {
+        const { toggleLockService } = await import('./prompts');
+        (prisma.prompt.findUnique as any).mockResolvedValue({ id: 'p-1', createdById: 'other' });
+
+        await expect(toggleLockService('u-1', 'p-1')).rejects.toThrow('Only the creator can lock/unlock this prompt.');
+    });
+});
+
+describe('bulkMovePromptsService', () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('should move prompts to collection', async () => {
+        const { bulkMovePromptsService } = await import('./prompts');
+        const userId = 'u-1';
+
+        // Mock prompts lookup
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId, isLocked: false },
+            { id: 'p-2', createdById: userId, isLocked: false }
+        ]);
+        (prisma.collection.findUnique as any).mockResolvedValue({ id: 'c-1', title: 'Col A' });
+
+        await bulkMovePromptsService(userId, ['p-1', 'p-2'], 'c-1');
+
+        expect(prisma.prompt.update).toHaveBeenCalledTimes(2);
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            where: { id: 'p-1' },
+            data: expect.objectContaining({ collections: { set: [{ id: 'c-1' }] } })
+        }));
+    });
+
+    it('should throw if prompt is locked by another user', async () => {
+        const { bulkMovePromptsService } = await import('./prompts');
+        const userId = 'u-1';
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId, isLocked: true }
+        ]);
+        (prisma.user.findUnique as any).mockResolvedValue({ id: userId, role: 'USER' });
+
+        await expect(bulkMovePromptsService(userId, ['p-1'], 'c-1')).rejects.toThrow('Prompt p-1 is locked by its creator.');
+    });
+});
+
+describe('bulkAddTagsService', () => {
+    it('should add tags to prompts', async () => {
+        const { bulkAddTagsService } = await import('./prompts');
+        const userId = 'u-1';
+
+        (prisma.prompt.findMany as any).mockResolvedValue([
+            { id: 'p-1', createdById: userId, isLocked: false }
+        ]);
+
+        // Mock transaction
+        (prisma.$transaction as any).mockImplementation((ops: any[]) => Promise.all(ops));
+
+        await bulkAddTagsService(userId, ['p-1'], ['t-1', 't-2']);
+
+        expect(prisma.prompt.update).toHaveBeenCalledWith(expect.objectContaining({
+            where: { id: 'p-1' },
+            data: expect.objectContaining({
+                tags: { connect: [{ id: 't-1' }, { id: 't-2' }] }
+            })
+        }));
+    });
+});
+
+describe('Linking Services', () => {
+    describe('searchPromptsForLinkingService', () => {
+        it('should return empty if query too short', async () => {
+            const { searchPromptsForLinkingService } = await import('./prompts');
+            const res = await searchPromptsForLinkingService('u-1', 'a', '');
+            expect(res).toEqual([]);
+        });
+
+        it('should search prompts excluding current one', async () => {
+            const { searchPromptsForLinkingService } = await import('./prompts');
+            (prisma.prompt.findUnique as any).mockImplementation(() => Promise.resolve({ relatedPrompts: [], relatedToPrompts: [] }));
+            (prisma.prompt.findMany as any).mockResolvedValue([{ id: 'p-2' }]);
+
+            await searchPromptsForLinkingService('u-1', 'search', 'p-1');
+
+            expect(prisma.prompt.findMany).toHaveBeenCalledWith(expect.objectContaining({
+                where: expect.objectContaining({
+                    id: { notIn: ['p-1'] },
+                    // OR clause structure is complex (visibility checks), skipping detailed validation
+                    // OR: expect.arrayContaining(...) 
+                })
+            }));
+        });
+    });
+
+    describe('linkPromptsService', () => {
+        it('should link prompt B to A', async () => {
+            const { linkPromptsService } = await import('./prompts');
+            await linkPromptsService('u-1', 'p-a', 'p-b');
+
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-a' },
+                data: {
+                    relatedPrompts: { connect: { id: 'p-b' } }
+                }
+            });
+        });
+
+        it('should throw if linking to self', async () => {
+            const { linkPromptsService } = await import('./prompts');
+            await expect(linkPromptsService('u-1', 'p-a', 'p-a')).rejects.toThrow('Cannot link prompt to itself');
+        });
+    });
+
+    describe('unlinkPromptsService', () => {
+        it('should disconnect if linked one way', async () => {
+            const { unlinkPromptsService } = await import('./prompts');
+
+            // Mock A has B in related
+            (prisma.prompt.findUnique as any).mockResolvedValue({
+                id: 'p-a',
+                relatedPrompts: [{ id: 'p-b' }]
+            });
+
+            await unlinkPromptsService('u-1', 'p-a', 'p-b');
+
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-a' },
+                data: { relatedPrompts: { disconnect: { id: 'p-b' } } }
+            });
+        });
+
+        it('should try other direction if not found', async () => {
+            const { unlinkPromptsService } = await import('./prompts');
+
+            // Mock A does NOT have B
+            (prisma.prompt.findUnique as any).mockResolvedValue({
+                id: 'p-a',
+                relatedPrompts: []
+            });
+
+            await unlinkPromptsService('u-1', 'p-a', 'p-b');
+
+            expect(prisma.prompt.update).toHaveBeenCalledWith({
+                where: { id: 'p-b' },
+                data: { relatedPrompts: { disconnect: { id: 'p-a' } } }
+            });
+        });
+    });
+});

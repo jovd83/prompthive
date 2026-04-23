@@ -1,0 +1,329 @@
+[dotenv@17.2.3] injecting env (1) from .env.test -- tip: ??????  write to custom object with { processEnv: myObject }
+{
+  "config": {
+    "configFile": "C:\\projects\\antigravity_prj\\prompthive\\playwright.config.ts",
+    "rootDir": "C:/projects/antigravity_prj/prompthive/frontend-tests",
+    "forbidOnly": true,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "C:/projects/antigravity_prj/prompthive/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/projects/antigravity_prj/prompthive/frontend-tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 1,
+    "webServer": {
+      "command": "cross-env APP_ENV=test npm run db:test:push && cross-env APP_ENV=test npm run e2e:dev -- -p 3001",
+      "url": "http://localhost:3001",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "collections_management.spec.ts",
+      "file": "collections_management.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Collections Management Epic",
+          "file": "collections_management.spec.ts",
+          "line": 4,
+          "column": 15,
+          "specs": [
+            {
+              "title": "Scenario 1: Create a Collection",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5386,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-01T07:01:53.271Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-bd8db-nario-1-Create-a-Collection-chromium\\test-finished-1.png"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-bd8db-nario-1-Create-a-Collection-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0a3cf6a351e5833db6d5-53170cdfdea7b988d71b",
+              "file": "collections_management.spec.ts",
+              "line": 20,
+              "column": 9
+            },
+            {
+              "title": "Scenario 2: Create a Nested Collection",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3812,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-01T07:02:08.602Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-c31ad--Create-a-Nested-Collection-chromium\\test-finished-1.png"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-c31ad--Create-a-Nested-Collection-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0a3cf6a351e5833db6d5-a2dfdd0ebf5e4d607b28",
+              "file": "collections_management.spec.ts",
+              "line": 36,
+              "column": 9
+            },
+            {
+              "title": "Scenario 3: Edit Collection Details",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 1144,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-01T07:02:12.663Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-eb82b-o-3-Edit-Collection-Details-chromium\\test-finished-1.png"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-eb82b-o-3-Edit-Collection-Details-chromium\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0a3cf6a351e5833db6d5-242869888a76d0a656b1",
+              "file": "collections_management.spec.ts",
+              "line": 52,
+              "column": 9
+            },
+            {
+              "title": "Scenario 4: Change Multiple (Selection Mode)",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 278,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTitle('Select All')\nExpected: visible\nError: strict mode violation: getByTitle('Select All') resolved to 2 elements:\n    1) <button title=\"Select All\" class=\"p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary transition-colors\">???</button> aka getByRole('button', { name: 'Select All', exact: true })\n    2) <button disabled title=\"Deselect All\" class=\"p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary disabled:opacity-50 transition-colors\">???</button> aka getByRole('button', { name: 'Deselect All' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTitle('Select All')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTitle('Select All')\nExpected: visible\nError: strict mode violation: getByTitle('Select All') resolved to 2 elements:\n    1) <button title=\"Select All\" class=\"p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary transition-colors\">???</button> aka getByRole('button', { name: 'Select All', exact: true })\n    2) <button disabled title=\"Deselect All\" class=\"p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary disabled:opacity-50 transition-colors\">???</button> aka getByRole('button', { name: 'Deselect All' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTitle('Select All')\u001b[22m\n\n    at C:\\projects\\antigravity_prj\\prompthive\\frontend-tests\\collections_management.spec.ts:86:53",
+                        "location": {
+                          "file": "C:\\projects\\antigravity_prj\\prompthive\\frontend-tests\\collections_management.spec.ts",
+                          "column": 53,
+                          "line": 86
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 84 |\u001b[39m\n \u001b[90m 85 |\u001b[39m         \u001b[90m// Wait for Selection Mode\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 86 |\u001b[39m         \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByTitle(\u001b[32m'Select All'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 87 |\u001b[39m\n \u001b[90m 88 |\u001b[39m         \u001b[90m// Get the close button for selection mode\u001b[39m\n \u001b[90m 89 |\u001b[39m         \u001b[90m// It is the last button inside the row that has 'Select All'\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\projects\\antigravity_prj\\prompthive\\frontend-tests\\collections_management.spec.ts",
+                            "column": 53,
+                            "line": 86
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByTitle('Select All')\nExpected: visible\nError: strict mode violation: getByTitle('Select All') resolved to 2 elements:\n    1) <button title=\"Select All\" class=\"p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary transition-colors\">???</button> aka getByRole('button', { name: 'Select All', exact: true })\n    2) <button disabled title=\"Deselect All\" class=\"p-1 hover:bg-primary/20 rounded text-foreground/80 hover:text-primary disabled:opacity-50 transition-colors\">???</button> aka getByRole('button', { name: 'Deselect All' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByTitle('Select All')\u001b[22m\n\n\n  84 |\n  85 |         // Wait for Selection Mode\n> 86 |         await expect(page.getByTitle('Select All')).toBeVisible({ timeout: 5000 });\n     |                                                     ^\n  87 |\n  88 |         // Get the close button for selection mode\n  89 |         // It is the last button inside the row that has 'Select All'\n    at C:\\projects\\antigravity_prj\\prompthive\\frontend-tests\\collections_management.spec.ts:86:53"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-01T07:02:14.073Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-c5a8c-ge-Multiple-Selection-Mode--chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-c5a8c-ge-Multiple-Selection-Mode--chromium\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\projects\\antigravity_prj\\prompthive\\test-results\\collections_management-Col-c5a8c-ge-Multiple-Selection-Mode--chromium\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\projects\\antigravity_prj\\prompthive\\frontend-tests\\collections_management.spec.ts",
+                        "column": 53,
+                        "line": 86
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "0a3cf6a351e5833db6d5-74a60c727ca0674b8125",
+              "file": "collections_management.spec.ts",
+              "line": 77,
+              "column": 9
+            },
+            {
+              "title": "Scenario 5: Delete Collection",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": -1,
+                      "parallelIndex": -1,
+                      "status": "skipped",
+                      "duration": 0,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-03-01T07:02:15.444Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0a3cf6a351e5833db6d5-e5e8f2c455ed0b1646d1",
+              "file": "collections_management.spec.ts",
+              "line": 97,
+              "column": 9
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-03-01T07:00:57.231Z",
+    "duration": 79112.12299999999,
+    "expected": 3,
+    "skipped": 1,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

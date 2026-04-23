@@ -1,0 +1,15 @@
+TEST: undefined
+Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator:  locator('span.truncate').filter({ hasText: 'test_attachment.txt' }).first()
+Expected: visible
+Received: hidden
+Timeout:  5000ms
+
+Call log:
+[2m  - Expect "toBeVisible" with timeout 5000ms[22m
+[2m  - waiting for locator('span.truncate').filter({ hasText: 'test_attachment.txt' }).first()[22m
+[2m    9 × locator resolved to <span class="text-sm truncate max-w-[80%] flex items-center gap-2">…</span>[22m
+[2m      - unexpected value "hidden"[22m
+
+

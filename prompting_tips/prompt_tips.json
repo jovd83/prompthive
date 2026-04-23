@@ -1,0 +1,730 @@
+[
+    {
+        "title": "Use Delimiters",
+        "short": "Use punctuation to separate instruction from content.",
+        "long": "Use delimiters like triple quotes, XML tags, or section headers to clearly separate the instruction part of the prompt from the text or data you want the model to process. This helps the model distinguish between your command and the input data.",
+        "resource_text": "OpenAI Prompt Engineering Guide",
+        "resource_url": "https://platform.openai.com/docs/guides/prompt-engineering/strategy-use-delimiters-to-clearly-indicate-distinct-parts-of-the-input"
+    },
+    {
+        "title": "Assign a Persona",
+        "short": "Ask the AI to adopt a specific role.",
+        "long": "Instruct the model to act as a specific professional (e.g., 'Act as a senior Python developer' or 'You are an empathetic customer support agent'). This primes the model to use the appropriate vocabulary, tone, and reasoning style for the task.",
+        "resource_text": "Prompt Engineering Guide - Role Prompting",
+        "resource_url": "https://www.promptingguide.ai/techniques/role"
+    },
+    {
+        "title": "Chain-of-Thought Prompting",
+        "short": "Ask the model to think step-by-step.",
+        "long": "Instruct the model to 'think step-by-step' or 'explain your reasoning before giving the final answer.' This technique improves performance on complex logic, math, and reasoning tasks by allowing the model to decompose the problem. ",
+        "resource_text": "Google Cloud - Prompt Design Strategies",
+        "resource_url": "https://cloud.google.com/vertex-ai/docs/generative-ai/learn/prompt-design-strategies#chain-of-thought"
+    },
+    {
+        "title": "Few-Shot Prompting",
+        "short": "Provide examples of inputs and desired outputs.",
+        "long": "Instead of just asking the model to do a task, provide 1 to 3 examples of the input and the expected output within the prompt. This 'shows' the model the pattern you want it to follow rather than just telling it. ",
+        "resource_text": "Anthropic - Multishot Prompting",
+        "resource_url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/multishot-prompting"
+    },
+    {
+        "title": "Specify Output Format",
+        "short": "Explicitly state the desired file or text format.",
+        "long": "Tell the model exactly how you want the data structured, such as 'Output the answer in JSON format,' 'Create a Markdown table,' or 'Write a comma-separated list.' This reduces post-processing work.",
+        "resource_text": "OpenAI Best Practices",
+        "resource_url": "https://platform.openai.com/docs/guides/prompt-engineering/strategy-ask-the-model-to-adopt-a-persona"
+    },
+    {
+        "title": "Use Positive Constraints",
+        "short": "Tell the model what to do, not just what not to do.",
+        "long": "Focus on positive instructions (e.g., 'Use short sentences') rather than negative ones (e.g., 'Don't use long sentences'). Positive instructions are generally easier for LLMs to follow accurately.",
+        "resource_text": "Microsoft Azure AI Guide",
+        "resource_url": "https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering#be-specific"
+    },
+    {
+        "title": "Limit Output Length",
+        "short": "Set word, sentence, or character limits.",
+        "long": "Be specific about the length of the response to prevent verbosity. Use constraints like 'Summarize in exactly 3 sentences' or 'Keep the explanation under 100 words.'",
+        "resource_text": "Cohere Prompt Engineering",
+        "resource_url": "https://docs.cohere.com/docs/prompt-engineering#be-specific"
+    },
+    {
+        "title": "Reference Text Integration",
+        "short": "Ask the model to answer using only provided text.",
+        "long": "To reduce hallucinations, instruct the model to 'Answer using only the information provided in the text below' and 'If the answer is not in the text, say you do not know.'",
+        "resource_text": "OpenAI Cookbook - Handling Hallucinations",
+        "resource_url": "https://cookbook.openai.com/examples/how_to_handle_hallucinations"
+    },
+    {
+        "title": "Instruction Placement",
+        "short": "Put instructions at the beginning or very end.",
+        "long": "Models often pay the most attention to the beginning and the end of a prompt. Place your core instruction (the 'ask') at the very start or the very end of the input, especially for long contexts.",
+        "resource_text": "Anthropic - Long Context Tips",
+        "resource_url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-window-tips"
+    },
+    {
+        "title": "Iterative Refinement",
+        "short": "Ask the model to critique and improve its own work.",
+        "long": "After getting an initial response, follow up with a prompt like 'Critique the previous answer for accuracy and clarity, then rewrite it to be better.' This leverages the model's ability to self-correct.",
+        "resource_text": "Prompt Engineering Guide - Self-Consistency",
+        "resource_url": "https://www.promptingguide.ai/techniques/consistency"
+    },
+    {
+        "title": "Tone Specification",
+        "short": "Define the emotional tone or style.",
+        "long": "Explicitly request a specific tone, such as 'professional,' 'witty,' 'academic,' or 'ELI5' (Explain Like I'm 5), to match the output to your target audience.",
+        "resource_text": "Zapier - AI Prompting Tips",
+        "resource_url": "https://zapier.com/blog/ai-prompt-tips/"
+    },
+    {
+        "title": "Zero-Shot Chain of Thought",
+        "short": "Use the phrase 'Let's think step by step'.",
+        "long": "Even without examples, appending 'Let's think step by step' to a question can significantly improve reasoning capabilities by triggering a chain-of-thought process internally. ",
+        "resource_text": "Kojima et al. (2022) via Prompt Engineering Guide",
+        "resource_url": "https://www.promptingguide.ai/techniques/cot#zero-shot-cot-prompting"
+    },
+    {
+        "title": "Tree of Thoughts",
+        "short": "Ask for multiple solutions and an evaluation.",
+        "long": "Instruct the model to generate three different solutions to a problem, evaluate the pros and cons of each, and then select the best one. This mimics a more complex human decision-making process. ",
+        "resource_text": "Prompt Engineering Guide - Tree of Thoughts",
+        "resource_url": "https://www.promptingguide.ai/techniques/tot"
+    },
+    {
+        "title": "Repeat Instructions",
+        "short": "Repeat critical constraints at the end.",
+        "long": "For very long prompts, the model might 'forget' early instructions. Repeating the most critical formatting or safety constraints at the very end of the prompt can reinforce adherence.",
+        "resource_text": "Anthropic - Prompt Design",
+        "resource_url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview"
+    },
+    {
+        "title": "Use XML Tags for Structure",
+        "short": "Enclose different parts of the prompt in tags.",
+        "long": "Use tags like <context>, <instruction>, and <example> to structure your prompt. This is particularly effective with Claude and newer GPT models for parsing complex multi-part prompts.",
+        "resource_text": "Anthropic - Use XML Tags",
+        "resource_url": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags"
+    },
+    {
+        "title": "Step-by-Step Instructions",
+        "short": "Break complex tasks into a numbered list.",
+        "long": "Instead of a paragraph of text, provide a numbered list of steps you want the model to follow sequentially. This ensures the model completes all parts of a complex workflow.",
+        "resource_text": "OpenAI - Strategy: Split complex tasks",
+        "resource_url": "https://platform.openai.com/docs/guides/prompt-engineering/strategy-split-complex-tasks-into-simpler-subtasks"
+    },
+    {
+        "title": "Output Priming",
+        "short": "Start the response for the model.",
+        "long": "End your prompt with the beginning of the desired response (e.g., 'Analysis:'). This 'primes' the model to continue immediately in the correct format and mode.",
+        "resource_text": "Learn Prompting - Priming",
+        "resource_url": "https://learnprompting.org/docs/basics/priming"
+    },
+    {
+        "title": "Ask for citations",
+        "short": "Require the model to cite sources from the text.",
+        "long": "When analyzing a document, ask the model to 'Include line numbers' or 'Quote the specific sentence' that supports its answer to ensure grounding in the source material.",
+        "resource_text": "Microsoft Copilot Adoption",
+        "resource_url": "https://adoption.microsoft.com/en-us/copilot/"
+    },
+    {
+        "title": "Define the Audience",
+        "short": "Specify who is reading the output.",
+        "long": "Tell the model who the output is for, e.g., 'Write this for a 3rd grader' vs 'Write this for a PhD researcher.' This adjusts complexity, vocabulary, and sentence structure automatically.",
+        "resource_text": "Harvard University - AI Guide",
+        "resource_url": "https://huit.harvard.edu/news/ai-prompts"
+    },
+    {
+        "title": "Use Examples for Edge Cases",
+        "short": "Show how to handle difficult or negative cases.",
+        "long": "Include examples in your few-shot prompt that demonstrate how to handle 'I don't know' scenarios or invalid inputs, so the model knows how to fail gracefully.",
+        "resource_text": "Google Cloud - Prompt Engineering",
+        "resource_url": "https://cloud.google.com/vertex-ai/docs/generative-ai/learn/prompt-design-strategies#provide-examples"
+    },
+    {
+        "title": "Modular Prompting",
+        "short": "Break one large prompt into several smaller ones.",
+        "long": "If a task is too complex, split it into a chain of prompts (Prompt Chaining). Have the first prompt generate an outline, and the second prompt expand on that outline.",
+        "resource_text": "Prompt Engineering Guide - Chaining",
+        "resource_url": "https://www.promptingguide.ai/techniques/prompt_chaining"
+    },
+    {
+        "title": "Ask for Structured Data Extraction",
+        "short": "Use JSON schemas for extraction.",
+        "long": "When extracting data from text, provide a JSON skeleton (schema) and ask the model to fill it. This forces the output into a strictly machine-readable format.",
+        "resource_text": "OpenAI - JSON Mode",
+        "resource_url": "https://platform.openai.com/docs/guides/text-generation/json-mode"
+    },
+    {
+        "title": "Temperature Control (via Context)",
+        "short": "Simulate temperature with words.",
+        "long": "If you can't control API settings, use words like 'creative,' 'unpredictable,' or 'wild' for high temperature, or 'precise,' 'deterministic,' and 'factual' for low temperature results.",
+        "resource_text": "Learn Prompting - Parameters",
+        "resource_url": "https://learnprompting.org/docs/basics/configuration_hyperparameters"
+    },
+    {
+        "title": "Avoid Negatives",
+        "short": "Avoid 'do not' where possible.",
+        "long": "LLMs sometimes overlook the word 'not'. Instead of 'Do not be informal', say 'Maintain a strict professional tone'. This reduces the likelihood of the instruction being ignored.",
+        "resource_text": "Microsoft Semantic Kernel Guidelines",
+        "resource_url": "https://learn.microsoft.com/en-us/semantic-kernel/prompts/prompt-engineering-tricks#avoid-negative-constraints"
+    },
+    {
+        "title": "Self-Correction",
+        "short": "Ask the model to check its work before outputting.",
+        "long": "Instruct the model: 'Draft your answer, then check it for logical inconsistencies. Only output the final corrected version.' This mimics a review process.",
+        "resource_text": "NVIDIA Developer Blog",
+        "resource_url": "https://developer.nvidia.com/blog/refining-llm-output-with-prompt-engineering/"
+    },
+    {
+        "title": "Use Analogies",
+        "short": "Ask the model to use an analogy.",
+        "long": "If you need an explanation of a complex concept, ask the model to 'Explain this using an analogy related to cooking/cars/gardening' to make it more relatable.",
+        "resource_text": "Coursera - Prompt Engineering for ChatGPT",
+        "resource_url": "https://www.coursera.org/learn/prompt-engineering"
+    },
+    {
+        "title": "Code Commenting",
+        "short": "Ask for comments in code generation.",
+        "long": "When generating code, explicitly ask: 'Include comments explaining what each function does.' This ensures the generated code is documented and easier to understand.",
+        "resource_text": "Github Copilot Docs",
+        "resource_url": "https://docs.github.com/en/copilot/using-github-copilot/getting-started-with-github-copilot"
+    },
+    {
+        "title": "Language Specification",
+        "short": "Specify the output language explicitly.",
+        "long": "Even if the prompt is in English, if you want the answer in Spanish, state 'Answer in Spanish.' You can also specify regional dialects, e.g., 'Brazilian Portuguese.'",
+        "resource_text": "Google Translate AI Research",
+        "resource_url": "https://research.google/pubs/google-neural-machine-translation-system-bridging-the-gap-between-human-and-machine-translation/"
+    },
+    {
+        "title": "Contextual Separators",
+        "short": "Use ### or --- to break up sections.",
+        "long": "Standardize your prompt layout using markdown separators like '###' or '---' to help the model visually parse where instructions end and context begins.",
+        "resource_text": "Microsoft Azure OpenAI Service",
+        "resource_url": "https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering"
+    },
+    {
+        "title": "Ask for a Summary First",
+        "short": "Summarize context before answering.",
+        "long": "For reading comprehension tasks, ask the model to 'First summarize the text provided, and then answer the question.' This ensures the model has processed the full context.",
+        "resource_text": "DeepLearning.AI - ChatGPT Prompt Engineering",
+        "resource_url": "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/"
+    },
+    {
+        "title": "Use Classification Labels",
+        "short": "Provide a list of allowed labels.",
+        "long": "When asking for classification, provide the exact list of categories. E.g., 'Classify this email as: Urgent, Spam, or General.' This prevents the model from inventing new categories.",
+        "resource_text": "OpenAI Examples - Classification",
+        "resource_url": "https://platform.openai.com/examples"
+    },
+    {
+        "title": "Prompt for Ambiguity",
+        "short": "Ask the model to ask questions.",
+        "long": "Add the instruction: 'If the request is ambiguous or you need more information to give a perfect answer, ask me clarifying questions before proceeding.'",
+        "resource_text": "Vanderbilt University - Prompt Engineering",
+        "resource_url": "https://www.vanderbilt.edu/generative-ai/prompt-engineering/"
+    },
+    {
+        "title": "Tabular Output",
+        "short": "Request a markdown table.",
+        "long": "Ask the model to 'Present the data in a markdown table with columns for Name, Date, and Value.' This is the cleanest way to compare items.",
+        "resource_text": "Google Gemini Docs",
+        "resource_url": "https://ai.google.dev/gemini-api/docs/prompting-strategies#structure-your-prompts"
+    },
+    {
+        "title": "Length Constraints by Element",
+        "short": "Limit length per list item.",
+        "long": "Instead of a global word count, say 'Write 5 bullet points, but keep each bullet point under 15 words.' This ensures specific density of information.",
+        "resource_text": "ClickUp - Prompt Engineering Guide",
+        "resource_url": "https://clickup.com/blog/how-to-write-ai-prompts/"
+    },
+    {
+        "title": "Use 'According to...'",
+        "short": "Direct the model to specific knowledge bases.",
+        "long": "Prompt with 'According to the provided financial report...' or 'According to standard Python documentation...' to anchor the hallucination rate.",
+        "resource_text": "IBM Watsonx Docs",
+        "resource_url": "https://www.ibm.com/products/watsonx-ai"
+    },
+    {
+        "title": "Provide a Dictionary",
+        "short": "Define domain-specific terms.",
+        "long": "If using jargon, include a mini-glossary at the start: 'In this context, specific term A means X, and term B means Y.' This aligns the model's definitions with yours.",
+        "resource_text": "Cohere - Contextual definitions",
+        "resource_url": "https://docs.cohere.com/docs/prompt-engineering"
+    },
+    {
+        "title": "Flipped Interaction",
+        "short": "Have the AI interview you.",
+        "long": "Say: 'I want you to write a marketing plan for me, but first, ask me 5 questions to understand my product and audience.' This turns the AI into a consultant.",
+        "resource_text": "Wharton School - AI Applications",
+        "resource_url": "https://interactive.wharton.upenn.edu/practical-ai-for-teachers-and-students/"
+    },
+    {
+        "title": "Emotional Prompting",
+        "short": "Add emotional urgency.",
+        "long": "Surprisingly, adding phrases like 'This is very important for my career' or 'Take a deep breath and do this carefully' can sometimes improve performance on logic tasks.",
+        "resource_text": "Microsoft Research (Li et al., 2023)",
+        "resource_url": "https://arxiv.org/abs/2307.11760"
+    },
+    {
+        "title": "Seed Word Technique",
+        "short": "Force a starting word.",
+        "long": "If the model refuses to answer or goes off-topic, force the start of the sentence. 'Description: The crime scene was...' This forces the model to complete the pattern.",
+        "resource_text": "LessWrong - Prompt Engineering",
+        "resource_url": "https://www.lesswrong.com/tag/prompt-engineering"
+    },
+    {
+        "title": "Sandbox Containment",
+        "short": "Tell the model what it cannot access.",
+        "long": "Explicitly state 'Do not access external URLs' or 'Do not make assumptions outside this provided text' to create a logical sandbox for the answer.",
+        "resource_text": "OpenAI Safety Guidelines",
+        "resource_url": "https://platform.openai.com/docs/guides/safety-best-practices"
+    },
+    {
+        "title": "Format Example as Template",
+        "short": "Provide a fill-in-the-blank template.",
+        "long": "Give the model a template: 'Name: [Name], Age: [Age], Occupation: [Job].' and ask it to fill it out based on the input text.",
+        "resource_text": "LangChain Documentation",
+        "resource_url": "https://python.langchain.com/docs/modules/model_io/prompts/"
+    },
+    {
+        "title": "Highlight Key Information",
+        "short": "Use capitalization for emphasis.",
+        "long": "While you shouldn't shout, using CAPITALIZATION for specific keywords like 'MUST' or 'CRITICAL' can draw the model's attention to hard constraints.",
+        "resource_text": "Stack Overflow - Prompt Engineering Collective",
+        "resource_url": "https://stackoverflow.blog/2023/06/20/prompt-engineering-101/"
+    },
+    {
+        "title": "Avoid Ambiguous Verbs",
+        "short": "Use precise action verbs.",
+        "long": "Avoid 'Think about' or 'Look at'. Use 'Analyze', 'Summarize', 'Extract', or 'Calculate'. Precise verbs lead to precise actions.",
+        "resource_text": "McKinsey & Company - Gen AI",
+        "resource_url": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai-in-2023-generative-ais-breakout-year"
+    },
+    {
+        "title": "Refrain from Apologies",
+        "short": "Tell the AI not to apologize.",
+        "long": "Add 'Do not apologize or provide fluff conversation' to save tokens and get straight to the answer, especially for API usage.",
+        "resource_text": "OpenAI Developer Forum",
+        "resource_url": "https://community.openai.com/t/how-to-stop-gpt-3-from-apologizing/20422"
+    },
+    {
+        "title": "Density Chain of Thought",
+        "short": "Iteratively make the summary denser.",
+        "long": "Ask for a summary. Then ask 'Rewrite this summary to be more concise but include more entities from the original text.' Repeat this to create highly dense information.",
+        "resource_text": "Salesforce AI Research (Chain of Density)",
+        "resource_url": "https://arxiv.org/abs/2309.04269"
+    },
+    {
+        "title": "Give the Model a 'Way Out'",
+        "short": "Allow the model to say 'I don't know'.",
+        "long": "Explicitly tell the model: 'If the answer is not contained in the documents, state that you do not have enough information.' This reduces hallucinations.",
+        "resource_text": "DeepLearning.AI - Building Systems with API",
+        "resource_url": "https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/"
+    },
+    {
+        "title": "Use Whitespace",
+        "short": "Add line breaks for readability.",
+        "long": "Just like humans, models process 'chunked' text better. Use double line breaks between instructions, context, and examples.",
+        "resource_text": "Hugging Face - Prompting Guide",
+        "resource_url": "https://huggingface.co/docs/transformers/main/en/tasks/prompting"
+    },
+    {
+        "title": "Ask for Pros and Cons",
+        "short": "Force a balanced view.",
+        "long": "When asking for an opinion or analysis, explicitly request 'Provide 3 arguments for and 3 arguments against this position' to ensure neutrality.",
+        "resource_text": "Google PAIR (People + AI Research)",
+        "resource_url": "https://pair.withgoogle.com/guidebook/patterns"
+    },
+    {
+        "title": "Specify Reading Level",
+        "short": "Use grade levels.",
+        "long": "Specify 'Write at a 6th-grade reading level' or 'Write for a post-graduate audience' to calibrate vocabulary complexity.",
+        "resource_text": "Common Sense Media - AI tips",
+        "resource_url": "https://www.commonsensemedia.org/articles/chatgpt-and-beyond-how-to-handle-ai-in-schools"
+    },
+    {
+        "title": "Simulate a Dialogue",
+        "short": "Write a fake conversation.",
+        "long": "Write a script between two characters discussing the topic. 'Write a dialogue between a skeptic and a believer about UFOs.' This can uncover nuances a simple essay misses.",
+        "resource_text": "NovelAI Documentation",
+        "resource_url": "https://docs.novelai.net/text/prompting.html"
+    },
+    {
+        "title": "Meta-Prompting",
+        "short": "Ask the AI to write a prompt.",
+        "long": "Ask the model: 'Write the best prompt to get an AI to solve [Task X].' Then use that prompt. Often the AI knows best how to instruct itself.",
+        "resource_text": "Prompt Engineering Guide - Meta Prompting",
+        "resource_url": "https://www.promptingguide.ai/techniques/meta"
+    },
+    {
+        "title": "Code Refactoring",
+        "short": "Ask for optimization, not just writing.",
+        "long": "Paste code and ask 'Refactor this for better readability and performance' rather than just 'Fix this code'.",
+        "resource_text": "StackOverflow - GenAI",
+        "resource_url": "https://stackoverflow.blog/2023/06/14/improving-code-quality-with-generative-ai/"
+    },
+    {
+        "title": "Identify Logical Fallacies",
+        "short": "Ask the model to critique arguments.",
+        "long": "Provide a text and ask: 'Identify any logical fallacies or biases present in this argument.'",
+        "resource_text": "University of Oxford - AI Ethics",
+        "resource_url": "https://www.ox.ac.uk/research/ai/ai-ethics"
+    },
+    {
+        "title": "Convert Style",
+        "short": "Rewrite text in a famous author's style.",
+        "long": "Ask the model to 'Rewrite this email in the style of Ernest Hemingway' (short, punchy) or 'Shakespeare' (elaborate) to drastically change the impact.",
+        "resource_text": "MasterClass - AI Writing",
+        "resource_url": "https://www.masterclass.com/articles/how-to-use-ai-for-writing"
+    },
+    {
+        "title": "Use 'If-Then' Logic",
+        "short": "Add conditional logic to the prompt.",
+        "long": "Give instructions like: 'If the customer is angry, offer a refund. If the customer is happy, ask for a review.' This handles branching logic within a single generation.",
+        "resource_text": "IBM Developer - Prompt Logic",
+        "resource_url": "https://developer.ibm.com/articles/awb-prompt-engineering-for-generative-ai/"
+    },
+    {
+        "title": "Summarize for Tweets",
+        "short": "Ask for a tweet thread.",
+        "long": "Ask 'Summarize this article into a thread of 5 tweets.' This forces the model to be punchy, engaging, and very concise.",
+        "resource_text": "Buffer - Social Media AI",
+        "resource_url": "https://buffer.com/resources/ai-social-media-posts/"
+    },
+    {
+        "title": "Extract Keywords",
+        "short": "Get a list of tags.",
+        "long": "Ask 'Extract the top 10 SEO keywords from this text' to quickly identify the core topics of a document.",
+        "resource_text": "Moz - AI SEO",
+        "resource_url": "https://moz.com/blog/ai-seo"
+    },
+    {
+        "title": "Explain to a Child",
+        "short": "Use the Feynman technique.",
+        "long": "Ask 'Explain this concept as if I were 5 years old.' This strips away jargon and reveals if the model truly grasps the core concept.",
+        "resource_text": "Farnam Street - Feynman Technique",
+        "resource_url": "https://fs.blog/feynman-technique/"
+    },
+    {
+        "title": "Use Pseudocode",
+        "short": "Describe logic in pseudocode.",
+        "long": "For coding tasks, write the logic in pseudocode first and ask the model to 'Translate this pseudocode into Python.' This ensures the logic is exactly what you want.",
+        "resource_text": "GeeksforGeeks - AI Coding",
+        "resource_url": "https://www.geeksforgeeks.org/how-to-use-chatgpt-to-write-code/"
+    },
+    {
+        "title": "Comparative Analysis",
+        "short": "Compare X and Y.",
+        "long": "Don't just ask about one thing. Ask 'Compare and contrast X and Y in terms of cost, speed, and reliability.'",
+        "resource_text": "MIT Sloan - Effective Prompts",
+        "resource_url": "https://mitsloanedtech.mit.edu/ai/guides/effective-prompts-for-ai/"
+    },
+    {
+        "title": "Review for Security",
+        "short": "Audit code for vulnerabilities.",
+        "long": "Provide code and ask 'Scan this code for common security vulnerabilities (like SQL injection) and suggest fixes.'",
+        "resource_text": "OWASP - AI Security",
+        "resource_url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+    },
+    {
+        "title": "Generate Test Cases",
+        "short": "Write unit tests.",
+        "long": "After generating code, ask 'Now write 5 unit tests to verify this function works, including edge cases.'",
+        "resource_text": "CircleCI - AI Testing",
+        "resource_url": "https://circleci.com/blog/ai-testing/"
+    },
+    {
+        "title": "Prompt Chaining for QA",
+        "short": "Generate, then verify.",
+        "long": "Prompt 1: Generate the answer. Prompt 2: Read the question and the answer from Prompt 1. Is it correct? If not, correct it.",
+        "resource_text": "LangChain - Chains",
+        "resource_url": "https://python.langchain.com/docs/modules/chains/"
+    },
+    {
+        "title": "Reverse Engineering",
+        "short": "Guess the prompt.",
+        "long": "Give the model a text and ask 'What prompt would have generated this output?' This is great for learning how to replicate styles.",
+        "resource_text": "Reddit - PromptEngineering",
+        "resource_url": "https://www.reddit.com/r/PromptEngineering/comments/11gu223/reverse_engineering_prompts/"
+    },
+    {
+        "title": "Provide Contextual Data",
+        "short": "Paste CSV or Data snippets.",
+        "long": "You can paste raw CSV text into the prompt and ask the model to analyze it. 'Based on this data [paste data], what is the trend?'",
+        "resource_text": "DataCamp - AI for Data",
+        "resource_url": "https://www.datacamp.com/code-along/category/learn-business-intelligence"
+    },
+    {
+        "title": "Use Checklists",
+        "short": "Ask the model to follow a checklist.",
+        "long": "Provide a checklist in the prompt: 'Before answering, verify you have checked: 1. Grammar, 2. Tone, 3. Length.'",
+        "resource_text": "Atlassian - AI Workflows",
+        "resource_url": "https://www.atlassian.com/software/confluence/resources/guides/how-to/checklist"
+    },
+    {
+        "title": "Emoji Injection",
+        "short": "Ask for emojis.",
+        "long": "For social media content, explicitly ask 'Include relevant emojis in the text to make it engaging.'",
+        "resource_text": "Hootsuite - Social Media AI",
+        "resource_url": "https://blog.hootsuite.com/ai-social-media/"
+    },
+    {
+        "title": "Socratic Method",
+        "short": "Teach via questions.",
+        "long": "Ask the model: 'Don't give me the answer. instead, ask me leading questions to help me solve the problem myself.'",
+        "resource_text": "Khan Academy - Khanmigo",
+        "resource_url": "https://www.khanacademy.org/khan-labs"
+    },
+    {
+        "title": "Debate Opponent",
+        "short": "Play the Devil's Advocate.",
+        "long": "Tell the model 'You are a debate opponent. I will present an argument, and you will find holes in it and counter-argue.'",
+        "resource_text": "Toastmasters - AI Debate",
+        "resource_url": "https://www.toastmasters.org/magazine/magazine-issues/2024/jan/ai-and-speechwriting"
+    },
+    {
+        "title": "Email Triage",
+        "short": "Draft replies based on intent.",
+        "long": "Paste an email and ask 'Draft three responses: one agreeing, one declining politely, and one asking for more info.'",
+        "resource_text": "Superhuman - AI Email",
+        "resource_url": "https://superhuman.com/blog/ai-email-triage"
+    },
+    {
+        "title": "Formatting for Excel",
+        "short": "CSV format for copy-paste.",
+        "long": "Ask 'Output the list in CSV format so I can copy-paste it directly into Excel.'",
+        "resource_text": "Microsoft Excel Help",
+        "resource_url": "https://support.microsoft.com/en-us/office/import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba"
+    },
+    {
+        "title": "Explain Acronyms",
+        "short": "Expand all acronyms.",
+        "long": "Add 'Ensure all acronyms are defined upon first use' to technical writing prompts.",
+        "resource_text": "NIST - Technical Writing",
+        "resource_url": "https://www.nist.gov/nist-research-library/nist-technical-series-publications-author-instructions#acronyms"
+    },
+    {
+        "title": "Timeline Generation",
+        "short": "Extract dates into a timeline.",
+        "long": "Give the model a biography or history text and ask 'Create a chronological timeline of events from this text.'",
+        "resource_text": "History Skills - AI",
+        "resource_url": "https://www.historyskills.com/classroom/ai/"
+    },
+    {
+        "title": "Recipe Modification",
+        "short": "Modify for allergies.",
+        "long": "Paste a recipe and ask 'Modify this recipe to be vegan/gluten-free while keeping the flavor profile similar.'",
+        "resource_text": "Serious Eats - Food Science",
+        "resource_url": "https://www.seriouseats.com/science-of-cooking-5118029"
+    },
+    {
+        "title": "Interview Prep",
+        "short": "Act as hiring manager.",
+        "long": "Say 'You are a hiring manager for [Role]. Interview me. Ask one question at a time and wait for my answer.'",
+        "resource_text": "LinkedIn - AI Interview Prep",
+        "resource_url": "https://www.linkedin.com/help/linkedin/answer/a1346743"
+    },
+    {
+        "title": "Make it Rhyme",
+        "short": "Creative constraints.",
+        "long": "Ask the model to 'Write the response as a poem' or 'Make the last word of every sentence rhyme.' Fun, but also tests control.",
+        "resource_text": "Poetry Foundation - AI",
+        "resource_url": "https://www.poetryfoundation.org/poetrymagazine/articles/159873/ai-poetry"
+    },
+    {
+        "title": " SWOT Analysis",
+        "short": "Generate a SWOT table.",
+        "long": "Provide a business idea and ask 'Perform a SWOT analysis (Strengths, Weaknesses, Opportunities, Threats) for this idea.'",
+        "resource_text": "Investopedia - SWOT",
+        "resource_url": "https://www.investopedia.com/terms/s/swot.asp"
+    },
+    {
+        "title": "Detect Sentiment",
+        "short": "Analyze emotional tone.",
+        "long": "Provide customer feedback and ask 'Classify the sentiment of these reviews as Positive, Negative, or Neutral.'",
+        "resource_text": "MonkeyLearn - Sentiment Analysis",
+        "resource_url": "https://monkeylearn.com/sentiment-analysis/"
+    },
+    {
+        "title": "Expand Bullets to Paragraphs",
+        "short": "Flesh out an outline.",
+        "long": "Provide a bulleted outline and ask 'Write a full paragraph for each bullet point, expanding on the ideas.'",
+        "resource_text": "Grammarly - AI Writing",
+        "resource_url": "https://www.grammarly.com/blog/ai-writing-tips/"
+    },
+    {
+        "title": "Compress Paragraphs to Bullets",
+        "short": "Summarize into bullets.",
+        "long": "The reverse: 'Convert this long text into a concise bulleted list of the main points.'",
+        "resource_text": "Evernote - Note Taking",
+        "resource_url": "https://evernote.com/blog/ai-note-taking/"
+    },
+    {
+        "title": "Critique Resume",
+        "short": "Improve CVs.",
+        "long": "Paste resume text and job description. Ask 'Critique this resume against this job description. What is missing?'",
+        "resource_text": "Indeed - Career Advice",
+        "resource_url": "https://www.indeed.com/career-advice/resumes-cover-letters/resume-critique"
+    },
+    {
+        "title": "Study Plan Generation",
+        "short": "Create a syllabus.",
+        "long": "Ask 'Create a 4-week study plan to learn Python, assuming 1 hour of study per day.'",
+        "resource_text": "Codecademy - Learning Paths",
+        "resource_url": "https://www.codecademy.com/resources/blog/how-to-plan-your-coding-journey/"
+    },
+    {
+        "title": "Excel Formula Gen",
+        "short": "Write Excel formulas.",
+        "long": "Describe the logic: 'I need an Excel formula that sums Column A if Column B says 'Paid'.' The model is excellent at this.",
+        "resource_text": "Microsoft Support - Excel",
+        "resource_url": "https://support.microsoft.com/en-us/excel"
+    },
+    {
+        "title": "Regex Generation",
+        "short": "Write Regular Expressions.",
+        "long": "Describe the pattern: 'Write a RegEx to capture email addresses ending in .edu.'",
+        "resource_text": "Regex101 - Tools",
+        "resource_url": "https://regex101.com/"
+    },
+    {
+        "title": "SQL Query Generation",
+        "short": "Write SQL from natural language.",
+        "long": "Provide table schema and ask 'Write a SQL query to find the top 5 users by spend.'",
+        "resource_text": "Databricks - SQL AI",
+        "resource_url": "https://docs.databricks.com/aws/en/large-language-models/ai-functions"
+    },
+    {
+        "title": "Find Synonyms",
+        "short": "Expand vocabulary.",
+        "long": "Ask 'Give me 10 synonyms for 'fast' that imply urgency.'",
+        "resource_text": "Thesaurus.com",
+        "resource_url": "https://www.thesaurus.com/"
+    },
+    {
+        "title": "Cultural Localization",
+        "short": "Adapt for regions.",
+        "long": "Ask 'Rewrite this marketing copy for a UK audience, ensuring slang and spelling are localized (e.g., color -> colour).'",
+        "resource_text": "Lionbridge - Localization",
+        "resource_url": "https://www.lionbridge.com/blog/translation-localization/what-is-localization/"
+    },
+    {
+        "title": "Suggest Title",
+        "short": "Brainstorm headlines.",
+        "long": "Paste an article and ask 'Generate 10 catchy titles for this article that would work well on LinkedIn.'",
+        "resource_text": "HubSpot - Blog Ideas",
+        "resource_url": "https://blog.hubspot.com/marketing/blog-topic-generator-ideas"
+    },
+    {
+        "title": "Identify Bias",
+        "short": "Check for inclusivity.",
+        "long": "Ask 'Review this text for potential gender or racial bias and suggest more inclusive phrasing.'",
+        "resource_text": "Google AI Principles",
+        "resource_url": "https://ai.google/responsibility/principles/"
+    },
+    {
+        "title": "FAQ Generation",
+        "short": "Create FAQs from text.",
+        "long": "Paste product documentation and ask 'Generate a list of 5 Frequently Asked Questions and answers based on this text.'",
+        "resource_text": "Zendesk - Knowledge Base",
+        "resource_url": "https://www.zendesk.com/blog/knowledge-base-articles/"
+    },
+    {
+        "title": "Meeting Agenda",
+        "short": "Structure meetings.",
+        "long": "Ask 'Create a 30-minute meeting agenda for a project kickoff, including time slots for introductions, scope, and next steps.'",
+        "resource_text": "Asana - Meeting Tips",
+        "resource_url": "https://asana.com/resources/meeting-notes-tips"
+    },
+    {
+        "title": "Icebreakers",
+        "short": "Generate conversation starters.",
+        "long": "Ask 'Give me 5 professional icebreaker questions for a remote team meeting.'",
+        "resource_text": "Miro - Team Building",
+        "resource_url": "https://miro.com/blog/virtual-icebreakers/"
+    },
+    {
+        "title": "Escape Characters",
+        "short": "Handle code formatting.",
+        "long": "When asking for code that includes special characters, tell the model 'Ensure all special characters are properly escaped.'",
+        "resource_text": "Stack Overflow",
+        "resource_url": "https://stackoverflow.com/questions/1912434/escaping-special-characters-in-python"
+    },
+    {
+        "title": "Citation Formatting",
+        "short": "Format references (APA/MLA).",
+        "long": "Provide a list of URLs and ask 'Format these as an APA style bibliography.'",
+        "resource_text": "Purdue OWL",
+        "resource_url": "https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/general_format.html"
+    },
+    {
+        "title": "Unit Conversion",
+        "short": "Convert measurements.",
+        "long": "Ask 'Convert all imperial measurements in this text to metric (Celsius and Kilograms).'",
+        "resource_text": "NIST - SI Units",
+        "resource_url": "https://www.nist.gov/pml/weights-and-measures/metric-si"
+    },
+    {
+        "title": "Travel Itinerary",
+        "short": "Plan trips.",
+        "long": "Ask 'Plan a 3-day trip to Tokyo for a family who loves anime and food. Include transit times.'",
+        "resource_text": "Lonely Planet",
+        "resource_url": "https://www.lonelyplanet.com/articles"
+    },
+    {
+        "title": "Gift Ideas",
+        "short": "Brainstorm gifts.",
+        "long": "Ask 'Suggest 5 birthday gift ideas for a 30-year-old man who likes hiking and coffee, under $50.'",
+        "resource_text": "Wirecutter",
+        "resource_url": "https://www.nytimes.com/wirecutter/gifts/"
+    },
+    {
+        "title": "Nutrition Analysis",
+        "short": "Estimate calories.",
+        "long": "List ingredients: '2 eggs, 1 slice toast, avocado. Estimate the protein and calories.' (Note: verify accuracy).",
+        "resource_text": "MyFitnessPal",
+        "resource_url": "https://www.myfitnesspal.com/food/calorie-chart-nutrition-facts"
+    },
+    {
+        "title": "Dream Interpretation",
+        "short": "Jungian analysis.",
+        "long": "Describe a dream and ask 'Interpret this dream from a Jungian archetypal perspective.'",
+        "resource_text": "Psychology Today",
+        "resource_url": "https://www.psychologytoday.com/us/blog/dream-catching"
+    },
+    {
+        "title": "Explain Idioms",
+        "short": "Translate cultural sayings.",
+        "long": "Ask 'Explain the meaning of 'Break a leg' to a non-native English speaker.'",
+        "resource_text": "Cambridge Dictionary",
+        "resource_url": "https://dictionary.cambridge.org/grammar/british-grammar/idioms"
+    },
+    {
+        "title": "Troubleshoot Errors",
+        "short": "Paste error logs.",
+        "long": "Paste a specific error message from your terminal and ask 'What caused this error and how do I fix it?'",
+        "resource_text": "StackExchange",
+        "resource_url": "https://stackexchange.com/"
+    },
+    {
+        "title": "Generate Passwords",
+        "short": "Create mnemonics.",
+        "long": "Don't ask for secrets, but ask 'Generate a mnemonic phrase to help me remember a complex password.'",
+        "resource_text": "Bitwarden Blog",
+        "resource_url": "https://bitwarden.com/blog/how-to-create-and-remember-strong-passwords/"
+    },
+    {
+        "title": "Suggest Color Palette",
+        "short": "Design help.",
+        "long": "Ask 'Suggest a 4-color palette (with Hex codes) for a wellness brand that wants to convey calm and trust.'",
+        "resource_text": "Adobe Color",
+        "resource_url": "https://color.adobe.com/create/color-wheel"
+    },
+    {
+        "title": "Write Alt Text",
+        "short": "Accessibility descriptions.",
+        "long": "Describe an image (or upload it if multimodal) and ask 'Write concise Alt Text for this image for screen readers.'",
+        "resource_text": "W3C Accessibility",
+        "resource_url": "https://www.w3.org/WAI/tutorials/images/decision-tree/"
+    }
+]

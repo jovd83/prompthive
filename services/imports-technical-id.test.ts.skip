@@ -1,0 +1,114 @@
+
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { importPromptsService, importPromptCatService } from './imports';
+import { prisma } from '@/lib/prisma';
+import { generateTechnicalId } from './id-service';
+
+// Mock Dependencies
+vi.mock('@/lib/prisma', () => ({
+    prisma: {
+        prompt: {
+            create: vi.fn(),
+            update: vi.fn(),
+            findFirst: vi.fn(),
+            findUnique: vi.fn(),
+        },
+        collection: {
+            findFirst: vi.fn(),
+            create: vi.fn(),
+            findMany: vi.fn().mockResolvedValue([]),
+        },
+        tag: {
+            findUnique: vi.fn(),
+            create: vi.fn(),
+            findMany: vi.fn().mockResolvedValue([]),
+        },
+        promptVersion: {
+            create: vi.fn(),
+        }
+    }
+}));
+
+vi.mock('./id-service', () => ({
+    generateTechnicalId: vi.fn(),
+}));
+
+describe('Bug Repro: Missing Technical IDs on Import', () => {
+    const userId = 'user-1';
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    describe('importPromptsService', () => {
+        it('should generate technicalId when importing a prompt into a collection', async () => {
+            const inputData = [{
+                title: 'Imported Prompt',
+                content: 'Some content',
+                collections: ['My Collection']
+            }];
+
+            // Mock Collection Found/Created
+            (prisma.collection.findFirst as any).mockResolvedValue(null);
+            (prisma.collection.create as any).mockResolvedValue({ id: 'col-1', title: 'My Collection' });
+
+            // Mock ID Gen
+            (generateTechnicalId as any).mockResolvedValue('MYCO-1');
+
+            // Mock Prompt Create
+            (prisma.prompt.create as any).mockResolvedValue({
+                id: 'p-1',
+                versions: [{ id: 'v-1' }]
+            });
+
+            await importPromptsService(userId, inputData);
+
+            // Expect ID Service to be called
+            expect(generateTechnicalId).toHaveBeenCalledWith('My Collection');
+
+            // Expect Prompt Create to include technicalId
+            expect(prisma.prompt.create).toHaveBeenCalledWith(expect.objectContaining({
+                data: expect.objectContaining({
+                    technicalId: 'MYCO-1'
+                })
+            }));
+        });
+    });
+
+    describe('importPromptCatService', () => {
+        it('should generate technicalId when importing from PromptCat', async () => {
+            const inputData = {
+                prompts: [{
+                    title: 'PromptCat Prompt',
+                    body: 'Content',
+                    categories: ['Sales']
+                }]
+            };
+
+            // Mock Collection
+            (prisma.collection.findFirst as any).mockResolvedValue({ id: 'col-cat', title: 'Sales' });
+
+            // Mock ID Gen
+            (generateTechnicalId as any).mockResolvedValue('SALE-1');
+
+            // Mock Prompt Create
+            (prisma.prompt.create as any).mockResolvedValue({
+                id: 'p-2',
+                versions: [{ id: 'v-2' }]
+            });
+
+            await importPromptCatService(userId, inputData);
+
+            // Expect ID Service to be called
+            console.log('DEBUG generateTechnicalId calls:', (generateTechnicalId as any).mock.calls);
+            expect(generateTechnicalId).toHaveBeenCalledWith('Sales');
+
+            // Expect Prompt Create to include technicalId
+            expect(prisma.prompt.create).toHaveBeenCalledWith(expect.objectContaining({
+                data: expect.objectContaining({
+                    technicalId: 'SALE-1'
+                })
+            }));
+        });
+    });
+});

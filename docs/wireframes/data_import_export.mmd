@@ -1,0 +1,51 @@
+graph TD
+    A[Navigation] --> B(Import / Export View)
+    
+    subgraph Dashboard [Import/Export Dashboard]
+        d1[Header: Data Management]
+        
+        subgraph Row1 [Top Row]
+            direction LR
+            C1[AI Scraper Card]
+            C1 --> C1a[Input: URL]
+            C1 --> C1b[Button: Scrape]
+            
+            C2[Export Data Card]
+            C2 --> C2a[Download JSON]
+        end
+        
+        subgraph Row2 [Middle Row]
+            direction LR
+            C3[Unified Import Card]
+            C3 --> C3a[Drop Zone / File Picker]
+            C3 --> C3b[Supports: Hive, Zero, PromptCat]
+            
+            C4[Local Import Card]
+            C4 --> C4a[Input: Folder Path]
+            C4 --> C4b[Collection Target]
+            C4 --> C4c[Button: Import]
+        end
+        
+        subgraph Row3 [Bottom Row]
+            direction LR
+            C5[Auto-Backup Configuration]
+            C5 --> C5a[Enable Toggle]
+            C5 --> C5b[Path Input]
+            C5 --> C5c[Frequency Select]
+            
+            C6[Danger Zone]
+            C6 --> C6a[Reset All Settings]
+            C6 --> C6b[Delete All Data]
+        end
+    end
+
+    %% Premium Styling
+    classDef container fill:#f9fafb,stroke:#e5e7eb,color:#1f2937,rx:8,ry:8,stroke-width:1px;
+    classDef card fill:#ffffff,stroke:#e5e7eb,color:#374151,rx:6,ry:6,stroke-width:1px;
+    classDef button fill:#3b82f6,stroke:#2563eb,color:#ffffff,rx:4,ry:4,stroke-width:0px;
+    classDef danger fill:#fee2e2,stroke:#ef4444,color:#b91c1c,rx:4,ry:4;
+
+    class Dashboard container;
+    class C1,C2,C3,C4,C5,C6 card;
+    class C1b,C2a,C4c button;
+    class C6,C6a,C6b danger;

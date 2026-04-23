@@ -1,0 +1,39 @@
+erDiagram
+    User ||--o{ Prompt : "creates"
+    User ||--o{ Collection : "owns"
+    User ||--|{ PromptVersion : "authors"
+    User ||--|| Settings : "configures"
+
+    Prompt ||--|{ PromptVersion : "has history"
+    Prompt }|--|{ Collection : "categorized in"
+    Prompt ||--o{ Tag : "tagged with"
+    
+    PromptVersion ||--o{ Attachment : "includes"
+    
+    Collection ||--o{ Collection : "children"
+    
+    User {
+        String id PK
+        String email
+        String role
+    }
+    
+    Prompt {
+        String id PK
+        String title
+        Int viewCount
+        Int copyCount
+    }
+
+    PromptVersion {
+        String id PK
+        Int versionNumber
+        String content
+        String variableDefinitions
+    }
+
+    Collection {
+        String id PK
+        String title
+        String parentId FK
+    }
