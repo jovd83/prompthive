@@ -4,7 +4,7 @@ import { prisma } from "../lib/prisma";
 async function checkIntegrity() {
     console.log("--- Agent Skills Integrity Check ---");
     const versions = await prisma.promptVersion.findMany({
-        where: { agentSkillIds: { not: null, not: "" } },
+        where: { agentSkillIds: { not: null, notIn: [""] } },
         select: { id: true, agentSkillIds: true, promptId: true, versionNumber: true }
     });
 
