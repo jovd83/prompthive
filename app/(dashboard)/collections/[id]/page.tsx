@@ -149,10 +149,9 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
                 favoritedBy: { where: { userId: session.user.id }, select: { userId: true } },
                 versions: {
                     orderBy: { versionNumber: "desc" as Prisma.SortOrder },
-                    select: {
-                        content: true,
-                        resultImage: true,
-                        attachments: { select: { filePath: true, role: true } }
+                    include: {
+                        createdBy: { select: { id: true, username: true, email: true } },
+                        attachments: true,
                     },
                 },
                 collections: { select: { id: true, title: true } },
@@ -161,7 +160,23 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
                         id: true,
                         title: true,
                         technicalId: true,
-                        createdBy: { select: { username: true } }
+                        description: true,
+                        isLocked: true,
+                        viewCount: true,
+                        copyCount: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        createdBy: { select: { email: true, username: true } },
+                        tags: { select: { id: true, name: true, color: true } },
+                        versions: {
+                            orderBy: { versionNumber: "desc" as Prisma.SortOrder },
+                            take: 1,
+                            select: {
+                                content: true,
+                                resultImage: true,
+                                attachments: { select: { filePath: true, role: true } }
+                            }
+                        }
                     }
                 },
                 relatedToPrompts: {
@@ -169,7 +184,23 @@ export default async function CollectionDetailPage({ params, searchParams }: { p
                         id: true,
                         title: true,
                         technicalId: true,
-                        createdBy: { select: { username: true } }
+                        description: true,
+                        isLocked: true,
+                        viewCount: true,
+                        copyCount: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        createdBy: { select: { email: true, username: true } },
+                        tags: { select: { id: true, name: true, color: true } },
+                        versions: {
+                            orderBy: { versionNumber: "desc" as Prisma.SortOrder },
+                            take: 1,
+                            select: {
+                                content: true,
+                                resultImage: true,
+                                attachments: { select: { filePath: true, role: true } }
+                            }
+                        }
                     }
                 }
             },

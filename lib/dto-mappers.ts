@@ -80,11 +80,11 @@ export function mapPromptToDTO(prompt: PromptWithRelations): PromptDTO {
         createdAt: prompt.createdAt,
         updatedAt: prompt.updatedAt,
         isFavorited: prompt.isFavorited,
-        tags: prompt.tags.map(t => ({
+        tags: prompt.tags?.map(t => ({
             id: t.id,
             name: t.name,
             color: t.color
-        })),
+        })) || [],
         versions: prompt.versions?.map(v => ({
             id: v.id,
             versionNumber: v.versionNumber,

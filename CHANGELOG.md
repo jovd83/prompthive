@@ -1,15 +1,27 @@
 # Changelog
-+
-+## 4.0.2 (Unreleased)
-+
-+### Added
-+
-+### Changed
-+
-+### Fixed
-+
-+### Removed
-+
+
+## 4.0.3 (Unreleased)
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## 4.0.2 (2026-05-09)
+
+### Added
+
+### Changed
+
+### Fixed
+- **Hydration Mismatch**: Fixed a client-side hydration error caused by browser extensions (like Vue Devtools) injecting elements into the `<body>` tag before React initialization by adding `suppressHydrationWarning` to the root layout body.
+- **Console Warnings**: Suppressed harmless `next-themes` script tag hydration warnings in the development console.
+- **DTO Safety**: Fixed a potential crash in DTO mapping when prompt tags are undefined.
+
+### Removed
 
 ## 4.0.1 (2026-04-23)
 
