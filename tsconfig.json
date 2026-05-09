@@ -49,6 +49,7 @@
     "changelog",
     "demo",
     "docs",
-    "prompting_tips"
+    "prompting_tips",
+    "scripts"
   ]
 }
