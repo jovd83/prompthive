@@ -304,7 +304,7 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                 if (item.versions && Array.isArray(item.versions)) {
                     // Match by version number to handle potential order changes in Prisma result
                     const ov = item.versions.find((ov: any) => {
-                        const num = ov.versionNumber || (item.versions!.length - item.versions.indexOf(ov));
+                        const num = ov.versionNumber || (item.versions!.length - item.versions!.indexOf(ov));
                         return num === v.versionNumber;
                     });
                     if (ov) originalSkillIdsStr = ov.agentSkillIds;
