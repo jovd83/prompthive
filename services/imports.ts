@@ -139,9 +139,9 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                             const num = ov.versionNumber || (item.versions!.length - item.versions!.indexOf(ov));
                             return num === v.versionNumber;
                         });
-                        if (ov) originalSkillIdsStr = ov.agentSkillIds;
+                        if (ov) originalSkillIdsStr = (ov.agentSkillIds as string) || "";
                     } else {
-                        originalSkillIdsStr = item.agentSkillIds;
+                        originalSkillIdsStr = (item.agentSkillIds as string) || "";
                     }
 
                     if (originalSkillIdsStr) {
@@ -307,9 +307,9 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                         const num = ov.versionNumber || (item.versions!.length - item.versions!.indexOf(ov));
                         return num === v.versionNumber;
                     });
-                    if (ov) originalSkillIdsStr = ov.agentSkillIds;
+                    if (ov) originalSkillIdsStr = (ov.agentSkillIds as string) || "";
                 } else {
-                    originalSkillIdsStr = item.agentSkillIds;
+                    originalSkillIdsStr = (item.agentSkillIds as string) || "";
                 }
 
                 if (originalSkillIdsStr) {
