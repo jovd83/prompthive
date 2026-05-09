@@ -24,7 +24,7 @@ log "Database URL: $DATABASE_URL"
 if [ -f "./node_modules/.bin/prisma" ]; then
     PRISMA="./node_modules/.bin/prisma"
 else
-    PRISMA="npx prisma@5.22.0"
+    PRISMA="npx prisma@6.19.3"
 fi
 
 DB_FILE="/app/data/prod.db"
