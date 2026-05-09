@@ -136,7 +136,7 @@ export async function importPromptsService(userId: string, data: ValidatedImport
                     let originalSkillIdsStr = "";
                     if (item.versions && Array.isArray(item.versions)) {
                         const ov = item.versions.find((ov: any) => {
-                            const num = ov.versionNumber || (item.versions!.length - item.versions.indexOf(ov));
+                            const num = ov.versionNumber || (item.versions!.length - item.versions!.indexOf(ov));
                             return num === v.versionNumber;
                         });
                         if (ov) originalSkillIdsStr = ov.agentSkillIds;
