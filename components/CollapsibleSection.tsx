@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-export default function CollapsibleSection({ title, children, defaultOpen = false, action }: { title: string, children: React.ReactNode, defaultOpen?: boolean, action?: React.ReactNode }) {
+export default function CollapsibleSection({ title, children, defaultOpen = false, action, icon, secondaryTitle }: { title: string, children: React.ReactNode, defaultOpen?: boolean, action?: React.ReactNode, icon?: React.ReactNode, secondaryTitle?: string }) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
     return (
         <div className="border border-border rounded-lg overflow-hidden mb-4">
@@ -14,7 +14,11 @@ export default function CollapsibleSection({ title, children, defaultOpen = fals
                     className="flex items-center gap-2 font-medium flex-1 text-left"
                 >
                     {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-                    {title}
+                    {icon && <span className="flex-shrink-0">{icon}</span>}
+                    <div className="flex flex-col text-left">
+                        <span>{title}</span>
+                        {secondaryTitle && <span className="text-xs text-muted-foreground font-normal mt-0.5">{secondaryTitle}</span>}
+                    </div>
                 </button>
                 {action && <div onClick={(e) => e.stopPropagation()}>{action}</div>}
             </div>
